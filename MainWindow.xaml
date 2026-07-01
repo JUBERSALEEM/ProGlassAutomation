@@ -22,20 +22,23 @@
         </Grid.ColumnDefinitions>
 
         <!-- SIDEBAR -->
-        <ContentControl Grid.Column="0" 
-                        x:Name="SidebarHost" 
+        <ContentControl Grid.Column="0"
+                        x:Name="SidebarHost"
                         Template="{StaticResource CollapsibleSidebarTemplate}"/>
 
         <!-- VIEWPORT -->
         <Grid Grid.Column="1">
-            <Border Background="#0B1120">
-                <TextBlock Text="Dashboard — Coming Soon" 
-                           FontSize="24" FontWeight="Bold" Foreground="#FFFFFF" 
-                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </Border>
+            <ContentControl x:Name="ViewportHost">
+                <!-- Default placeholder -->
+                <Border Background="#0B1120">
+                    <TextBlock Text="Dashboard — Coming Soon"
+                               FontSize="24" FontWeight="Bold" Foreground="#FFFFFF"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+            </ContentControl>
 
-            <!-- FLOATING EXPAND BUTTON -->
-            <ContentControl x:Name="ExpandButtonHost" 
+            <!-- FLOATING EXPAND BUTTON (overlays viewport) -->
+            <ContentControl x:Name="ExpandButtonHost"
                             Template="{StaticResource FloatingExpandButtonTemplate}"/>
         </Grid>
     </Grid>
