@@ -13,7 +13,8 @@
   <!-- Explicit inclusion keeps the application and verification executable separate. -->
   <ItemGroup>
     <Compile Include="App.xaml.cs;MainWindow.xaml.cs;AssemblyInfo.cs" />
-    <Compile Include="Theme/step1.a.ThemeEngine/**/*.cs;Theme/ThemeBento/**/*.cs;step1.ThemeStudio/step1.b.ThemeStudioScreen/**/*.cs" />
+    <Compile Include="Theme/step1.a.ThemeEngine/**/*.cs;Theme/ThemeBento/**/*.cs;Theme/step1.f.Analytics/**/*.cs;step1.ThemeStudio/step1.b.ThemeStudioScreen/**/*.cs" />
     <Page Include="MainWindow.xaml;Theme/ThemeBento/**/*.xaml;step1.ThemeStudio/step1.b.ThemeStudioScreen/**/*.xaml" />
   </ItemGroup>
+  <ItemGroup><PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.4" /></ItemGroup>
 </Project>

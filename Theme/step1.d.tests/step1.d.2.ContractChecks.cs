@@ -9,6 +9,7 @@ internal static class ContractChecks
     public static void Run()
     {
         CustomizationChecks.Run();
+        AnalyticsChecks.DataContracts();
         foreach (var mode in Enum.GetValues<Appearance>())
         {
             var resources = ThemeService.Load(mode);

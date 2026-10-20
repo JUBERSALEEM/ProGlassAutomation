@@ -81,4 +81,21 @@
   <sys:Double x:Key="StrokeWidth">2</sys:Double>
   <sys:Double x:Key="SelectionOpacity">1</sys:Double>
   <Thickness x:Key="MarginFocus">-3</Thickness>
+  <SolidColorBrush x:Key="SurfacePositive" Color="#17392F" />
+  <SolidColorBrush x:Key="SurfaceFeature" Color="#30294B" />
+  <SolidColorBrush x:Key="SurfaceInformation" Color="#1B3353" />
+  <SolidColorBrush x:Key="SurfaceAttention" Color="#41321E" />
+  <SolidColorBrush x:Key="ChartSeries1" Color="#9DB9FF" />
+  <SolidColorBrush x:Key="ChartSeries2" Color="#73DFD0" />
+  <SolidColorBrush x:Key="ChartSeries3" Color="#C2A1F0" />
+  <SolidColorBrush x:Key="ChartSeries4" Color="#F4BC6D" />
+  <SolidColorBrush x:Key="ChartAxis" Color="#C2CEE3" />
+  <SolidColorBrush x:Key="ChartGrid" Color="#33445F" />
+  <SolidColorBrush x:Key="ChartTooltipSurface" Color="#EFF5FF" />
+  <SolidColorBrush x:Key="ChartTooltipText" Color="#17243C" />
+  <sys:Double x:Key="ChartPlotHeight">205</sys:Double>
+  <sys:Double x:Key="ChartLineWidth">2.5</sys:Double>
+  <sys:Double x:Key="ChartPointSize">5</sys:Double>
+  <sys:Double x:Key="ChartDonutRadius">56</sys:Double>
+  <sys:Double x:Key="ChartAreaOpacity">0.16</sys:Double>
 </ResourceDictionary>

@@ -1,8 +1,8 @@
 <UserControl x:Class="ProGlassAutomation.ThemeStudio.TokensPanel"
  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
  <Border Style="{DynamicResource Card}"><StackPanel>
-  <TextBlock Text="06 / LIVE RESOURCE CONTRACT" Style="{DynamicResource Caption}" Margin="{DynamicResource MarginItem}" />
-  <TextBlock Text="Inspect the source of truth." Style="{DynamicResource SectionHeading}" />
+  <TextBlock Text="OPTIONAL / RESOURCE DIAGNOSTICS" Style="{DynamicResource Caption}" Margin="{DynamicResource MarginItem}" />
+  <TextBlock Text="Inspect active semantic resources." Style="{DynamicResource SectionHeading}" />
   <TextBlock Text="These values come from the active resource dictionary. Switch appearances to see the same semantic names resolve to new values." Foreground="{DynamicResource TextSecondary}" Margin="{DynamicResource MarginItem}" />
   <Label Content="Filter tokens by semantic name" Target="{Binding ElementName=TokenSearch}" Foreground="{DynamicResource TextSecondary}" />
   <TextBox x:Name="TokenSearch" Text="{Binding TokenFilter, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Filter semantic tokens" Margin="{DynamicResource MarginSection}" />

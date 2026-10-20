@@ -1,3 +1,4 @@
+using ProGlassAutomation.Analytics;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Media;
@@ -94,6 +95,23 @@ public static class ThemeContract
         ["StrokeWidth"] = typeof(double),
         ["SelectionOpacity"] = typeof(double),
         ["MarginFocus"] = typeof(Thickness),
+        ["SurfacePositive"] = typeof(SolidColorBrush),
+        ["SurfaceFeature"] = typeof(SolidColorBrush),
+        ["SurfaceInformation"] = typeof(SolidColorBrush),
+        ["SurfaceAttention"] = typeof(SolidColorBrush),
+        ["ChartSeries1"] = typeof(SolidColorBrush),
+        ["ChartSeries2"] = typeof(SolidColorBrush),
+        ["ChartSeries3"] = typeof(SolidColorBrush),
+        ["ChartSeries4"] = typeof(SolidColorBrush),
+        ["ChartAxis"] = typeof(SolidColorBrush),
+        ["ChartGrid"] = typeof(SolidColorBrush),
+        ["ChartTooltipSurface"] = typeof(SolidColorBrush),
+        ["ChartTooltipText"] = typeof(SolidColorBrush),
+        ["ChartPlotHeight"] = typeof(double),
+        ["ChartLineWidth"] = typeof(double),
+        ["ChartPointSize"] = typeof(double),
+        ["ChartDonutRadius"] = typeof(double),
+        ["ChartAreaOpacity"] = typeof(double),
     });
 
     // Consumer-facing style roles and WPF target types, never a visual implementation.
@@ -135,5 +153,16 @@ public static class ThemeContract
         [typeof(ScrollBar)] = typeof(ScrollBar),
         [typeof(Separator)] = typeof(Separator),
         [typeof(ProgressBar)] = typeof(ProgressBar),
+        ["ChartCard"] = typeof(Border),
+        ["PositivePlate"] = typeof(Border),
+        ["FeaturePlate"] = typeof(Border),
+        ["InformationPlate"] = typeof(Border),
+        ["AttentionPlate"] = typeof(Border),
+        [typeof(BentoChart)] = typeof(BentoChart),
+        [typeof(BentoKpi)] = typeof(BentoKpi),
+        [typeof(DataGrid)] = typeof(DataGrid),
+        [typeof(DataGridRow)] = typeof(DataGridRow),
+        [typeof(DataGridCell)] = typeof(DataGridCell),
+        [typeof(DataGridColumnHeader)] = typeof(DataGridColumnHeader),
     });
 }

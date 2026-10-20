@@ -45,12 +45,15 @@ internal static class RuntimeChecks
             window.Show();
             Pump();
             Check(window.IsVisible, "startup main window is visible");
+            var model = (ThemeStudioViewModel)window.DataContext;
+            Check(model.SelectedWorkspace == 1, "business reference is the startup page");
+            model.SelectedWorkspace = 0;
+            Pump();
             var progress = Descendants(window).OfType<ProgressBar>().Single();
             Check(BindingOperations.GetBinding(progress, RangeBase.ValueProperty)?.Mode == BindingMode.OneWay,
                 "display-only progress binding is explicitly one-way");
             var headerThemePicker = Descendants(window).OfType<ComboBox>().Single(c => c.Name == "ThemePicker");
             Check(headerThemePicker.IsVisible, "live theme selector is visible in startup header");
-            var model = (ThemeStudioViewModel)window.DataContext;
             dialog = new PreviewWindow { Owner = window, DataContext = model };
             dialog.Show();
             Pump();
@@ -132,7 +135,7 @@ internal static class RuntimeChecks
                     Check((modules.ColumnDefinitions[1].ActualWidth == 0) == (modules.ActualWidth < 1040), "Studio responsive column mode");
                     FrameworkElement[] cards = [
                         (FrameworkElement)studio.FindName("Settings"), (FrameworkElement)studio.FindName("Controls"),
-                        (FrameworkElement)studio.FindName("Signals"), (FrameworkElement)studio.FindName("Tokens")];
+                        (FrameworkElement)studio.FindName("Signals"), (FrameworkElement)studio.FindName("DiagnosticsToggle"), (FrameworkElement)studio.FindName("Gallery")];
                     Check(input.Text == model.SampleName && BindingOperations.IsDataBound(input, TextBox.TextProperty), "input binding survives Studio reflow");
                     var bounds = new List<Rect>();
                     foreach (FrameworkElement child in cards)
@@ -162,6 +165,7 @@ internal static class RuntimeChecks
             var business = Descendants(window).OfType<BusinessReferenceView>().Single();
             Check(!Descendants(business).OfType<CustomizationPanel>().Any(), "business reference contains no customization controls");
             Check(Descendants(business).OfType<WorklistPanel>().Any(), "business reference is a real interactive page");
+            AnalyticsChecks.Runtime(themes, business, Pump);
             var businessInput = Descendants(business).OfType<TextBox>().Single(t => t.Name == "PreviewName");
             Check(businessInput.Text == model.SampleName, "both pages share actual preview state");
             foreach (double width in new[] { 720d, 1024d, 1440d, 1920d })

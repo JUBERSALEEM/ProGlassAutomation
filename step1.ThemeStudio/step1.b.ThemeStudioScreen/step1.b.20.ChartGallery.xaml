@@ -1,0 +1,20 @@
+<UserControl x:Class="ProGlassAutomation.ThemeStudio.ChartGallery" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:ProGlassAutomation.ThemeStudio" xmlns:analytics="clr-namespace:ProGlassAutomation.Analytics">
+ <UserControl.Resources><local:AnalyticsSamples x:Key="Samples" /></UserControl.Resources>
+ <StackPanel DataContext="{StaticResource Samples}">
+  <TextBlock Text="Chart laboratory" Style="{DynamicResource PageHeading}" /><TextBlock Text="REAL WPF CHARTS / DETERMINISTIC DEMO DATA" Style="{DynamicResource Caption}" />
+  <Border Style="{DynamicResource InformationPlate}"><WrapPanel>
+   <StackPanel Margin="{DynamicResource MarginPanel}"><Label Foreground="{DynamicResource TextSecondary}" Content="Chart _type" Target="{Binding ElementName=ChartType}" /><ComboBox x:Name="ChartType" ItemsSource="{Binding ChartKinds}" SelectedItem="{Binding SelectedKind}" AutomationProperties.Name="Chart type" /></StackPanel>
+   <StackPanel Margin="{DynamicResource MarginPanel}"><Label Foreground="{DynamicResource TextSecondary}" Content="Data _scenario" Target="{Binding ElementName=Scenario}" /><ComboBox x:Name="Scenario" ItemsSource="{Binding Scenarios}" SelectedItem="{Binding SelectedScenario}" AutomationProperties.Name="Data scenario" /></StackPanel>
+   <Button Content="_Reset demo / retry" Command="{Binding Reset}" VerticalAlignment="Center" />
+  </WrapPanel></Border>
+  <Border Style="{DynamicResource ChartCard}"><StackPanel><TextBlock Text="Interactive preview" Style="{DynamicResource SectionHeading}" /><analytics:BentoChart Data="{Binding Preview}" /></StackPanel></Border>
+  <Grid x:Name="GalleryGrid" SizeChanged="GalleryGrid_SizeChanged">
+   <Grid.ColumnDefinitions><ColumnDefinition Width="3*" /><ColumnDefinition Width="2*" /></Grid.ColumnDefinitions>
+   <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+   <Border x:Name="AreaCard" Style="{DynamicResource ChartCard}"><StackPanel><TextBlock Text="Multi-series / area" Style="{DynamicResource SectionHeading}" /><analytics:BentoChart Data="{Binding Area}" /></StackPanel></Border>
+   <Border x:Name="StackCard" Grid.Column="1" Style="{DynamicResource ChartCard}"><StackPanel><TextBlock Text="Stacked / capacity" Style="{DynamicResource SectionHeading}" /><analytics:BentoChart Data="{Binding Capacity}" /></StackPanel></Border>
+   <Border x:Name="ChannelCard" Grid.Row="1" Style="{DynamicResource ChartCard}"><StackPanel><TextBlock Text="Horizontal / channels" Style="{DynamicResource SectionHeading}" /><analytics:BentoChart Data="{Binding Channels}" /></StackPanel></Border>
+   <Border x:Name="MixCard" Grid.Row="1" Grid.Column="1" Style="{DynamicResource ChartCard}"><StackPanel><TextBlock Text="Donut / composition" Style="{DynamicResource SectionHeading}" /><analytics:BentoChart Data="{Binding Mix}" /></StackPanel></Border>
+  </Grid>
+ </StackPanel>
+</UserControl>

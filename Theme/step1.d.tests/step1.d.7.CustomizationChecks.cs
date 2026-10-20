@@ -22,8 +22,8 @@ internal static class CustomizationChecks
             ResourceValidation.Validate(package);
             ContractChecks.Contrast(package, "TextOnAccent", "AccentPrimary", 4.5);
             ContractChecks.Contrast(package, "AccentPrimary", "AccentSoft", 4.5);
-            if (package["ActivityTrendGeometry"] is not Geometry geometry || !geometry.IsFrozen)
-                throw new Exception("Theme-private geometry must be immutable.");
+            if (package[typeof(ProGlassAutomation.Analytics.BentoChart)] is not Style chartStyle || !chartStyle.IsSealed)
+                throw new Exception("Chart adapter style must be sealed.");
             combinations++;
         }
         var resources = new ResourceDictionary();

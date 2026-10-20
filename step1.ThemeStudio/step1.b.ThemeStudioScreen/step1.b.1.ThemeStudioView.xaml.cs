@@ -17,6 +17,9 @@ public partial class ThemeStudioView : UserControl
         Grid.SetRowSpan(Settings, next ? 1 : 2);
         Grid.SetRow(Controls, next ? 1 : 0); Grid.SetColumn(Controls, next ? 0 : 1);
         Grid.SetRow(Signals, next ? 2 : 1); Grid.SetColumn(Signals, next ? 0 : 1);
-        Grid.SetRow(Tokens, next ? 3 : 2); Grid.SetColumnSpan(Tokens, next ? 1 : 2);
+        while (Modules.RowDefinitions.Count < 6) Modules.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+        Grid.SetRow(DiagnosticsToggle, next ? 3 : 2); Grid.SetColumnSpan(DiagnosticsToggle, next ? 1 : 2);
+        Grid.SetRow(Gallery, next ? 4 : 3); Grid.SetColumnSpan(Gallery, next ? 1 : 2);
+        Grid.SetRow(Tokens, next ? 5 : 4); Grid.SetColumnSpan(Tokens, next ? 1 : 2);
     }
 }

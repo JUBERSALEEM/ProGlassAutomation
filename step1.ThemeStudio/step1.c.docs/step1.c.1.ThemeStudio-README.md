@@ -1,3 +1,5 @@
+> Current analytics implementation/evidence: [step1.c.9](step1.c.9.Reusable-Analytics.md). This guide retains earlier feature history; the current report supersedes old coverage claims.
+
 # step1 — Shared theme engine and Theme Studio
 
 **Phase 01 explicitly authorized on 2026-10-20; implementation is present. Windows build/runtime acceptance is blocked in this container, not claimed complete.** Read [AGENTS.md](../../AGENTS.md), [naming](../../docs/00.Project-Rules.md), [architecture](../../docs/01.Architecture-Principles.md), and [design policy](../../docs/02.UI-UX-Design-System.md) before editing. See the [current isolation/CI evidence](step1.c.3.Theme-Isolation-and-CI.md) and [earlier Phase 01 checkpoint](step1.c.2.Phase01-Verification.md).
@@ -14,9 +16,9 @@ Studio offers overview/appearance modules, preview name with real validation, ap
 
 | File | Responsibility |
 | --- | --- |
-| `App.xaml` / `App.xaml.cs` | Application resources/startup; initialize the engine once and show Studio; startup failures are explicitly reported. No SheetStore/database initialization. |
-| `MainWindow.xaml` / `MainWindow.xaml.cs` | Native themed window containing Studio; own/dispose view model and one modeless preview window. |
-| `ProGlassAutomation.csproj` | Retained net8.0-windows7.0 WPF target; explicit fresh Compile/Page items, no third-party packages; unrelated files remain on disk but outside the executable. |
+| `App.xaml` / `App.xaml.cs` | Application resources/startup; initialize the engine once and open Business Reference; Studio is separate; startup failures are explicitly reported. No SheetStore/database initialization. |
+| `MainWindow.xaml` / `MainWindow.xaml.cs` | Native themed window containing separate Business Reference/Studio tabs; own/dispose view model and one modeless preview window. |
+| `ProGlassAutomation.csproj` | Retained net8.0-windows7.0 WPF target; explicit Compile/Page items and one approved pinned WPF chart package; legacy graph remains removed. |
 | `ProGlassAutomation.slnx` | Existing solution plus the Windows verification executable. |
 | `app.manifest` | PerMonitorV2 DPI-awareness request; actual scaling still needs Windows inspection. |
 
@@ -26,13 +28,13 @@ AssemblyInfo is unchanged. No code from the unrelated module implementation was 
 
 | File | Responsibility |
 | --- | --- |
-| `step1.a.1.ThemeContract.cs` | Immutable 77-token and 29-style/target contract; Brush roles allow supported future gradient treatments without changing screens. |
+| `step1.a.1.ThemeContract.cs` | Immutable 99-token and 46-style/target contract; Brush roles allow supported future gradient treatments without changing screens. |
 | `step1.a.2.ThemeService.cs` | Centralized loading, validated replacement of one application dictionary slot and active-state notification. Invalid resources/selection leave the previous dictionary installed. |
 | `step1.a.3.ResourceValidation.cs` | Required-key/type checks and finite/nonnegative scalar/opacity constraints. |
 | `step1.a.5.ThemeContract-README.md` | Documented meanings/types, resource precedence and extension procedure. |
 | `step1.a.6.ThemeCatalog.cs` | Small installed-theme registry; Bento only, no placeholder entries. |
 
-The shared engine is non-visual: metadata, lifecycle, resource replacement, validation and notifications only. It has no XAML, style implementation or default visual layer. The manifest defines required tokens and 29 necessary WPF style targets, not a palette/aesthetic.
+The shared engine is non-visual: metadata, lifecycle, resource replacement, validation and notifications only. It has no XAML, style implementation or default visual layer. The manifest defines required tokens and 46 necessary WPF style targets, not a palette/aesthetic.
 
 ### Complete individual theme — `Theme/ThemeBento/`
 
@@ -108,3 +110,7 @@ Latest product-depth assessment: [Bento richness audit](step1.c.7.Bento-Richness
 ## Current split-page revision (supersedes earlier layout/component counts)
 
 See [step1.c.8](step1.c.8.Rich-Bento-Workspace.md) for current exact responsibilities/evidence. MainWindow now hosts native Theme Studio and Business Reference tabs sharing one view model/engine. Studio owns customization, compact preview and tokens; Business Reference owns the sample workflow. b.16 is the settings panel, b.17 typed settings/page-selection logic, b.18 the distinct sample view/reflow. Bento e.8 owns immutable customization and e.9 owns hero/metric/status/tab templates/private geometry. Shared engine remains nonvisual. Current contract82/35, source checks258 contrast/14 mutations;108 compiled settings cases and native UI remain unrun. Earlier paragraphs describe the preceding checkpoint, not current layout acceptance.
+
+## Reusable analytics extension
+
+The current Business Reference opens first and includes `AnalyticsOverview` (b.21), while Studio includes `ChartGallery` (b.20), both using deterministic b.19 datasets. `Theme/step1.f.Analytics/` owns the reusable immutable data, WPF host/adapter and KPI control; owning Bento e.10 supplies complete styles. f.6 documents every new file, dependency and usage; d.8 adds compiled/native assertions. Internal contract validation stays active, but the token dump is optional and collapsed. No sample business total is calculated in the chart renderer.

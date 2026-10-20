@@ -1,6 +1,6 @@
 # Typed theme consumer contract — nonvisual
 
-ThemeContract.cs is authoritative. Current coverage:82 semantic roles,35 required exact WPF style targets. All concrete values/templates belong to each theme; the [Bento spec](../ThemeBento/ThemeBento.Readme.md) owns its appearance and customization. There is no global/default Bento visual dictionary.
+ThemeContract.cs is authoritative. Current coverage:99 semantic roles,46 required exact WPF style targets. All concrete values/templates belong to each theme; the [Bento spec](../ThemeBento/ThemeBento.Readme.md) owns its appearance and customization. There is no global/default Bento visual dictionary.
 
 ## Resource roles
 
@@ -148,3 +148,29 @@ Bento owns its specific composer: sealed Style and frozen Geometry identities ma
 5. Build/run on Windows and visually compare both modes before approval. No future placeholder was added.
 
 Verification workflow is intentionally inactive at [cols/ci/windows-wpf.yml](../../cols/ci/windows-wpf.yml). It has not run for these changes. Portable checks do not establish C#/XAML compilation, native rendering, accessibility or runtime extensibility.
+
+## Analytics extension
+
+Semantic plate roles describe purpose, not required colors. Each theme owns their treatment. Chart paint roles explicitly require SolidColorBrush because the Skia adapter consumes solid RGBA paints, while existing general Brush roles still support gradients. No actual paint/color lives in this contract.
+
+| Key | Native type |
+| --- | --- |
+| `SurfacePositive` | `SolidColorBrush` |
+| `SurfaceFeature` | `SolidColorBrush` |
+| `SurfaceInformation` | `SolidColorBrush` |
+| `SurfaceAttention` | `SolidColorBrush` |
+| `ChartSeries1` | `SolidColorBrush` |
+| `ChartSeries2` | `SolidColorBrush` |
+| `ChartSeries3` | `SolidColorBrush` |
+| `ChartSeries4` | `SolidColorBrush` |
+| `ChartAxis` | `SolidColorBrush` |
+| `ChartGrid` | `SolidColorBrush` |
+| `ChartTooltipSurface` | `SolidColorBrush` |
+| `ChartTooltipText` | `SolidColorBrush` |
+| `ChartPlotHeight` | `double` |
+| `ChartLineWidth` | `double` |
+| `ChartPointSize` | `double` |
+| `ChartDonutRadius` | `double` |
+| `ChartAreaOpacity` | `double` |
+
+New exact style targets: ChartCard/PositivePlate/FeaturePlate/InformationPlate/AttentionPlate → Border; BentoChart, BentoKpi, DataGrid, DataGridRow, DataGridCell and DataGridColumnHeader → their named control types. Full reuse/API details are in [step1.f](../step1.f.Analytics/step1.f.6.Analytics-README.md).

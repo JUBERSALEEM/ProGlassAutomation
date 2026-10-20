@@ -6,5 +6,6 @@
   <ResourceDictionary Source="step1.e.5.Selections.xaml" />
   <ResourceDictionary Source="step1.e.6.PopupsAndScroll.xaml" />
   <ResourceDictionary Source="step1.e.9.Workspace.xaml" />
+  <ResourceDictionary Source="step1.e.10.Analytics.xaml" />
  </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

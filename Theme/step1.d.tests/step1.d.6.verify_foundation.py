@@ -14,7 +14,7 @@ for directory in ('SheetStore', 'Converters', 'Shared', 'ViewModels'):
 
 project = ET.parse(ROOT / 'ProGlassAutomation.csproj').getroot()
 assert project.find('.//TargetFramework').text == 'net8.0-windows7.0'
-assert not project.findall('.//PackageReference'), 'No database/UI/DI packages needed'
+assert [(p.attrib['Include'], p.attrib['Version']) for p in project.findall('.//PackageReference')] == [('LiveChartsCore.SkiaSharpView.WPF', '2.0.4')], 'Only the reviewed pinned WPF chart dependency is approved'
 for kind in ('Compile', 'Page'):
     included = []
     for item in project.findall(f'.//{kind}'):
@@ -24,7 +24,7 @@ for kind in ('Compile', 'Page'):
             included.extend(paths)
     assert len(included) == len(set(included)), f'Duplicate {kind} items'
     if kind == 'Compile':
-        expected = set(ROOT.glob('*.cs')) | set(ROOT.glob('Theme/step1.a.ThemeEngine/**/*.cs')) | set(ROOT.glob('Theme/ThemeBento/**/*.cs')) | set(ROOT.glob('step1.ThemeStudio/step1.b.ThemeStudioScreen/**/*.cs'))
+        expected = set(ROOT.glob('*.cs')) | set(ROOT.glob('Theme/step1.a.ThemeEngine/**/*.cs')) | set(ROOT.glob('Theme/ThemeBento/**/*.cs')) | set(ROOT.glob('Theme/step1.f.Analytics/**/*.cs')) | set(ROOT.glob('step1.ThemeStudio/step1.b.ThemeStudioScreen/**/*.cs'))
         assert set(included) == expected, 'Application code missing from project'
     print(f'PASS: {len(included)} {kind} items; existing paths and no duplicates.')
 
@@ -45,7 +45,7 @@ sample = (screen/'step1.b.18.BusinessReferenceView.xaml').read_text()
 assert '<local:CustomizationPanel' in view and '<local:TokensPanel' in view
 assert 'CustomizationPanel' not in sample and 'TokensPanel' not in sample, 'Business page must not contain engine settings'
 assert 'MaxWidth=' not in view and 'MaxWidth=' not in sample, 'Use full viewport width'
-for component in ('OverviewPanel', 'MetricsPanel', 'WorklistPanel', 'ControlsPanel'):
+for component in ('OverviewPanel', 'AnalyticsOverview', 'WorklistPanel', 'ControlsPanel'):
     assert component in sample, f'Missing business reference pattern: {component}'
 settings = (screen/'step1.b.16.CustomizationPanel.xaml').read_text()
 for name in ('ThemePicker', 'AccentPicker', 'DensityPicker', 'ShapePicker', 'TypePicker'):

@@ -7,7 +7,7 @@ namespace ProGlassAutomation.ThemeStudio;
 public sealed partial class ThemeStudioViewModel
 {
     private BentoPreferences preferences = new();
-    private int selectedWorkspace;
+    private int selectedWorkspace = 1;
     public IReadOnlyList<BentoAccent> AccentChoices { get; } = Enum.GetValues<BentoAccent>();
     public IReadOnlyList<BentoDensity> DensityChoices { get; } = Enum.GetValues<BentoDensity>();
     public IReadOnlyList<BentoShape> ShapeChoices { get; } = Enum.GetValues<BentoShape>();

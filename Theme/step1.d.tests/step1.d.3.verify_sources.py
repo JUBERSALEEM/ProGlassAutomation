@@ -41,6 +41,8 @@ for mode in ('Light', 'Dark'):
     pairs += [('TextOnAccent', bg, 4.5) for bg in ('AccentPrimary', 'AccentHover', 'AccentPressed')]
     pairs += [(f'Status{s}', f'Status{s}Surface', 4.5) for s in ('Success', 'Warning', 'Error', 'Information')]
     pairs += [('StatusWarning', 'SurfaceSecondary', 4.5)]
+    pairs += [(fg, bg, 4.5) for fg in ('TextPrimary', 'TextSecondary', 'TextMuted') for bg in ('SurfacePositive', 'SurfaceFeature', 'SurfaceInformation', 'SurfaceAttention')]
+    pairs += [('ChartTooltipText', 'ChartTooltipSurface', 4.5), ('ChartAxis', 'SurfacePrimary', 4.5)]
     pairs += [(fg, 'SurfaceElevated', 4.5) for fg in ('AccentPrimary', 'StatusSuccess', 'StatusInformation')]
     pairs += [('AccentPrimary', 'AccentSoft', 4.5), ('AccentPrimary', 'StateSelected', 4.5)]
     pairs += [(fg, bg, 3) for fg in ('FocusIndicator', 'BorderStrong')
@@ -133,7 +135,7 @@ for path in xamls:
                 assert re.search(r'\b' + re.escape(node.attrib[event]) + r'\s*\(', code), (path, event)
 
 project = ET.parse(ROOT/'ProGlassAutomation.csproj').getroot()
-assert not project.findall('.//PackageReference'), 'No product dependencies needed'
+assert [(p.attrib['Include'], p.attrib['Version']) for p in project.findall('.//PackageReference')] == [('LiveChartsCore.SkiaSharpView.WPF', '2.0.4')], 'Only the reviewed pinned WPF chart dependency is approved'
 assert project.find('.//TargetFramework').text == 'net8.0-windows7.0'
 assert not any(ROOT.glob('Theme/ThemeClaymorphism*')), 'Bento-only phase'
 print(f'PASS: {len(contract)} typed tokens × 2 complete variants; {contrast_checks} measured contrast pairs.')
@@ -141,3 +143,16 @@ print(f'PASS: {len(xamls)} XML documents, content/property checks, resource refe
 print('LIMITATION: source checks are not a C#/XAML compilation, runtime switching test, visual inspection, or accessibility certification.')
 
 runpy.run_path(str(ROOT / 'Theme/step1.d.tests/step1.d.5.verify_isolation.py'), run_name='__main__')
+
+# Architectural source guard only; actual model logic/native rendering are tested by d.8 on Windows.
+analytics = ROOT / 'Theme/step1.f.Analytics'
+for path in analytics.glob('*.cs'):
+    text = path.read_text()
+    assert not any(word in text for word in ('AnalyticsSamples', 'ThemeStudio', 'Application.Current', 'ThemeService', 'TryFindResource')), f'{path}: renderer must not own business data/theme lookup'
+    assert not re.search(r'#[0-9A-Fa-f]{6,8}\b', text), f'{path}: renderer palette must come from dependency properties'
+rendering = (analytics/'step1.f.4.BentoChart.Rendering.cs').read_text()
+for native in ('ColumnSeries<double?>', 'RowSeries<double?>', 'StackedColumnSeries<double?>', 'LineSeries<double?>', 'PieSeries<double?>'):
+    assert native in rendering, f'Missing real library renderer: {native}'
+assert 'ActivityTrendGeometry' not in ''.join(path.read_text() for path in xamls), 'Decorative trend must not return as a fake chart'
+assert 'private int selectedWorkspace = 1;' in (ROOT/'step1.ThemeStudio/step1.b.ThemeStudioScreen/step1.b.17.Customization.cs').read_text()
+print('PASS: native renderer coverage, data/theme ownership boundaries, no fixed chart path, Business Reference startup.')

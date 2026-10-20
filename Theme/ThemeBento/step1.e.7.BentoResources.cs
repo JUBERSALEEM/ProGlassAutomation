@@ -15,7 +15,7 @@ public static class BentoResources
         if (!Enum.IsDefined(appearance)) throw new ArgumentOutOfRangeException(nameof(appearance));
         components ??= LoadComponents();
         var package = new ResourceDictionary { Source = Resource($"ThemeBento.{appearance}.xaml") };
-        // Reuse only sealed styles/frozen geometry, never mutable dictionaries or cached brushes.
+        // Reuse only sealed styles, never mutable dictionaries or cached brushes.
         // Open selections/editing survive mode changes; each candidate has its own keys.
         var parts = new ResourceDictionary();
         foreach (var (key, component) in components) parts.Add(key, component);
@@ -37,8 +37,7 @@ public static class BentoResources
             if (values.ContainsKey(key)) throw new InvalidOperationException($"Duplicate Bento component: {key}");
             object value = dictionary[key];
             if (value is Style style) style.Seal();
-            else if (value is System.Windows.Media.Geometry geometry && geometry.CanFreeze) geometry.Freeze();
-            else throw new InvalidOperationException($"Bento component must be a Style or freezable Geometry: {key}");
+            else throw new InvalidOperationException($"Bento component must be a Style: {key}");
             values.Add(key, value);
         }
         foreach (ResourceDictionary child in dictionary.MergedDictionaries) Collect(child, values);

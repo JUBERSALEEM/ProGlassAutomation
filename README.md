@@ -4,16 +4,20 @@ Fresh native **WPF / .NET 8** desktop implementation in the existing root projec
 
 ## What is implemented
 
-- Non-visual orchestration with 82 semantic token roles and 35 required WPF style targets, complete theme-package validation/replacement and active-selection notifications.
+- Non-visual orchestration with 99 semantic token roles and 46 required WPF style targets, complete theme-package validation/replacement and active-selection notifications.
 - Bento-isolated native styles/templates for introduced buttons, inputs, choices, selections, panels, text, status/progress, tooltips, context menus and scrollbars.
 - Separate Theme Studio customization and Business Reference sample pages: real accent/density/shape/type controls, Light/Dark switching, live tokens, preview commands/validation and a shared-resource modeless window.
-- Dependency-free Windows STA runtime checks and portable source/contrast/regression checks.
+- No additional test-framework dependency: Windows STA runtime checks and portable source/contrast/regression checks.
+
+- Real typed reusable charts: vertical/horizontal/grouped/stacked bars, multi-series line/area, pie/donut and sparkline, with native point tooltips, keyboard series toggles and textual/source-value alternatives.
+- Business Reference opens first, with mixed KPI plates, asymmetric analytics, targets/activity and a themed sortable/selectable DataGrid. Studio remains separate, with chart/scenario controls and optional collapsed diagnostics instead of a large contract dump.
+- [Chart reuse/dependency guide](Theme/step1.f.Analytics/step1.f.6.Analytics-README.md) explains future module bindings, validation and distribution-license obligations.
 
 Only Bento is installed: the installed-theme selector truthfully has one choice. Light/Dark is the functional visual variant selector; no unavailable theme is represented as selectable. Runtime behavior is implemented but not claimed proven here.
 
 ## Run and verify on Windows
 
-Prerequisites: supported Windows 10/11 development environment, .NET 8 SDK (or a compatible later SDK with .NET 8 targeting/runtime support), and WPF tooling. No product NuGet dependencies. The retained `net8.0-windows7.0` TFM is an API baseline, **not** a Windows 7 runtime-support claim. The existing `.slnx` needs a toolchain that supports that solution format; project commands do not depend on it.
+Prerequisites: supported Windows 10/11 development environment, .NET 8 SDK (or a compatible later SDK with .NET 8 targeting/runtime support), and WPF tooling. One reviewed/pinned product package: LiveChartsCore.SkiaSharpView.WPF 2.0.4 (MIT), with its native SkiaSharp/HarfBuzz dependencies. The retained `net8.0-windows7.0` TFM is an API baseline, **not** a Windows 7 runtime-support claim. The existing `.slnx` needs a toolchain that supports that solution format; project commands do not depend on it.
 
 ```powershell
 dotnet build ProGlassAutomation.csproj --configuration Release
@@ -21,7 +25,7 @@ dotnet run --project ProGlassAutomation.csproj --configuration Release
 dotnet run --project Theme/step1.d.tests/step1.d.ThemeTests.csproj --configuration Release
 ```
 
-These are the intended Windows commands, not successful execution evidence. In this Linux container, `dotnet` is absent; project and solution build attempts exited 127. SDK download connection failed. No WPF UI was launched or screenshot captured. See the [current foundation evidence](step1.ThemeStudio/step1.c.docs/step1.c.8.Rich-Bento-Workspace.md) and [manual review checklist](step1.ThemeStudio/step1.c.docs/step1.c.2.Phase01-Verification.md).
+These are the intended Windows commands, not successful execution evidence. In this Linux container, `dotnet` is absent; project and solution build attempts exited 127. SDK download connection failed. No WPF UI was launched or screenshot captured. See the [current foundation evidence](step1.ThemeStudio/step1.c.docs/step1.c.9.Reusable-Analytics.md) and [manual review checklist](step1.ThemeStudio/step1.c.docs/step1.c.2.Phase01-Verification.md).
 
 Portable checks actually executed here:
 
@@ -33,7 +37,7 @@ python3 Theme/step1.d.tests/step1.d.6.verify_foundation.py
 
 ## Repository boundaries
 
-The latest clean-foundation instruction explicitly authorized removal of the prior SheetStore/dashboard implementation. All 47 inspected legacy-only files are removed; App/MainWindow start only the V3.0 reference page. No database, DI, legacy navigation or external UI package is required. The root WPF project, AssemblyInfo, solution and approved documentation/theme work remain. See the [before-cleanup inventory](step1.ThemeStudio/step1.c.docs/step1.c.4.Cleanup-Inventory.md) and [current implementation/evidence report](step1.ThemeStudio/step1.c.docs/step1.c.8.Rich-Bento-Workspace.md).
+The latest clean-foundation instruction explicitly authorized removal of the prior SheetStore/dashboard implementation. All 47 inspected legacy-only files are removed; App/MainWindow start only the V3.0 reference page. No database, DI or legacy navigation is used; real analytics use the single reviewed WPF chart library. The root WPF project, AssemblyInfo, solution and approved documentation/theme work remain. See the [before-cleanup inventory](step1.ThemeStudio/step1.c.docs/step1.c.4.Cleanup-Inventory.md) and [current implementation/evidence report](step1.ThemeStudio/step1.c.docs/step1.c.9.Reusable-Analytics.md).
 
 ## Documentation map
 

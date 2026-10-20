@@ -57,3 +57,31 @@ Primary/secondary/subtle/destructive actions retain normal/hover/pressed/disable
 Portable validation:82 typed roles ×2,258 contrast pairings (all accent choices, metric roles and both hero gradient endpoints),35 style contracts and14 reason-checked mutations. Compiled contracts author108 combinations plus helper immutability, preference retention, invalid candidate preservation and notification failure tests; native smoke authors tab/state/layout checks. **Neither compiled nor native test suite ran here.**
 
 The page does not claim a complete DataGrid, editable ComboBox, submenus, high-contrast adaptation, animation framework, UI automation certification or persisted design presets. No motion was added without OS preference handling. Verify real startup, both modes/settings, menus, keyboard/tab navigation, wheel/nested scrolling,720–2560 widths,100/150/200% scale, high contrast/screen readers and performance on Windows before acceptance. The workflow remains intentionally inactive under cols/ci as instructed; no screenshots or green build are fabricated.
+
+## Current analytics specification — supersedes the illustrative-trend checkpoint above
+
+The old fixed Geometry trend is removed, not retained as chart evidence. Bento's factory now caches sealed Styles only. The current package is **99 typed roles / 46 required style targets**, including semantic plate, chart/KPI and native DataGrid targets. All palettes remain in this owning directory; the shared engine gained only contract entries, not visual implementation.
+
+| Purpose / role | Light | Dark |
+| --- | --- | --- |
+| Positive / SurfacePositive | #DFF3E9 | #17392F |
+| Feature / SurfaceFeature | #ECE7FA | #30294B |
+| Information / SurfaceInformation | #E2EEFC | #1B3353 |
+| Attention / SurfaceAttention | #FBECD9 | #41321E |
+| ChartSeries1 | #254EDA | #9DB9FF |
+| ChartSeries2 | #00766B | #73DFD0 |
+| ChartSeries3 | #8755B5 | #C2A1F0 |
+| ChartSeries4 | #AA6414 | #F4BC6D |
+| ChartAxis | #465570 | #C2CEE3 |
+| ChartGrid | #D3DDEC | #33445F |
+| ChartTooltipSurface / ChartTooltipText | #17243C / #F5F8FF | #EFF5FF / #17243C |
+
+ChartPlotHeight205 DIPs, ChartLineWidth2.5, ChartPointSize5, ChartDonutRadius56 and ChartAreaOpacity0.16 are native numeric roles in both variants. The compact KPI sparkline explicitly uses a90-DIP local content-height override; table height190 is a screen-specific bounded viewport, not a theme palette. Native plot bounds/ticks/resizing come from the library, not fixed path coordinates. Axis/name/tooltip size follows caption size; text typeface follows active FontFamily. Hover inspection is native, with keyboard legend controls and source values as alternatives. Animations are disabled; no shadows/blur or custom render loops added.
+
+`step1.e.10.Analytics.xaml` owns ChartCard and Positive/Feature/Information/Attention plates, the BentoChart adapter style, the BentoKpi template and native DataGrid/row/cell/column-header styles. Header template preserves both native resize-gripper parts and sorting, adds keyboard focus and theme-driven sort/hover/focus visuals; no system-light sort-glyph brush is cached. Native cells use theme-selected/focus colors; existing scroll/tooltip/checkbox roles remain shared within Bento. Public plate names describe purpose, not a mandated color for future themes.
+
+**Business Reference starts selected** and now combines a hero/context pair, four varied KPI tiles, 3:2 revenue/donut and trend/target rows, nested conversion sparkline, full-width compact table and smaller activity/attention plates. It retains the functional review list/form below. Analytics rows collapse below1000 available content DIPs; the containing sample module grid stacks below1100. No engine diagnostics/customization panel enters this sample.
+
+**Studio stays separate**: current settings and control/state gallery plus live chart/scenario selectors and a gallery of area/stacked/horizontal/donut plots. Chart gallery stacks below1000 DIPs. The large Live Resource Contract card is replaced by an optional diagnostics checkbox; validation always remains active. See the [current implementation report](../../step1.ThemeStudio/step1.c.docs/step1.c.9.Reusable-Analytics.md) and [dependency/reuse guide](../step1.f.Analytics/step1.f.6.Analytics-README.md).
+
+Current portable evidence:99×2 typed roles,46 style targets,342 measured text contrast combinations and14 mutation rejections. Compiled analytics scenarios/runtime switching are authored but **unrun**. The earlier checkpoint's lack of DataGrid no longer describes source capability, but Windows restore/build/layout/DPI/accessibility/performance acceptance is still outstanding. Never equate this specification with inspected rendered output.
