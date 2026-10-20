@@ -1,0 +1,18 @@
+<UserControl x:Class="ProGlassAutomation.ThemeStudio.SurfacesPanel"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+ <Border Style="{DynamicResource Card}"><StackPanel>
+  <TextBlock Text="05 / SURFACE HIERARCHY" Style="{DynamicResource Caption}" Margin="{DynamicResource MarginItem}" />
+  <TextBlock Text="A place for every layer." Style="{DynamicResource SectionHeading}" />
+  <WrapPanel>
+   <Border Style="{DynamicResource Plate}" Margin="{DynamicResource MarginInline}"><StackPanel><TextBlock Text="Secondary plate" FontWeight="{DynamicResource FontWeightHeading}" /><TextBlock Text="Supporting structure" Style="{DynamicResource Caption}" /></StackPanel></Border>
+   <Border Style="{DynamicResource ElevatedPlate}" Margin="{DynamicResource MarginInline}"><StackPanel><TextBlock Text="Elevated surface" FontWeight="{DynamicResource FontWeightHeading}" /><TextBlock Text="A deliberate edge, not blur" Style="{DynamicResource Caption}" /></StackPanel></Border>
+   <Border Style="{DynamicResource AccentPlate}" Margin="{DynamicResource MarginInline}"><StackPanel><TextBlock Text="Accent plate" Foreground="{DynamicResource AccentPrimary}" FontWeight="{DynamicResource FontWeightHeading}" /><TextBlock Text="Emphasis with restraint" Style="{DynamicResource Caption}" /></StackPanel></Border>
+  </WrapPanel>
+  <TextBlock Text="Selection / use arrows to move between rows" Style="{DynamicResource Caption}" Margin="{DynamicResource MarginItem}" />
+  <ListBox SelectedIndex="0" AutomationProperties.Name="Surface selection examples">
+   <ListBoxItem Content="Primary surface — main working area" />
+   <ListBoxItem Content="Secondary surface — grouped supporting information" />
+   <ListBoxItem Content="Elevated surface — dialogs and contextual actions" />
+  </ListBox>
+ </StackPanel></Border>
+</UserControl>

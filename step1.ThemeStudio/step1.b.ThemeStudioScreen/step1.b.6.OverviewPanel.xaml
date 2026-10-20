@@ -1,0 +1,17 @@
+<UserControl x:Class="ProGlassAutomation.ThemeStudio.OverviewPanel"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+ <Border Style="{DynamicResource Card}"><StackPanel>
+  <TextBlock Text="01 / THE FOUNDATION" Style="{DynamicResource Caption}" Margin="{DynamicResource MarginItem}" />
+  <TextBlock Text="Clarity through structure." Style="{DynamicResource PageHeading}" />
+  <TextBlock Text="Purposeful modules. Quiet surfaces. Precise interactions. A working design language for ProGlass—not an ERP dashboard." Foreground="{DynamicResource TextSecondary}" Margin="{DynamicResource MarginSection}" />
+  <Border Style="{DynamicResource AccentPlate}" Margin="{DynamicResource MarginSection}"><StackPanel>
+   <TextBlock Text="ACTIVE DESIGN SYSTEM" Style="{DynamicResource Caption}" />
+   <TextBlock Text="Bento Grid / Modular" Style="{DynamicResource SectionHeading}" Foreground="{DynamicResource AccentPrimary}" />
+   <TextBlock Text="Two complete appearances. One semantic contract." Foreground="{DynamicResource TextSecondary}" />
+  </StackPanel></Border>
+  <WrapPanel>
+   <StackPanel Margin="{DynamicResource MarginInline}"><TextBlock Text="{Binding TokenCount}" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" /><TextBlock Text="LIVE TOKENS" Style="{DynamicResource Caption}" /></StackPanel>
+   <StackPanel Margin="{DynamicResource MarginInline}"><TextBlock Text="Light + Dark" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" /><TextBlock Text="COMPLETE VARIANTS" Style="{DynamicResource Caption}" /></StackPanel>
+  </WrapPanel>
+ </StackPanel></Border>
+</UserControl>

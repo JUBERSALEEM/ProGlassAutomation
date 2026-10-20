@@ -1,0 +1,92 @@
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Windows.Markup;
+using System.ComponentModel;
+using System.Windows.Data;
+using System.Windows.Input;
+using ProGlassAutomation.Theming;
+
+namespace ProGlassAutomation.ThemeStudio;
+
+public sealed class ThemeStudioViewModel : INotifyPropertyChanged, IDataErrorInfo, IDisposable
+{
+    private readonly ThemeService themes;
+    private string sampleName = "Bento review";
+    private string tokenFilter = "";
+    private string feedback = "Ready to explore. Changes here are preview-only.";
+    private bool showHelpers = true;
+    private int progress = 50;
+    public event PropertyChangedEventHandler? PropertyChanged;
+    public event EventHandler? DialogRequested;
+    public ObservableCollection<TokenRow> Tokens { get; } = [];
+    public ICollectionView TokenView { get; }
+    public IReadOnlyList<string> InstalledThemes => ThemeService.InstalledThemes;
+    public string SelectedTheme
+    {
+        get => themes.ActiveTheme;
+        set { if (value is not null) SelectAppearance(value, themes.ActiveAppearance); }
+    }
+    public string AppearanceLabel => themes.ActiveAppearance.ToString();
+    public bool IsLight { get => themes.ActiveAppearance == Appearance.Light; set { if (value) SelectAppearance(SelectedTheme, Appearance.Light); } }
+    public bool IsDark { get => themes.ActiveAppearance == Appearance.Dark; set { if (value) SelectAppearance(SelectedTheme, Appearance.Dark); } }
+    public int TokenCount => Tokens.Count;
+    public string ThemeError { get; private set; } = "";
+    public string SampleName
+    {
+        get => sampleName;
+        set { sampleName = value; Changed(nameof(SampleName)); Changed(nameof(NameError)); CommandManager.InvalidateRequerySuggested(); }
+    }
+    public string NameError => sampleName.Trim().Length < 3 ? "Enter at least 3 characters to apply the preview." : "";
+    public bool ShowHelpers { get => showHelpers; set { showHelpers = value; Changed(nameof(ShowHelpers)); } }
+    public string Feedback { get => feedback; private set { feedback = value; Changed(nameof(Feedback)); } }
+    public int Progress { get => progress; private set { progress = value; Changed(nameof(Progress)); } }
+    public string TokenFilter { get => tokenFilter; set { tokenFilter = value; TokenView.Refresh(); Changed(nameof(TokenFilter)); } }
+    public ICommand ApplyPreview { get; }
+    public ICommand ResetPreview { get; }
+    public ICommand AdvanceProgress { get; }
+    public ICommand OpenDialog { get; }
+    public string Error => NameError;
+    public string this[string columnName] => columnName == nameof(SampleName) ? NameError : "";
+
+    public ThemeStudioViewModel(ThemeService themes)
+    {
+        this.themes = themes;
+        TokenView = CollectionViewSource.GetDefaultView(Tokens);
+        TokenView.Filter = value => value is TokenRow row && row.Name.Contains(tokenFilter, StringComparison.OrdinalIgnoreCase);
+        ApplyPreview = new DelegateCommand(() => Feedback = $"Preview applied: {SampleName.Trim()} · {AppearanceLabel}", () => NameError.Length == 0);
+        ResetPreview = new DelegateCommand(() => { SampleName = "Bento review"; ShowHelpers = true; Progress = 50; Feedback = "Preview reset. Appearance unchanged."; });
+        AdvanceProgress = new DelegateCommand(() => Progress = Progress >= 100 ? 0 : Progress + 25);
+        OpenDialog = new DelegateCommand(() => DialogRequested?.Invoke(this, EventArgs.Empty));
+        themes.PropertyChanged += ThemeChanged;
+        RefreshTokens();
+    }
+
+    private void SelectAppearance(string theme, Appearance appearance)
+    {
+        try { themes.Apply(theme, appearance); ThemeError = ""; }
+        catch (Exception error) when (error is IOException or XamlParseException or InvalidOperationException or ArgumentException)
+        {
+            ThemeError = $"Appearance unchanged: {error.Message}";
+            foreach (string name in new[] { nameof(IsLight), nameof(IsDark), nameof(SelectedTheme) }) Changed(name);
+        }
+        Changed(nameof(ThemeError));
+    }
+
+    private void ThemeChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName != nameof(ThemeService.ActiveAppearance)) return;
+        RefreshTokens();
+        foreach (string property in new[] { nameof(IsLight), nameof(IsDark), nameof(AppearanceLabel), nameof(SelectedTheme) }) Changed(property);
+    }
+
+    private void RefreshTokens()
+    {
+        Tokens.Clear();
+        foreach (string key in ThemeContract.Required.Keys.OrderBy(key => key))
+            Tokens.Add(TokenRow.From(key, themes.GetToken(key)));
+        Changed(nameof(TokenCount));
+    }
+
+    private void Changed(string name) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+    public void Dispose() => themes.PropertyChanged -= ThemeChanged;
+}

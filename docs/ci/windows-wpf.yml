@@ -1,0 +1,98 @@
+# INACTIVE WORKFLOW: GitHub Actions does not run files in docs/ci/.
+# Restore from the repository root using Git Bash (with workflow-write permission):
+#   mkdir -p .github/workflows
+#   git mv docs/ci/windows-wpf.yml .github/workflows/windows-wpf.yml
+#   git add docs/ci/windows-wpf.yml .github/workflows/windows-wpf.yml
+#   git commit -m "Enable Windows WPF verification workflow"
+#   git push origin arena/bd154b4b-proglassautomation
+# Update documentation links to the restored path in the same commit.
+# The original push was rejected because the GitHub App lacked workflows permission.
+
+name: Windows WPF verification
+
+on:
+  push:
+    branches: [master, 'arena/**']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: windows-wpf-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: .NET 8 WPF build, contracts and runtime smoke
+    runs-on: windows-2022
+    timeout-minutes: 15
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      DOTNET_NOLOGO: 'true'
+      DOTNET_CLI_TELEMETRY_OPTOUT: 'true'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Set up the project's .NET 8 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Select the installed .NET 8 SDK for this CI workspace
+        run: |
+          $sdk = dotnet --list-sdks
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $version = $sdk | Where-Object { $_ -match '^8\.0\.' } | ForEach-Object { ($_ -split ' ')[0] } | Sort-Object { [version]$_ } | Select-Object -Last 1
+          if (-not $version) { throw 'setup-dotnet did not install a .NET 8 SDK.' }
+          if (Test-Path global.json) { throw 'A project SDK pin now exists; update this CI-only SDK selection instead of overwriting it.' }
+          @{ sdk = @{ version = $version; rollForward = 'latestPatch'; allowPrerelease = $false } } | ConvertTo-Json -Depth 3 | Set-Content global.json
+          Write-Host "CI-only SDK pin: $version (no target-framework change)."
+      - name: Set up portable validation tools
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Report Windows and SDK environment
+        run: |
+          dotnet --info
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python --version
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Validate isolated resources and contrast
+        run: python Theme/step1.d.tests/step1.d.3.verify_sources.py
+      - name: Verify the source validator rejects regressions
+        run: python Theme/step1.d.tests/step1.d.4.CheckerRegression.py
+      - name: Restore actual product and test projects
+        run: |
+          # SDK 8 does not consume .slnx; use the real project paths without changing the TFM.
+          dotnet restore ProGlassAutomation.csproj
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet restore Theme/step1.d.tests/step1.d.ThemeTests.csproj
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Build the native WPF application
+        run: dotnet build ProGlassAutomation.csproj --configuration Release --no-restore
+      - name: Build the Windows verification executable
+        run: dotnet build Theme/step1.d.tests/step1.d.ThemeTests.csproj --configuration Release --no-restore
+      - name: Run compiled contracts and negative resource cases
+        timeout-minutes: 2
+        run: dotnet run --project Theme/step1.d.tests/step1.d.ThemeTests.csproj --configuration Release --no-build --no-restore -- --contracts-only
+      - name: Run STA WPF runtime smoke checks
+        timeout-minutes: 3
+        run: dotnet run --project Theme/step1.d.tests/step1.d.ThemeTests.csproj --configuration Release --no-build --no-restore
+      - name: Summarize verification status (not visual approval)
+        if: always()
+        env:
+          VERIFICATION_STATUS: ${{ job.status }}
+        run: |
+          @"
+          ## Windows WPF verification
+          Job status: **$env:VERIFICATION_STATUS**. See each step's exit code and assertions above.
+
+          Compilation, portable checks, compiled contracts and STA runtime smoke are separate checks.
+          A failed or timed-out command fails the job; the summary does not override that status.
+          The runtime harness exercises actual WPF controls with software rendering; it is not a human visual review.
+          No screenshots, physical DPI/accessibility review, performance certification, releases or executable uploads are performed.
+          "@ >> $env:GITHUB_STEP_SUMMARY

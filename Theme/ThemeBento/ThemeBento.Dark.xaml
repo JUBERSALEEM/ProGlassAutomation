@@ -1,0 +1,78 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+  <SolidColorBrush x:Key="ApplicationBackground" Color="#101218" />
+  <SolidColorBrush x:Key="SurfacePrimary" Color="#1A1D27" />
+  <SolidColorBrush x:Key="SurfaceSecondary" Color="#232735" />
+  <SolidColorBrush x:Key="SurfaceElevated" Color="#2B3040" />
+  <SolidColorBrush x:Key="TextPrimary" Color="#F1F3FA" />
+  <SolidColorBrush x:Key="TextSecondary" Color="#B7BFD3" />
+  <SolidColorBrush x:Key="TextMuted" Color="#B0BAD0" />
+  <SolidColorBrush x:Key="AccentPrimary" Color="#B5A5FF" />
+  <SolidColorBrush x:Key="AccentSecondary" Color="#70DCD0" />
+  <SolidColorBrush x:Key="TextOnAccent" Color="#191331" />
+  <SolidColorBrush x:Key="AccentSoft" Color="#30294D" />
+  <SolidColorBrush x:Key="BorderSubtle" Color="#353D51" />
+  <SolidColorBrush x:Key="BorderStrong" Color="#8592AC" />
+  <SolidColorBrush x:Key="FocusIndicator" Color="#C2B5FF" />
+  <SolidColorBrush x:Key="StateHover" Color="#30364A" />
+  <SolidColorBrush x:Key="StatePressed" Color="#3C435C" />
+  <SolidColorBrush x:Key="StateSelected" Color="#30294D" />
+  <SolidColorBrush x:Key="AccentHover" Color="#C7BBFF" />
+  <SolidColorBrush x:Key="AccentPressed" Color="#9E8AEF" />
+  <SolidColorBrush x:Key="DisabledSurface" Color="#252A38" />
+  <SolidColorBrush x:Key="DisabledText" Color="#8993AA" />
+  <SolidColorBrush x:Key="StatusSuccess" Color="#79DEAC" />
+  <SolidColorBrush x:Key="StatusSuccessSurface" Color="#183B2B" />
+  <SolidColorBrush x:Key="StatusWarning" Color="#FFD18A" />
+  <SolidColorBrush x:Key="StatusWarningSurface" Color="#42321C" />
+  <SolidColorBrush x:Key="StatusError" Color="#FF9BAC" />
+  <SolidColorBrush x:Key="StatusErrorSurface" Color="#45252F" />
+  <SolidColorBrush x:Key="StatusInformation" Color="#9FC8FF" />
+  <SolidColorBrush x:Key="StatusInformationSurface" Color="#20334E" />
+  <SolidColorBrush x:Key="OverlayBrush" Color="#B3080A10" />
+  <SolidColorBrush x:Key="TransparentBrush" Color="#00000000" />
+  <sys:Double x:Key="FontSizeDisplay">34</sys:Double>
+  <sys:Double x:Key="FontSizeTitle">24</sys:Double>
+  <sys:Double x:Key="FontSizeSection">18</sys:Double>
+  <sys:Double x:Key="FontSizeBody">14</sys:Double>
+  <sys:Double x:Key="FontSizeCaption">12</sys:Double>
+  <sys:Double x:Key="SpacingSmall">4</sys:Double>
+  <sys:Double x:Key="SpacingMedium">8</sys:Double>
+  <sys:Double x:Key="SpacingLarge">16</sys:Double>
+  <sys:Double x:Key="SpacingSection">24</sys:Double>
+  <sys:Double x:Key="SpacingPage">32</sys:Double>
+  <sys:Double x:Key="ControlMinHeight">38</sys:Double>
+  <sys:Double x:Key="ControlMinWidth">88</sys:Double>
+  <sys:Double x:Key="ChoiceMarkSize">18</sys:Double>
+  <sys:Double x:Key="ScrollBarSize">12</sys:Double>
+  <sys:Double x:Key="DisabledOpacity">0.55</sys:Double>
+  <sys:Double x:Key="PopupMaxHeight">280</sys:Double>
+  <sys:Double x:Key="WindowInitialWidth">1280</sys:Double>
+  <sys:Double x:Key="WindowInitialHeight">900</sys:Double>
+  <sys:Double x:Key="WindowMinWidth">720</sys:Double>
+  <sys:Double x:Key="WindowMinHeight">600</sys:Double>
+  <Thickness x:Key="PaddingControl">14,8</Thickness>
+  <Thickness x:Key="PaddingCard">24</Thickness>
+  <Thickness x:Key="PaddingPlate">16</Thickness>
+  <Thickness x:Key="PaddingPage">32</Thickness>
+  <Thickness x:Key="MarginItem">0,0,0,12</Thickness>
+  <Thickness x:Key="MarginSection">0,0,0,24</Thickness>
+  <Thickness x:Key="MarginInline">0,0,12,8</Thickness>
+  <Thickness x:Key="MarginPanel">0,0,16,16</Thickness>
+  <Thickness x:Key="BorderThicknessControl">1</Thickness>
+  <Thickness x:Key="FocusThickness">2</Thickness>
+  <Thickness x:Key="PaddingChoice">8</Thickness>
+  <Thickness x:Key="PaddingCompact">8,4</Thickness>
+  <CornerRadius x:Key="CardCornerRadius">16</CornerRadius>
+  <CornerRadius x:Key="ControlCornerRadius">8</CornerRadius>
+  <CornerRadius x:Key="ChipCornerRadius">6</CornerRadius>
+  <FontFamily x:Key="FontFamilyBody">Segoe UI</FontFamily>
+  <FontFamily x:Key="FontFamilyMono">Consolas</FontFamily>
+  <FontWeight x:Key="FontWeightHeading">SemiBold</FontWeight>
+  <FontWeight x:Key="FontWeightBody">Normal</FontWeight>
+  <Thickness x:Key="PaddingMark">4</Thickness>
+  <Thickness x:Key="PaddingSelection">14,8,38,8</Thickness>
+  <CornerRadius x:Key="ChoiceCornerRadius">9</CornerRadius>
+  <sys:Double x:Key="StrokeWidth">2</sys:Double>
+  <sys:Double x:Key="SelectionOpacity">1</sys:Double>
+  <Thickness x:Key="MarginFocus">-3</Thickness>
+</ResourceDictionary>
