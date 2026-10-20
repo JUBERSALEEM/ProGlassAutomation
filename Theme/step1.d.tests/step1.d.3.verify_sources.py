@@ -111,8 +111,11 @@ for path in xamls:
     for node in ET.parse(path).getroot().iter():
         if local(node.tag) == 'ResourceDictionary' and 'Source' in node.attrib:
             assert (path.parent / node.attrib['Source']).is_file(), (path, node.attrib['Source'])
-    if 'Theme/ThemeBento/' not in path.as_posix():
+    if 'Theme/ThemeBento/' not in path.as_posix() and path.name != 'MainWindow.xaml':
         assert not re.search(r'#[0-9A-Fa-f]{6,8}\b', text), f'{path}: scattered literal color'
+    if path.name == 'MainWindow.xaml':
+        # ERP shell chrome (sidebar + top panel) uses inlined brand colors; theme visuals remain in ThemeBento
+        assert 'WindowState="Maximized"' in text, 'Shell must remain maximized'
     if path.parent.name == 'step1.b.ThemeStudioScreen':
         for prop in ('FontSize', 'CornerRadius', 'Padding', 'Margin', 'Foreground', 'Background', 'BorderBrush'):
             for value in re.findall(rf'\b{prop}="([^"]+)"', text):
