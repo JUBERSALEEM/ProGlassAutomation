@@ -102,3 +102,5 @@ The harness uses actual WPF controls with software rendering and tests existing 
 Latest user instruction: workflow stored **inactive** at `cols/ci/windows-wpf.yml` so the code can be pushed without workflow-write permission. This supersedes earlier restoration/activation statements. No Windows CI run occurs until it is moved back to `.github/workflows/` with suitable permission; restoration commands are in the file header.
 
 Latest layout specification and evidence: [full-width compact Studio](step1.c.6.Full-Width-Layout.md). Studio opens maximized without a width cap; token browsing has a theme-owned bounded viewport. Cards keep their instances and view-model binding across lane changes.
+
+Latest product-depth assessment: [Bento richness audit](step1.c.7.Bento-Richness-Audit.md). Current implementation is a source-verified foundation, not a completed advanced desktop component system; see the explicit capability/verification gaps before reusing it as a finished visual standard.
