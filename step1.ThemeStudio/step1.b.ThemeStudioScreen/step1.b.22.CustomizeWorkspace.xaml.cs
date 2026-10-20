@@ -15,16 +15,18 @@ public partial class CustomizeWorkspace : UserControl
         if (next)
         {
             WorkspaceGrid.ColumnDefinitions[0].Width = new GridLength(1, GridUnitType.Star);
-            WorkspaceGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
-            WorkspaceGrid.ColumnDefinitions[2].Width = new GridLength(1, GridUnitType.Star);
+            WorkspaceGrid.ColumnDefinitions[1].Width = new GridLength(0);
+            WorkspaceGrid.ColumnDefinitions[2].Width = new GridLength(0);
+            while (WorkspaceGrid.RowDefinitions.Count < 3) WorkspaceGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             Grid.SetRow(WorkspaceGrid.Children[0], 0); Grid.SetColumn(WorkspaceGrid.Children[0], 0);
             Grid.SetRow(WorkspaceGrid.Children[1], 1); Grid.SetColumn(WorkspaceGrid.Children[1], 0);
             Grid.SetRow(WorkspaceGrid.Children[2], 2); Grid.SetColumn(WorkspaceGrid.Children[2], 0);
         }
         else
         {
+            if (WorkspaceGrid.RowDefinitions.Count > 0) WorkspaceGrid.RowDefinitions.Clear();
             WorkspaceGrid.ColumnDefinitions[0].Width = new GridLength(280);
-            WorkspaceGrid.ColumnDefinitions[1].Width = new GridLength(3, GridUnitType.Star);
+            WorkspaceGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
             WorkspaceGrid.ColumnDefinitions[2].Width = new GridLength(320);
             Grid.SetRow(WorkspaceGrid.Children[0], 0); Grid.SetColumn(WorkspaceGrid.Children[0], 0);
             Grid.SetRow(WorkspaceGrid.Children[1], 0); Grid.SetColumn(WorkspaceGrid.Children[1], 1);
