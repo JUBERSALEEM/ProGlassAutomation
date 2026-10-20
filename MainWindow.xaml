@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:studio="clr-namespace:ProGlassAutomation.ThemeStudio"
-        Title="ProGlass — Bento Theme Studio" Height="1000" Width="1700"
+        Title="ProGlass" Height="1000" Width="1700"
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
         Style="{DynamicResource ThemedWindow}"
@@ -42,6 +42,12 @@
                 </Border>
             </ControlTemplate></Setter.Value></Setter>
         </Style>
+        <Style x:Key="ShellTopBar" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderSubtle}" />
+            <Setter Property="BorderThickness" Value="0,0,0,1" />
+            <Setter Property="Padding" Value="{DynamicResource PaddingCard}" />
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -65,8 +71,8 @@
                                 <TextBlock Text="PG" Foreground="{DynamicResource TextOnAccent}" FontWeight="{DynamicResource FontWeightHeading}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                             <StackPanel Margin="{DynamicResource MarginInline}" VerticalAlignment="Center">
-                                <TextBlock Text="ProGlass Bento" FontWeight="{DynamicResource FontWeightHeading}"/>
-                                <TextBlock Text="Theme Engine Studio" Style="{DynamicResource Caption}"/>
+                                <TextBlock Text="ProGlass" FontWeight="{DynamicResource FontWeightHeading}"/>
+                                <TextBlock Text="Automation" Style="{DynamicResource Caption}"/>
                             </StackPanel>
                         </StackPanel>
                     </DockPanel>
@@ -75,33 +81,59 @@
                     <StackPanel>
                         <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
                             <StackPanel>
-                                <TextBlock Text="Workspace" Style="{DynamicResource Caption}" />
-                                <RadioButton Content="Theme Studio" IsChecked="{Binding IsStudio}" GroupName="Workspace" AutomationProperties.Name="Theme Studio page" Margin="{DynamicResource MarginItem}"/>
-                                <RadioButton Content="Business Reference" IsChecked="{Binding IsBusiness}" GroupName="Workspace" AutomationProperties.Name="Business Reference page"/>
+                                <TextBlock Text="Modules" Style="{DynamicResource Caption}" />
+                                <RadioButton Content="Home" IsChecked="{Binding IsBusiness}" GroupName="Workspace" AutomationProperties.Name="Home page" Margin="{DynamicResource MarginItem}"/>
+                                <TextBlock Text="Later phases add invoices, estimators, and floor operations here." Style="{DynamicResource Caption}" />
                             </StackPanel>
                         </ContentControl>
                         <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
                             <StackPanel>
+                                <TextBlock Text="Settings" Style="{DynamicResource SectionHeading}" />
+                                <RadioButton Content="Theme Studio" IsChecked="{Binding IsStudio}" GroupName="Workspace" AutomationProperties.Name="Theme Studio page" Margin="{DynamicResource MarginItem}"/>
+                                <Label Content="Theme" Target="{Binding ElementName=ShellTheme}" Foreground="{DynamicResource TextSecondary}" />
+                                <ComboBox x:Name="ShellTheme" ItemsSource="{Binding InstalledThemes}" SelectedItem="{Binding SelectedTheme}" AutomationProperties.Name="Installed theme" Margin="{DynamicResource MarginItem}" />
                                 <TextBlock Text="Appearance" Style="{DynamicResource Caption}" />
                                 <RadioButton Content="Light" IsChecked="{Binding IsLight}" GroupName="ShellAppearance" AutomationProperties.Name="Light appearance" Margin="{DynamicResource MarginItem}"/>
                                 <RadioButton Content="Dark" IsChecked="{Binding IsDark}" GroupName="ShellAppearance" AutomationProperties.Name="Dark appearance"/>
                             </StackPanel>
                         </ContentControl>
-                        <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
-                            <StackPanel>
-                                <Label Content="Theme" Target="{Binding ElementName=ShellTheme}" Foreground="{DynamicResource TextSecondary}" />
-                                <ComboBox x:Name="ShellTheme" ItemsSource="{Binding InstalledThemes}" SelectedItem="{Binding SelectedTheme}" AutomationProperties.Name="Installed theme" />
-                            </StackPanel>
-                        </ContentControl>
                     </StackPanel>
                 </ScrollViewer>
                 <ContentControl Grid.Row="2" Style="{DynamicResource Plate}" Margin="{DynamicResource MarginSection}">
-                    <TextBlock Text="{Binding DesignSummary}" Style="{DynamicResource Caption}" />
+                    <TextBlock Text="Phase 01 · Theme engine" Style="{DynamicResource Caption}" />
                 </ContentControl>
             </Grid>
         </Border>
         <Grid Grid.Column="1">
-            <TabControl x:Name="WorkspaceTabs"
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Border Style="{StaticResource ShellTopBar}">
+                <DockPanel>
+                    <ToggleButton DockPanel.Dock="Left" IsChecked="{Binding IsChecked, ElementName=SidebarToggle, Mode=TwoWay}"
+                                  Margin="{DynamicResource MarginInline}" VerticalAlignment="Center"
+                                  AutomationProperties.Name="Show menu" ToolTip="Show the sidebar">
+                        <ToggleButton.Style>
+                            <Style TargetType="ToggleButton" BasedOn="{StaticResource ShellMenuToggle}">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsChecked, ElementName=SidebarToggle}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ToggleButton.Style>
+                        <TextBlock Text="Menu" Style="{DynamicResource Caption}" />
+                    </ToggleButton>
+                    <TextBlock DockPanel.Dock="Right" Text="{Binding DesignSummary}" Style="{DynamicResource Caption}" VerticalAlignment="Center" />
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="{Binding WorkspaceTitle}" Style="{DynamicResource SectionHeading}" />
+                        <TextBlock Text="Active module" Style="{DynamicResource Caption}" />
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+            <TabControl Grid.Row="1" x:Name="WorkspaceTabs"
                         SelectedIndex="{Binding SelectedWorkspace, Mode=TwoWay}"
                         AutomationProperties.Name="Design workspace pages"
                         Background="{DynamicResource ApplicationBackground}"
@@ -113,24 +145,8 @@
                     </Style>
                 </TabControl.Resources>
                 <TabItem Header="_Theme Studio"><studio:ThemeStudioView /></TabItem>
-                <TabItem Header="_Business Reference"><studio:BusinessReferenceView /></TabItem>
+                <TabItem Header="_Home"><studio:BusinessReferenceView /></TabItem>
             </TabControl>
-            <ToggleButton IsChecked="{Binding IsChecked, ElementName=SidebarToggle, Mode=TwoWay}"
-                          HorizontalAlignment="Left" VerticalAlignment="Top"
-                          Margin="{DynamicResource PaddingPage}"
-                          AutomationProperties.Name="Show menu" ToolTip="Show the sidebar">
-                <ToggleButton.Style>
-                    <Style TargetType="ToggleButton" BasedOn="{StaticResource ShellMenuToggle}">
-                        <Setter Property="Visibility" Value="Collapsed" />
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsChecked, ElementName=SidebarToggle}" Value="True">
-                                <Setter Property="Visibility" Value="Visible" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ToggleButton.Style>
-                <TextBlock Text="Menu" Style="{DynamicResource Caption}" />
-            </ToggleButton>
         </Grid>
     </Grid>
 </Window>

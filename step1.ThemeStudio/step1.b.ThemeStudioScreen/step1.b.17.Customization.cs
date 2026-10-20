@@ -67,11 +67,13 @@ public sealed partial class ThemeStudioViewModel
                 Changed(nameof(SelectedWorkspace));
                 Changed(nameof(IsStudio));
                 Changed(nameof(IsBusiness));
+                Changed(nameof(WorkspaceTitle));
             }
         }
     }
     public bool IsStudio { get => selectedWorkspace == 0; set { if (value) SelectedWorkspace = 0; } }
     public bool IsBusiness { get => selectedWorkspace == 1; set { if (value) SelectedWorkspace = 1; } }
+    public string WorkspaceTitle => IsStudio ? "Theme Studio" : "Home";
     public ICommand ResetDesign { get; private set; } = null!;
     public ICommand ShowStudio { get; private set; } = null!;
     public ICommand ShowBusiness { get; private set; } = null!;
