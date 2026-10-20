@@ -15,6 +15,15 @@
    </ContentControl>
    <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
     <StackPanel>
+     <TextBlock Text="Bento layout" Style="{DynamicResource Caption}"/>
+     <Label Content="Layout preset" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding LayoutPresetChoices}" SelectedItem="{Binding SelectedLayoutPreset}" AutomationProperties.Name="Layout preset" Margin="{DynamicResource MarginItem}"/>
+     <CheckBox Content="Compact hero span" IsChecked="{Binding HeroCompact}" AutomationProperties.Name="Compact hero" Margin="{DynamicResource MarginItem}"/>
+     <CheckBox Content="Show KPI trend" IsChecked="{Binding ShowKpiTrend}" AutomationProperties.Name="Show KPI trend" Margin="{DynamicResource MarginItem}"/>
+     <TextBlock Text="Executive: hero 2col + KPI 4up · Analytics Focus: hides activity, widens charts · Production Ops: strong borders, high contrast · Compact Data Dense: stacks, hides table." Style="{DynamicResource Caption}"/>
+    </StackPanel>
+   </ContentControl>
+   <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
+    <StackPanel>
      <TextBlock Text="Global appearance" Style="{DynamicResource Caption}"/>
      <Label Content="Brand accent" Target="{Binding ElementName=AccentPicker}" Foreground="{DynamicResource TextSecondary}"/><ComboBox x:Name="AccentPicker" IsEnabled="{Binding CanCustomize}" ItemsSource="{Binding AccentChoices}" SelectedItem="{Binding SelectedAccent}" AutomationProperties.Name="Brand accent" Margin="{DynamicResource MarginItem}"/>
      <Label Content="Canvas tint" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding CanvasChoices}" SelectedItem="{Binding SelectedCanvas}" AutomationProperties.Name="Canvas tint" Margin="{DynamicResource MarginItem}"/>
@@ -37,15 +46,6 @@
    </ContentControl>
    <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
     <StackPanel>
-     <TextBlock Text="Bento layout" Style="{DynamicResource Caption}"/>
-     <Label Content="Layout preset" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding LayoutPresetChoices}" SelectedItem="{Binding SelectedLayoutPreset}" AutomationProperties.Name="Layout preset" Margin="{DynamicResource MarginItem}"/>
-     <CheckBox Content="Compact hero span" IsChecked="{Binding HeroCompact}" AutomationProperties.Name="Compact hero" Margin="{DynamicResource MarginItem}"/>
-     <CheckBox Content="Show KPI trend" IsChecked="{Binding ShowKpiTrend}" AutomationProperties.Name="Show KPI trend" Margin="{DynamicResource MarginItem}"/>
-     <TextBlock Text="Executive: hero 2col + KPI 4up · Analytics Focus: hides activity, widens charts · Production Ops: strong borders, high contrast · Compact Data Dense: stacks, hides table." Style="{DynamicResource Caption}"/>
-    </StackPanel>
-   </ContentControl>
-   <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
-    <StackPanel>
      <TextBlock Text="Save and reset" Style="{DynamicResource Caption}"/>
      <WrapPanel Margin="{DynamicResource MarginItem}">
       <Button Content="Apply" Command="{Binding ApplyPreview}" Style="{DynamicResource PrimaryButton}" Margin="{DynamicResource MarginInline}" AutomationProperties.Name="Apply preview"/>
@@ -58,7 +58,7 @@
       <Button Content="Reset theme" Command="{Binding ResetTheme}" Style="{DynamicResource DestructiveButton}" Margin="{DynamicResource MarginInline}" AutomationProperties.Name="Reset theme to defaults"/>
      </WrapPanel>
      <TextBlock Text="{Binding ThemeError}" Foreground="{DynamicResource StatusError}" AutomationProperties.LiveSetting="Assertive" Margin="{DynamicResource MarginItem}"/>
-     <TextBlock Text="Category for contextual panel on the right:" Style="{DynamicResource Caption}"/>
+     <TextBlock Text="Customization category" Style="{DynamicResource Caption}"/>
      <ComboBox ItemsSource="{Binding AvailableCategories}" SelectedItem="{Binding CustomizationCategory}" AutomationProperties.Name="Customization category" Margin="{DynamicResource MarginItem}"/>
     </StackPanel>
    </ContentControl>
