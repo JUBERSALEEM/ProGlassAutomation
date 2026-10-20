@@ -53,8 +53,11 @@
   <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ComboBox">
    <Grid>
-    <Border x:Name="Lift" Background="{DynamicResource BorderStrong}" CornerRadius="{DynamicResource ControlCornerRadius}" Margin="0,3,0,0" Opacity="0.22" />
-    <Border x:Name="Frame" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{DynamicResource BorderThicknessControl}" CornerRadius="{DynamicResource ControlCornerRadius}" Margin="0,0,0,3" />
+    <Border x:Name="Frame" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{DynamicResource BorderThicknessControl}" CornerRadius="{DynamicResource ControlCornerRadius}">
+     <Border.Effect>
+      <DropShadowEffect BlurRadius="14" ShadowDepth="5" Direction="270" Opacity="0.16" Color="{DynamicResource ClayShadowColor}" />
+     </Border.Effect>
+    </Border>
     <ToggleButton Focusable="False" ClickMode="Press" IsChecked="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
      <ToggleButton.Template><ControlTemplate TargetType="ToggleButton">
       <Border Background="{DynamicResource TransparentBrush}" Padding="{DynamicResource PaddingControl}"><TextBlock Text="⌄" HorizontalAlignment="Right" Foreground="{DynamicResource TextSecondary}" /></Border>

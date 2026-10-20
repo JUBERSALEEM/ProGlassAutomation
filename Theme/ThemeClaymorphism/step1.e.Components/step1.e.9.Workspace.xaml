@@ -1,8 +1,13 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
  <Style x:Key="HeroCard" TargetType="Border">
   <Setter Property="Background" Value="{DynamicResource HeroBackground}" /><Setter Property="CornerRadius" Value="{DynamicResource CardCornerRadius}" /><Setter Property="Padding" Value="{DynamicResource PaddingCard}" />
-  <Setter Property="BorderBrush" Value="{DynamicResource HeroAccent}" /><Setter Property="BorderThickness" Value="{DynamicResource BorderThicknessControl}" />
+  <Setter Property="BorderBrush" Value="{DynamicResource SurfaceElevated}" /><Setter Property="BorderThickness" Value="{DynamicResource BorderThicknessControl}" />
   <Setter Property="HorizontalAlignment" Value="Stretch" /><Setter Property="VerticalAlignment" Value="Stretch" />
+  <Setter Property="Effect">
+   <Setter.Value>
+    <DropShadowEffect BlurRadius="22" ShadowDepth="10" Direction="270" Opacity="0.22" Color="{DynamicResource ClayShadowColor}" />
+   </Setter.Value>
+  </Setter>
  </Style>
  <Style x:Key="MetricCard" TargetType="Border">
   <Setter Property="Background" Value="{DynamicResource SurfaceElevated}" /><Setter Property="BorderBrush" Value="{DynamicResource SurfacePrimary}" /><Setter Property="BorderThickness" Value="{DynamicResource BorderThicknessControl}" /><Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" /><Setter Property="Padding" Value="{DynamicResource PaddingPlate}" />

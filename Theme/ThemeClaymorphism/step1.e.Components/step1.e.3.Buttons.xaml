@@ -14,21 +14,22 @@
   <Setter Property="HorizontalContentAlignment" Value="Center" />
   <Setter Property="VerticalContentAlignment" Value="Center" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button">
-   <Grid>
-    <Border x:Name="Lift" Background="{DynamicResource BorderStrong}" CornerRadius="{DynamicResource ControlCornerRadius}" Margin="0,3,0,0" Opacity="0.28" />
-    <Border x:Name="Frame" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
-      BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}" Margin="0,0,0,3">
-     <ContentPresenter RecognizesAccessKey="True" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-    </Border>
-   </Grid>
+   <Border x:Name="Frame" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+     BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
+    <Border.Effect>
+     <DropShadowEffect BlurRadius="16" ShadowDepth="6" Direction="270" Opacity="0.2" Color="{DynamicResource ClayShadowColor}" />
+    </Border.Effect>
+    <ContentPresenter RecognizesAccessKey="True" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+   </Border>
    <ControlTemplate.Triggers>
     <Trigger Property="IsKeyboardFocused" Value="True">
      <Setter TargetName="Frame" Property="BorderBrush" Value="{DynamicResource FocusIndicator}" />
      <Setter TargetName="Frame" Property="BorderThickness" Value="{DynamicResource FocusThickness}" />
     </Trigger>
     <Trigger Property="IsPressed" Value="True">
-     <Setter TargetName="Frame" Property="Margin" Value="0,3,0,0" />
-     <Setter TargetName="Lift" Property="Opacity" Value="0" />
+     <Setter TargetName="Frame" Property="RenderTransform">
+      <Setter.Value><TranslateTransform Y="2" /></Setter.Value>
+     </Setter>
     </Trigger>
    </ControlTemplate.Triggers>
   </ControlTemplate></Setter.Value></Setter>

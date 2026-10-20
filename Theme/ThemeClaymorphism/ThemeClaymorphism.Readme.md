@@ -1,28 +1,32 @@
 # Claymorphism — second registered theme (Phase 01 / step1)
 
-Date: **2026-10-20**. Native WPF. Not a new feature number. Bento remains the default and the mosaic engine.
+Date: **2026-10-20**. Native WPF. Bento files are not modified. Clay does not load Bento resources.
 
-## What this package is
+## Pattern (from the reference set)
 
-Claymorphism is a **complete second theme** in `ThemeCatalog`. It fills the same 102-token / 47-style contract so Theme Studio and Business Reference keep their BentoGrid mosaics and swap skins through `ThemeService`.
+Soft extruded tiles on a cool mist canvas: **32 DIP radius**, white inset edge, outer drop shadow, pastel plates (mint / lavender / sky / peach), coral pill actions, navy text. Dark is navy-violet, not brown.
 
-It is not a Bento accent, not CSS, and not DropShadow/blur. Lift is a second native `Border` in control templates (opaque contact edge + face). Cards use a light top edge (`SurfaceElevated` on `SurfacePrimary`) and large radii.
+Accent coral is darker than marketing salmon so **4.5:1** still holds. No 3D illustration pack, no shop/kanban/player chrome, no CSS.
 
-## Light / Dark (source dictionaries)
+## Light / Dark
 
 | Role | Light | Dark |
 | --- | --- | --- |
-| Canvas | #E7DCCF | #1A1612 |
-| Card | #FFF7EE | #2A241E |
-| Inset / raised | #F3E8DC / #FFFFFF | #221C18 / #352E26 |
-| Text | #1C150F / #4E4339 / #5C5147 | #F6F0E8 / #D2C4B4 / #C4B5A4 |
-| Accent / on-accent | #9A3518 / #FFFFFF | #E08A5C / #1A1612 |
-| Hero | #2A140C → #5A2414 | #140E0A → #3A1C10 |
+| Canvas | #F3F0FB | #1A1730 |
+| Card | #FFFFFF | #2A2548 |
+| Text | #1A1F4D | #F4F1FF |
+| Accent / on-accent | #C81E1E / #FFFFFF | #FF8A80 / #1A1730 |
+| Hero | #E4D8FF → #FFD6EA (navy type) | #2A2150 → #4A3A80 |
+| Plates | mint / lavender / sky / peach | deep mint / violet / navy / clay |
 
-Radii 22 / 16 / 12. Control height 36. Gutter 12. Row 180. Border 2 DIP.
+Radii 32 / 24 / 16. Control height 40. Gutter 14. Shadow color lives in `*.Extras.xaml` (not the 102-token file).
 
-## What it does not take from Bento
+## Kept separate
 
-Bento customization (accent/density/shape) stays Bento-owned. Studio `CanCustomize` is false while Clay is active. Pick **Claymorphism** in the theme list; Light/Dark still apply.
+- Folder `Theme/ThemeClaymorphism/` only. No Bento XAML/C# edits.
+- Factory does not cache or seal Bento styles.
+- Bento customization does not run while Clay is selected.
 
-Windows restore/build/pixels are not claimed.
+Screens still compose with `BentoGrid` (shared mosaic panel, not a Clay visual). Contract keys `BentoRowHeight` / `BentoTile` stay because they are the shared contract, not Bento paint.
+
+Windows pixels are not claimed.

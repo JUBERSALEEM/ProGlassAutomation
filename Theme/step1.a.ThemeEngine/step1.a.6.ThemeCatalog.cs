@@ -1,6 +1,6 @@
 using System.Windows;
 using ProGlassAutomation.ThemeBento;
-using ProGlassAutomation.ThemeClay;
+using ProGlassAutomation.ThemeClaymorphism;
 
 namespace ProGlassAutomation.Theming;
 

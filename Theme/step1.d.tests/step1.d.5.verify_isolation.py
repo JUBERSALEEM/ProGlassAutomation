@@ -54,6 +54,9 @@ for package in packages:
     for mode in ('Light', 'Dark'):
         values = {}
         collect(package / f'{stem}.{mode}.xaml', values, package)
+        extras = package / f'{stem}.{mode}.Extras.xaml'
+        if extras.is_file():
+            collect(extras, values, package)
         collect(package / 'step1.e.Components/step1.e.1.Components.xaml', values, package)
         for key, target in required.items():
             assert key in values, f'missing theme style: {package.name}/{mode} {key}'

@@ -1,14 +1,20 @@
 # step1.c.12 — Claymorphism theme package (Phase 01 / step1)
 
-Date: **2026-10-20**. Same step, not a new feature number. Bento mosaics and `BentoGrid` stay. Clay is a second complete skin.
+Date: **2026-10-20**. Second complete skin. Bento mosaics stay. Engines are not mixed.
 
-## Source
+## What was missing vs the references
 
-- Catalog name **Claymorphism**, folder `Theme/ThemeClaymorphism/`, factory `ClayResources.Load`.
-- 102 tokens × Light/Dark, 47 styles, isolated from Bento (no cross-theme Source).
-- Studio theme picker lists both. Default startup remains Bento. `CanCustomize` stays Bento-only.
-- Visual language: warm clay canvas, 22 DIP cards, 2 DIP light-edge borders, button lift from a second native Border (no blur / DropShadowEffect / CSS).
+The first Clay package was terracotta-flat (brown canvas, 22 DIP corners, slab “lift”, no shadow). The references are **pastel clay**: cool canvas, 32px radius, inset top highlight, outer drop shadow, coral pills, mint/lavender/peach/sky tiles, navy type.
 
-## Not claimed
+## What source now does (Clay folder only)
 
-Windows restore/build/STA/pixels. No PR without two separate confirmations.
+- Pastel Light / navy-violet Dark dictionaries.
+- `DropShadowEffect` + white edge on cards, KPI, charts, hero, pills.
+- Extras file per appearance for shadow/highlight **Color** keys (not in the 102-token contract file).
+- Factory loads only Clay pack URIs. Namespace `ProGlassAutomation.ThemeClaymorphism`.
+
+## Still not mixed / still missing
+
+- No Bento file changes. No Clay paint in the shared engine.
+- Screens still **place** tiles with `BentoGrid` (layout panel). That is composition, not Clay resources.
+- No 3D icon set, no fake sidebar/kanban/shop. No Windows pixels.

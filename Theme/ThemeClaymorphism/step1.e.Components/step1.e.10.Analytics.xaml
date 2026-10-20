@@ -3,6 +3,11 @@
   <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" /><Setter Property="CornerRadius" Value="{DynamicResource CardCornerRadius}" />
   <Setter Property="BorderBrush" Value="{DynamicResource SurfaceElevated}" /><Setter Property="BorderThickness" Value="{DynamicResource BorderThicknessControl}" />
   <Setter Property="Padding" Value="{DynamicResource PaddingCard}" /><Setter Property="Margin" Value="{DynamicResource MarginPanel}" />
+  <Setter Property="Effect">
+   <Setter.Value>
+    <DropShadowEffect BlurRadius="22" ShadowDepth="10" Direction="270" Opacity="0.22" Color="{DynamicResource ClayShadowColor}" />
+   </Setter.Value>
+  </Setter>
  </Style>
  <Style x:Key="PositivePlate" TargetType="Border" BasedOn="{StaticResource ChartCard}"><Setter Property="Background" Value="{DynamicResource SurfacePositive}" /></Style>
  <Style x:Key="FeaturePlate" TargetType="Border" BasedOn="{StaticResource ChartCard}"><Setter Property="Background" Value="{DynamicResource SurfaceFeature}" /></Style>
@@ -31,6 +36,9 @@
   <Setter Property="HorizontalAlignment" Value="Stretch" /><Setter Property="VerticalAlignment" Value="Stretch" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="analytics:BentoKpi">
    <Border Background="{TemplateBinding Background}" BorderBrush="{DynamicResource SurfaceElevated}" BorderThickness="{DynamicResource BorderThicknessControl}" CornerRadius="{DynamicResource CardCornerRadius}" Padding="{TemplateBinding Padding}">
+    <Border.Effect>
+     <DropShadowEffect BlurRadius="18" ShadowDepth="8" Direction="270" Opacity="0.2" Color="{DynamicResource ClayShadowColor}" />
+    </Border.Effect>
     <StackPanel><TextBlock Text="{TemplateBinding Label}" Foreground="{DynamicResource TextSecondary}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="Wrap" />
      <TextBlock Text="{TemplateBinding Value}" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" TextWrapping="Wrap" />
      <TextBlock Text="{TemplateBinding Detail}" Foreground="{DynamicResource TextSecondary}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="Wrap" />
@@ -49,7 +57,7 @@
   <Setter Property="RowHeaderWidth" Value="0" /><Setter Property="EnableRowVirtualization" Value="True" /><Setter Property="EnableColumnVirtualization" Value="True" />
   <Setter Property="MinRowHeight" Value="{DynamicResource ControlMinHeight}" /><Setter Property="ColumnHeaderHeight" Value="{DynamicResource ControlMinHeight}" />
  </Style>
- <Style x:Key="BentoColumnGripper" TargetType="Thumb">
+ <Style x:Key="ClayColumnGripper" TargetType="Thumb">
   <Setter Property="Width" Value="{DynamicResource SpacingMedium}" /><Setter Property="Cursor" Value="SizeWE" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Thumb"><Border x:Name="Grip" Background="{DynamicResource TransparentBrush}" /><ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Grip" Property="Background" Value="{DynamicResource BorderStrong}" /></Trigger></ControlTemplate.Triggers></ControlTemplate></Setter.Value></Setter>
  </Style>
@@ -58,7 +66,7 @@
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="DataGridColumnHeader">
    <Grid><Border x:Name="Frame" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
     <DockPanel><TextBlock x:Name="SortMark" DockPanel.Dock="Right" FontSize="{DynamicResource FontSizeCaption}" Foreground="{TemplateBinding Foreground}" /><ContentPresenter RecognizesAccessKey="True" VerticalAlignment="Center" /></DockPanel>
-   </Border><Thumb x:Name="PART_LeftHeaderGripper" Style="{StaticResource BentoColumnGripper}" HorizontalAlignment="Left" /><Thumb x:Name="PART_RightHeaderGripper" Style="{StaticResource BentoColumnGripper}" HorizontalAlignment="Right" /></Grid>
+   </Border><Thumb x:Name="PART_LeftHeaderGripper" Style="{StaticResource ClayColumnGripper}" HorizontalAlignment="Left" /><Thumb x:Name="PART_RightHeaderGripper" Style="{StaticResource ClayColumnGripper}" HorizontalAlignment="Right" /></Grid>
    <ControlTemplate.Triggers>
     <Trigger Property="SortDirection" Value="Ascending"><Setter TargetName="SortMark" Property="Text" Value=" ↑" /></Trigger><Trigger Property="SortDirection" Value="Descending"><Setter TargetName="SortMark" Property="Text" Value=" ↓" /></Trigger>
     <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Frame" Property="Background" Value="{DynamicResource StateHover}" /></Trigger>
