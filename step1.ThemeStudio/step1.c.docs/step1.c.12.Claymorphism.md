@@ -1,20 +1,27 @@
 # step1.c.12 — Claymorphism theme package (Phase 01 / step1)
 
-Date: **2026-10-20**. Second complete skin. Bento mosaics stay. Engines are not mixed.
+Date: **2026-10-20**. Clay-only engine. Bento files not modified.
 
-## What was missing vs the references
+## Reference used
 
-The first Clay package was terracotta-flat (brown canvas, 22 DIP corners, slab “lift”, no shadow). The references are **pastel clay**: cool canvas, 32px radius, inset top highlight, outer drop shadow, coral pills, mint/lavender/peach/sky tiles, navy type.
+The reports URL (`/reports?status=Confirmed`) is **sign-in gated**. Public chrome on that host currently reads **System mode, Crystal palette**, not Clay. Upgrade follows the clay.css / setproduct recipe and the earlier pastel references: one outset drop + two insets (top-left sheen, bottom-right shade), 32 DIP radius, pastel plates. No CSS copied into WPF.
 
-## What source now does (Clay folder only)
+## Engine pattern now
 
-- Pastel Light / navy-violet Dark dictionaries.
-- `DropShadowEffect` + white edge on cards, KPI, charts, hero, pills.
-- Extras file per appearance for shadow/highlight **Color** keys (not in the 102-token contract file).
-- Factory loads only Clay pack URIs. Namespace `ProGlassAutomation.ThemeClaymorphism`.
+`ClaySurface` (ThemeClaymorphism) stacks three native Borders. Buttons, combo, concave inputs, KPIs use it. Screen `Card`/`ChartCard` remain Border + hue drop (Border has no template). Press squashes into concave.
 
-## Still not mixed / still missing
+## Completeness (source, not Windows pixels)
 
-- No Bento file changes. No Clay paint in the shared engine.
-- Screens still **place** tiles with `BentoGrid` (layout panel). That is composition, not Clay resources.
-- No 3D icon set, no fake sidebar/kanban/shop. No Windows pixels.
+| Slice | % | Note |
+| --- | --- | --- |
+| Isolated package / catalog / Light+Dark / 102×47 | 100 | Clay folder only |
+| 3-layer clay on templated controls | 85 | ClaySurface convex + concave |
+| Cards/plates on screen Borders | 55 | Outer hue shadow + light edge; no inner shade (Border cannot template) |
+| Pastel / coral / navy | 80 | WCAG forces darker coral than marketing salmon |
+| Pill press / progress | 70 | Translate + concave; no spring physics |
+| Hue-matched inner/outer shadows | 65 | Extras brushes; not per-tile hue |
+| 3D icons / shop-kanban chrome | 0 | Out of scope |
+| Windows restore/build/pixels | 0 | Not run |
+| **Overall Clay look (source)** | **~72%** | **Windows 0%** |
+
+Remaining to 100% source: inner shade on Border cards, per-surface hue shadows, pill chips at capsule radius, Windows proof.
