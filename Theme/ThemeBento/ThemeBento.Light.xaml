@@ -73,7 +73,7 @@
   <CornerRadius x:Key="ChipCornerRadius">4</CornerRadius>
   <FontFamily x:Key="FontFamilyBody">Segoe UI</FontFamily>
   <FontFamily x:Key="FontFamilyMono">Consolas</FontFamily>
-  <FontWeight x:Key="FontWeightHeading">SemiBold</FontWeight>
+  <FontWeight x:Key="FontWeightHeading">Bold</FontWeight>
   <FontWeight x:Key="FontWeightBody">Normal</FontWeight>
   <Thickness x:Key="PaddingMark">4</Thickness>
   <Thickness x:Key="PaddingSelection">10,5,32,5</Thickness>
