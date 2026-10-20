@@ -1,5 +1,6 @@
 using System.Windows;
 using ProGlassAutomation.ThemeBento;
+using ProGlassAutomation.ThemeClay;
 
 namespace ProGlassAutomation.Theming;
 
@@ -9,8 +10,13 @@ public sealed record ThemeDefinition(string Name, string Folder, Func<Appearance
 public static class ThemeCatalog
 {
     public const string BentoName = "Bento Grid / Modular";
+    public const string ClayName = "Claymorphism";
     public static IReadOnlyList<ThemeDefinition> Installed { get; } =
-        Array.AsReadOnly(new[] { new ThemeDefinition(BentoName, "ThemeBento", BentoResources.Load) });
+        Array.AsReadOnly(new[]
+        {
+            new ThemeDefinition(BentoName, "ThemeBento", BentoResources.Load),
+            new ThemeDefinition(ClayName, "ThemeClaymorphism", ClayResources.Load),
+        });
 
     public static ThemeDefinition Find(string name) =>
         Installed.FirstOrDefault(theme => theme.Name == name)

@@ -41,11 +41,11 @@ for name, relative, before, after in MUTATIONS:
         target.write_text(original.replace(before, after, 1))
         result = subprocess.run([sys.executable, str(copy / 'Theme/step1.d.tests/step1.d.3.verify_sources.py')], capture_output=True, text=True)
         expected = {
-            'missing hero style': 'undefined dynamic token HeroCard',
-            'missing chart card': 'undefined style ChartCard',
+            'missing hero style': 'missing theme style: ThemeBento/Light HeroCard',
+            'missing chart card': 'order-dependent static reference',
             'preset contrast regression': 'TextOnAccent/AccentPrimary',
             'read-only progress binding': 'read-only Progress binding must be explicitly OneWay',
-            'missing visual style': 'undefined dynamic token PrimaryButton',
+            'missing visual style': 'missing theme style: ThemeBento/Light PrimaryButton',
             'wrong visual target': 'wrong theme style target', 'cross-theme source': 'Forbidden.xaml',
             'duplicate package key': 'duplicate package key: PrimaryButton',
             'missing token': 'contract mismatch', 'wrong type': 'SpacingMedium',

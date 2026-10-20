@@ -11,6 +11,7 @@ public enum Appearance { Light, Dark }
 public sealed class ThemeService : INotifyPropertyChanged
 {
     public const string Bento = ThemeCatalog.BentoName;
+    public const string Clay = ThemeCatalog.ClayName;
     public static IReadOnlyList<string> InstalledThemes { get; } = Array.AsReadOnly(ThemeCatalog.Installed.Select(theme => theme.Name).ToArray());
     public Appearance ActiveAppearance { get; private set; } = Appearance.Light;
     public string ActiveTheme { get; private set; } = Bento;

@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[2]
 X = '{http://schemas.microsoft.com/winfx/2006/xaml}'
 P = '{http://schemas.microsoft.com/winfx/2006/xaml/presentation}'
 ENGINE = ROOT / 'Theme/step1.a.ThemeEngine'
-contract = dict(re.findall(r'\["([^"]+)"\] = typeof\(([^)]+)\)',
+contract = dict(re.findall(r'\[\"([^\"]+)\"\] = typeof\(([^)]+)\)',
                            (ENGINE / 'step1.a.1.ThemeContract.cs').read_text().split('RequiredStyles')[0]))
 assert contract, 'Typed contract missing'
 
@@ -22,55 +22,56 @@ def luminance(color):
     return sum(x * weight for x, weight in zip(linear, (.2126, .7152, .0722)))
 
 contrast_checks = 0
-for mode in ('Light', 'Dark'):
-    path = ROOT / f'Theme/ThemeBento/ThemeBento.{mode}.xaml'
-    tree = ET.parse(path).getroot()
-    keys = [item.attrib[X+'Key'] for item in tree]
-    assert len(keys) == len(set(keys)), f'{mode}: duplicate token keys'
-    values = {item.attrib[X+'Key']: item for item in tree}
-    assert set(values) == set(contract), f'{mode}: contract mismatch: {set(values) ^ set(contract)}'
-    for key, type_name in contract.items():
-        assert local(values[key].tag) in ({'SolidColorBrush', 'LinearGradientBrush', 'RadialGradientBrush'} if type_name == 'Brush' else {{'double': 'Double'}.get(type_name, type_name)}), (key, type_name)
-        if type_name == 'double':
-            number = float(values[key].text)
-            assert math.isfinite(number) and number >= 0, key
-            if key.endswith('Opacity'):
-                assert number <= 1, key
-    pairs = [(fg, bg, 4.5) for fg in ('TextPrimary', 'TextSecondary', 'TextMuted')
-             for bg in ('ApplicationBackground', 'SurfacePrimary', 'SurfaceSecondary', 'SurfaceElevated', 'StateHover', 'StatePressed', 'StateSelected', 'AccentSoft')]
-    pairs += [('TextOnAccent', bg, 4.5) for bg in ('AccentPrimary', 'AccentHover', 'AccentPressed')]
-    pairs += [(f'Status{s}', f'Status{s}Surface', 4.5) for s in ('Success', 'Warning', 'Error', 'Information')]
-    pairs += [('StatusWarning', 'SurfaceSecondary', 4.5)]
-    pairs += [(fg, bg, 4.5) for fg in ('TextPrimary', 'TextSecondary', 'TextMuted') for bg in ('SurfacePositive', 'SurfaceFeature', 'SurfaceInformation', 'SurfaceAttention')]
-    pairs += [('ChartTooltipText', 'ChartTooltipSurface', 4.5), ('ChartAxis', 'SurfacePrimary', 4.5)]
-    pairs += [(fg, 'SurfaceElevated', 4.5) for fg in ('AccentPrimary', 'StatusSuccess', 'StatusInformation')]
-    pairs += [('AccentPrimary', 'AccentSoft', 4.5), ('AccentPrimary', 'StateSelected', 4.5)]
-    pairs += [(fg, bg, 3) for fg in ('FocusIndicator', 'BorderStrong')
-              for bg in ('SurfacePrimary', 'SurfaceSecondary')]
-    cases = [('Ocean', {key: node.attrib['Color'] for key, node in values.items() if 'Color' in node.attrib})]
-    # Read the actual theme-owned preset values, not duplicate test palettes.
-    source = (ROOT/'Theme/ThemeBento/step1.e.8.BentoCustomization.cs').read_text()
-    for name, strings in re.findall(r'\(BentoAccent\.(\w+), Appearance\.' + mode + r'\) => \[(.*?)\]', source):
-        overrides = re.findall(r'"(#[0-9A-Fa-f]{6})"', strings)
-        assert len(overrides) == 5, name
-        current = dict(cases[0][1])
-        current.update(zip(('AccentPrimary', 'AccentHover', 'AccentPressed', 'AccentSoft', 'TextOnAccent'), overrides))
-        current['FocusIndicator'] = current['AccentPrimary']
-        current['StateSelected'] = current['AccentSoft']
-        cases.append((name, current))
-    assert len(cases) == 3, 'Every curated accent needs portable contrast coverage'
-    for preset, current in cases:
-        for fg, bg, minimum in pairs:
-            a, b = (luminance(current[k]) for k in (fg, bg))
-            ratio = (max(a, b) + .05) / (min(a, b) + .05)
-            assert ratio >= minimum, f'{mode}/{preset} {fg}/{bg}: {ratio:.2f} < {minimum}'
-            contrast_checks += 1
-    for stop in values['HeroBackground'].iter(P+'GradientStop'):
-        for fg in ('HeroForeground', 'HeroSecondaryText', 'HeroAccent'):
-            a, b = luminance(values[fg].attrib['Color']), luminance(stop.attrib['Color'])
-            ratio = (max(a, b)+.05)/(min(a, b)+.05)
-            assert ratio >= 4.5, f'{mode} hero contrast: {fg}: {ratio:.2f}'
-            contrast_checks += 1
+pairs = [(fg, bg, 4.5) for fg in ('TextPrimary', 'TextSecondary', 'TextMuted')
+         for bg in ('ApplicationBackground', 'SurfacePrimary', 'SurfaceSecondary', 'SurfaceElevated', 'StateHover', 'StatePressed', 'StateSelected', 'AccentSoft')]
+pairs += [('TextOnAccent', bg, 4.5) for bg in ('AccentPrimary', 'AccentHover', 'AccentPressed')]
+pairs += [(f'Status{s}', f'Status{s}Surface', 4.5) for s in ('Success', 'Warning', 'Error', 'Information')]
+pairs += [('StatusWarning', 'SurfaceSecondary', 4.5)]
+pairs += [(fg, bg, 4.5) for fg in ('TextPrimary', 'TextSecondary', 'TextMuted') for bg in ('SurfacePositive', 'SurfaceFeature', 'SurfaceInformation', 'SurfaceAttention')]
+pairs += [('ChartTooltipText', 'ChartTooltipSurface', 4.5), ('ChartAxis', 'SurfacePrimary', 4.5)]
+pairs += [(fg, 'SurfaceElevated', 4.5) for fg in ('AccentPrimary', 'StatusSuccess', 'StatusInformation')]
+pairs += [('AccentPrimary', 'AccentSoft', 4.5), ('AccentPrimary', 'StateSelected', 4.5)]
+pairs += [(fg, bg, 3) for fg in ('FocusIndicator', 'BorderStrong')
+          for bg in ('SurfacePrimary', 'SurfaceSecondary')]
+for package, stem, accents in (('ThemeBento', 'ThemeBento', True), ('ThemeClaymorphism', 'ThemeClaymorphism', False)):
+    for mode in ('Light', 'Dark'):
+        path = ROOT / f'Theme/{package}/{stem}.{mode}.xaml'
+        tree = ET.parse(path).getroot()
+        keys = [item.attrib[X+'Key'] for item in tree]
+        assert len(keys) == len(set(keys)), f'{package}/{mode}: duplicate token keys'
+        values = {item.attrib[X+'Key']: item for item in tree}
+        assert set(values) == set(contract), f'{package}/{mode}: contract mismatch: {set(values) ^ set(contract)}'
+        for key, type_name in contract.items():
+            assert local(values[key].tag) in ({'SolidColorBrush', 'LinearGradientBrush', 'RadialGradientBrush'} if type_name == 'Brush' else {{'double': 'Double'}.get(type_name, type_name)}), (package, key, type_name)
+            if type_name == 'double':
+                number = float(values[key].text)
+                assert math.isfinite(number) and number >= 0, key
+                if key.endswith('Opacity'):
+                    assert number <= 1, key
+        cases = [('Default', {key: node.attrib['Color'] for key, node in values.items() if 'Color' in node.attrib})]
+        if accents:
+            source = (ROOT/'Theme/ThemeBento/step1.e.8.BentoCustomization.cs').read_text()
+            for name, strings in re.findall(r'\(BentoAccent\.(\w+), Appearance\.' + mode + r'\) => \[(.*?)\]', source):
+                overrides = re.findall(r'\"(#[0-9A-Fa-f]{6})\"', strings)
+                assert len(overrides) == 5, name
+                current = dict(cases[0][1])
+                current.update(zip(('AccentPrimary', 'AccentHover', 'AccentPressed', 'AccentSoft', 'TextOnAccent'), overrides))
+                current['FocusIndicator'] = current['AccentPrimary']
+                current['StateSelected'] = current['AccentSoft']
+                cases.append((name, current))
+            assert len(cases) == 3, 'Every curated accent needs portable contrast coverage'
+        for preset, current in cases:
+            for fg, bg, minimum in pairs:
+                a, b = (luminance(current[k]) for k in (fg, bg))
+                ratio = (max(a, b) + .05) / (min(a, b) + .05)
+                assert ratio >= minimum, f'{package}/{mode}/{preset} {fg}/{bg}: {ratio:.2f} < {minimum}'
+                contrast_checks += 1
+        for stop in values['HeroBackground'].iter(P+'GradientStop'):
+            for fg in ('HeroForeground', 'HeroSecondaryText', 'HeroAccent'):
+                a, b = luminance(values[fg].attrib['Color']), luminance(stop.attrib['Color'])
+                ratio = (max(a, b)+.05)/(min(a, b)+.05)
+                assert ratio >= 4.5, f'{package}/{mode} hero contrast: {fg}: {ratio:.2f}'
+                contrast_checks += 1
 
 xamls = [ROOT/'App.xaml', ROOT/'MainWindow.xaml', *ROOT.glob('Theme/**/*.xaml'),
          *ROOT.glob('step1.ThemeStudio/step1.b.ThemeStudioScreen/*.xaml')]
@@ -85,10 +86,8 @@ for path in xamls:
         for attribute in node.attrib:
             name = local(attribute)
             assert name not in ('LetterSpacing', 'box-shadow', 'backdrop-filter', 'gap'), (path, name)
-        # RangeBase.Value defaults to TwoWay; Progress is intentionally display-only.
         if local(node.tag) == 'ProgressBar' and 'Binding Progress' in node.attrib.get('Value', ''):
             assert 'Mode=OneWay' in node.attrib['Value'], f'{path}: read-only Progress binding must be explicitly OneWay'
-        # Catch a property assigned as both attribute and property element.
         for child in node:
             child_name = local(child.tag)
             if '.' in child_name:
@@ -97,7 +96,6 @@ for path in xamls:
         if local(node.tag) in ('Border', 'Button', 'UserControl', 'ScrollViewer', 'Window'):
             direct_content = [c for c in node if '.' not in local(c.tag)]
             assert len(direct_content) <= 1, f'{path}: multiple content children'
-    # Dictionary-local key uniqueness (different dictionaries may share implicit keys by design).
     if local(tree.tag) == 'ResourceDictionary':
         direct_keys = [n.attrib[X+'Key'] for n in tree if X+'Key' in n.attrib]
         assert len(direct_keys) == len(set(direct_keys)), f'{path}: duplicate keys'
@@ -111,17 +109,16 @@ for path in xamls:
     for node in ET.parse(path).getroot().iter():
         if local(node.tag) == 'ResourceDictionary' and 'Source' in node.attrib:
             assert (path.parent / node.attrib['Source']).is_file(), (path, node.attrib['Source'])
-    if 'Theme/ThemeBento/' not in path.as_posix() and path.name != 'MainWindow.xaml':
+    posix = path.as_posix()
+    if 'Theme/ThemeBento/' not in posix and 'Theme/ThemeClaymorphism/' not in posix and path.name != 'MainWindow.xaml':
         assert not re.search(r'#[0-9A-Fa-f]{6,8}\b', text), f'{path}: scattered literal color'
     if path.name == 'MainWindow.xaml':
-        # ERP shell chrome (sidebar + top panel) uses inlined brand colors; theme visuals remain in ThemeBento
         assert 'WindowState="Maximized"' in text, 'Shell must remain maximized'
     if path.parent.name == 'step1.b.ThemeStudioScreen':
         for prop in ('FontSize', 'CornerRadius', 'Padding', 'Margin', 'Foreground', 'Background', 'BorderBrush'):
             for value in re.findall(rf'\b{prop}="([^"]+)"', text):
                 assert value.startswith(('{DynamicResource ', '{Binding ')), (path, prop, value)
 
-# Check x:Class/code-behind pairing and declared handlers without claiming compilation.
 for path in xamls:
     tree = ET.parse(path).getroot()
     class_name = tree.attrib.get(X+'Class')
@@ -140,14 +137,13 @@ for path in xamls:
 project = ET.parse(ROOT/'ProGlassAutomation.csproj').getroot()
 assert [(p.attrib['Include'], p.attrib['Version']) for p in project.findall('.//PackageReference')] == [('LiveChartsCore.SkiaSharpView.WPF', '2.0.4')], 'Only the reviewed pinned WPF chart dependency is approved'
 assert project.find('.//TargetFramework').text == 'net8.0-windows7.0'
-assert not any(ROOT.glob('Theme/ThemeClaymorphism*')), 'Bento-only phase'
+assert (ROOT / 'Theme/ThemeClaymorphism/ThemeClaymorphism.Light.xaml').is_file() and (ROOT / 'Theme/ThemeBento/ThemeBento.Light.xaml').is_file()
 print(f'PASS: {len(contract)} typed tokens × 2 complete variants; {contrast_checks} measured contrast pairs.')
 print(f'PASS: {len(xamls)} XML documents, content/property checks, resource references, dictionary paths and no view-local styling literals.')
 print('LIMITATION: source checks are not a C#/XAML compilation, runtime switching test, visual inspection, or accessibility certification.')
 
 runpy.run_path(str(ROOT / 'Theme/step1.d.tests/step1.d.5.verify_isolation.py'), run_name='__main__')
 
-# Architectural source guard only; actual model logic/native rendering are tested by d.8 on Windows.
 analytics = ROOT / 'Theme/step1.f.Analytics'
 for path in analytics.glob('*.cs'):
     text = path.read_text()
