@@ -48,7 +48,7 @@ internal static class RuntimeChecks
             var progress = Descendants(window).OfType<ProgressBar>().Single();
             Check(BindingOperations.GetBinding(progress, RangeBase.ValueProperty)?.Mode == BindingMode.OneWay,
                 "display-only progress binding is explicitly one-way");
-            var headerThemePicker = Descendants(window).OfType<ComboBox>().Single();
+            var headerThemePicker = Descendants(window).OfType<ComboBox>().Single(c => c.Name == "ThemePicker");
             Check(headerThemePicker.IsVisible, "live theme selector is visible in startup header");
             var model = (ThemeStudioViewModel)window.DataContext;
             dialog = new PreviewWindow { Owner = window, DataContext = model };
@@ -57,7 +57,7 @@ internal static class RuntimeChecks
 
             var button = Descendants(window).OfType<Button>().First(b => Equals(b.Content, "_Apply preview"));
             var input = Descendants(window).OfType<TextBox>().First(b => b.Name == "PreviewName");
-            var combo = Descendants(window).OfType<ComboBox>().Single();
+            var combo = Descendants(window).OfType<ComboBox>().Single(c => c.Name == "ThemePicker");
             combo.IsDropDownOpen = true;
             Pump();
             var popup = (Popup)combo.Template.FindName("PART_Popup", combo);
@@ -104,12 +104,12 @@ internal static class RuntimeChecks
             Check(model.TokenView.Cast<TokenRow>().Count() == 1, "live token search");
             model.TokenFilter = "";
             model.ReferenceFilter = "no matching pattern";
-            Check(model.ReferenceView.IsEmpty && model.ReferenceSummary.StartsWith("No reference"), "search empty state");
+            Check(model.ReferenceView.IsEmpty && model.ReferenceSummary.StartsWith("No work"), "search empty state");
             model.ReferenceFilter = "";
             Check(model.ReferenceView.Cast<ReferenceSample>().Count() == 4, "reference search reset");
             model.SelectedReference = model.ReferenceItems[1];
             model.ReviewReference.Execute(null);
-            Check(model.Feedback.Contains("Input & validation"), "selected sample review action");
+            Check(model.Feedback.Contains("Lobby partitions"), "selected sample review action");
             model.ClearPreview.Execute(null);
             Check(model.SampleName == "" && !model.ApplyPreview.CanExecute(null), "clear preview is local and validates");
             model.ResetPreview.Execute(null);
@@ -129,12 +129,11 @@ internal static class RuntimeChecks
                     Check(Equals(dialog.Background, window.Background), "dialog stays synchronized");
                     var studio = Descendants(window).OfType<ThemeStudioView>().Single();
                     var modules = (Grid)studio.FindName("Modules");
-                    Check((modules.ColumnDefinitions[1].ActualWidth == 0) == (modules.ActualWidth < 980), "responsive column mode");
-                    Check((modules.ColumnDefinitions[2].ActualWidth > 0) == (modules.ActualWidth >= 1500), "wide three-column mode");
-                    var cards = Descendants(modules).OfType<UserControl>().ToArray();
-                    Check(cards.Length == 8, "all eight cards survive reflow");
-                    Check(input.Text == model.SampleName && BindingOperations.IsDataBound(input, TextBox.TextProperty), "input binding survives column redistribution");
-                    Check(model.SelectedReference == model.ReferenceItems[1], "selected sample survives column redistribution");
+                    Check((modules.ColumnDefinitions[1].ActualWidth == 0) == (modules.ActualWidth < 1040), "Studio responsive column mode");
+                    FrameworkElement[] cards = [
+                        (FrameworkElement)studio.FindName("Settings"), (FrameworkElement)studio.FindName("Controls"),
+                        (FrameworkElement)studio.FindName("Signals"), (FrameworkElement)studio.FindName("Tokens")];
+                    Check(input.Text == model.SampleName && BindingOperations.IsDataBound(input, TextBox.TextProperty), "input binding survives Studio reflow");
                     var bounds = new List<Rect>();
                     foreach (FrameworkElement child in cards)
                     {
@@ -150,6 +149,36 @@ internal static class RuntimeChecks
                     }
                 }
             }
+            model.SelectedAccent = ProGlassAutomation.ThemeBento.BentoAccent.Teal;
+            model.SelectedDensity = ProGlassAutomation.ThemeBento.BentoDensity.Comfortable;
+            model.SelectedShape = ProGlassAutomation.ThemeBento.BentoShape.Rounded;
+            model.SelectedTypography = ProGlassAutomation.ThemeBento.BentoType.Large;
+            Pump();
+            Check((double)themes.GetToken("ControlMinHeight") == 38d, "live density changes actual controls");
+            Check(((CornerRadius)themes.GetToken("CardCornerRadius")).TopLeft == 18d, "live corner setting");
+            Check((double)themes.GetToken("FontSizeBody") == 14d, "live typography setting");
+            model.ShowBusiness.Execute(null);
+            Pump();
+            var business = Descendants(window).OfType<BusinessReferenceView>().Single();
+            Check(!Descendants(business).OfType<CustomizationPanel>().Any(), "business reference contains no customization controls");
+            Check(Descendants(business).OfType<WorklistPanel>().Any(), "business reference is a real interactive page");
+            var businessInput = Descendants(business).OfType<TextBox>().Single(t => t.Name == "PreviewName");
+            Check(businessInput.Text == model.SampleName, "both pages share actual preview state");
+            foreach (double width in new[] { 720d, 1024d, 1440d, 1920d })
+            {
+                window.Width = width;
+                model.IsDark = true;
+                Pump();
+                var grid = (Grid)business.FindName("BusinessModules");
+                Check((grid.ColumnDefinitions[1].ActualWidth == 0) == (grid.ActualWidth < 1100), "business responsive layout");
+                Check(Equals(businessInput.Background, themes.GetToken("SurfacePrimary")), "business uses active resources");
+                model.IsLight = true;
+            }
+            model.SelectedWorkspace = 0;
+            model.ResetDesign.Execute(null);
+            Pump();
+            Check(model.SelectedAccent == ProGlassAutomation.ThemeBento.BentoAccent.Ocean &&
+                (double)themes.GetToken("ControlMinHeight") == 32d, "reset design restores defaults without resetting sample input");
             ContractChecks.ExpectFailure(() => themes.Apply("Claymorphism", Appearance.Dark), "uninstalled theme");
             ContractChecks.ExpectFailure(() => themes.Apply(ThemeService.Bento, (Appearance)100), "invalid appearance");
             Check(themes.ActiveAppearance == Appearance.Light, "invalid selection preserves active state");

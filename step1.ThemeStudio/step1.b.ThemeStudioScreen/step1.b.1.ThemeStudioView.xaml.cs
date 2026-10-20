@@ -1,47 +1,22 @@
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Data;
-
 namespace ProGlassAutomation.ThemeStudio;
-
 public partial class ThemeStudioView : UserControl
 {
-    private int activeColumns;
-    public ThemeStudioView()
-    {
-        InitializeComponent();
-        // Keep inherited view-model bindings stable while cards move between lanes.
-        foreach (FrameworkElement card in LaneOne.Children)
-            card.SetBinding(DataContextProperty, new Binding(nameof(DataContext)) { Source = this });
-    }
-
+    private bool? compact;
+    public ThemeStudioView() => InitializeComponent();
     private void Modules_SizeChanged(object sender, SizeChangedEventArgs e)
     {
-        int columns = e.NewSize.Width < 980 ? 1 : e.NewSize.Width < 1500 ? 2 : 3;
-        if (e.NewSize.Width <= 0 || activeColumns == columns) return;
-        activeColumns = columns;
-        StackPanel[] lanes = [LaneOne, LaneTwo, LaneThree];
-        FrameworkElement[] cards = [Overview, Metrics, Controls, Worklist, Appearance, TypeAndStatus, Surfaces, Tokens];
-        // Keep actual controls/view models alive. Only redistribute when crossing a breakpoint;
-        // native panels handle continuous resizing and height changes inside each lane.
-        IInputElement? focus = cards.Any(card => card.IsKeyboardFocusWithin) ? Keyboard.FocusedElement : null;
-        double width = e.NewSize.Width / columns;
-        var sizes = cards.Select(card =>
-        {
-            card.Measure(new Size(width, double.PositiveInfinity));
-            return card.DesiredSize.Height;
-        }).ToArray();
-        foreach (var lane in lanes) lane.Children.Clear();
-        for (int i = 0; i < lanes.Length; i++)
-            Modules.ColumnDefinitions[i].Width = i < columns ? new GridLength(1, GridUnitType.Star) : new GridLength(0);
-        var heights = new double[columns];
-        for (int i = 0; i < cards.Length; i++)
-        {
-            int lane = Array.IndexOf(heights, heights.Min());
-            lanes[lane].Children.Add(cards[i]);
-            heights[lane] += sizes[i];
-        }
-        focus?.Focus();
+        bool next = e.NewSize.Width < 1040;
+        if (compact == next) return;
+        compact = next;
+        Modules.ColumnDefinitions[1].Width = next ? new GridLength(0) : new GridLength(3, GridUnitType.Star);
+        Modules.ColumnDefinitions[0].Width = next ? new GridLength(1, GridUnitType.Star) : GridLength.Auto;
+        if (next) Settings.ClearValue(WidthProperty);
+        else Settings.SetResourceReference(WidthProperty, "StudioSidebarWidth");
+        Grid.SetRowSpan(Settings, next ? 1 : 2);
+        Grid.SetRow(Controls, next ? 1 : 0); Grid.SetColumn(Controls, next ? 0 : 1);
+        Grid.SetRow(Signals, next ? 2 : 1); Grid.SetColumn(Signals, next ? 0 : 1);
+        Grid.SetRow(Tokens, next ? 3 : 2); Grid.SetColumnSpan(Tokens, next ? 1 : 2);
     }
 }

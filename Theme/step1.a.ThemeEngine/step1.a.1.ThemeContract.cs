@@ -12,6 +12,10 @@ public static class ThemeContract
     public static IReadOnlyDictionary<string, Type> Required { get; } =
         new ReadOnlyDictionary<string, Type>(new Dictionary<string, Type>
     {
+        ["HeroBackground"] = typeof(Brush),
+        ["HeroForeground"] = typeof(Brush),
+        ["HeroSecondaryText"] = typeof(Brush),
+        ["HeroAccent"] = typeof(Brush),
         ["ApplicationBackground"] = typeof(Brush),
         ["SurfacePrimary"] = typeof(Brush),
         ["SurfaceSecondary"] = typeof(Brush),
@@ -60,6 +64,7 @@ public static class ThemeContract
         ["DisabledOpacity"] = typeof(double),
         ["PopupMaxHeight"] = typeof(double),
         ["ReferenceListMaxHeight"] = typeof(double),
+        ["StudioSidebarWidth"] = typeof(double),
         ["WindowInitialWidth"] = typeof(double),
         ["WindowInitialHeight"] = typeof(double),
         ["WindowMinWidth"] = typeof(double),
@@ -105,6 +110,12 @@ public static class ThemeContract
         ["ElevatedPlate"] = typeof(Border),
         ["TokenValue"] = typeof(TextBlock),
         ["KeyboardFocus"] = typeof(Control),
+        ["HeroCard"] = typeof(Border),
+        ["MetricCard"] = typeof(Border),
+        ["StatusBadge"] = typeof(Border),
+        ["StatusText"] = typeof(TextBlock),
+        [typeof(TabControl)] = typeof(TabControl),
+        [typeof(TabItem)] = typeof(TabItem),
         ["PrimaryButton"] = typeof(Button),
         ["SubtleButton"] = typeof(Button),
         ["DestructiveButton"] = typeof(Button),

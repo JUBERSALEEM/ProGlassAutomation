@@ -1,12 +1,7 @@
-<UserControl x:Class="ProGlassAutomation.ThemeStudio.MetricsPanel"
- xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
- <Border Style="{DynamicResource Card}"><StackPanel>
-  <TextBlock Text="REFERENCE SNAPSHOT / SAMPLE VALUES" Style="{DynamicResource Caption}" />
-  <TextBlock Text="A system ready for real work." Style="{DynamicResource SectionHeading}" />
-  <Grid><Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition /><ColumnDefinition /></Grid.ColumnDefinitions>
-   <Border Style="{DynamicResource AccentPlate}" Margin="{DynamicResource MarginInline}"><StackPanel><TextBlock Text="{Binding TokenCount}" Style="{DynamicResource PageHeading}" Foreground="{DynamicResource AccentPrimary}" /><TextBlock Text="Semantic resources" FontWeight="{DynamicResource FontWeightHeading}" /><TextBlock Text="One source of truth" Style="{DynamicResource Caption}" /></StackPanel></Border>
-   <Border Grid.Column="1" Style="{DynamicResource Plate}" Margin="{DynamicResource MarginInline}"><StackPanel><TextBlock Text="02" Style="{DynamicResource PageHeading}" /><TextBlock Text="Appearance modes" FontWeight="{DynamicResource FontWeightHeading}" /><TextBlock Text="Independent Light + Dark" Style="{DynamicResource Caption}" /></StackPanel></Border>
-   <Border Grid.Column="2" Style="{DynamicResource Plate}"><StackPanel><TextBlock Text="{Binding ReferenceItems.Count}" Style="{DynamicResource PageHeading}" /><TextBlock Text="Review patterns" FontWeight="{DynamicResource FontWeightHeading}" /><TextBlock Text="Illustrative, not live KPIs" Style="{DynamicResource Caption}" /></StackPanel></Border>
-  </Grid>
- </StackPanel></Border>
+<UserControl x:Class="ProGlassAutomation.ThemeStudio.MetricsPanel" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:ProGlassAutomation.ThemeStudio">
+ <Grid><Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition /><ColumnDefinition /></Grid.ColumnDefinitions>
+  <Border Style="{DynamicResource MetricCard}" Margin="{DynamicResource MarginInline}"><StackPanel><TextBlock Text="ACTIVE REVIEWS" Style="{DynamicResource Caption}" /><TextBlock Text="{Binding ReferenceItems.Count, StringFormat='0{0}'}" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" Foreground="{DynamicResource AccentPrimary}" /><TextBlock Text="Illustrative workload" Style="{DynamicResource Caption}" /></StackPanel></Border>
+  <Border Grid.Column="1" Style="{DynamicResource MetricCard}" Margin="{DynamicResource MarginInline}"><StackPanel><TextBlock Text="TEAM CAPACITY" Style="{DynamicResource Caption}" /><TextBlock Text="75%" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" Foreground="{DynamicResource StatusSuccess}" /><TextBlock Text="Sample allocation" Style="{DynamicResource Caption}" /></StackPanel></Border>
+  <Border Grid.Column="2" Style="{DynamicResource MetricCard}"><StackPanel><TextBlock Text="NEXT MILESTONE" Style="{DynamicResource Caption}" /><TextBlock Text="24 Oct" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" Foreground="{DynamicResource StatusInformation}" /><TextBlock Text="Illustrative delivery date" Style="{DynamicResource Caption}" /></StackPanel></Border>
+ </Grid>
 </UserControl>

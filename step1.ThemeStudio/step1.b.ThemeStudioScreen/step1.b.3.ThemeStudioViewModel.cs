@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows.Input;
 using ProGlassAutomation.Theming;
+using ProGlassAutomation.ThemeBento;
 
 namespace ProGlassAutomation.ThemeStudio;
 
@@ -58,13 +59,21 @@ public sealed partial class ThemeStudioViewModel : INotifyPropertyChanged, IData
         AdvanceProgress = new DelegateCommand(() => Progress = Progress >= 100 ? 0 : Progress + 25);
         OpenDialog = new DelegateCommand(() => DialogRequested?.Invoke(this, EventArgs.Empty));
         themes.PropertyChanged += ThemeChanged;
+        InitializeCustomization();
         InitializeReferenceSamples();
         RefreshTokens();
     }
 
     private void SelectAppearance(string theme, Appearance appearance)
     {
-        try { themes.Apply(theme, appearance); ThemeError = ""; }
+        var current = preferences;
+        try
+        {
+            themes.Apply(theme, appearance, theme == ThemeService.Bento
+                ? (package, mode) => BentoCustomization.Apply(package, mode, current) : null);
+            ThemeError = "";
+        }
+        catch (ThemeNotificationException error) { ThemeError = error.Message; }
         catch (Exception error) when (error is IOException or XamlParseException or InvalidOperationException or ArgumentException)
         {
             ThemeError = $"Appearance unchanged: {error.Message}";
@@ -77,7 +86,8 @@ public sealed partial class ThemeStudioViewModel : INotifyPropertyChanged, IData
     {
         if (e.PropertyName != nameof(ThemeService.ActiveAppearance)) return;
         RefreshTokens();
-        foreach (string property in new[] { nameof(IsLight), nameof(IsDark), nameof(AppearanceLabel), nameof(SelectedTheme) }) Changed(property);
+        foreach (string property in new[] { nameof(IsLight), nameof(IsDark), nameof(AppearanceLabel), nameof(SelectedTheme), nameof(CanCustomize), nameof(DesignSummary) }) Changed(property);
+        CommandManager.InvalidateRequerySuggested();
     }
 
     private void RefreshTokens()

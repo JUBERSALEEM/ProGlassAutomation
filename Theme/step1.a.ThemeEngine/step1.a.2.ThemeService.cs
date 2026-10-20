@@ -17,6 +17,7 @@ public sealed class ThemeService : INotifyPropertyChanged
     public event PropertyChangedEventHandler? PropertyChanged;
     private ResourceDictionary? applicationResources;
     private ResourceDictionary? activeResources;
+    private Action<ResourceDictionary, Appearance>? activeConfiguration;
 
     public void Initialize(ResourceDictionary resources)
     {
@@ -30,14 +31,15 @@ public sealed class ThemeService : INotifyPropertyChanged
         activeResources = package;
     }
 
-    public void Apply(string theme, Appearance appearance)
+    public void Apply(string theme, Appearance appearance, Action<ResourceDictionary, Appearance>? configure = null)
     {
         Application.Current.Dispatcher.VerifyAccess();
         if (!Enum.IsDefined(appearance))
             throw new ArgumentException("Only defined appearance modes can be selected.");
         if (applicationResources is null || activeResources is null)
             throw new InvalidOperationException("Initialize the theme engine before selecting an appearance.");
-        var candidate = Load(appearance, theme);
+        var configuration = configure ?? (theme == ActiveTheme ? activeConfiguration : null);
+        var candidate = Load(appearance, theme, configuration);
         int slot = applicationResources.MergedDictionaries.IndexOf(activeResources);
         if (slot < 0)
             throw new InvalidOperationException("The active theme resource slot was removed.");
@@ -48,16 +50,22 @@ public sealed class ThemeService : INotifyPropertyChanged
             throw new InvalidOperationException($"Could not activate {theme} / {appearance}; previous package restored.", error);
         }
         activeResources = candidate;
+        activeConfiguration = configuration;
         ActiveTheme = theme;
         ActiveAppearance = appearance;
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ActiveAppearance)));
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ActiveTheme)));
+        var failures = new List<Exception>();
+        foreach (string property in new[] { nameof(ActiveAppearance), nameof(ActiveTheme) })
+            foreach (PropertyChangedEventHandler subscriber in PropertyChanged?.GetInvocationList() ?? Array.Empty<Delegate>())
+                try { subscriber(this, new PropertyChangedEventArgs(property)); }
+                catch (Exception error) { failures.Add(error); }
+        if (failures.Count > 0)
+            throw new ThemeNotificationException($"{theme} / {appearance} is active, but a consumer failed to refresh.", new AggregateException(failures));
     }
 
     public object GetToken(string key) => activeResources?[key]
         ?? throw new InvalidOperationException($"No active token named {key}.");
 
-    public static ResourceDictionary Load(Appearance appearance, string theme = Bento)
+    public static ResourceDictionary Load(Appearance appearance, string theme = Bento, Action<ResourceDictionary, Appearance>? configure = null)
     {
         if (!Enum.IsDefined(appearance)) throw new ArgumentOutOfRangeException(nameof(appearance));
         var definition = ThemeCatalog.Find(theme);
@@ -65,6 +73,7 @@ public sealed class ThemeService : INotifyPropertyChanged
         {
             var resources = definition.LoadResources(appearance)
                 ?? throw new InvalidOperationException("The theme returned no resource package.");
+            configure?.Invoke(resources, appearance);
             ResourceValidation.Validate(resources, definition.Name + " / " + appearance);
             return resources;
         }

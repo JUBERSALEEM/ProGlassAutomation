@@ -1,83 +1,59 @@
-# Bento Grid / Modular — implementation design specification
+# Bento — rich business design system and customization specification
 
-Phase 01 authorized 2026-10-20. Only Bento is installed; both appearances share one typed semantic contract. This specification was written before implementation. Runtime comparison remains pending until Windows execution is available.
+Current implementation: 2026-10-20. **Bento is the only registered theme.** This revision follows the approved richness audit and explicit implementation request. It replaces the previous combined minimalist gallery/masonry composition. Native Windows appearance/build acceptance remains unverified.
 
-## Research and native adaptation
+## Research and cross-check
 
-Reviewed actual source/documentation through GitHub (not screenshots or rendered web demos):
+- Actual [Magic UI Bento source](https://github.com/magicuidesign/magicui/blob/efe76fc5755eca1142dd4f74c1d6f0ace2887e3c/apps/www/registry/magicui/bento-grid.tsx) and [composition](https://github.com/magicuidesign/magicui/blob/efe76fc5755eca1142dd4f74c1d6f0ace2887e3c/apps/www/registry/example/bento-demo.tsx): varied spans/priority, self-contained modules and meaningful visual previews. Adopt hierarchy, not CSS, fixed rows, hover-hidden actions or web animation packages.
+- [Carbon grid source](https://github.com/carbon-design-system/carbon/blob/42d0ecba41c5f4534a18253cb4a7744b5e17baf6/packages/grid/README.md): intentional breakpoint sizing/spans; adapted with native Grid, not a web grid dependency.
+- [Native Windows button resources](https://github.com/microsoft/microsoft-ui-xaml/blob/09cfc8ff3fbf556166dd813ae9b81646716f54bf/controls/dev/CommonStyles/Button_themeresources.xaml), [severity resources](https://github.com/microsoft/microsoft-ui-xaml/blob/09cfc8ff3fbf556166dd813ae9b81646716f54bf/controls/dev/InfoBar/InfoBar_themeresources.xaml), [Fluent button source](https://github.com/microsoft/fluentui/blob/e2642c72390b31645e5766683776199f0ab01ce2/packages/react-components/react-button/library/src/components/Button/useButtonStyles.styles.ts): action/state/severity hierarchy. WinUI/React are not WPF; no foreign XAML/API or packages imported.
+- [Official Fluent tokens](https://fluent2.microsoft.design/design-tokens), [solid material](https://fluent2.microsoft.design/material), [elevation](https://fluent2.microsoft.design/elevation), [Carbon color layering](https://carbondesignsystem.com/guidelines/color/overview/) and [table guidance](https://carbondesignsystem.com/components/data-table/usage/) cross-checked through web search. Adapt semantic layers and contextual density, not pixel-for-pixel marketing layouts or blanket shadows.
+- Previous [UI/UX Bento guidance](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/56ea9cf174ed86786187daa9de0e6247cb0747e4/.claude/skills/ui-ux-pro-max/data/styles.csv), [WPF guidance](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/56ea9cf174ed86786187daa9de0e6247cb0747e4/.claude/skills/ui-ux-pro-max/data/stacks/wpf.csv), [Ponytail workflow](https://github.com/DietrichGebert/ponytail/blob/09c434ab73ca43761c5d8b0c5d341926c2fba710/skills/ponytail/SKILL.md), and Microsoft [DynamicResource](https://github.com/dotnet/docs-desktop/blob/main/dotnet-desktop-guide/wpf/advanced/dynamicresource-markup-extension.md) remain relevant. No old application was copied.
 
-- [UI/UX Pro Max active Bento Box Grid data](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/56ea9cf174ed86786187daa9de0e6247cb0747e4/.claude/skills/ui-ux-pro-max/data/styles.csv): modular grouping, varied spans, negative space, neutral surfaces, conditional accessibility. Legacy Bento Grids is deprecated. Avoid applying card layouts to dense data indiscriminately.
-- [Magic UI Bento implementation](https://github.com/magicuidesign/magicui/blob/efe76fc5755eca1142dd4f74c1d6f0ace2887e3c/apps/www/registry/magicui/bento-grid.tsx), [actual composition example](https://github.com/magicuidesign/magicui/blob/efe76fc5755eca1142dd4f74c1d6f0ace2887e3c/apps/www/registry/example/bento-demo.tsx), [documentation](https://github.com/magicuidesign/magicui/blob/efe76fc5755eca1142dd4f74c1d6f0ace2887e3c/apps/www/content/docs/components/bento-grid.mdx): asymmetric 1/2-width modules, clear text hierarchy and a restrained surface boundary. Adapt with WPF Grid auto/star sizing, rounded Borders and resource-driven edges; do not copy React, CSS shadows, fixed auto-row heights, hover-reveal actions, marquees or animation libraries. All actions remain visible and keyboard accessible.
-- [Ponytail skill](https://github.com/DietrichGebert/ponytail/blob/09c434ab73ca43761c5d8b0c5d341926c2fba710/skills/ponytail/SKILL.md): read affected flows, smallest complete native solution, test meaningful logic, never cut accessibility/validation. No MVVM/DI/theme dependencies needed.
-- [Microsoft DynamicResource documentation](https://github.com/dotnet/docs-desktop/blob/main/dotnet-desktop-guide/wpf/advanced/dynamicresource-markup-extension.md), [styles/templates](https://github.com/dotnet/docs-desktop/blob/main/dotnet-desktop-guide/wpf/controls/styles-templates-overview.md), [WPF-specific reference data](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/56ea9cf174ed86786187daa9de0e6247cb0747e4/.claude/skills/ui-ux-pro-max/data/stacks/wpf.csv). Replacing local dependency values removes dynamic expressions; therefore the engine replaces a single application dictionary and views never recolor themselves.
-- [Actual .NET 8 ComboBox source](https://github.com/dotnet/wpf/blob/v8.0.0/src/Microsoft.DotNet.Wpf/src/PresentationFramework/System/Windows/Controls/ComboBox.cs): preserve PART_Popup and selection behavior. Native WPF API checks also use .NET 8 control source, not another XAML dialect.
+See [current implementation/evidence](../../step1.ThemeStudio/step1.c.docs/step1.c.8.Rich-Bento-Workspace.md) and [preceding capability audit](../../step1.ThemeStudio/step1.c.docs/step1.c.7.Bento-Richness-Audit.md). Web/source research is not rendered WPF proof.
 
-Limitations: no browser visual research, no exhaustive source audit, and no available Windows rendering session. Initial incorrect reference paths returned 404; corrected paths above were successfully read. No external code or dependency was imported.
+## Light and Dark are deliberately separate
 
-## Deliberate appearance values
-
-| Role | Light | Dark |
+| Role | Light / Ocean | Dark / Ocean |
 | --- | --- | --- |
-| Canvas | #F4F5F8 | #101218 |
-| Primary surface | #FFFFFF | #1A1D27 |
-| Secondary plate | #ECEEF5 | #232735 |
-| Elevated surface | #FFFFFF | #2B3040 |
-| Primary text | #202334 | #F1F3FA |
-| Secondary/muted text | #535C72 / #555F74 | #B7BFD3 / #B0BAD0 |
-| Accent / on-accent | #5440C8 / #FFFFFF | #B5A5FF / #191331 |
-| Secondary accent | #086D67 | #70DCD0 |
-| Subtle edge / input outline | #D8DCE7 / #79839A | #353D51 / #8592AC |
-| Success / warning / error / information | #176443 / #805100 / #AF263A / #245FAD | #79DEAC / #FFD18A / #FF9BAC / #9FC8FF |
+| Canvas | #E9EEF6 | #0D1422 |
+| Working card | #FFFFFF | #172238 |
+| Inset layer | #F1F4FA | #1E2D46 |
+| Elevated layer | #F8FAFF | #253650 |
+| Primary / secondary / metadata text | #17243C / #465570 / #52617A | #EFF5FF / #C2CEE3 / #AFBED8 |
+| Primary accent / on accent | #254EDA / #FFFFFF | #9DB9FF / #101C36 |
+| Accent hover / pressed / soft | #193EBC / #16319B / #E8EFFF | #B8CCFF / #8FAAF1 / #203253 |
+| Secondary accent | #006E68 | #73DFD0 |
+| Subtle / strong edge | #D3DDEC / #73839D | #33445F / #859BB9 |
+| Hero gradient | #142B60 → #304BAC | #10203C → #243C78 |
+| Hero text / secondary / graph | #F5F8FF / #D5E2FF / #7CEADB | #F5F8FF / #D5E2FF / #7CEADB |
 
-Interaction resources define separate hover, pressed, selected, disabled and focus treatments. Status plates use readable foregrounds and explicit text, never color alone. Disabled controls are deliberately muted, not active-state contrast claims. Opaque surfaces and edge treatment replace costly blur/shadows; no animation. Overlay and disabled opacity are contract tokens. Elevation is a surface/edge distinction, not a fake CSS inset effect.
+Status foreground/surface pairs retain independent readable green/amber/red/blue palettes in each mode. Severity always includes text; no status relies only on color. The tinted canvas, contrasting solid cards, lighter Dark elevations, branded feature band and small metric/status plates create depth without expensive blur or heavy shadows. Hero background is a branded region, not the appearance of every card. Curated accent choices affect actions/focus/selection, not the entire neutral palette or fixed hero material.
 
-## Shape, typography, spacing and variants
+## Compact business scale
 
-Segoe UI installed-system typography, Consolas for resource values, fallback through Windows fonts; no font downloads. Display/title/section/body/caption sizes 34/24/18/14/12 DIPs; semibold headings. Spacing 4/8/12/16/24/32 DIPs, control minimum height 38, minimum width 88, rounded controls 8, panels 16, small chips 6, edge 1 DIP and focus edge 2. All concrete values belong to appearance dictionaries, with the same keys/types in both. Font sizes are resources, not per-view literals.
+Segoe UI; Consolas for token values; no font download. Default display/title/section/body/caption are 28/20/16/13/12 DIPs. Small/Standard/Large body choices are 12/13/14; section size follows body +3, caption remains12. Native font-metric line height, auto-sized rows, wrapped labels. Default controls32 DIPs minimum; comfortable38. Default card/plate/page padding12/10/12; section spacing10, item6, gutter8. Card/control radii12/6 by default; Crisp4/2 and Rounded18/9 are real alternatives. Borders1 DIP, focus2. Density increases padding as well as target height. No tiny fixed-coordinate dashboard.
 
-- Primary card: primary surface + subtle edge + generous padding.
-- Secondary plate: secondary surface, no decorative shadow; for supporting examples and inset grouping.
-- Accent plate: accent-soft surface + accent text, for current theme identity.
-- Elevated panel: elevated surface + clear outline; popup/dialog/tooltip tier.
-- State examples: primary/secondary/disabled buttons; text input with real validation; checkbox/radio/selection; list row selection; status feedback and determinate progress; themed tooltip/context menu; modeless preview dialog stays open during switches.
+## Real customization, owned by Bento
 
-## Layout and review plan
+`step1.e.8.BentoCustomization.cs` owns typed immutable session preferences: Ocean/Indigo/Teal accent, Compact/Comfortable density, Crisp/Soft/Rounded shape and Small/Standard/Large typography. There are **108 combinations including both appearances**. Ocean comes from the appearance dictionaries; Indigo/Teal are curated complete accent/hover/pressed/soft/on-accent sets in the owner file. They are not arbitrary unvalidated hex input. Each candidate starts fresh, is customized before validation and replaces one active package. Reset restores default preferences, not sample input data. No file/settings/database persistence added.
 
-Studio uses full available width, opening maximized with normal Windows restore/maximize controls. It uses one independent card lane below 980 content DIPs, two below 1500, and three at/above 1500. Existing cards are assigned to the shortest measured lane when the breakpoint changes; native StackPanels handle wrapping and height changes without shared-row whitespace. No content-width cap. Window minimum 720x600, initial 1280x900 DIPs. Verify 720/1024/1440 widths and 100/150/200% Windows scaling before approval. All content stays available when stacked. The token reference enumerates the live typed contract and can filter by name.
+A generic active-theme configuration callback in ThemeService retains those choices across appearance changes. No Bento rules live in that service and no callback crosses theme identity. Studio only enables these owner-specific settings for Bento; future themes are not forced to accept them.
 
-Before calling Bento complete: compare the actual WPF screen against hierarchy, palettes, card/plate variants and state rules here; record discrepancies, fix shared resources/templates, rebuild and rerun switching/negative-resource/binding/layout tests. The current environment's limitations must never be reported as a successful visual review.
+## Visual composition and private helpers
 
-## Architecture and extension
+`step1.e.Components/` owns Foundation, Buttons, Inputs, Selections, PopupsAndScroll and the new Workspace dictionary. Workspace contains HeroCard, MetricCard, semantic StatusBadge/StatusText, native TabControl/TabItem templates and a private PathGeometry for the explicitly illustrative trend. Geometry is frozen; styles sealed. Mutable brushes and candidate dictionaries are never shared/cached. The nonvisual engine has no visual dictionary or cross-theme fallback. The common contract now validates82 semantic roles and35 style targets, not a shared Bento implementation.
 
-`ThemeContract` is the executable key/type manifest. `ThemeService` loads a complete dictionary, validates before replacement, preserves unrelated application resources, and notifies active selection. Invalid selection/resources leave the previous appearance installed. Bento owns all its component styles/templates under step1.e.Components. Its local factory returns a complete package from the appearance values and a fresh dictionary of its own sealed style identities; only those identities are reused across modes to preserve existing control state. No visual dictionary is globally installed by the shared engine; no concrete brushes or mutable candidate dictionaries are cached. Components use DynamicResource for appearance values. The shared contract now also validates 29 required WPF style targets and rejects duplicate merged keys. All concrete tokens are visible in Studio. See the feature README for file responsibilities, Windows test commands and future-theme procedure. No future-theme folder is created.
+## Two pages, one live design system
 
+- **Theme Studio:** compact300-DIP settings rail (stacks below1040 content DIPs), real appearance/accent/density/shape/type controls, reset, compact input/action/state preview and searchable bounded token inspector. This is the customization workspace.
+- **Business Reference:** separate native tab, small3-metric band, wide2:1 feature/context composition, local work queue and quick review, plus a full-width handoff/surface example. Stacks below1100 content DIPs. No customization panels/token gallery. All data is clearly illustrative; it is not a SheetStore/dashboard module and writes no records.
+- Both pages remain in the existing maximized root WPF window, use one view model/service and share the actual resource slot. No screen-local palette. No reparenting/masonry algorithm or duplicate engine. A modeless native preview uses the same resources.
 
-## Isolation and validation expectations
+## States, bounds and honest limitations
 
-Bento does not borrow visuals from another theme and is not a fallback for future themes. `step1.e.7.BentoResources.cs` owns composition and lifetime; the non-visual orchestrator calls its registered factory and swaps one complete validated package. Component files have only local invariant StaticResource helpers/inheritance; they do not rely on sibling merge precedence. All appearance-sensitive values/styles remain dynamic to consumers. Style-key removal in a candidate must not damage the installed package; styles are sealed and candidate key dictionaries are fresh.
+Primary/secondary/subtle/destructive actions retain normal/hover/pressed/disabled/focus behavior. Inputs retain labels, real validation, selection/caret and explicit one-way progress display. Native popup/menu/tooltip/scroll/list states remain. Tab selection has theme-owned hover/selected/focus; it preserves separate content instances while the view model retains edits/settings. Notification failures are now distinguished from rejected activation and other consumers are still notified.
 
-Windows compiled checks verify missing styles even when Application already has that style, wrong WPF targets, duplicate package keys, unchanged active resources after rejected selection, and existing text/caret/templates/popups/dialogs during mode changes. Portable checks enforce local theme ownership and 76 contrast pairings. See the [current CI/evidence record](../../step1.ThemeStudio/step1.c.docs/step1.c.3.Theme-Isolation-and-CI.md); none of the Windows assertions or visual review has run here. Each future theme defines its own implementation/tests rather than overriding this one.
+Portable validation:82 typed roles ×2,258 contrast pairings (all accent choices, metric roles and both hero gradient endpoints),35 style contracts and14 reason-checked mutations. Compiled contracts author108 combinations plus helper immutability, preference retention, invalid candidate preservation and notification failure tests; native smoke authors tab/state/layout checks. **Neither compiled nor native test suite ran here.**
 
-## Canonical reference additions — clean foundation reset
-
-The page now has live selectors/status in its header; an emphasized feature card with primary/secondary actions; three reference metric plates; a preview-window information card; form/action/validation/progress samples; explicit success/warning/error/information/pending text; a searchable structured review list with header/metadata/status and empty state; surface layers; and live semantic tokens. These are local illustrative patterns, not an old dashboard or an ERP module. Metrics are clearly labeled sample/design-system values, not fabricated business KPIs. The structured list uses the existing ListBox/ListBoxItem contracts; it is not a DataGrid implementation.
-
-Additional source inspection on 2026-10-20:
-- [Carbon grid README](https://github.com/carbon-design-system/carbon/blob/42d0ecba41c5f4534a18253cb4a7744b5e17baf6/packages/grid/README.md): explicit grid/row/column context and breakpoint-specific spans. Adapt the principles to WPF Grid/auto/star sizing and a 980-DIP reflow; no CSS classes, framework or dependency imported.
-- [Fluent UI button state source](https://github.com/microsoft/fluentui/blob/master/packages/react-components/react-button/library/src/components/Button/useButtonStyles.styles.ts): primary/secondary/subtle hierarchy and distinct hover/pressed/focus/disabled semantics. This is web-source research, not a WPF template to copy. Implement with native WPF Style/ControlTemplate triggers and the existing semantic resources. An attempted WinUI CommonStyles source path returned 404 and is not used as evidence.
-
-For both Light and Dark: normal secondary buttons use secondary surface/strong edge/text; primary uses accent/on-accent, distinct accent hover/pressed; subtle uses transparent surface/edge with neutral hover/pressed and keyboard focus; destructive uses error-surface/error-text, stronger hover edge and pressed text-colored edge. Disabled foreground/surface override active colors. Destructive styling is reserved for clearing local preview text, never decorative emphasis. These two added named roles are validated along with existing styles (29 total). All 77 semantic keys match across modes; PageMaxWidth is the new layout token, not a second palette.
-
-Typography uses native font-metric line height (no fixed clipping-prone body line boxes), wrapped body/caption text and auto-sized rows. Header title/display 34, metric/title 24 or display role, section 18, body 14, caption 12 DIPs. Width changes do not shrink fonts; layout reflows and scrolls. The 1440-DIP content cap, 720-DIP window minimum and existing spacing/radius/edge tokens apply identically to both modes; independent appearance palettes remain as specified above. Light uses quiet neutral surfaces with violet emphasis; Dark uses lifted charcoal surfaces, pale violet and readable status foregrounds, not inverted Light colors.
-
-Worklist column proportions are 3:2:2 at every row; owner metadata is below the title, with wrapped text rather than truncation. Selection/hover/focus consume existing ListBoxItem state resources. Search and no-result feedback are real view-model behavior. Status text always accompanies color. Native tooltip/context menu/progress and a modeless preview exercise shared application lookup. Runtime appearance, accessibility, physical DPI and comparison remain unverified; source checks are not visual approval.
-
-## Approved compact/full-width layout update
-
-The user requested full-screen adaptation, less empty space and more compact cards. WindowState is initially Maximized (normal OS chrome, not kiosk mode). Page/card/plate padding is now 16/16/12 DIPs in both appearances; card gutters 10, item spacing 8, section spacing 12. Readable font sizes and 38-DIP minimum control height are unchanged. The header wraps title/selectors/status in one compact area, rather than occupying several full-width rows. All eight real card instances remain alive across lane changes, with explicit bindings to the root view-model context and focused input restored where possible.
-
-The unused PageMaxWidth role is replaced by ReferenceListMaxHeight (320 DIPs). The live token list uses this bounded internal viewport, keeping all tokens searchable/scrollable without one card becoming many screens tall. There are still 77 typed semantic roles; no extra theme or framework. New native runtime assertions cover restored-window widths 720/1024/1440/1920/2560, lane count, all eight cards, binding/selection preservation and bounds/non-overlap. These assertions have not executed here. Physical DPI, keyboard/wheel behavior and actual rendered balance still require Windows review.
-
-## Richness audit and next revision boundary
-
-The user clarified that compact/full-width is not permission to reduce Bento to a minimal control gallery. The [2026-10-20 pinned-source richness audit](../../step1.ThemeStudio/step1.c.docs/step1.c.7.Bento-Richness-Audit.md) finds a functional foundation with incomplete advanced visual/component/accessibility depth. It records native Windows/Fluent, Carbon and actual Bento references, measured surface differences, the equal-lane vs asymmetric Bento trade-off, the Style-only helper composition limitation, diagnostics gaps and a prioritized correction proposal. This is not a claim that those recommendations are implemented or that current WPF appearance was successfully rendered.
+The page does not claim a complete DataGrid, editable ComboBox, submenus, high-contrast adaptation, animation framework, UI automation certification or persisted design presets. No motion was added without OS preference handling. Verify real startup, both modes/settings, menus, keyboard/tab navigation, wheel/nested scrolling,720–2560 widths,100/150/200% scale, high contrast/screen readers and performance on Windows before acceptance. The workflow remains intentionally inactive under cols/ci as instructed; no screenshots or green build are fabricated.

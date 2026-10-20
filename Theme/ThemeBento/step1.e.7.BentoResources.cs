@@ -7,7 +7,7 @@ namespace ProGlassAutomation.ThemeBento;
 /// <summary>Bento owns its visual composition; the shared engine knows no templates.</summary>
 public static class BentoResources
 {
-    private static IReadOnlyDictionary<object, Style>? components;
+    private static IReadOnlyDictionary<object, object>? components;
 
     public static ResourceDictionary Load(Appearance appearance)
     {
@@ -15,29 +15,31 @@ public static class BentoResources
         if (!Enum.IsDefined(appearance)) throw new ArgumentOutOfRangeException(nameof(appearance));
         components ??= LoadComponents();
         var package = new ResourceDictionary { Source = Resource($"ThemeBento.{appearance}.xaml") };
-        // Reuse sealed style identities, never mutable dictionaries or cached brushes.
+        // Reuse only sealed styles/frozen geometry, never mutable dictionaries or cached brushes.
         // Open selections/editing survive mode changes; each candidate has its own keys.
-        var styles = new ResourceDictionary();
-        foreach (var (key, style) in components) styles.Add(key, style);
-        package.MergedDictionaries.Add(styles);
+        var parts = new ResourceDictionary();
+        foreach (var (key, component) in components) parts.Add(key, component);
+        package.MergedDictionaries.Add(parts);
         return package;
     }
 
-    private static IReadOnlyDictionary<object, Style> LoadComponents()
+    private static IReadOnlyDictionary<object, object> LoadComponents()
     {
-        var values = new Dictionary<object, Style>();
+        var values = new Dictionary<object, object>();
         Collect(new ResourceDictionary { Source = Resource("step1.e.Components/step1.e.1.Components.xaml") }, values);
-        return new ReadOnlyDictionary<object, Style>(values);
+        return new ReadOnlyDictionary<object, object>(values);
     }
 
-    private static void Collect(ResourceDictionary dictionary, Dictionary<object, Style> values)
+    private static void Collect(ResourceDictionary dictionary, Dictionary<object, object> values)
     {
         foreach (object key in dictionary.Keys)
         {
-            if (dictionary[key] is not Style style || values.ContainsKey(key))
-                throw new InvalidOperationException($"Bento has a non-style or duplicate component: {key}");
-            style.Seal();
-            values.Add(key, style);
+            if (values.ContainsKey(key)) throw new InvalidOperationException($"Duplicate Bento component: {key}");
+            object value = dictionary[key];
+            if (value is Style style) style.Seal();
+            else if (value is System.Windows.Media.Geometry geometry && geometry.CanFreeze) geometry.Freeze();
+            else throw new InvalidOperationException($"Bento component must be a Style or freezable Geometry: {key}");
+            values.Add(key, value);
         }
         foreach (ResourceDictionary child in dictionary.MergedDictionaries) Collect(child, values);
     }

@@ -35,21 +35,27 @@ for path in [*ROOT.glob('*.cs'), *ROOT.glob('Theme/**/*.cs'), *ROOT.glob('step1.
     assert not re.search(r'ProGlassAutomation\.(SheetStore|Converters|ViewModels)|Microsoft\.Data\.Sqlite|Dapper|ShellStyles|SheetStoreModule', text), f'Legacy reference: {path}'
 app = (ROOT / 'App.xaml.cs').read_text()
 assert 'Themes.Initialize(Resources)' in app and 'MainWindow.Show()' in app
-assert '<studio:ThemeStudioView />' in (ROOT / 'MainWindow.xaml').read_text()
-view = (ROOT / 'step1.ThemeStudio/step1.b.ThemeStudioScreen/step1.b.1.ThemeStudioView.xaml').read_text()
-for component in ('Overview', 'Appearance', 'Metrics', 'Controls', 'TypeAndStatus', 'Worklist', 'Surfaces', 'Tokens'):
-    assert f'x:Name="{component}"' in view, f'Missing reference section: {component}'
-assert 'x:Name="ThemePicker"' in view and 'Binding IsDark' in view
-assert 'MaxWidth="{DynamicResource PageMaxWidth}"' not in view, 'Studio must use full available width'
-assert 'WindowState="Maximized"' in (ROOT / 'MainWindow.xaml').read_text()
-for lane in ('LaneOne', 'LaneTwo', 'LaneThree'):
-    assert f'x:Name="{lane}"' in view, f'Missing independent card lane: {lane}'
-layout = (ROOT / 'step1.ThemeStudio/step1.b.ThemeStudioScreen/step1.b.1.ThemeStudioView.xaml.cs').read_text()
-assert '980' in layout and '1500' in layout and 'heights.Min()' in layout
-assert 'new Binding(nameof(DataContext)) { Source = this }' in layout, 'Preserve card view-model context during reflow'
+shell = (ROOT/'MainWindow.xaml').read_text()
+assert '<studio:ThemeStudioView />' in shell and '<studio:BusinessReferenceView />' in shell
+assert 'SelectedIndex="{Binding SelectedWorkspace, Mode=TwoWay}"' in shell
+assert 'WindowState="Maximized"' in shell
+screen = ROOT/'step1.ThemeStudio/step1.b.ThemeStudioScreen'
+view = (screen/'step1.b.1.ThemeStudioView.xaml').read_text()
+sample = (screen/'step1.b.18.BusinessReferenceView.xaml').read_text()
+assert '<local:CustomizationPanel' in view and '<local:TokensPanel' in view
+assert 'CustomizationPanel' not in sample and 'TokensPanel' not in sample, 'Business page must not contain engine settings'
+assert 'MaxWidth=' not in view and 'MaxWidth=' not in sample, 'Use full viewport width'
+for component in ('OverviewPanel', 'MetricsPanel', 'WorklistPanel', 'ControlsPanel'):
+    assert component in sample, f'Missing business reference pattern: {component}'
+settings = (screen/'step1.b.16.CustomizationPanel.xaml').read_text()
+for name in ('ThemePicker', 'AccentPicker', 'DensityPicker', 'ShapePicker', 'TypePicker'):
+    assert f'x:Name="{name}"' in settings
+for prop in ('SelectedAccent', 'SelectedDensity', 'SelectedShape', 'SelectedTypography'):
+    assert f'Binding {prop}' in settings and f'public ' in (screen/'step1.b.17.Customization.cs').read_text()
+assert 'Binding IsDark' in settings and 'Binding ResetDesign' in settings
 workflow = ROOT / 'cols/ci/windows-wpf.yml'
 assert workflow.is_file() and not (ROOT / '.github/workflows/windows-wpf.yml').exists()
 for command in ('dotnet build ProGlassAutomation.csproj', '--contracts-only', 'step1.d.6.verify_foundation.py'):
     assert command in workflow.read_text(), f'Missing CI verification: {command}'
-print('PASS: 47 inventoried legacy files absent; no legacy source/startup dependencies; all eight reference sections, live header and Windows workflow present.')
+print('PASS: 47 inventoried legacy files absent; no legacy source/startup dependencies; separate customization/business pages, live settings and Windows workflow present.')
 print('LIMITATION: this is a source audit, not Windows compilation, runtime or visual inspection.')

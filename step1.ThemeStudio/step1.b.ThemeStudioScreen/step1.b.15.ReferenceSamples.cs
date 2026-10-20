@@ -5,7 +5,10 @@ using System.Windows.Input;
 namespace ProGlassAutomation.ThemeStudio;
 
 /// <summary>Local illustrative content only: no persistence, ERP service or database.</summary>
-public sealed record ReferenceSample(string Title, string Owner, string Updated, string Status);
+public sealed record ReferenceSample(string Title, string Owner, string Updated, string Status)
+{
+    public string Severity => Status switch { "Ready" => "Success", "Pending" => "Warning", "Review" => "Information", _ => "Neutral" };
+}
 
 public sealed partial class ThemeStudioViewModel
 {
@@ -13,10 +16,10 @@ public sealed partial class ThemeStudioViewModel
     private ReferenceSample? selectedReference;
     public IReadOnlyList<ReferenceSample> ReferenceItems { get; } =
     [
-        new("Page foundations", "Design operations", "Today", "Ready"),
-        new("Input & validation", "Interaction review", "Today", "Pending"),
-        new("Surface hierarchy", "Visual review", "Yesterday", "Review"),
-        new("Keyboard journey", "Accessibility review", "Yesterday", "Not verified")
+        new("Atrium façade", "Design team", "Today", "Ready"),
+        new("Lobby partitions", "Review team", "Today", "Pending"),
+        new("Office screens", "Coordination", "Yesterday", "Review"),
+        new("Entrance canopy", "Site team", "Yesterday", "Not verified")
     ];
     public ICollectionView ReferenceView { get; private set; } = null!;
     public string ReferenceFilter
@@ -30,8 +33,8 @@ public sealed partial class ThemeStudioViewModel
         set { selectedReference = value; Changed(nameof(SelectedReference)); CommandManager.InvalidateRequerySuggested(); }
     }
     public string ReferenceSummary => ReferenceView.IsEmpty
-        ? "No reference items match. Clear the search to show all patterns."
-        : $"{ReferenceView.Cast<ReferenceSample>().Count()} reference patterns · Sample data only";
+        ? "No work items match. Clear the search to show all sample work."
+        : $"{ReferenceView.Cast<ReferenceSample>().Count()} work items · Sample data only";
     public ICommand ReviewReference { get; private set; } = null!;
     public ICommand ClearPreview { get; private set; } = null!;
     public ICommand ShowHelp { get; private set; } = null!;

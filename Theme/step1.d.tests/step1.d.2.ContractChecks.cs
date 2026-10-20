@@ -8,6 +8,7 @@ internal static class ContractChecks
 {
     public static void Run()
     {
+        CustomizationChecks.Run();
         foreach (var mode in Enum.GetValues<Appearance>())
         {
             var resources = ThemeService.Load(mode);
@@ -66,7 +67,7 @@ internal static class ContractChecks
         throw new Exception("Expected failure for " + scenario);
     }
 
-    private static void Contrast(ResourceDictionary resources, string text, string surface, double minimum)
+    internal static void Contrast(ResourceDictionary resources, string text, string surface, double minimum)
     {
         static double Luminance(Color c)
         {

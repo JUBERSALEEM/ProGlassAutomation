@@ -1,18 +1,6 @@
-<UserControl x:Class="ProGlassAutomation.ThemeStudio.OverviewPanel"
- xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
- <Border Style="{DynamicResource ElevatedPlate}"><StackPanel>
-  <TextBlock Text="01 / THE FOUNDATION" Style="{DynamicResource Caption}" Margin="{DynamicResource MarginItem}" />
-  <TextBlock Text="Clarity through structure." Style="{DynamicResource PageHeading}" />
-  <TextBlock Text="Purposeful modules. Quiet surfaces. Precise interactions. A working design language for ProGlass—not an ERP dashboard." Foreground="{DynamicResource TextSecondary}" Margin="{DynamicResource MarginSection}" />
-  <Border Style="{DynamicResource AccentPlate}" Margin="{DynamicResource MarginSection}"><StackPanel>
-   <TextBlock Text="ACTIVE DESIGN SYSTEM" Style="{DynamicResource Caption}" />
-   <TextBlock Text="Bento Grid / Modular" Style="{DynamicResource SectionHeading}" Foreground="{DynamicResource AccentPrimary}" />
-   <TextBlock Text="Two complete appearances. One semantic contract." Foreground="{DynamicResource TextSecondary}" />
-  </StackPanel></Border>
-  <WrapPanel Margin="{DynamicResource MarginSection}"><Button Content="_Apply reference" Style="{DynamicResource PrimaryButton}" Command="{Binding ApplyPreview}" Margin="{DynamicResource MarginInline}" /><Button Content="Inspect in window" Command="{Binding OpenDialog}" /></WrapPanel>
-  <WrapPanel>
-   <StackPanel Margin="{DynamicResource MarginInline}"><TextBlock Text="{Binding TokenCount}" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" /><TextBlock Text="LIVE TOKENS" Style="{DynamicResource Caption}" /></StackPanel>
-   <StackPanel Margin="{DynamicResource MarginInline}"><TextBlock Text="Light + Dark" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" /><TextBlock Text="COMPLETE VARIANTS" Style="{DynamicResource Caption}" /></StackPanel>
-  </WrapPanel>
- </StackPanel></Border>
+<UserControl x:Class="ProGlassAutomation.ThemeStudio.OverviewPanel" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:ProGlassAutomation.ThemeStudio">
+ <Border Style="{DynamicResource HeroCard}"><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="2*" /><ColumnDefinition /></Grid.ColumnDefinitions>
+  <StackPanel><TextBlock Text="YOUR WORK, IN FOCUS" Foreground="{DynamicResource HeroSecondaryText}" FontSize="{DynamicResource FontSizeCaption}" /><TextBlock Text="Good work starts with a clear view." Foreground="{DynamicResource HeroForeground}" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" Margin="{DynamicResource MarginItem}" /><TextBlock Text="Review priorities, keep the team aligned and move the next detail forward." Foreground="{DynamicResource HeroSecondaryText}" Margin="{DynamicResource MarginSection}" /><Button Content="Review selected item" Command="{Binding ReviewReference}" HorizontalAlignment="Left" /><TextBlock Text="Illustrative trend / not connected to business data" Foreground="{DynamicResource HeroSecondaryText}" FontSize="{DynamicResource FontSizeCaption}" /></StackPanel>
+  <Viewbox Grid.Column="1" Margin="{DynamicResource PaddingPlate}" Stretch="Uniform"><Path Data="{DynamicResource ActivityTrendGeometry}" Stroke="{DynamicResource HeroAccent}" StrokeThickness="{DynamicResource StrokeWidth}" StrokeLineJoin="Round" /></Viewbox>
+ </Grid></Border>
 </UserControl>

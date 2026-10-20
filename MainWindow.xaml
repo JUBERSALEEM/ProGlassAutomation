@@ -5,5 +5,8 @@
  Title="ProGlass V3.0 · Theme Studio" Width="{DynamicResource WindowInitialWidth}" Height="{DynamicResource WindowInitialHeight}"
  MinWidth="{DynamicResource WindowMinWidth}" MinHeight="{DynamicResource WindowMinHeight}"
  WindowState="Maximized" WindowStartupLocation="CenterScreen" Style="{DynamicResource ThemedWindow}">
- <studio:ThemeStudioView />
+ <TabControl x:Name="WorkspaceTabs" SelectedIndex="{Binding SelectedWorkspace, Mode=TwoWay}" AutomationProperties.Name="Design workspace pages">
+  <TabItem Header="_Theme Studio"><studio:ThemeStudioView /></TabItem>
+  <TabItem Header="_Business Reference"><studio:BusinessReferenceView /></TabItem>
+ </TabControl>
 </Window>

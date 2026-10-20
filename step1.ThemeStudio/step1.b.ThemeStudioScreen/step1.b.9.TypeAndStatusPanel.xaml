@@ -1,17 +1,14 @@
-<UserControl x:Class="ProGlassAutomation.ThemeStudio.TypeAndStatusPanel"
- xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<UserControl x:Class="ProGlassAutomation.ThemeStudio.TypeAndStatusPanel" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
  <Border Style="{DynamicResource Card}"><StackPanel>
-  <TextBlock Text="04 / TYPE &amp; SIGNAL" Style="{DynamicResource Caption}" Margin="{DynamicResource MarginItem}" />
-  <TextBlock Text="Built to be read." Style="{DynamicResource SectionHeading}" />
-  <TextBlock Text="Heading / 24" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" Margin="{DynamicResource MarginItem}" />
-  <TextBlock Text="Body / A clear hierarchy makes complex work feel simple." Margin="{DynamicResource MarginItem}" />
-  <TextBlock Text="Caption / supporting information" Style="{DynamicResource Caption}" Margin="{DynamicResource MarginSection}" />
-  <Border Style="{DynamicResource Plate}" Margin="{DynamicResource MarginItem}"><TextBlock Text="Pending / Awaiting design review" Foreground="{DynamicResource StatusWarning}" /></Border>
-  <StackPanel>
-   <Border Style="{DynamicResource Plate}" Background="{DynamicResource StatusSuccessSurface}" Margin="{DynamicResource MarginItem}"><TextBlock Text="Success / Ready for review" Foreground="{DynamicResource StatusSuccess}" /></Border>
-   <Border Style="{DynamicResource Plate}" Background="{DynamicResource StatusWarningSurface}" Margin="{DynamicResource MarginItem}"><TextBlock Text="Warning / Check before continuing" Foreground="{DynamicResource StatusWarning}" /></Border>
-   <Border Style="{DynamicResource Plate}" Background="{DynamicResource StatusErrorSurface}" Margin="{DynamicResource MarginItem}"><TextBlock Text="Error / A field needs attention" Foreground="{DynamicResource StatusError}" /></Border>
-   <Border Style="{DynamicResource Plate}" Background="{DynamicResource StatusInformationSurface}"><TextBlock Text="Information / Preview data only" Foreground="{DynamicResource StatusInformation}" /></Border>
-  </StackPanel>
+  <TextBlock Text="LIVE COMPONENTS / TYPE &amp; SIGNAL" Style="{DynamicResource Caption}" />
+  <TextBlock Text="Clear hierarchy. Quiet confidence." Style="{DynamicResource SectionHeading}" />
+  <TextBlock Text="Body text stays readable; supporting metadata stays secondary." Margin="{DynamicResource MarginItem}" />
+  <WrapPanel>
+   <Border Tag="Success" Style="{DynamicResource StatusBadge}" Margin="{DynamicResource MarginInline}"><TextBlock Text="Ready" Tag="Success" Style="{DynamicResource StatusText}" /></Border>
+   <Border Tag="Warning" Style="{DynamicResource StatusBadge}" Margin="{DynamicResource MarginInline}"><TextBlock Text="Pending" Tag="Warning" Style="{DynamicResource StatusText}" /></Border>
+   <Border Tag="Error" Style="{DynamicResource StatusBadge}" Margin="{DynamicResource MarginInline}"><TextBlock Text="Needs attention" Tag="Error" Style="{DynamicResource StatusText}" /></Border>
+   <Border Tag="Information" Style="{DynamicResource StatusBadge}" Margin="{DynamicResource MarginInline}"><TextBlock Text="In review" Tag="Information" Style="{DynamicResource StatusText}" /></Border>
+   <Border Style="{DynamicResource StatusBadge}"><TextBlock Text="Not verified" Style="{DynamicResource StatusText}" /></Border>
+  </WrapPanel>
  </StackPanel></Border>
 </UserControl>

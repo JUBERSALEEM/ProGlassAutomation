@@ -4,9 +4,9 @@ Fresh native **WPF / .NET 8** desktop implementation in the existing root projec
 
 ## What is implemented
 
-- Non-visual orchestration with 77 semantic token roles and 29 required WPF style targets, complete theme-package validation/replacement and active-selection notifications.
+- Non-visual orchestration with 82 semantic token roles and 35 required WPF style targets, complete theme-package validation/replacement and active-selection notifications.
 - Bento-isolated native styles/templates for introduced buttons, inputs, choices, selections, panels, text, status/progress, tooltips, context menus and scrollbars.
-- Studio with modular adaptive layout, real appearance switching, preview commands/validation, live filtered token reference and a modeless shared-resource preview window.
+- Separate Theme Studio customization and Business Reference sample pages: real accent/density/shape/type controls, Light/Dark switching, live tokens, preview commands/validation and a shared-resource modeless window.
 - Dependency-free Windows STA runtime checks and portable source/contrast/regression checks.
 
 Only Bento is installed: the installed-theme selector truthfully has one choice. Light/Dark is the functional visual variant selector; no unavailable theme is represented as selectable. Runtime behavior is implemented but not claimed proven here.
@@ -21,7 +21,7 @@ dotnet run --project ProGlassAutomation.csproj --configuration Release
 dotnet run --project Theme/step1.d.tests/step1.d.ThemeTests.csproj --configuration Release
 ```
 
-These are the intended Windows commands, not successful execution evidence. In this Linux container, `dotnet` is absent; project and solution build attempts exited 127. SDK download connection failed. No WPF UI was launched or screenshot captured. See the [current foundation evidence](step1.ThemeStudio/step1.c.docs/step1.c.5.Clean-Foundation-Reference.md) and [manual review checklist](step1.ThemeStudio/step1.c.docs/step1.c.2.Phase01-Verification.md).
+These are the intended Windows commands, not successful execution evidence. In this Linux container, `dotnet` is absent; project and solution build attempts exited 127. SDK download connection failed. No WPF UI was launched or screenshot captured. See the [current foundation evidence](step1.ThemeStudio/step1.c.docs/step1.c.8.Rich-Bento-Workspace.md) and [manual review checklist](step1.ThemeStudio/step1.c.docs/step1.c.2.Phase01-Verification.md).
 
 Portable checks actually executed here:
 
@@ -33,7 +33,7 @@ python3 Theme/step1.d.tests/step1.d.6.verify_foundation.py
 
 ## Repository boundaries
 
-The latest clean-foundation instruction explicitly authorized removal of the prior SheetStore/dashboard implementation. All 47 inspected legacy-only files are removed; App/MainWindow start only the V3.0 reference page. No database, DI, legacy navigation or external UI package is required. The root WPF project, AssemblyInfo, solution and approved documentation/theme work remain. See the [before-cleanup inventory](step1.ThemeStudio/step1.c.docs/step1.c.4.Cleanup-Inventory.md) and [current implementation/evidence report](step1.ThemeStudio/step1.c.docs/step1.c.5.Clean-Foundation-Reference.md).
+The latest clean-foundation instruction explicitly authorized removal of the prior SheetStore/dashboard implementation. All 47 inspected legacy-only files are removed; App/MainWindow start only the V3.0 reference page. No database, DI, legacy navigation or external UI package is required. The root WPF project, AssemblyInfo, solution and approved documentation/theme work remain. See the [before-cleanup inventory](step1.ThemeStudio/step1.c.docs/step1.c.4.Cleanup-Inventory.md) and [current implementation/evidence report](step1.ThemeStudio/step1.c.docs/step1.c.8.Rich-Bento-Workspace.md).
 
 ## Documentation map
 
@@ -62,3 +62,9 @@ Bento owns its complete visual engine in Theme/ThemeBento. The shared engine con
 Theme Studio is the root application's startup content, not hidden behind navigation. On Windows, open this branch's `ProGlassAutomation.csproj` as the startup project or run the `dotnet run` command above. No SheetStore service or database is needed. The browser preview here cannot execute WPF; there is no genuine rendered screenshot or remote Windows session available in this environment. Do not confuse the unchanged remote master branch with these local, uncommitted changes.
 
 Latest user instruction: workflow stored **inactive** at `cols/ci/windows-wpf.yml` so the code can be pushed without workflow-write permission. This supersedes earlier restoration/activation statements. No Windows CI run occurs until it is moved back to `.github/workflows/` with suitable permission; restoration commands are in the file header.
+
+## Current rich Bento workspace
+
+The startup tab is **Theme Studio**: edit Ocean/Indigo/Teal accent, compact/comfortable density, crisp/soft/rounded corners and small/standard/large body typography. Reset design keeps sample inputs separate. **Business Reference** is a distinct tab with a compact KPI band, wide themed feature/trend, selected-work review list, status badges, preview form and handoff surfaces. It is illustrative local data, not an implemented ERP module. All design changes use the real active package and carry across mode switches and both pages. Settings are not saved to disk.
+
+The current source supplies 82 semantic tokens and 35 required styles; portable checks cover 258 contrast pairings and 14 deliberate regressions. The compiled harness adds 108 appearance/customization combinations and native page-switching checks, but those Windows tests have not run here. The workflow is still intentionally inactive in cols/ci. See the current feature report for exact responsibilities and limitations.

@@ -41,14 +41,34 @@ for mode in ('Light', 'Dark'):
     pairs += [('TextOnAccent', bg, 4.5) for bg in ('AccentPrimary', 'AccentHover', 'AccentPressed')]
     pairs += [(f'Status{s}', f'Status{s}Surface', 4.5) for s in ('Success', 'Warning', 'Error', 'Information')]
     pairs += [('StatusWarning', 'SurfaceSecondary', 4.5)]
+    pairs += [(fg, 'SurfaceElevated', 4.5) for fg in ('AccentPrimary', 'StatusSuccess', 'StatusInformation')]
     pairs += [('AccentPrimary', 'AccentSoft', 4.5), ('AccentPrimary', 'StateSelected', 4.5)]
     pairs += [(fg, bg, 3) for fg in ('FocusIndicator', 'BorderStrong')
               for bg in ('SurfacePrimary', 'SurfaceSecondary')]
-    for fg, bg, minimum in pairs:
-        a, b = (luminance(values[k].attrib['Color']) for k in (fg, bg))
-        ratio = (max(a, b) + .05) / (min(a, b) + .05)
-        assert ratio >= minimum, f'{mode} {fg}/{bg}: {ratio:.2f} < {minimum}'
-        contrast_checks += 1
+    cases = [('Ocean', {key: node.attrib['Color'] for key, node in values.items() if 'Color' in node.attrib})]
+    # Read the actual theme-owned preset values, not duplicate test palettes.
+    source = (ROOT/'Theme/ThemeBento/step1.e.8.BentoCustomization.cs').read_text()
+    for name, strings in re.findall(r'\(BentoAccent\.(\w+), Appearance\.' + mode + r'\) => \[(.*?)\]', source):
+        overrides = re.findall(r'"(#[0-9A-Fa-f]{6})"', strings)
+        assert len(overrides) == 5, name
+        current = dict(cases[0][1])
+        current.update(zip(('AccentPrimary', 'AccentHover', 'AccentPressed', 'AccentSoft', 'TextOnAccent'), overrides))
+        current['FocusIndicator'] = current['AccentPrimary']
+        current['StateSelected'] = current['AccentSoft']
+        cases.append((name, current))
+    assert len(cases) == 3, 'Every curated accent needs portable contrast coverage'
+    for preset, current in cases:
+        for fg, bg, minimum in pairs:
+            a, b = (luminance(current[k]) for k in (fg, bg))
+            ratio = (max(a, b) + .05) / (min(a, b) + .05)
+            assert ratio >= minimum, f'{mode}/{preset} {fg}/{bg}: {ratio:.2f} < {minimum}'
+            contrast_checks += 1
+    for stop in values['HeroBackground'].iter(P+'GradientStop'):
+        for fg in ('HeroForeground', 'HeroSecondaryText', 'HeroAccent'):
+            a, b = luminance(values[fg].attrib['Color']), luminance(stop.attrib['Color'])
+            ratio = (max(a, b)+.05)/(min(a, b)+.05)
+            assert ratio >= 4.5, f'{mode} hero contrast: {fg}: {ratio:.2f}'
+            contrast_checks += 1
 
 xamls = [ROOT/'App.xaml', ROOT/'MainWindow.xaml', *ROOT.glob('Theme/**/*.xaml'),
          *ROOT.glob('step1.ThemeStudio/step1.b.ThemeStudioScreen/*.xaml')]

@@ -1,34 +1,17 @@
-<UserControl x:Class="ProGlassAutomation.ThemeStudio.ThemeStudioView"
- xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
- xmlns:local="clr-namespace:ProGlassAutomation.ThemeStudio">
- <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-  <StackPanel Margin="{DynamicResource PaddingPage}">
-   <WrapPanel Margin="{DynamicResource MarginSection}">
-    <DockPanel Margin="{DynamicResource MarginInline}">
-     <Border DockPanel.Dock="Left" Style="{DynamicResource AccentPlate}" Margin="{DynamicResource MarginInline}"><TextBlock Text="PG / 03" Foreground="{DynamicResource AccentPrimary}" FontWeight="{DynamicResource FontWeightHeading}" /></Border>
-     <StackPanel><TextBlock Text="PROGLASS V3.0 / REFERENCE PAGE" Style="{DynamicResource Caption}" /><TextBlock Text="Theme Studio" Style="{DynamicResource PageHeading}" /></StackPanel>
-    </DockPanel>
-    <StackPanel Margin="{DynamicResource MarginInline}"><Label Content="Installed theme" Target="{Binding ElementName=ThemePicker}" Foreground="{DynamicResource TextSecondary}" /><ComboBox x:Name="ThemePicker" ItemsSource="{Binding InstalledThemes}" SelectedItem="{Binding SelectedTheme}" AutomationProperties.Name="Installed theme" MinWidth="{DynamicResource ControlMinWidth}" /></StackPanel>
-    <StackPanel Margin="{DynamicResource MarginInline}"><TextBlock Text="Appearance" Style="{DynamicResource Caption}" /><WrapPanel><RadioButton Content="_Light" GroupName="Appearance" IsChecked="{Binding IsLight}" AutomationProperties.Name="Light appearance" /><RadioButton Content="_Dark" GroupName="Appearance" IsChecked="{Binding IsDark}" AutomationProperties.Name="Dark appearance" /></WrapPanel></StackPanel>
-    <Border Style="{DynamicResource AccentPlate}" VerticalAlignment="Center" Margin="{DynamicResource MarginInline}"><StackPanel Orientation="Horizontal"><TextBlock Text="{Binding SelectedTheme}" FontWeight="{DynamicResource FontWeightHeading}" Margin="{DynamicResource MarginInline}" /><TextBlock Text="{Binding AppearanceLabel}" /></StackPanel></Border>
-   </WrapPanel>
-   <TextBlock Text="The ProGlass V3.0 design system / live components, reference patterns and semantic resources. Preview data only." Foreground="{DynamicResource TextSecondary}" Margin="{DynamicResource MarginSection}" />
-   <Grid x:Name="Modules" SizeChanged="Modules_SizeChanged">
-    <Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition /><ColumnDefinition Width="0" /></Grid.ColumnDefinitions>
-    <StackPanel x:Name="LaneOne">
-     <local:OverviewPanel x:Name="Overview" Margin="{DynamicResource MarginPanel}" />
-     <local:MetricsPanel x:Name="Metrics" Margin="{DynamicResource MarginPanel}" />
-     <local:ControlsPanel x:Name="Controls" Margin="{DynamicResource MarginPanel}" />
-     <local:WorklistPanel x:Name="Worklist" Margin="{DynamicResource MarginPanel}" />
-     <local:AppearancePanel x:Name="Appearance" Margin="{DynamicResource MarginPanel}" />
-     <local:TypeAndStatusPanel x:Name="TypeAndStatus" Margin="{DynamicResource MarginPanel}" />
-     <local:SurfacesPanel x:Name="Surfaces" Margin="{DynamicResource MarginPanel}" />
-     <local:TokensPanel x:Name="Tokens" Margin="{DynamicResource MarginPanel}" />
-    </StackPanel>
-    <StackPanel x:Name="LaneTwo" Grid.Column="1" />
-    <StackPanel x:Name="LaneThree" Grid.Column="2" />
-   </Grid>
-   <TextBlock Text="Bento Grid / Modular · Native WPF · Shared resources, never a separate preview palette" Style="{DynamicResource Caption}" />
-  </StackPanel>
- </ScrollViewer>
+<UserControl x:Class="ProGlassAutomation.ThemeStudio.ThemeStudioView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:ProGlassAutomation.ThemeStudio">
+ <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"><StackPanel Margin="{DynamicResource PaddingPage}">
+  <DockPanel Margin="{DynamicResource MarginSection}"><StackPanel><TextBlock Text="PROGLASS / BENTO DESIGN WORKSPACE" Style="{DynamicResource Caption}" /><TextBlock Text="Theme Studio" Style="{DynamicResource PageHeading}" /><TextBlock Text="Customize the system, not individual screens." Foreground="{DynamicResource TextSecondary}" /></StackPanel></DockPanel>
+  <Border Style="{DynamicResource HeroCard}" Margin="{DynamicResource MarginSection}"><DockPanel>
+   <Button DockPanel.Dock="Right" Content="Business reference →" Command="{Binding ShowBusiness}" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center" />
+   <StackPanel><TextBlock Text="Make it yours. Keep it consistent." FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" Foreground="{DynamicResource HeroForeground}" /><TextBlock Text="{Binding DesignSummary}" Foreground="{DynamicResource HeroSecondaryText}" /><TextBlock Text="{Binding AppearanceLabel, StringFormat='Bento {0} / live application resources'}" Foreground="{DynamicResource HeroSecondaryText}" /></StackPanel>
+  </DockPanel></Border>
+  <Grid x:Name="Modules" SizeChanged="Modules_SizeChanged">
+   <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="3*" /></Grid.ColumnDefinitions>
+   <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+   <local:CustomizationPanel x:Name="Settings" Width="{DynamicResource StudioSidebarWidth}" Grid.RowSpan="2" Margin="{DynamicResource MarginPanel}" VerticalAlignment="Top" />
+   <local:ControlsPanel x:Name="Controls" Grid.Column="1" Margin="{DynamicResource MarginPanel}" />
+   <local:TypeAndStatusPanel x:Name="Signals" Grid.Row="1" Grid.Column="1" Margin="{DynamicResource MarginPanel}" />
+   <local:TokensPanel x:Name="Tokens" Grid.Row="2" Grid.ColumnSpan="2" Margin="{DynamicResource MarginPanel}" />
+  </Grid>
+ </StackPanel></ScrollViewer>
 </UserControl>

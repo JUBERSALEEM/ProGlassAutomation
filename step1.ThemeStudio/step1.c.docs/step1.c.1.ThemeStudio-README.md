@@ -104,3 +104,7 @@ Latest user instruction: workflow stored **inactive** at `cols/ci/windows-wpf.ym
 Latest layout specification and evidence: [full-width compact Studio](step1.c.6.Full-Width-Layout.md). Studio opens maximized without a width cap; token browsing has a theme-owned bounded viewport. Cards keep their instances and view-model binding across lane changes.
 
 Latest product-depth assessment: [Bento richness audit](step1.c.7.Bento-Richness-Audit.md). Current implementation is a source-verified foundation, not a completed advanced desktop component system; see the explicit capability/verification gaps before reusing it as a finished visual standard.
+
+## Current split-page revision (supersedes earlier layout/component counts)
+
+See [step1.c.8](step1.c.8.Rich-Bento-Workspace.md) for current exact responsibilities/evidence. MainWindow now hosts native Theme Studio and Business Reference tabs sharing one view model/engine. Studio owns customization, compact preview and tokens; Business Reference owns the sample workflow. b.16 is the settings panel, b.17 typed settings/page-selection logic, b.18 the distinct sample view/reflow. Bento e.8 owns immutable customization and e.9 owns hero/metric/status/tab templates/private geometry. Shared engine remains nonvisual. Current contract82/35, source checks258 contrast/14 mutations;108 compiled settings cases and native UI remain unrun. Earlier paragraphs describe the preceding checkpoint, not current layout acceptance.

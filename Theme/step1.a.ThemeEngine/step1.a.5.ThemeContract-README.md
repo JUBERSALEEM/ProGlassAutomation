@@ -1,23 +1,15 @@
-# step1.a — Executable semantic theme contract
+# Typed theme consumer contract — nonvisual
 
-`step1.a.1.ThemeContract.cs` is the authoritative mandatory key/type manifest; this document defines its use and types, not visual values. Both Bento appearances satisfy the same 77 semantic roles and 29 style/target contracts. All visual implementations and concrete values belong to individual themes. [Permanent policy](../../docs/02.UI-UX-Design-System.md) owns governance; [Bento specification](../ThemeBento/ThemeBento.Readme.md) owns visual intent/research.
+ThemeContract.cs is authoritative. Current coverage:82 semantic roles,35 required exact WPF style targets. All concrete values/templates belong to each theme; the [Bento spec](../ThemeBento/ThemeBento.Readme.md) owns its appearance and customization. There is no global/default Bento visual dictionary.
 
-## Types, constraints and consumers
+## Resource roles
 
-- **Brush:** semantic surfaces, text, edges, status and interaction roles. Bento uses opaque SolidColorBrush except OverlayBrush/TransparentBrush; future native gradient brushes are allowed by the contract. Brush semantics remain the same across themes. Window, card, input, selection, status, popup and scrollbar templates consume these roles.
-- **double:** nonnegative finite DIP sizes/font sizes/stroke widths; opacity keys additionally <=1. Values are dynamic dependency-property references, never CSS lengths. Use dimensions as minimums where appropriate, not rigid content bounds.
-- **Thickness:** padding, margins and edge widths. MarginFocus intentionally extends the keyboard adorner 3 DIPs outside the control; it is not a negative size. Each theme’s layouts/templates consume correctly typed Thickness resources, not scalar resources where a Thickness is required.
-- **CornerRadius:** panel/control/chip/choice geometry; only use on controls whose actual WPF API supports it, typically template Borders.
-- **FontFamily/FontWeight:** body/mono families and heading/body roles. Caption/section/title/display hierarchies combine the appropriate size and weight resources in that theme’s own styles.
-
-Key names describe responsibilities: Status*Surface is the plate behind its matching Status* foreground; StateSelected and AccentSoft are paired with AccentPrimary; TextOnAccent pairs with AccentPrimary/Hover/Pressed. Disabled colors are not used to convey active-state requirements. BorderStrong and FocusIndicator supply perceivable boundaries; BorderSubtle is decorative. Typography contrast is measured against actual expected surfaces, not inferred from color names.
-
-## Mandatory semantic roles and types
-
-These are names/types consumed by current application screens, not a required palette or Bento aesthetic. Theme-private resources and visual treatment may differ. Add mandatory public roles only for concrete consumer needs, then implement them in every installed theme. Refer to the theme's own dictionaries/design specification for values.
-
-| Semantic role | WPF type |
+| Key | Native type |
 | --- | --- |
+| `HeroBackground` | `Brush` |
+| `HeroForeground` | `Brush` |
+| `HeroSecondaryText` | `Brush` |
+| `HeroAccent` | `Brush` |
 | `ApplicationBackground` | `Brush` |
 | `SurfacePrimary` | `Brush` |
 | `SurfaceSecondary` | `Brush` |
@@ -66,6 +58,7 @@ These are names/types consumed by current application screens, not a required pa
 | `DisabledOpacity` | `double` |
 | `PopupMaxHeight` | `double` |
 | `ReferenceListMaxHeight` | `double` |
+| `StudioSidebarWidth` | `double` |
 | `WindowInitialWidth` | `double` |
 | `WindowInitialHeight` | `double` |
 | `WindowMinWidth` | `double` |
@@ -96,11 +89,11 @@ These are names/types consumed by current application screens, not a required pa
 | `SelectionOpacity` | `double` |
 | `MarginFocus` | `Thickness` |
 
-## Required consumer style roles and WPF target types
+Thickness roles represent padding, margins and edges; MarginFocus intentionally extends an adorner, not a negative control size. Radius/font/weight resources use actual native types. Brush allows native gradients; HeroBackground is a gradient, not a SolidColorBrush guarantee. StudioSidebarWidth and ReferenceListMaxHeight are actual layout consumer roles, not screen-local palettes.
 
-Each complete theme must supply these roles itself, including implicit WPF styles. A Style with the wrong TargetType is rejected before installation. These roles preserve consumer compatibility; their setters/templates/geometry/states are owned independently by each theme. Additional theme-private helpers are allowed, but duplicate keys anywhere in one package are rejected. There is no Bento fallback.
+## Required styles
 
-| Style key | Target type |
+| Role | Exact TargetType |
 | --- | --- |
 | `ThemedWindow` | `Window` |
 | `Caption` | `TextBlock` |
@@ -112,41 +105,46 @@ Each complete theme must supply these roles itself, including implicit WPF style
 | `ElevatedPlate` | `Border` |
 | `TokenValue` | `TextBlock` |
 | `KeyboardFocus` | `Control` |
+| `HeroCard` | `Border` |
+| `MetricCard` | `Border` |
+| `StatusBadge` | `Border` |
+| `StatusText` | `TextBlock` |
+| `PrimaryButton` | `Button` |
 | `SubtleButton` | `Button` |
 | `DestructiveButton` | `Button` |
-| `PrimaryButton` | `Button` |
-| implicit `TextBlock` | `TextBlock` |
-| implicit `Button` | `Button` |
-| implicit `TextBox` | `TextBox` |
-| implicit `ComboBox` | `ComboBox` |
-| implicit `ComboBoxItem` | `ComboBoxItem` |
-| implicit `CheckBox` | `CheckBox` |
-| implicit `RadioButton` | `RadioButton` |
-| implicit `ListBox` | `ListBox` |
-| implicit `ListBoxItem` | `ListBoxItem` |
-| implicit `ToolTip` | `ToolTip` |
-| implicit `ContextMenu` | `ContextMenu` |
-| implicit `MenuItem` | `MenuItem` |
-| implicit `Thumb` | `Thumb` |
-| implicit `ScrollBar` | `ScrollBar` |
-| implicit `Separator` | `Separator` |
-| implicit `ProgressBar` | `ProgressBar` |
+| `implicit TabControl` | `TabControl` |
+| `implicit TabItem` | `TabItem` |
+| `implicit TextBlock` | `TextBlock` |
+| `implicit Button` | `Button` |
+| `implicit TextBox` | `TextBox` |
+| `implicit ComboBox` | `ComboBox` |
+| `implicit ComboBoxItem` | `ComboBoxItem` |
+| `implicit CheckBox` | `CheckBox` |
+| `implicit RadioButton` | `RadioButton` |
+| `implicit ListBox` | `ListBox` |
+| `implicit ListBoxItem` | `ListBoxItem` |
+| `implicit ToolTip` | `ToolTip` |
+| `implicit ContextMenu` | `ContextMenu` |
+| `implicit MenuItem` | `MenuItem` |
+| `implicit Thumb` | `Thumb` |
+| `implicit ScrollBar` | `ScrollBar` |
+| `implicit Separator` | `Separator` |
+| `implicit ProgressBar` | `ProgressBar` |
 
-## Resource lifetime and replacement
+StatusBadge and StatusText accept semantic severity in Tag (Success/Warning/Information/Error/Neutral); the sample view model maps business status to severity. No business palette is embedded in views. Each theme implements its own setters/templates for these roles. Private helpers are allowed but cannot duplicate public or sibling keys. ActivityTrendGeometry is a Bento-private immutable helper, not a public consumer key.
 
-The orchestrator calls the registered theme’s LoadResources(appearance) factory, validates its independent result (tokens, style targets and duplicate merged keys), and installs/replaces one entire package slot. No separate global visual dictionary survives switching themes. Application state and unrelated resources are not deliberately cleared. Loading/validation failure retains the prior slot/state with contextual diagnostics; a synchronous activation exception attempts restoration and is rethrown. Do not treat this as a guarantee against arbitrary later consumer/rendering faults; runtime tests are necessary.
+## Loading, customization and lifecycle
 
-Bento itself chooses to compose a fresh Light/Dark value dictionary with a fresh component-key dictionary referencing its own sealed styles. Only style identities are reused inside Bento; neither mutable dictionaries nor concrete brushes are cached across loads. This preserves existing templates and control state for mode changes without imposing that design on another theme. Components are local to ThemeBento; the shared engine never loads or retains them separately.
+Catalog registers only complete actual themes. A factory returns the entire candidate. ThemeService independently validates token types/numeric ranges, style targets and duplicate merged keys, then replaces one package slot. Optional Action<ResourceDictionary, Appearance> configuration runs before validation; its retained active-theme callback never crosses to another theme identity. Theme-specific rules are outside this service. Callbacks should capture immutable values, not page/control lifetime. Failure before activation leaves the prior package/configuration intact. ThemeNotificationException specifically means activation succeeded but one or more consumers failed; do not report unchanged state. Remaining consumers still receive notifications.
 
-Screens consume active resources/styles through DynamicResource. Bento uses local StaticResource only for invariant inheritance/helpers in the same file. Compiled/source checks reject duplicate package keys and visual dependencies on another theme; candidate validation never borrows from Application.Current. Open windows/dialogs/popups and editing/binding state must be verified on Windows.
+Bento owns its specific composer: sealed Style and frozen Geometry identities may be cached, but appearance brushes/key dictionaries are fresh. An authorized future theme owns its own composer and private helpers, not this implementation. Additional controls require complete role/state coverage in every implemented theme. No per-theme application or copied screens.
 
-## Future-theme addition — independent implementation, no screen rewrite
+## Future authorized theme process
 
-Only after Bento approval and separate authorization:
-1. Create the established stable theme directory only when real implementation begins. Supply its two appearance dictionaries and its own complete component/template/card/plate/typography/depth/state implementation, documentation and validation expectations. Do not inherit Bento, add scattered global overrides or duplicate application screens.
-2. Provide a theme-owned composition factory that returns a complete package. It may share invariant implementation within that theme but must not share mutable candidate dictionaries or leak values/visuals from another theme. The shared engine assumes no visual layout, template structure or palette strategy.
-3. Register one ThemeDefinition(name, stableFolder, factory) in ThemeCatalog. The orchestrator and installed-theme selector discover this real registration without view edits, theme-specific branches or separate application executables.
-4. Validate the 77 public roles and 29 style target types independently; validate the theme’s own extra resources, accessibility/state/contrast expectations and duplicate/cross-theme keys. Extend per-theme source/runtime checks and CI before registration is accepted. Missing styles must fail even if the active theme supplies the same key.
-5. Run research/specification/build/runtime/comparison/correction/regression/user review. Verify existing screens, windows/dialogs/popups, editing/selection/focus/scroll state and diagnostics. Preserve failure status. Do not implement an extra theme merely to demonstrate extensibility.
+1. Obtain approval and implement its stable Theme/ThemeName directory, complete Light/Dark maps and visual templates independently.
+2. Supply the current typed consumer roles and style targets, its own research/state/accessibility expectations and private composition.
+3. Validate complete candidates without the active app as fallback, including negative styles, duplicate/cross-theme keys, mutation isolation and native switching/input/dialog tests.
+4. Register the actual factory. Business Reference and other consuming pages keep using active semantic resources. Bento-specific customization is disabled for other identities; never apply Bento settings as another theme's visual engine.
+5. Build/run on Windows and visually compare both modes before approval. No future placeholder was added.
 
-Only Bento is registered. [Windows CI](../../cols/ci/windows-wpf.yml) is configured but has not verified the current unpushed code; see the [current isolation/CI evidence](../../step1.ThemeStudio/step1.c.docs/step1.c.3.Theme-Isolation-and-CI.md). Actual rendered visual inspection remains separate from compilation and runtime assertions.
+Verification workflow is intentionally inactive at [cols/ci/windows-wpf.yml](../../cols/ci/windows-wpf.yml). It has not run for these changes. Portable checks do not establish C#/XAML compilation, native rendering, accessibility or runtime extensibility.
