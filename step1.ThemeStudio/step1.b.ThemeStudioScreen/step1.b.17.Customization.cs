@@ -56,8 +56,24 @@ public sealed partial class ThemeStudioViewModel
     public bool CanCustomize => SelectedTheme == ThemeService.Bento;
     public string DesignSummary => !CanCustomize ? "Theme-default settings" : $"{SelectedAccent} / {SelectedDensity} / {SelectedShape} / {SelectedTypography} · {SelectedLayoutPreset}";
     public bool IsDirty => extended != lastSaved.Preferences;
-    public int SelectedWorkspace { get => selectedWorkspace; set { if (value is 0 or 1) { selectedWorkspace = value; Changed(nameof(SelectedWorkspace)); } } }
+    public int SelectedWorkspace
+    {
+        get => selectedWorkspace;
+        set
+        {
+            if (value is 0 or 1)
+            {
+                selectedWorkspace = value;
+                Changed(nameof(SelectedWorkspace));
+                Changed(nameof(IsStudio));
+                Changed(nameof(IsBusiness));
+            }
+        }
+    }
+    public bool IsStudio { get => selectedWorkspace == 0; set { if (value) SelectedWorkspace = 0; } }
+    public bool IsBusiness { get => selectedWorkspace == 1; set { if (value) SelectedWorkspace = 1; } }
     public ICommand ResetDesign { get; private set; } = null!;
+    public ICommand ShowStudio { get; private set; } = null!;
     public ICommand ShowBusiness { get; private set; } = null!;
     public ICommand ApplyPreview { get; private set; } = null!;
     public ICommand SaveCustomization { get; private set; } = null!;
@@ -77,6 +93,7 @@ public sealed partial class ThemeStudioViewModel
         preferences = extended.ToLegacy();
         try { themes.Apply(SelectedTheme, lastSaved.Appearance, (p,m)=>BentoCustomization.ApplyExtended(p,m,extended)); } catch {}
         ResetDesign = new DelegateCommand(() => ApplyState(new BentoCustomizationState()), () => CanCustomize);
+        ShowStudio = new DelegateCommand(() => SelectedWorkspace = 0);
         ShowBusiness = new DelegateCommand(() => SelectedWorkspace = 1);
         ApplyPreview = new DelegateCommand(() => { try { themes.Apply(SelectedTheme, themes.ActiveAppearance, (pkg,mode)=>BentoCustomization.ApplyExtended(pkg,mode,extended)); ThemeError=""; Feedback="Preview applied — unsaved changes present."; } catch(Exception ex){ ThemeError=ex.Message; } Changed(nameof(ThemeError)); }, () => CanCustomize);
         SaveCustomization = new DelegateCommand(() => { lastSaved = new SavedCustomization(2, themes.ActiveAppearance, extended, lastSaved.ChartOptions, lastSaved.ComponentStyles, lastSaved.CustomPresets); CustomizationStore.Save(lastSaved); Feedback="Customization saved — will restore on next launch."; Changed(nameof(IsDirty)); }, () => CanCustomize && extended.Validate() is null);
