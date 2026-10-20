@@ -24,7 +24,7 @@ MUTATIONS = [
     ('contrast regression', PALETTE, 'Color="#17243C"', 'Color="#FFFFFF"'),
     ('undefined resource', VIEW, '{DynamicResource HeroSecondaryText}', '{DynamicResource DoesNotExist}'),
     ('screen-local palette', VIEW, 'Foreground="{DynamicResource HeroSecondaryText}"', 'Foreground="#123456"'),
-    ('duplicate property', VIEW, '<Border Style="{DynamicResource HeroCard}">', '<Border Style="{DynamicResource HeroCard}"><Border.Style><Style TargetType="Border" /></Border.Style>'),
+    ('duplicate property', VIEW, '<ContentControl Style="{DynamicResource HeroCard}">', '<ContentControl Style="{DynamicResource HeroCard}"><ContentControl.Style><Style TargetType="ContentControl" /></ContentControl.Style>'),
 ]
 baseline = subprocess.run([sys.executable, str(ROOT / 'Theme/step1.d.tests/step1.d.3.verify_sources.py')], capture_output=True, text=True)
 assert baseline.returncode == 0, ('Baseline must pass before mutations', baseline.stdout, baseline.stderr)

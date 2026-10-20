@@ -6,7 +6,7 @@
   <TextBlock Text="An existing window. The same engine." Style="{DynamicResource SectionHeading}" />
   <TextBlock Text="Switch here or in Studio. Both windows must update together." Margin="{DynamicResource MarginItem}" />
   <WrapPanel><RadioButton Content="Light" GroupName="DialogAppearance" IsChecked="{Binding IsLight}" /><RadioButton Content="Dark" GroupName="DialogAppearance" IsChecked="{Binding IsDark}" /></WrapPanel>
-  <Border Style="{DynamicResource AccentPlate}" Margin="{DynamicResource MarginSection}"><StackPanel><TextBlock Text="{Binding SelectedTheme}" FontWeight="{DynamicResource FontWeightHeading}" Foreground="{DynamicResource AccentPrimary}" /><TextBlock Text="{Binding AppearanceLabel}" /></StackPanel></Border>
+  <ContentControl Style="{DynamicResource AccentPlate}" Margin="{DynamicResource MarginSection}"><StackPanel><TextBlock Text="{Binding SelectedTheme}" FontWeight="{DynamicResource FontWeightHeading}" Foreground="{DynamicResource AccentPrimary}" /><TextBlock Text="{Binding AppearanceLabel}" /></StackPanel></ContentControl>
   <TextBox Text="{Binding SampleName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" AutomationProperties.Name="Preview name in shared window" Margin="{DynamicResource MarginItem}" />
   <TextBlock Text="{Binding NameError}" Foreground="{DynamicResource StatusError}" Margin="{DynamicResource MarginItem}" />
   <WrapPanel><Button Content="Apply preview" Command="{Binding ApplyPreview}" Style="{DynamicResource PrimaryButton}" Margin="{DynamicResource MarginInline}" /><Button Content="Close window" Click="Close_Click" /></WrapPanel>

@@ -4,4 +4,16 @@
   <SolidColorBrush x:Key="ClayDropBrush" Color="#665B4A9A" />
   <SolidColorBrush x:Key="ClayInsetLightBrush" Color="#E6FFFFFF" />
   <SolidColorBrush x:Key="ClayInsetShadeBrush" Color="#335B4A9A" />
+  <SolidColorBrush x:Key="ClayDropPositive" Color="#66146C45" />
+  <SolidColorBrush x:Key="ClayShadePositive" Color="#33146C45" />
+  <SolidColorBrush x:Key="ClayDropFeature" Color="#665B4A9A" />
+  <SolidColorBrush x:Key="ClayShadeFeature" Color="#335B4A9A" />
+  <SolidColorBrush x:Key="ClayDropInformation" Color="#662158A8" />
+  <SolidColorBrush x:Key="ClayShadeInformation" Color="#332158A8" />
+  <SolidColorBrush x:Key="ClayDropAttention" Color="#66C27A00" />
+  <SolidColorBrush x:Key="ClayShadeAttention" Color="#33C27A00" />
+  <SolidColorBrush x:Key="ClayDropAccent" Color="#66C81E1E" />
+  <SolidColorBrush x:Key="ClayShadeAccent" Color="#33C81E1E" />
+  <SolidColorBrush x:Key="ClayDropHero" Color="#667B5BB5" />
+  <SolidColorBrush x:Key="ClayShadeHero" Color="#337B5BB5" />
 </ResourceDictionary>

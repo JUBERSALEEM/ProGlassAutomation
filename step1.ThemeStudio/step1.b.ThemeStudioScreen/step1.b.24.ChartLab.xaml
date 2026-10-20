@@ -17,7 +17,7 @@
   <Slider Minimum="30" Maximum="80" Value="{Binding Options.DonutHole}" IsEnabled="{Binding IsDonut}" AutomationProperties.Name="Donut hole size"/>
   <TextBlock Text="Sample dataset — changes plotted values without mutating business calculations" Style="{DynamicResource Caption}" Margin="{DynamicResource MarginItem}"/>
   <ComboBox ItemsSource="{Binding AvailableDatasets}" DisplayMemberPath="Title" SelectedItem="{Binding SelectedDataset}" AutomationProperties.Name="Sample dataset" Margin="{DynamicResource MarginItem}"/>
-  <Border Style="{DynamicResource ChartCard}" Margin="{DynamicResource MarginItem}"><analytics:BentoChart Data="{Binding PreviewDataset}" PlotHeight="{Binding ChartHeight}"/></Border>
+  <ContentControl Style="{DynamicResource ChartCard}" Margin="{DynamicResource MarginItem}"><analytics:BentoChart Data="{Binding PreviewDataset}" PlotHeight="{Binding ChartHeight}"/></ContentControl>
   <TextBlock Text="All settings affect displayed charts only. Source data objects are immutable snapshots." Style="{DynamicResource Caption}"/>
  </StackPanel>
 </UserControl>

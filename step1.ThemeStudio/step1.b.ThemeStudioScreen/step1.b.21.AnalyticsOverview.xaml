@@ -5,7 +5,7 @@
   <analytics:BentoKpi x:Name="KpiRevenue" Label="Monthly revenue" Value="AED 284k" Detail="↑ 6.4% vs September · Demo" bento:BentoGrid.Column="0" bento:BentoGrid.Row="0" bento:BentoGrid.ColumnSpan="2"/>
   <analytics:BentoKpi x:Name="KpiOrders" Tag="Positive" Label="Orders" Value="128" Detail="120 completed · Demo" bento:BentoGrid.Column="2" bento:BentoGrid.Row="0"/>
   <analytics:BentoKpi x:Name="KpiConversion" Tag="Feature" Label="Conversion" Value="72%" Detail="↑ 3 points · Demo" bento:BentoGrid.Column="3" bento:BentoGrid.Row="0"/>
-  <Border x:Name="RevenueCard" Style="{DynamicResource ChartCard}" bento:BentoGrid.Column="0" bento:BentoGrid.Row="1" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="2">
+  <ContentControl x:Name="RevenueCard" Style="{DynamicResource ChartCard}" bento:BentoGrid.Column="0" bento:BentoGrid.Row="1" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="2">
    <Grid>
     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
     <DockPanel>
@@ -14,33 +14,33 @@
     </DockPanel>
     <analytics:BentoChart Grid.Row="1" Data="{Binding Revenue}" />
    </Grid>
-  </Border>
-  <Border x:Name="MixCard" Style="{DynamicResource FeaturePlate}" bento:BentoGrid.Column="2" bento:BentoGrid.Row="1" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="2">
+  </ContentControl>
+  <ContentControl x:Name="MixCard" Style="{DynamicResource FeaturePlate}" bento:BentoGrid.Column="2" bento:BentoGrid.Row="1" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="2">
    <Grid>
     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
     <TextBlock Text="Order composition" Style="{DynamicResource SectionHeading}" />
     <analytics:BentoChart Grid.Row="1" Data="{Binding Mix}" />
    </Grid>
-  </Border>
-  <Border x:Name="TargetCard" Style="{DynamicResource PositivePlate}" bento:BentoGrid.Column="3" bento:BentoGrid.Row="1" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="2">
+  </ContentControl>
+  <ContentControl x:Name="TargetCard" Style="{DynamicResource PositivePlate}" bento:BentoGrid.Column="3" bento:BentoGrid.Row="1" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="2">
    <StackPanel>
     <TextBlock Text="Monthly target" Style="{DynamicResource SectionHeading}" />
     <TextBlock Text="98% on-time delivery" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" />
     <TextBlock Text="Target 95% · Demo snapshot" Style="{DynamicResource Caption}" />
-    <Border Style="{DynamicResource Plate}"><StackPanel>
+    <ContentControl Style="{DynamicResource Plate}"><StackPanel>
      <TextBlock Text="Conversion momentum" Style="{DynamicResource SectionHeading}" />
      <analytics:BentoChart Data="{Binding Spark}" PlotHeight="90" />
-    </StackPanel></Border>
+    </StackPanel></ContentControl>
    </StackPanel>
-  </Border>
-  <Border x:Name="TrendCard" Style="{DynamicResource ChartCard}" bento:BentoGrid.Column="0" bento:BentoGrid.Row="3" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="1">
+  </ContentControl>
+  <ContentControl x:Name="TrendCard" Style="{DynamicResource ChartCard}" bento:BentoGrid.Column="0" bento:BentoGrid.Row="3" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="1">
    <Grid>
     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
     <TextBlock Text="Order momentum" Style="{DynamicResource SectionHeading}" />
     <analytics:BentoChart Grid.Row="1" Data="{Binding Trend}" />
    </Grid>
-  </Border>
-  <Border x:Name="ActivityCard" Style="{DynamicResource InformationPlate}" bento:BentoGrid.Column="2" bento:BentoGrid.Row="3" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="1">
+  </ContentControl>
+  <ContentControl x:Name="ActivityCard" Style="{DynamicResource InformationPlate}" bento:BentoGrid.Column="2" bento:BentoGrid.Row="3" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="1">
    <StackPanel>
     <TextBlock Text="Activity snapshot" Style="{DynamicResource SectionHeading}" />
     <TextBlock Text="09:40  •  PG-1042 marked ready" />
@@ -48,15 +48,15 @@
     <TextBlock Text="08:50  •  October capacity updated" />
     <TextBlock Text="Illustrative events only — not a live activity feed." Style="{DynamicResource Caption}" />
    </StackPanel>
-  </Border>
-  <Border x:Name="StatusCard" Style="{DynamicResource AttentionPlate}" bento:BentoGrid.Column="3" bento:BentoGrid.Row="3" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="1">
+  </ContentControl>
+  <ContentControl x:Name="StatusCard" Style="{DynamicResource AttentionPlate}" bento:BentoGrid.Column="3" bento:BentoGrid.Row="3" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="1">
    <StackPanel>
     <TextBlock Text="Attention queue" Style="{DynamicResource SectionHeading}" />
     <TextBlock Text="1 on hold / 1 in review" FontSize="{DynamicResource FontSizeTitle}" />
     <TextBlock Text="5 / 60 slots left · Demo snapshot." TextWrapping="Wrap" />
    </StackPanel>
-  </Border>
-  <Border x:Name="TableCard" Style="{DynamicResource ChartCard}" bento:BentoGrid.Column="0" bento:BentoGrid.Row="4" bento:BentoGrid.ColumnSpan="4" bento:BentoGrid.RowSpan="1">
+  </ContentControl>
+  <ContentControl x:Name="TableCard" Style="{DynamicResource ChartCard}" bento:BentoGrid.Column="0" bento:BentoGrid.Row="4" bento:BentoGrid.ColumnSpan="4" bento:BentoGrid.RowSpan="1">
    <Grid>
     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
     <StackPanel>
@@ -73,6 +73,6 @@
      </DataGrid.Columns>
     </DataGrid>
    </Grid>
-  </Border>
+  </ContentControl>
  </bento:BentoGrid>
 </UserControl>

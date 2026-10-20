@@ -49,7 +49,7 @@
        </DockPanel>
        <Grid Margin="{DynamicResource MarginSection}">
         <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
-        <Border Style="{DynamicResource PositivePlate}" Margin="{DynamicResource MarginInline}" Tag="KpiRevenue" MouseDown="PreviewCard_MouseDown" Cursor="Hand">
+        <ContentControl Style="{DynamicResource PositivePlate}" Margin="{DynamicResource MarginInline}" Tag="KpiRevenue" MouseDown="PreviewCard_MouseDown" Cursor="Hand">
          <Grid>
           <Border Height="3" Background="{DynamicResource AccentPrimary}" VerticalAlignment="Top" CornerRadius="{DynamicResource ChipCornerRadius}" Visibility="{Binding SelectedComponentId, Converter={StaticResource ComponentSelectionConverter}, ConverterParameter=KpiRevenue}"/>
           <StackPanel Margin="{DynamicResource MarginItem}">
@@ -58,8 +58,8 @@
           <TextBlock x:Name="TrendText" Text="↑ 6.4% trend visible" Foreground="{DynamicResource StatusSuccess}" FontSize="{DynamicResource FontSizeCaption}" Visibility="{Binding ShowKpiTrend, Converter={StaticResource BoolToVisibility}}"/>
           </StackPanel>
          </Grid>
-        </Border>
-        <Border Grid.Column="1" Style="{DynamicResource FeaturePlate}" Margin="{DynamicResource MarginInline}" Tag="KpiOrders" MouseDown="PreviewCard_MouseDown" Cursor="Hand">
+        </ContentControl>
+        <ContentControl Grid.Column="1" Style="{DynamicResource FeaturePlate}" Margin="{DynamicResource MarginInline}" Tag="KpiOrders" MouseDown="PreviewCard_MouseDown" Cursor="Hand">
          <Grid>
           <Border Height="3" Background="{DynamicResource AccentPrimary}" VerticalAlignment="Top" CornerRadius="{DynamicResource ChipCornerRadius}" Visibility="{Binding SelectedComponentId, Converter={StaticResource ComponentSelectionConverter}, ConverterParameter=KpiOrders}"/>
           <StackPanel Margin="{DynamicResource MarginItem}">
@@ -68,9 +68,9 @@
           <TextBlock Text="120 completed · Demo snapshot" Foreground="{DynamicResource TextSecondary}" FontSize="{DynamicResource FontSizeCaption}"/>
           </StackPanel>
          </Grid>
-        </Border>
+        </ContentControl>
        </Grid>
-       <Border x:Name="HeroPreview" Style="{DynamicResource HeroCard}" Margin="{DynamicResource MarginSection}" Tag="Hero" MouseDown="PreviewCard_MouseDown" Cursor="Hand">
+       <ContentControl x:Name="HeroPreview" Style="{DynamicResource HeroCard}" Margin="{DynamicResource MarginSection}" Tag="Hero" MouseDown="PreviewCard_MouseDown" Cursor="Hand">
         <Grid>
          <Border Height="3" Background="{DynamicResource AccentPrimary}" VerticalAlignment="Top" CornerRadius="{DynamicResource ChipCornerRadius}" Visibility="{Binding SelectedComponentId, Converter={StaticResource ComponentSelectionConverter}, ConverterParameter=Hero}"/>
          <Grid Margin="{DynamicResource MarginItem}">
@@ -82,7 +82,7 @@
          <Border Grid.Column="1" Background="{DynamicResource TransparentBrush}" BorderBrush="{DynamicResource HeroAccent}" BorderThickness="1" CornerRadius="{DynamicResource CardCornerRadius}" Padding="{DynamicResource PaddingCompact}" VerticalAlignment="Center" Margin="{DynamicResource MarginInline}"><TextBlock Text="Bento Light · Ocean" Foreground="{DynamicResource HeroAccent}" FontSize="{DynamicResource FontSizeCaption}" FontWeight="SemiBold"/></Border>
          </Grid>
         </Grid>
-       </Border>
+       </ContentControl>
        <local:AnalyticsOverview x:Name="LiveOverview"/>
       </StackPanel>
      </ScrollViewer>

@@ -37,11 +37,14 @@
   <Setter Property="SnapsToDevicePixels" Value="True" />
   <Setter Property="HorizontalContentAlignment" Value="Stretch" />
   <Setter Property="VerticalContentAlignment" Value="Stretch" />
+  <Setter Property="DropBrush" Value="{DynamicResource ClayDropBrush}" />
+  <Setter Property="ShadeBrush" Value="{DynamicResource ClayInsetShadeBrush}" />
+  <Setter Property="LightBrush" Value="{DynamicResource ClayInsetLightBrush}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="clay:ClaySurface">
    <Grid>
-    <Border x:Name="Drop" Background="{DynamicResource ClayDropBrush}" CornerRadius="{TemplateBinding CornerRadius}" Margin="6,10,0,0" />
-    <Border x:Name="Shade" Background="{DynamicResource ClayInsetShadeBrush}" CornerRadius="{TemplateBinding CornerRadius}" Margin="2,2,8,10" />
-    <Border x:Name="Face" Background="{TemplateBinding Background}" BorderBrush="{DynamicResource ClayInsetLightBrush}" BorderThickness="2,2,0,0" CornerRadius="{TemplateBinding CornerRadius}" Padding="{TemplateBinding Padding}" Margin="0,0,8,10">
+    <Border x:Name="Drop" Background="{TemplateBinding DropBrush}" CornerRadius="{TemplateBinding CornerRadius}" Margin="6,10,0,0" />
+    <Border x:Name="Shade" Background="{TemplateBinding ShadeBrush}" CornerRadius="{TemplateBinding CornerRadius}" Margin="2,2,8,10" />
+    <Border x:Name="Face" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding LightBrush}" BorderThickness="2,2,0,0" CornerRadius="{TemplateBinding CornerRadius}" Padding="{TemplateBinding Padding}" Margin="0,0,8,10">
      <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
     </Border>
    </Grid>
@@ -49,45 +52,47 @@
     <Trigger Property="Concave" Value="True">
      <Setter TargetName="Drop" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="Shade" Property="Margin" Value="0" />
-     <Setter TargetName="Face" Property="Margin" Value="3,3,3,3" />
+     <Setter TargetName="Face" Property="Margin" Value="3" />
      <Setter TargetName="Face" Property="BorderThickness" Value="0,0,2,2" />
-     <Setter TargetName="Face" Property="BorderBrush" Value="{DynamicResource ClayInsetShadeBrush}" />
-     <Setter TargetName="Face" Property="Background" Value="{DynamicResource SurfaceSecondary}" />
+     <Setter TargetName="Face" Property="BorderBrush" Value="{Binding ShadeBrush, RelativeSource={RelativeSource TemplatedParent}}" />
     </Trigger>
    </ControlTemplate.Triggers>
   </ControlTemplate></Setter.Value></Setter>
  </Style>
- <Style x:Key="Card" TargetType="Border">
+ <Style x:Key="Card" TargetType="ContentControl">
   <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
-  <Setter Property="BorderBrush" Value="{DynamicResource SurfaceElevated}" />
-  <Setter Property="BorderThickness" Value="{DynamicResource BorderThicknessControl}" />
-  <Setter Property="CornerRadius" Value="{DynamicResource CardCornerRadius}" />
   <Setter Property="Padding" Value="{DynamicResource PaddingCard}" />
   <Setter Property="HorizontalAlignment" Value="Stretch" />
   <Setter Property="VerticalAlignment" Value="Stretch" />
-  <Setter Property="SnapsToDevicePixels" Value="True" />
-  <Setter Property="Effect">
-   <Setter.Value>
-    <DropShadowEffect BlurRadius="22" ShadowDepth="10" Direction="270" Opacity="0.22" Color="{DynamicResource ClayShadowColor}" />
-   </Setter.Value>
-  </Setter>
+  <Setter Property="Focusable" Value="False" />
+  <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
+   <clay:ClaySurface Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}" DropBrush="{DynamicResource ClayDropBrush}" ShadeBrush="{DynamicResource ClayInsetShadeBrush}" LightBrush="{DynamicResource ClayInsetLightBrush}">
+    <ContentPresenter />
+   </clay:ClaySurface>
+  </ControlTemplate></Setter.Value></Setter>
  </Style>
- <Style x:Key="BentoTile" TargetType="Border" BasedOn="{StaticResource Card}">
+ <Style x:Key="BentoTile" TargetType="ContentControl" BasedOn="{StaticResource Card}">
   <Setter Property="Margin" Value="0" />
  </Style>
- <Style x:Key="Plate" TargetType="Border" BasedOn="{StaticResource Card}">
+ <Style x:Key="Plate" TargetType="ContentControl" BasedOn="{StaticResource Card}">
   <Setter Property="Background" Value="{DynamicResource SurfaceSecondary}" />
-  <Setter Property="BorderBrush" Value="{DynamicResource BorderSubtle}" />
   <Setter Property="Padding" Value="{DynamicResource PaddingPlate}" />
-  <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+  <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
+   <clay:ClaySurface Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ControlCornerRadius}" DropBrush="{DynamicResource ClayDropBrush}" ShadeBrush="{DynamicResource ClayInsetShadeBrush}" LightBrush="{DynamicResource ClayInsetLightBrush}">
+    <ContentPresenter />
+   </clay:ClaySurface>
+  </ControlTemplate></Setter.Value></Setter>
  </Style>
- <Style x:Key="AccentPlate" TargetType="Border" BasedOn="{StaticResource Plate}">
+ <Style x:Key="AccentPlate" TargetType="ContentControl" BasedOn="{StaticResource Plate}">
   <Setter Property="Background" Value="{DynamicResource AccentSoft}" />
-  <Setter Property="BorderBrush" Value="{DynamicResource SurfaceElevated}" />
+  <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
+   <clay:ClaySurface Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ControlCornerRadius}" DropBrush="{DynamicResource ClayDropAccent}" ShadeBrush="{DynamicResource ClayShadeAccent}" LightBrush="{DynamicResource ClayInsetLightBrush}">
+    <ContentPresenter />
+   </clay:ClaySurface>
+  </ControlTemplate></Setter.Value></Setter>
  </Style>
- <Style x:Key="ElevatedPlate" TargetType="Border" BasedOn="{StaticResource Plate}">
+ <Style x:Key="ElevatedPlate" TargetType="ContentControl" BasedOn="{StaticResource Plate}">
   <Setter Property="Background" Value="{DynamicResource SurfaceElevated}" />
-  <Setter Property="BorderBrush" Value="{DynamicResource BorderStrong}" />
  </Style>
  <Style x:Key="TokenValue" TargetType="TextBlock" BasedOn="{StaticResource Caption}">
   <Setter Property="FontFamily" Value="{DynamicResource FontFamilyMono}" />

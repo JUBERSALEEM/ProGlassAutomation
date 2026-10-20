@@ -20,7 +20,7 @@
                      Gutter="{DynamicResource BentoGutter}"
                      CompactWidth="{DynamicResource BentoCompactWidth}"
                      Margin="{DynamicResource PaddingPage}">
-        <Border Style="{DynamicResource Card}" bento:BentoGrid.Column="0" bento:BentoGrid.Row="0">
+        <ContentControl Style="{DynamicResource Card}" bento:BentoGrid.Column="0" bento:BentoGrid.Row="0">
             <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                 <Border Width="{DynamicResource ControlMinHeight}" Height="{DynamicResource ControlMinHeight}" CornerRadius="{DynamicResource ControlCornerRadius}" Background="{DynamicResource AccentPrimary}" VerticalAlignment="Center">
                     <TextBlock Text="PG" Foreground="{DynamicResource TextOnAccent}" FontWeight="{DynamicResource FontWeightHeading}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -30,19 +30,19 @@
                     <TextBlock Text="Theme Engine Studio" Style="{DynamicResource Caption}"/>
                 </StackPanel>
             </StackPanel>
-        </Border>
-        <Border Style="{DynamicResource AccentPlate}" bento:BentoGrid.Column="1" bento:BentoGrid.Row="0" bento:BentoGrid.ColumnSpan="2">
+        </ContentControl>
+        <ContentControl Style="{DynamicResource AccentPlate}" bento:BentoGrid.Column="1" bento:BentoGrid.Row="0" bento:BentoGrid.ColumnSpan="2">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                 <RadioButton Content="Theme Studio" IsChecked="{Binding IsStudio}" GroupName="Workspace" AutomationProperties.Name="Theme Studio page" Margin="{DynamicResource MarginInline}"/>
                 <RadioButton Content="Business Reference" IsChecked="{Binding IsBusiness}" GroupName="Workspace" AutomationProperties.Name="Business Reference page"/>
             </StackPanel>
-        </Border>
-        <Border Style="{DynamicResource Card}" bento:BentoGrid.Column="3" bento:BentoGrid.Row="0">
+        </ContentControl>
+        <ContentControl Style="{DynamicResource Card}" bento:BentoGrid.Column="3" bento:BentoGrid.Row="0">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                 <RadioButton Content="Light" IsChecked="{Binding IsLight}" GroupName="ShellAppearance" AutomationProperties.Name="Light appearance" VerticalAlignment="Center" Margin="{DynamicResource MarginInline}"/>
                 <RadioButton Content="Dark" IsChecked="{Binding IsDark}" GroupName="ShellAppearance" AutomationProperties.Name="Dark appearance" VerticalAlignment="Center"/>
             </StackPanel>
-        </Border>
+        </ContentControl>
         <TabControl x:Name="WorkspaceTabs" bento:BentoGrid.Column="0" bento:BentoGrid.Row="1" bento:BentoGrid.ColumnSpan="4" bento:BentoGrid.RowSpan="3"
                     SelectedIndex="{Binding SelectedWorkspace, Mode=TwoWay}" AutomationProperties.Name="Design workspace pages"
                     Background="{DynamicResource ApplicationBackground}" BorderThickness="0">

@@ -1,6 +1,6 @@
 <UserControl x:Class="ProGlassAutomation.ThemeStudio.WorklistPanel"
  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
- <Border Style="{DynamicResource Card}">
+ <ContentControl Style="{DynamicResource Card}">
   <Grid>
    <Grid.RowDefinitions>
     <RowDefinition Height="Auto"/>
@@ -13,10 +13,10 @@
     <TextBlock Text="Select a work item to preview a review. This list uses local sample data." Foreground="{DynamicResource TextSecondary}" Margin="{DynamicResource MarginItem}" />
     <Label Foreground="{DynamicResource TextSecondary}" Content="Find a work item" Target="{Binding ElementName=ReferenceSearch}" />
     <TextBox x:Name="ReferenceSearch" Text="{Binding ReferenceFilter, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Search reference worklist" Margin="{DynamicResource MarginItem}" />
-    <Border Style="{DynamicResource Plate}" Padding="{DynamicResource PaddingControl}" Margin="{DynamicResource MarginItem}"><Grid>
+    <ContentControl Style="{DynamicResource Plate}" Padding="{DynamicResource PaddingControl}" Margin="{DynamicResource MarginItem}"><Grid>
      <Grid.ColumnDefinitions><ColumnDefinition Width="3*" /><ColumnDefinition Width="2*" /><ColumnDefinition Width="2*" /></Grid.ColumnDefinitions>
      <TextBlock Text="REFERENCE / OWNER" Style="{DynamicResource Caption}" /><TextBlock Grid.Column="1" Text="UPDATED" Style="{DynamicResource Caption}" /><TextBlock Grid.Column="2" Text="STATUS" Style="{DynamicResource Caption}" />
-    </Grid></Border>
+    </Grid></ContentControl>
    </StackPanel>
    <ListBox Grid.Row="1" ItemsSource="{Binding ReferenceView}" SelectedItem="{Binding SelectedReference}" HorizontalContentAlignment="Stretch" AutomationProperties.Name="Reference worklist">
     <ListBox.ItemTemplate><DataTemplate><Grid>
@@ -29,13 +29,13 @@
    <StackPanel Grid.Row="2">
     <TextBlock Text="{Binding ReferenceSummary}" Style="{DynamicResource Caption}" Margin="{DynamicResource MarginItem}" AutomationProperties.LiveSetting="Polite" />
     <Separator />
-    <Border Style="{DynamicResource Plate}"><StackPanel>
+    <ContentControl Style="{DynamicResource Plate}"><StackPanel>
      <TextBlock Text="Review notes" FontWeight="{DynamicResource FontWeightHeading}" />
      <TextBlock Text="Confirm details with your team before handoff. Preview actions never write business data." Margin="{DynamicResource MarginItem}" />
      <TextBlock Text="Design operations · Reference edition 01 · Local preview" Style="{DynamicResource Caption}" />
      <WrapPanel Margin="{DynamicResource MarginItem}"><Button Content="Review selected pattern" Command="{Binding ReviewReference}" ToolTip="Reports the selected sample; no business data is changed." Margin="{DynamicResource MarginInline}" /><Button Content="Review notes" Style="{DynamicResource SubtleButton}" Command="{Binding OpenDialog}" /></WrapPanel>
-    </StackPanel></Border>
+    </StackPanel></ContentControl>
    </StackPanel>
   </Grid>
- </Border>
+ </ContentControl>
 </UserControl>

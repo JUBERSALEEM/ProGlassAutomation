@@ -1,10 +1,24 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
- <Style x:Key="HeroCard" TargetType="Border">
-  <Setter Property="Background" Value="{DynamicResource HeroBackground}" /><Setter Property="CornerRadius" Value="{DynamicResource CardCornerRadius}" /><Setter Property="Padding" Value="{DynamicResource PaddingCard}" />
+ <Style x:Key="HeroCard" TargetType="ContentControl">
+  <Setter Property="Background" Value="{DynamicResource HeroBackground}" />
+  <Setter Property="Padding" Value="{DynamicResource PaddingCard}" />
   <Setter Property="HorizontalAlignment" Value="Stretch" /><Setter Property="VerticalAlignment" Value="Stretch" />
+  <Setter Property="Focusable" Value="False" />
+  <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
+   <Border Background="{TemplateBinding Background}" CornerRadius="{DynamicResource CardCornerRadius}" Padding="{TemplateBinding Padding}">
+    <ContentPresenter />
+   </Border>
+  </ControlTemplate></Setter.Value></Setter>
  </Style>
- <Style x:Key="MetricCard" TargetType="Border">
-  <Setter Property="Background" Value="{DynamicResource SurfaceElevated}" /><Setter Property="BorderBrush" Value="{DynamicResource BorderSubtle}" /><Setter Property="BorderThickness" Value="{DynamicResource BorderThicknessControl}" /><Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" /><Setter Property="Padding" Value="{DynamicResource PaddingPlate}" />
+ <Style x:Key="MetricCard" TargetType="ContentControl">
+  <Setter Property="Background" Value="{DynamicResource SurfaceElevated}" />
+  <Setter Property="Padding" Value="{DynamicResource PaddingPlate}" />
+  <Setter Property="Focusable" Value="False" />
+  <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
+   <Border Background="{TemplateBinding Background}" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="{DynamicResource BorderThicknessControl}" CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
+    <ContentPresenter />
+   </Border>
+  </ControlTemplate></Setter.Value></Setter>
  </Style>
  <Style x:Key="StatusBadge" TargetType="Border">
   <Setter Property="Background" Value="{DynamicResource SurfaceSecondary}" /><Setter Property="CornerRadius" Value="{DynamicResource ChipCornerRadius}" /><Setter Property="Padding" Value="{DynamicResource PaddingCompact}" />

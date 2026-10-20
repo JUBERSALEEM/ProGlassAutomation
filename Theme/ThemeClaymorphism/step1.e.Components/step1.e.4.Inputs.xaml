@@ -60,9 +60,9 @@
     </ToggleButton>
     <ContentPresenter Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" Margin="{DynamicResource PaddingSelection}" HorizontalAlignment="Left" VerticalAlignment="Center" IsHitTestVisible="False" />
     <Popup x:Name="PART_Popup" IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" AllowsTransparency="True" Focusable="False">
-     <Border Background="{DynamicResource SurfaceElevated}" BorderBrush="{DynamicResource BorderStrong}" BorderThickness="{DynamicResource BorderThicknessControl}" CornerRadius="{DynamicResource ControlCornerRadius}" MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}">
+     <clay:ClaySurface Background="{DynamicResource SurfaceElevated}" CornerRadius="{DynamicResource ControlCornerRadius}" MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}">
       <ScrollViewer MaxHeight="{DynamicResource PopupMaxHeight}" CanContentScroll="True" HorizontalScrollBarVisibility="Disabled"><ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained" /></ScrollViewer>
-     </Border>
+     </clay:ClaySurface>
     </Popup>
    </Grid>
    <ControlTemplate.Triggers>
