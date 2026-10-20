@@ -19,12 +19,9 @@
    </clay:ClaySurface>
    <ControlTemplate.Triggers>
     <Trigger Property="IsKeyboardFocused" Value="True">
-     <Setter TargetName="Pod" Property="BorderBrush" Value="{DynamicResource FocusIndicator}" />
+     <Setter TargetName="Pod" Property="LightBrush" Value="{DynamicResource FocusIndicator}" />
     </Trigger>
     <Trigger Property="IsPressed" Value="True">
-     <Setter TargetName="Pod" Property="RenderTransform">
-      <Setter.Value><TranslateTransform Y="3" /></Setter.Value>
-     </Setter>
      <Setter TargetName="Pod" Property="Concave" Value="True" />
     </Trigger>
    </ControlTemplate.Triggers>

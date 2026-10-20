@@ -52,7 +52,7 @@
  <Style TargetType="TabItem">
   <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" /><Setter Property="FocusVisualStyle" Value="{DynamicResource KeyboardFocus}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="TabItem">
-   <clay:ClaySurface x:Name="Pod" Concave="True" Background="{DynamicResource TransparentBrush}" Padding="{DynamicResource PaddingControl}" CornerRadius="{DynamicResource ChipCornerRadius}">
+   <clay:ClaySurface x:Name="Pod" ShowDrop="False" Concave="True" Background="{DynamicResource TransparentBrush}" Padding="{DynamicResource PaddingControl}" CornerRadius="{DynamicResource ChipCornerRadius}">
     <ContentPresenter ContentSource="Header" RecognizesAccessKey="True" />
    </clay:ClaySurface>
    <ControlTemplate.Triggers>

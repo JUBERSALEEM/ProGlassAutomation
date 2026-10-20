@@ -22,8 +22,8 @@
     <ScrollViewer x:Name="PART_ContentHost" />
    </clay:ClaySurface>
    <ControlTemplate.Triggers>
-    <Trigger Property="IsKeyboardFocusWithin" Value="True"><Setter TargetName="Frame" Property="BorderBrush" Value="{DynamicResource FocusIndicator}" /></Trigger>
-    <Trigger Property="Validation.HasError" Value="True"><Setter TargetName="Frame" Property="BorderBrush" Value="{DynamicResource StatusError}" /></Trigger>
+    <Trigger Property="IsKeyboardFocusWithin" Value="True"><Setter TargetName="Frame" Property="LightBrush" Value="{DynamicResource FocusIndicator}" /></Trigger>
+    <Trigger Property="Validation.HasError" Value="True"><Setter TargetName="Frame" Property="ShadeBrush" Value="{DynamicResource StatusError}" /><Setter TargetName="Frame" Property="LightBrush" Value="{DynamicResource StatusError}" /></Trigger>
     <Trigger Property="IsEnabled" Value="False"><Setter Property="Background" Value="{DynamicResource DisabledSurface}" /><Setter Property="Foreground" Value="{DynamicResource DisabledText}" /></Trigger>
    </ControlTemplate.Triggers>
   </ControlTemplate></Setter.Value></Setter>
@@ -33,10 +33,12 @@
   <Setter Property="Padding" Value="{DynamicResource PaddingControl}" />
   <Setter Property="HorizontalContentAlignment" Value="Stretch" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ComboBoxItem">
-   <Border x:Name="Row" Background="{DynamicResource TransparentBrush}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ChipCornerRadius}"><ContentPresenter /></Border>
+   <Border x:Name="Row" Background="{DynamicResource TransparentBrush}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ChipCornerRadius}" BorderBrush="{DynamicResource TransparentBrush}" BorderThickness="2,2,0,0">
+    <Border x:Name="Shade" BorderBrush="{DynamicResource TransparentBrush}" BorderThickness="0" CornerRadius="{DynamicResource ChipCornerRadius}"><ContentPresenter /></Border>
+   </Border>
    <ControlTemplate.Triggers>
     <Trigger Property="IsHighlighted" Value="True"><Setter TargetName="Row" Property="Background" Value="{DynamicResource StateHover}" /></Trigger>
-    <Trigger Property="IsSelected" Value="True"><Setter TargetName="Row" Property="Background" Value="{DynamicResource StateSelected}" /><Setter Property="Foreground" Value="{DynamicResource AccentPrimary}" /></Trigger>
+    <Trigger Property="IsSelected" Value="True"><Setter TargetName="Row" Property="Background" Value="{DynamicResource StateSelected}" /><Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource ClayInsetLightBrush}" /><Setter TargetName="Shade" Property="BorderBrush" Value="{DynamicResource ClayInsetShadeBrush}" /><Setter TargetName="Shade" Property="BorderThickness" Value="0,0,2,2" /><Setter Property="Foreground" Value="{DynamicResource AccentPrimary}" /></Trigger>
     <Trigger Property="IsEnabled" Value="False"><Setter Property="Foreground" Value="{DynamicResource DisabledText}" /></Trigger>
    </ControlTemplate.Triggers>
   </ControlTemplate></Setter.Value></Setter>
@@ -52,13 +54,16 @@
   <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ComboBox">
    <Grid>
-    <clay:ClaySurface x:Name="Frame" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource ControlCornerRadius}" />
-    <ToggleButton Focusable="False" ClickMode="Press" IsChecked="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
-     <ToggleButton.Template><ControlTemplate TargetType="ToggleButton">
-      <Border Background="{DynamicResource TransparentBrush}" Padding="{DynamicResource PaddingControl}"><TextBlock Text="⌄" HorizontalAlignment="Right" Foreground="{DynamicResource TextSecondary}" /></Border>
-     </ControlTemplate></ToggleButton.Template>
-    </ToggleButton>
-    <ContentPresenter Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" Margin="{DynamicResource PaddingSelection}" HorizontalAlignment="Left" VerticalAlignment="Center" IsHitTestVisible="False" />
+    <clay:ClaySurface x:Name="Frame" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
+     <Grid>
+      <ToggleButton Focusable="False" ClickMode="Press" IsChecked="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
+       <ToggleButton.Template><ControlTemplate TargetType="ToggleButton">
+        <Border Background="{DynamicResource TransparentBrush}"><TextBlock Text="⌄" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource TextSecondary}" /></Border>
+       </ControlTemplate></ToggleButton.Template>
+      </ToggleButton>
+      <ContentPresenter Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" Margin="0,0,24,0" HorizontalAlignment="Left" VerticalAlignment="Center" IsHitTestVisible="False" />
+     </Grid>
+    </clay:ClaySurface>
     <Popup x:Name="PART_Popup" IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" AllowsTransparency="True" Focusable="False">
      <clay:ClaySurface Background="{DynamicResource SurfaceElevated}" CornerRadius="{DynamicResource ControlCornerRadius}" MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}">
       <ScrollViewer MaxHeight="{DynamicResource PopupMaxHeight}" CanContentScroll="True" HorizontalScrollBarVisibility="Disabled"><ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained" /></ScrollViewer>
@@ -67,7 +72,7 @@
    </Grid>
    <ControlTemplate.Triggers>
     <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Frame" Property="Background" Value="{DynamicResource StateHover}" /></Trigger>
-    <Trigger Property="IsKeyboardFocusWithin" Value="True"><Setter TargetName="Frame" Property="BorderBrush" Value="{DynamicResource FocusIndicator}" /><Setter TargetName="Frame" Property="BorderThickness" Value="{DynamicResource FocusThickness}" /></Trigger>
+    <Trigger Property="IsKeyboardFocusWithin" Value="True"><Setter TargetName="Frame" Property="LightBrush" Value="{DynamicResource FocusIndicator}" /></Trigger>
     <Trigger Property="IsEnabled" Value="False"><Setter Property="Foreground" Value="{DynamicResource DisabledText}" /><Setter TargetName="Frame" Property="Background" Value="{DynamicResource DisabledSurface}" /></Trigger>
    </ControlTemplate.Triggers>
   </ControlTemplate></Setter.Value></Setter>

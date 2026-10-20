@@ -17,9 +17,11 @@
   <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
   <Setter Property="Padding" Value="{DynamicResource PaddingControl}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="MenuItem">
-   <Border x:Name="Frame" Background="{DynamicResource TransparentBrush}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ChipCornerRadius}"><ContentPresenter ContentSource="Header" RecognizesAccessKey="True" /></Border>
+   <Border x:Name="Frame" Background="{DynamicResource TransparentBrush}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ChipCornerRadius}" BorderBrush="{DynamicResource TransparentBrush}" BorderThickness="2,2,0,0">
+    <Border x:Name="Shade" BorderBrush="{DynamicResource TransparentBrush}" BorderThickness="0" CornerRadius="{DynamicResource ChipCornerRadius}"><ContentPresenter ContentSource="Header" RecognizesAccessKey="True" /></Border>
+   </Border>
    <ControlTemplate.Triggers>
-    <Trigger Property="IsHighlighted" Value="True"><Setter TargetName="Frame" Property="Background" Value="{DynamicResource StateHover}" /></Trigger>
+    <Trigger Property="IsHighlighted" Value="True"><Setter TargetName="Frame" Property="Background" Value="{DynamicResource StateHover}" /><Setter TargetName="Frame" Property="BorderBrush" Value="{DynamicResource ClayInsetLightBrush}" /><Setter TargetName="Shade" Property="BorderBrush" Value="{DynamicResource ClayInsetShadeBrush}" /><Setter TargetName="Shade" Property="BorderThickness" Value="0,0,2,2" /></Trigger>
     <Trigger Property="IsEnabled" Value="False"><Setter Property="Foreground" Value="{DynamicResource DisabledText}" /></Trigger>
    </ControlTemplate.Triggers>
   </ControlTemplate></Setter.Value></Setter>
@@ -32,7 +34,9 @@
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Thumb">
    <Grid>
     <Border Background="{DynamicResource ClayDropBrush}" CornerRadius="{DynamicResource ChipCornerRadius}" Margin="1,2,0,0" />
-    <Border x:Name="Grip" Background="{DynamicResource BorderStrong}" CornerRadius="{DynamicResource ChipCornerRadius}" Margin="0,0,1,2" BorderBrush="{DynamicResource ClayInsetLightBrush}" BorderThickness="1,1,0,0" />
+    <Border x:Name="Grip" Background="{DynamicResource BorderStrong}" CornerRadius="{DynamicResource ChipCornerRadius}" Margin="0,0,1,2" BorderBrush="{DynamicResource ClayInsetLightBrush}" BorderThickness="1,1,0,0">
+     <Border BorderBrush="{DynamicResource ClayInsetShadeBrush}" BorderThickness="0,0,1,1" CornerRadius="{DynamicResource ChipCornerRadius}" />
+    </Border>
    </Grid>
    <ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Grip" Property="Background" Value="{DynamicResource AccentPrimary}" /></Trigger></ControlTemplate.Triggers>
   </ControlTemplate></Setter.Value></Setter>
@@ -40,24 +44,28 @@
  <Style TargetType="ScrollBar">
   <Setter Property="Width" Value="{DynamicResource ScrollBarSize}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ScrollBar">
-   <Grid Background="{DynamicResource SurfaceSecondary}">
-    <Track x:Name="PART_Track" Orientation="{TemplateBinding Orientation}" IsDirectionReversed="True" Minimum="{TemplateBinding Minimum}" Maximum="{TemplateBinding Maximum}" Value="{TemplateBinding Value}" ViewportSize="{TemplateBinding ViewportSize}">
-     <Track.DecreaseRepeatButton><RepeatButton Command="{x:Static ScrollBar.PageUpCommand}" Style="{StaticResource ScrollPageButton}" /></Track.DecreaseRepeatButton>
-     <Track.Thumb><Thumb MinHeight="{DynamicResource ChoiceMarkSize}" /></Track.Thumb>
-     <Track.IncreaseRepeatButton><RepeatButton Command="{x:Static ScrollBar.PageDownCommand}" Style="{StaticResource ScrollPageButton}" /></Track.IncreaseRepeatButton>
-    </Track>
-   </Grid>
+   <Border Background="{DynamicResource SurfaceSecondary}" BorderBrush="{DynamicResource ClayInsetShadeBrush}" BorderThickness="2,2,0,0" CornerRadius="{DynamicResource ChipCornerRadius}">
+    <Border BorderBrush="{DynamicResource ClayInsetLightBrush}" BorderThickness="0,0,2,2" CornerRadius="{DynamicResource ChipCornerRadius}">
+     <Track x:Name="PART_Track" Orientation="{TemplateBinding Orientation}" IsDirectionReversed="True" Minimum="{TemplateBinding Minimum}" Maximum="{TemplateBinding Maximum}" Value="{TemplateBinding Value}" ViewportSize="{TemplateBinding ViewportSize}">
+      <Track.DecreaseRepeatButton><RepeatButton Command="{x:Static ScrollBar.PageUpCommand}" Style="{StaticResource ScrollPageButton}" /></Track.DecreaseRepeatButton>
+      <Track.Thumb><Thumb MinHeight="{DynamicResource ChoiceMarkSize}" /></Track.Thumb>
+      <Track.IncreaseRepeatButton><RepeatButton Command="{x:Static ScrollBar.PageDownCommand}" Style="{StaticResource ScrollPageButton}" /></Track.IncreaseRepeatButton>
+     </Track>
+    </Border>
+   </Border>
   </ControlTemplate></Setter.Value></Setter>
   <Style.Triggers><Trigger Property="Orientation" Value="Horizontal">
    <Setter Property="Width" Value="Auto" /><Setter Property="Height" Value="{DynamicResource ScrollBarSize}" />
    <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ScrollBar">
-    <Grid Background="{DynamicResource SurfaceSecondary}">
-     <Track x:Name="PART_Track" Orientation="Horizontal" Minimum="{TemplateBinding Minimum}" Maximum="{TemplateBinding Maximum}" Value="{TemplateBinding Value}" ViewportSize="{TemplateBinding ViewportSize}">
-      <Track.DecreaseRepeatButton><RepeatButton Command="{x:Static ScrollBar.PageLeftCommand}" Style="{StaticResource ScrollPageButton}" /></Track.DecreaseRepeatButton>
-      <Track.Thumb><Thumb MinWidth="{DynamicResource ChoiceMarkSize}" /></Track.Thumb>
-      <Track.IncreaseRepeatButton><RepeatButton Command="{x:Static ScrollBar.PageRightCommand}" Style="{StaticResource ScrollPageButton}" /></Track.IncreaseRepeatButton>
-     </Track>
-    </Grid>
+    <Border Background="{DynamicResource SurfaceSecondary}" BorderBrush="{DynamicResource ClayInsetShadeBrush}" BorderThickness="2,2,0,0" CornerRadius="{DynamicResource ChipCornerRadius}">
+     <Border BorderBrush="{DynamicResource ClayInsetLightBrush}" BorderThickness="0,0,2,2" CornerRadius="{DynamicResource ChipCornerRadius}">
+      <Track x:Name="PART_Track" Orientation="Horizontal" Minimum="{TemplateBinding Minimum}" Maximum="{TemplateBinding Maximum}" Value="{TemplateBinding Value}" ViewportSize="{TemplateBinding ViewportSize}">
+       <Track.DecreaseRepeatButton><RepeatButton Command="{x:Static ScrollBar.PageLeftCommand}" Style="{StaticResource ScrollPageButton}" /></Track.DecreaseRepeatButton>
+       <Track.Thumb><Thumb MinWidth="{DynamicResource ChoiceMarkSize}" /></Track.Thumb>
+       <Track.IncreaseRepeatButton><RepeatButton Command="{x:Static ScrollBar.PageRightCommand}" Style="{StaticResource ScrollPageButton}" /></Track.IncreaseRepeatButton>
+      </Track>
+     </Border>
+    </Border>
    </ControlTemplate></Setter.Value></Setter>
   </Trigger></Style.Triggers>
  </Style>

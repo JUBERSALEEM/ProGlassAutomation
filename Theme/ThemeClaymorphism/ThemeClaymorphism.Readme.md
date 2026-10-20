@@ -1,13 +1,17 @@
 # Claymorphism — second registered theme (Phase 01 / step1)
 
-Date: **2026-10-20**. Native WPF. Bento files are not modified.
+Date: **2026-10-20**. Native WPF. Engines stay separate: Bento cards remain a flat `Border` in their templates.
 
 ## Engine
 
-`ClaySurface` is the clay volume: colored drop, inner shade, top-left sheen. Buttons, combo, inputs (concave), KPIs use it. Screen `Card` Borders keep a hue drop + light edge because Border has no template.
+`ClaySurface` is the clay volume (clay.css recipe, no CSS):
 
-Recipe adapted from clay.css (outset + two insets). No CSS in the package.
+- modest colored **drop** (bottom-right)
+- **inner shade** on the face (bottom-right inset)
+- **inner light** on the face (top-left inset)
+
+Concave inverts the insets and hides the drop. `ShowDrop` stays false on tabs so selected pills do not jump. Hue extras (`ClayDrop*` / `ClayShade*`) tint cards, plates, and KPIs.
 
 ## Completeness
 
-Source look **~72%**. Windows pixels **0%**. Reports URL on the marketing host is sign-in gated; public chrome there is Crystal, not Clay.
+Source chrome for the 47 contract roles is filled. Windows pixels **0%** (workflow stays in `cols/ci`; no PC). Reports URL is sign-in gated; public chrome there is Crystal, not Clay.

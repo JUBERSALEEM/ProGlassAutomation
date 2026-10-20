@@ -9,8 +9,12 @@
    <Border x:Name="Frame" Background="{DynamicResource TransparentBrush}" BorderBrush="{DynamicResource TransparentBrush}" BorderThickness="{DynamicResource BorderThicknessControl}" CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
     <DockPanel>
      <Grid DockPanel.Dock="Left" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" VerticalAlignment="Center">
-      <Border Background="{DynamicResource ClayDropBrush}" CornerRadius="{DynamicResource ChipCornerRadius}" Margin="2,2,0,0" />
-      <Border x:Name="Indicator" BorderBrush="{DynamicResource ClayInsetLightBrush}" BorderThickness="1,1,0,0" CornerRadius="{DynamicResource ChipCornerRadius}" Background="{DynamicResource SurfacePrimary}" Margin="0,0,2,2"><Path x:Name="Mark" Data="M 2,8 L 6,12 L 14,3" Stroke="{DynamicResource TextOnAccent}" StrokeThickness="{DynamicResource StrokeWidth}" Stretch="Uniform" Margin="{DynamicResource PaddingMark}" Visibility="Collapsed" /></Border>
+      <Border Background="{DynamicResource ClayDropBrush}" CornerRadius="{DynamicResource ChipCornerRadius}" Margin="2,2,0,0" IsHitTestVisible="False" />
+      <Border x:Name="Indicator" Background="{DynamicResource SurfacePrimary}" BorderBrush="{DynamicResource ClayInsetLightBrush}" BorderThickness="1,1,0,0" CornerRadius="{DynamicResource ChipCornerRadius}" Margin="0,0,2,2">
+       <Border BorderBrush="{DynamicResource ClayInsetShadeBrush}" BorderThickness="0,0,1,1" CornerRadius="{DynamicResource ChipCornerRadius}">
+        <Path x:Name="Mark" Data="M 2,8 L 6,12 L 14,3" Stroke="{DynamicResource TextOnAccent}" StrokeThickness="{DynamicResource StrokeWidth}" Stretch="Uniform" Margin="{DynamicResource PaddingMark}" Visibility="Collapsed" />
+       </Border>
+      </Border>
      </Grid>
      <ContentPresenter Margin="{DynamicResource PaddingChoice}" VerticalAlignment="Center" RecognizesAccessKey="True" />
     </DockPanel>
@@ -33,8 +37,12 @@
    <Border x:Name="Frame" Background="{DynamicResource TransparentBrush}" BorderBrush="{DynamicResource TransparentBrush}" BorderThickness="{DynamicResource BorderThicknessControl}" CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
     <DockPanel>
      <Grid DockPanel.Dock="Left" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" VerticalAlignment="Center">
-      <Border Background="{DynamicResource ClayDropBrush}" CornerRadius="{DynamicResource ChoiceCornerRadius}" Margin="2,2,0,0" />
-      <Border x:Name="Indicator" BorderBrush="{DynamicResource ClayInsetLightBrush}" BorderThickness="1,1,0,0" CornerRadius="{DynamicResource ChoiceCornerRadius}" Background="{DynamicResource SurfacePrimary}" Margin="0,0,2,2"><Ellipse x:Name="Mark" Fill="{DynamicResource TextOnAccent}" Margin="{DynamicResource PaddingMark}" Visibility="Collapsed" /></Border>
+      <Border Background="{DynamicResource ClayDropBrush}" CornerRadius="{DynamicResource ChoiceCornerRadius}" Margin="2,2,0,0" IsHitTestVisible="False" />
+      <Border x:Name="Indicator" Background="{DynamicResource SurfacePrimary}" BorderBrush="{DynamicResource ClayInsetLightBrush}" BorderThickness="1,1,0,0" CornerRadius="{DynamicResource ChoiceCornerRadius}" Margin="0,0,2,2">
+       <Border BorderBrush="{DynamicResource ClayInsetShadeBrush}" BorderThickness="0,0,1,1" CornerRadius="{DynamicResource ChoiceCornerRadius}">
+        <Ellipse x:Name="Mark" Fill="{DynamicResource TextOnAccent}" Margin="{DynamicResource PaddingMark}" Visibility="Collapsed" />
+       </Border>
+      </Border>
      </Grid>
      <ContentPresenter Margin="{DynamicResource PaddingChoice}" VerticalAlignment="Center" RecognizesAccessKey="True" />
     </DockPanel>
@@ -65,10 +73,12 @@
   <Setter Property="Padding" Value="{DynamicResource PaddingControl}" />
   <Setter Property="HorizontalContentAlignment" Value="Stretch" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListBoxItem">
-   <Border x:Name="Frame" Background="{DynamicResource TransparentBrush}" BorderBrush="{DynamicResource TransparentBrush}" BorderThickness="{DynamicResource BorderThicknessControl}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ChipCornerRadius}"><ContentPresenter /></Border>
+   <Border x:Name="Frame" Background="{DynamicResource TransparentBrush}" BorderBrush="{DynamicResource TransparentBrush}" BorderThickness="2,2,0,0" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ChipCornerRadius}">
+    <Border x:Name="Shade" BorderBrush="{DynamicResource TransparentBrush}" BorderThickness="0" CornerRadius="{DynamicResource ChipCornerRadius}"><ContentPresenter /></Border>
+   </Border>
    <ControlTemplate.Triggers>
     <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Frame" Property="Background" Value="{DynamicResource StateHover}" /></Trigger>
-    <Trigger Property="IsSelected" Value="True"><Setter TargetName="Frame" Property="Background" Value="{DynamicResource StateSelected}" /><Setter Property="Foreground" Value="{DynamicResource AccentPrimary}" /></Trigger>
+    <Trigger Property="IsSelected" Value="True"><Setter TargetName="Frame" Property="Background" Value="{DynamicResource StateSelected}" /><Setter TargetName="Frame" Property="BorderBrush" Value="{DynamicResource ClayInsetLightBrush}" /><Setter TargetName="Shade" Property="BorderBrush" Value="{DynamicResource ClayInsetShadeBrush}" /><Setter TargetName="Shade" Property="BorderThickness" Value="0,0,2,2" /><Setter Property="Foreground" Value="{DynamicResource AccentPrimary}" /></Trigger>
     <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Frame" Property="BorderBrush" Value="{DynamicResource FocusIndicator}" /></Trigger>
     <Trigger Property="IsEnabled" Value="False"><Setter Property="Foreground" Value="{DynamicResource DisabledText}" /></Trigger>
    </ControlTemplate.Triggers>
