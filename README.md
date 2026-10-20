@@ -4,7 +4,7 @@ Fresh native **WPF / .NET 8** desktop implementation in the existing root projec
 
 ## What is implemented
 
-- Non-visual orchestration with 99 semantic token roles and 46 required WPF style targets, complete theme-package validation/replacement and active-selection notifications.
+- Non-visual orchestration with 102 semantic token roles and 47 required WPF style targets, complete theme-package validation/replacement and active-selection notifications. BentoGrid (theme-owned panel) is the mosaic engine.
 - Bento-isolated native styles/templates for introduced buttons, inputs, choices, selections, panels, text, status/progress, tooltips, context menus and scrollbars.
 - Separate Theme Studio customization and Business Reference sample pages: real accent/density/shape/type controls, Light/Dark switching, live tokens, preview commands/validation and a shared-resource modeless window.
 - No additional test-framework dependency: Windows STA runtime checks and portable source/contrast/regression checks.
@@ -51,6 +51,7 @@ Read [AGENTS.md](AGENTS.md) first, then:
 - [Feature registry](docs/06.Feature-Registry.md)
 - [Theme Studio responsibilities and extension procedure](step1.ThemeStudio/step1.c.docs/step1.c.1.ThemeStudio-README.md)
 - [Bento research and concrete design specification](Theme/ThemeBento/ThemeBento.Readme.md)
+- [Bento Grid Engine correction](step1.ThemeStudio/step1.c.docs/step1.c.11.Bento-Grid-Engine.md)
 
 All theme implementation is under `Theme/`, with numbered shared implementation and stable individual-theme names. Studio files follow step1 hierarchy. Root App/MainWindow/project/manifest filenames and paired XAML/code-behind basenames are documented tool-compatibility exceptions. Phase 01 is awaiting Windows verification and user review; Claymorphism and step2 remain unauthorized.
 
@@ -71,4 +72,4 @@ Latest user instruction: workflow stored **inactive** at `cols/ci/windows-wpf.ym
 
 The startup tab is **Theme Studio**: edit Ocean/Indigo/Teal accent, compact/comfortable density, crisp/soft/rounded corners and small/standard/large body typography. Reset design keeps sample inputs separate. **Business Reference** is a distinct tab with a compact KPI band, wide themed feature/trend, selected-work review list, status badges, preview form and handoff surfaces. It is illustrative local data, not an implemented ERP module. All design changes use the real active package and carry across mode switches and both pages. Settings are not saved to disk.
 
-The current source supplies 82 semantic tokens and 35 required styles; portable checks cover 258 contrast pairings and 14 deliberate regressions. The compiled harness adds 108 appearance/customization combinations and native page-switching checks, but those Windows tests have not run here. The workflow is still intentionally inactive in cols/ci. See the current feature report for exact responsibilities and limitations.
+The current source supplies 102 semantic tokens and 47 required styles; portable checks cover measured contrast pairings and 14 deliberate regressions. The compiled harness adds 108 appearance/customization combinations and native page-switching checks, but those Windows tests have not run here. The workflow is still intentionally inactive in cols/ci. See the current feature report for exact responsibilities and limitations.

@@ -8,6 +8,7 @@ using System.Windows.Interop;
 using System.Windows.Threading;
 using ProGlassAutomation;
 using ProGlassAutomation.Theming;
+using ProGlassAutomation.ThemeBento;
 using ProGlassAutomation.ThemeStudio;
 
 namespace ProGlassAutomation.ThemeTests;
@@ -131,8 +132,8 @@ internal static class RuntimeChecks
                     Check(app.Resources.MergedDictionaries.Count == packageCount, "switching does not accumulate resource packages");
                     Check(Equals(dialog.Background, window.Background), "dialog stays synchronized");
                     var studio = Descendants(window).OfType<ThemeStudioView>().Single();
-                    var modules = (Grid)studio.FindName("Modules");
-                    Check((modules.ColumnDefinitions[1].ActualWidth == 0) == (modules.ActualWidth < 1040), "Studio responsive column mode");
+                    var modules = (BentoGrid)studio.FindName("Modules");
+                    Check((modules.EffectiveColumns < 4) == (modules.ActualWidth < 1100), "Studio responsive column mode");
                     FrameworkElement[] cards = [
                         (FrameworkElement)studio.FindName("Settings"), (FrameworkElement)studio.FindName("Controls"),
                         (FrameworkElement)studio.FindName("Signals"), (FrameworkElement)studio.FindName("DiagnosticsToggle"), (FrameworkElement)studio.FindName("Gallery")];
@@ -173,8 +174,8 @@ internal static class RuntimeChecks
                 window.Width = width;
                 model.IsDark = true;
                 Pump();
-                var grid = (Grid)business.FindName("BusinessModules");
-                Check((grid.ColumnDefinitions[1].ActualWidth == 0) == (grid.ActualWidth < 1100), "business responsive layout");
+                var grid = (BentoGrid)business.FindName("BusinessModules");
+                Check((grid.EffectiveColumns < 4) == (grid.ActualWidth < 1100), "business responsive layout");
                 Check(Equals(businessInput.Background, themes.GetToken("SurfacePrimary")), "business uses active resources");
                 model.IsLight = true;
             }

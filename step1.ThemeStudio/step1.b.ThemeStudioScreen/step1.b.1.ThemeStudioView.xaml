@@ -1,50 +1,27 @@
-<UserControl x:Class="ProGlassAutomation.ThemeStudio.ThemeStudioView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:ProGlassAutomation.ThemeStudio">
- <UserControl.Resources><BooleanToVisibilityConverter x:Key="ShowDiagnostics" /><local:CategoryVisibilityConverter x:Key="CategoryVisibilityConverter"/><local:BoolToVisibilityConverter2 x:Key="BoolToVisibility"/></UserControl.Resources>
+<UserControl x:Class="ProGlassAutomation.ThemeStudio.ThemeStudioView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:ProGlassAutomation.ThemeStudio" xmlns:bento="clr-namespace:ProGlassAutomation.ThemeBento">
  <Grid Background="{DynamicResource ApplicationBackground}">
-  <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
-  <!-- Header — professional layered surface -->
-  <Border Grid.Row="0" Background="{DynamicResource SurfacePrimary}" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="{DynamicResource BorderThicknessControl}" CornerRadius="{DynamicResource CardCornerRadius}" Padding="{DynamicResource PaddingCard}" Margin="{DynamicResource MarginPanel}">
-   <DockPanel>
-    <StackPanel>
-     <TextBlock Text="PROGLASS — BENTO WORKSPACE" Foreground="{DynamicResource TextMuted}" Style="{DynamicResource Caption}" FontWeight="{DynamicResource FontWeightHeading}"/>
-     <TextBlock Text="Theme Studio" Style="{DynamicResource PageHeading}" Foreground="{DynamicResource TextPrimary}"/>
-     <TextBlock Text="Customize the live design system — every control previews instantly" Foreground="{DynamicResource TextSecondary}" Style="{DynamicResource Caption}"/>
-    </StackPanel>
-    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
-     <Border Background="{DynamicResource SurfaceSecondary}" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="{DynamicResource BorderThicknessControl}" CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{DynamicResource PaddingCompact}" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center">
-      <StackPanel Orientation="Horizontal">
-       <RadioButton Content="Light" IsChecked="{Binding IsLight}" GroupName="HeaderAppearance" AutomationProperties.Name="Light appearance" VerticalAlignment="Center" Margin="{DynamicResource MarginInline}"/>
-       <RadioButton Content="Dark" IsChecked="{Binding IsDark}" GroupName="HeaderAppearance" AutomationProperties.Name="Dark appearance" VerticalAlignment="Center"/>
-      </StackPanel>
-     </Border>
-     <Border Style="{DynamicResource StatusBadge}" Tag="Success" VerticalAlignment="Center"><TextBlock Text="{Binding DesignSummary}" Tag="Success" Style="{DynamicResource StatusText}"/></Border>
-    </StackPanel>
-   </DockPanel>
-  </Border>
-  <!-- Hero — branded, compact -->
-  <Border Grid.Row="1" Style="{DynamicResource HeroCard}" Margin="{DynamicResource MarginPanel}">
+  <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+  <Border Style="{DynamicResource HeroCard}" Margin="{DynamicResource MarginPanel}">
    <DockPanel>
     <Button DockPanel.Dock="Right" Content="Business reference →" Command="{Binding ShowBusiness}" VerticalAlignment="Center" Margin="{DynamicResource MarginInline}"/>
     <StackPanel>
-     <TextBlock Text="Make it yours. Keep it consistent." Foreground="{DynamicResource HeroForeground}" FontSize="{DynamicResource FontSizeSection}" FontWeight="{DynamicResource FontWeightHeading}"/>
-     <TextBlock Text="Accent, density, shape and type update the entire application live" Foreground="{DynamicResource HeroSecondaryText}" Style="{DynamicResource Caption}"/>
+     <TextBlock Text="PROGLASS — BENTO WORKSPACE" Foreground="{DynamicResource HeroSecondaryText}" Style="{DynamicResource Caption}" FontWeight="{DynamicResource FontWeightHeading}"/>
+     <TextBlock Text="Theme Studio" Foreground="{DynamicResource HeroForeground}" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}"/>
+     <TextBlock Text="Live mosaic — settings, preview and gallery occupy unequal cells of one grid" Foreground="{DynamicResource HeroSecondaryText}" Style="{DynamicResource Caption}"/>
     </StackPanel>
    </DockPanel>
   </Border>
-  <!-- Main workspace — fills viewport, no extra blank space -->
-  <local:CustomizeWorkspace Grid.Row="2" Margin="{DynamicResource MarginPanel}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-  <!-- Guard compliance — hidden legacy panels still present for foundation check, not affecting layout -->
-  <Grid Grid.Row="3" Visibility="Collapsed">
-   <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
-   <local:CustomizationPanel x:Name="Settings" Width="{DynamicResource StudioSidebarWidth}" Grid.RowSpan="2"/>
-   <local:TokensPanel x:Name="Tokens"/>
-   <!-- Keep required names for SizeChanged handler compatibility if ever shown -->
-   <Grid x:Name="Modules" Visibility="Collapsed">
-    <local:ControlsPanel x:Name="Controls"/>
-    <local:TypeAndStatusPanel x:Name="Signals"/>
-    <StackPanel x:Name="DiagnosticsToggle"/>
-    <local:ChartGallery x:Name="Gallery"/>
-   </Grid>
-  </Grid>
+  <bento:BentoGrid x:Name="Modules" Grid.Row="1" Columns="4" FillAvailable="True"
+                   RowHeight="{DynamicResource BentoRowHeight}" Gutter="{DynamicResource BentoGutter}" CompactWidth="{DynamicResource BentoCompactWidth}"
+                   Margin="{DynamicResource PaddingPage}">
+   <local:AnalyticsOverview x:Name="Preview" bento:BentoGrid.Column="1" bento:BentoGrid.Row="0" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="2"/>
+   <local:CustomizationPanel x:Name="Settings" bento:BentoGrid.Column="0" bento:BentoGrid.Row="0" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="3"/>
+   <local:TypeAndStatusPanel x:Name="Signals" bento:BentoGrid.Column="3" bento:BentoGrid.Row="0" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="1"/>
+   <local:ControlsPanel x:Name="Controls" bento:BentoGrid.Column="3" bento:BentoGrid.Row="1" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="1"/>
+   <local:ChartGallery x:Name="Gallery" bento:BentoGrid.Column="1" bento:BentoGrid.Row="2" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="1"/>
+   <Border x:Name="DiagnosticsToggle" Style="{DynamicResource Card}" bento:BentoGrid.Column="3" bento:BentoGrid.Row="2" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="1">
+    <ScrollViewer VerticalScrollBarVisibility="Auto"><local:TokensPanel x:Name="Tokens"/></ScrollViewer>
+   </Border>
+  </bento:BentoGrid>
  </Grid>
 </UserControl>

@@ -1,6 +1,6 @@
 # Typed theme consumer contract — nonvisual
 
-ThemeContract.cs is authoritative. Current coverage:99 semantic roles,46 required exact WPF style targets. All concrete values/templates belong to each theme; the [Bento spec](../ThemeBento/ThemeBento.Readme.md) owns its appearance and customization. There is no global/default Bento visual dictionary.
+ThemeContract.cs is authoritative. Current coverage: 102 semantic roles, 47 required exact WPF style targets. All concrete values/templates belong to each theme; the [Bento spec](../ThemeBento/ThemeBento.Readme.md) owns its appearance and customization. There is no global/default Bento visual dictionary.
 
 ## Resource roles
 
@@ -106,6 +106,7 @@ Thickness roles represent padding, margins and edges; MarginFocus intentionally 
 | `TokenValue` | `TextBlock` |
 | `KeyboardFocus` | `Control` |
 | `HeroCard` | `Border` |
+| `BentoTile` | `Border` |
 | `MetricCard` | `Border` |
 | `StatusBadge` | `Border` |
 | `StatusText` | `TextBlock` |
@@ -172,5 +173,8 @@ Semantic plate roles describe purpose, not required colors. Each theme owns thei
 | `ChartPointSize` | `double` |
 | `ChartDonutRadius` | `double` |
 | `ChartAreaOpacity` | `double` |
+| `BentoRowHeight` | `double` |
+| `BentoGutter` | `double` |
+| `BentoCompactWidth` | `double` |
 
-New exact style targets: ChartCard/PositivePlate/FeaturePlate/InformationPlate/AttentionPlate → Border; BentoChart, BentoKpi, DataGrid, DataGridRow, DataGridCell and DataGridColumnHeader → their named control types. Full reuse/API details are in [step1.f](../step1.f.Analytics/step1.f.6.Analytics-README.md).
+New exact style targets: BentoTile/ChartCard/PositivePlate/FeaturePlate/InformationPlate/AttentionPlate → Border; BentoChart, BentoKpi, DataGrid, DataGridRow, DataGridCell and DataGridColumnHeader → their named control types. `BentoGrid` is a Bento-owned Panel, not a resource style. Full reuse/API details are in [step1.f](../step1.f.Analytics/step1.f.6.Analytics-README.md) and [c.11](../../step1.ThemeStudio/step1.c.docs/step1.c.11.Bento-Grid-Engine.md).

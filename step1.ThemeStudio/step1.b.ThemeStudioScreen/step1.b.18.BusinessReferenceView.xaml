@@ -1,15 +1,23 @@
-<UserControl x:Class="ProGlassAutomation.ThemeStudio.BusinessReferenceView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:ProGlassAutomation.ThemeStudio">
- <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"><StackPanel Margin="{DynamicResource PaddingPage}">
-  <DockPanel Margin="{DynamicResource MarginSection}"><Border DockPanel.Dock="Right" Style="{DynamicResource AccentPlate}"><TextBlock Text="{Binding AppearanceLabel, StringFormat='Bento {0} / sample workspace'}" Foreground="{DynamicResource AccentPrimary}" /></Border><StackPanel><TextBlock Text="PROGLASS / BUSINESS REFERENCE" Style="{DynamicResource Caption}" /><TextBlock Text="Workspace overview" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" /><TextBlock Text="Illustrative work only. No business records or services." Style="{DynamicResource Caption}" /></StackPanel></DockPanel>
-  <Grid x:Name="BusinessModules" SizeChanged="BusinessModules_SizeChanged">
-   <Grid.ColumnDefinitions><ColumnDefinition Width="2*" /><ColumnDefinition /></Grid.ColumnDefinitions>
-   <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
-   <local:OverviewPanel x:Name="Hero" Margin="{DynamicResource MarginPanel}" />
-   <local:AppearancePanel x:Name="Health" Grid.Column="1" Margin="{DynamicResource MarginPanel}" />
-   <local:AnalyticsOverview x:Name="Analytics" Grid.Row="1" Grid.ColumnSpan="2" />
-   <local:WorklistPanel x:Name="Work" Grid.Row="2" Margin="{DynamicResource MarginPanel}" />
-   <local:ControlsPanel x:Name="Details" Grid.Row="2" Grid.Column="1" Margin="{DynamicResource MarginPanel}" />
-   <local:SurfacesPanel x:Name="Layers" Grid.Row="3" Grid.ColumnSpan="2" Margin="{DynamicResource MarginPanel}" />
-  </Grid>
- </StackPanel></ScrollViewer>
+<UserControl x:Class="ProGlassAutomation.ThemeStudio.BusinessReferenceView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:ProGlassAutomation.ThemeStudio" xmlns:bento="clr-namespace:ProGlassAutomation.ThemeBento">
+ <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+  <StackPanel Margin="{DynamicResource PaddingPage}">
+   <DockPanel Margin="{DynamicResource MarginSection}">
+    <Border DockPanel.Dock="Right" Style="{DynamicResource AccentPlate}"><TextBlock Text="{Binding AppearanceLabel, StringFormat='Bento {0} / sample workspace'}" Foreground="{DynamicResource AccentPrimary}" /></Border>
+    <StackPanel>
+     <TextBlock Text="PROGLASS / BUSINESS REFERENCE" Style="{DynamicResource Caption}" />
+     <TextBlock Text="Workspace overview" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" />
+     <TextBlock Text="Illustrative work only. No business records or services." Style="{DynamicResource Caption}" />
+    </StackPanel>
+   </DockPanel>
+   <bento:BentoGrid x:Name="BusinessModules" Columns="4"
+                    RowHeight="{DynamicResource BentoRowHeight}" Gutter="{DynamicResource BentoGutter}" CompactWidth="{DynamicResource BentoCompactWidth}">
+    <local:OverviewPanel x:Name="Hero" bento:BentoGrid.Column="0" bento:BentoGrid.Row="0" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="2" />
+    <local:AppearancePanel x:Name="Health" bento:BentoGrid.Column="2" bento:BentoGrid.Row="0" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="2" />
+    <local:AnalyticsOverview x:Name="Analytics" bento:BentoGrid.Column="0" bento:BentoGrid.Row="2" bento:BentoGrid.ColumnSpan="4" bento:BentoGrid.RowSpan="6" />
+    <local:WorklistPanel x:Name="Work" bento:BentoGrid.Column="0" bento:BentoGrid.Row="8" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="2" />
+    <local:ControlsPanel x:Name="Details" bento:BentoGrid.Column="2" bento:BentoGrid.Row="8" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="2" />
+    <local:SurfacesPanel x:Name="Layers" bento:BentoGrid.Column="0" bento:BentoGrid.Row="10" bento:BentoGrid.ColumnSpan="4" bento:BentoGrid.RowSpan="1" />
+   </bento:BentoGrid>
+  </StackPanel>
+ </ScrollViewer>
 </UserControl>

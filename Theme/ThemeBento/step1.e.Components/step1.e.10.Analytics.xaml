@@ -27,7 +27,8 @@
  </Style>
  <Style TargetType="analytics:BentoKpi">
   <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" /><Setter Property="Background" Value="{DynamicResource SurfaceInformation}" />
-  <Setter Property="Margin" Value="{DynamicResource MarginPanel}" /><Setter Property="Padding" Value="{DynamicResource PaddingCard}" />
+  <Setter Property="Padding" Value="{DynamicResource PaddingCard}" />
+  <Setter Property="HorizontalAlignment" Value="Stretch" /><Setter Property="VerticalAlignment" Value="Stretch" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="analytics:BentoKpi">
    <Border Background="{TemplateBinding Background}" CornerRadius="{DynamicResource CardCornerRadius}" Padding="{TemplateBinding Padding}">
     <StackPanel><TextBlock Text="{TemplateBinding Label}" Foreground="{DynamicResource TextSecondary}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="Wrap" />

@@ -60,7 +60,7 @@ The page does not claim a complete DataGrid, editable ComboBox, submenus, high-c
 
 ## Current analytics specification — supersedes the illustrative-trend checkpoint above
 
-The old fixed Geometry trend is removed, not retained as chart evidence. Bento's factory now caches sealed Styles only. The current package is **99 typed roles / 46 required style targets**, including semantic plate, chart/KPI and native DataGrid targets. All palettes remain in this owning directory; the shared engine gained only contract entries, not visual implementation.
+The old fixed Geometry trend is removed, not retained as chart evidence. Bento's factory now caches sealed Styles only. The current package is **102 typed roles / 47 required style targets**, including semantic plate, chart/KPI, BentoTile and native DataGrid targets. `step1.e.11.BentoGrid.cs` is the mosaic panel (spans, equal-height rows, gutter, compact packing). Screens compose with it; they do not stack equal cards. All palettes remain in this owning directory; the shared engine gained only contract entries, not visual implementation.
 
 | Purpose / role | Light | Dark |
 | --- | --- | --- |
@@ -84,4 +84,4 @@ ChartPlotHeight205 DIPs, ChartLineWidth2.5, ChartPointSize5, ChartDonutRadius56 
 
 **Studio stays separate**: current settings and control/state gallery plus live chart/scenario selectors and a gallery of area/stacked/horizontal/donut plots. Chart gallery stacks below1000 DIPs. The large Live Resource Contract card is replaced by an optional diagnostics checkbox; validation always remains active. See the [current implementation report](../../step1.ThemeStudio/step1.c.docs/step1.c.9.Reusable-Analytics.md) and [dependency/reuse guide](../step1.f.Analytics/step1.f.6.Analytics-README.md).
 
-Current portable evidence:99×2 typed roles,46 style targets,342 measured text contrast combinations and14 mutation rejections. Compiled analytics scenarios/runtime switching are authored but **unrun**. The earlier checkpoint's lack of DataGrid no longer describes source capability, but Windows restore/build/layout/DPI/accessibility/performance acceptance is still outstanding. Never equate this specification with inspected rendered output.
+Current portable evidence: 102×2 typed roles, 47 style targets, measured text contrast combinations and 14 mutation rejections. See [c.11](../../step1.ThemeStudio/step1.c.docs/step1.c.11.Bento-Grid-Engine.md). Compiled analytics scenarios/runtime switching are authored but **unrun**. The earlier checkpoint's lack of DataGrid no longer describes source capability, but Windows restore/build/layout/DPI/accessibility/performance acceptance is still outstanding. Never equate this specification with inspected rendered output.

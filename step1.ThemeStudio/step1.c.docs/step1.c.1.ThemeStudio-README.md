@@ -1,4 +1,4 @@
-> Current analytics implementation/evidence: [step1.c.9](step1.c.9.Reusable-Analytics.md). This guide retains earlier feature history; the current report supersedes old coverage claims.
+> Current mosaic engine: [step1.c.11](step1.c.11.Bento-Grid-Engine.md). Analytics evidence: [step1.c.9](step1.c.9.Reusable-Analytics.md). This guide retains earlier feature history; later reports supersede old coverage claims.
 
 # step1 — Shared theme engine and Theme Studio
 
@@ -28,7 +28,7 @@ AssemblyInfo is unchanged. No code from the unrelated module implementation was 
 
 | File | Responsibility |
 | --- | --- |
-| `step1.a.1.ThemeContract.cs` | Immutable 99-token and 46-style/target contract; Brush roles allow supported future gradient treatments without changing screens. |
+| `step1.a.1.ThemeContract.cs` | Immutable 102-token and 47-style/target contract; Brush roles allow supported future gradient treatments without changing screens. |
 | `step1.a.2.ThemeService.cs` | Centralized loading, validated replacement of one application dictionary slot and active-state notification. Invalid resources/selection leave the previous dictionary installed. |
 | `step1.a.3.ResourceValidation.cs` | Required-key/type checks and finite/nonnegative scalar/opacity constraints. |
 | `step1.a.5.ThemeContract-README.md` | Documented meanings/types, resource precedence and extension procedure. |

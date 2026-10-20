@@ -45,8 +45,13 @@ sample = (screen/'step1.b.18.BusinessReferenceView.xaml').read_text()
 assert '<local:CustomizationPanel' in view and '<local:TokensPanel' in view
 assert 'CustomizationPanel' not in sample and 'TokensPanel' not in sample, 'Business page must not contain engine settings'
 assert 'MaxWidth=' not in view and 'MaxWidth=' not in sample, 'Use full viewport width'
+assert 'bento:BentoGrid' in view and 'bento:BentoGrid' in sample, 'Studio and reference must use the Bento grid'
+assert 'UniformGrid' not in sample, 'Equal KPI strips are not a bento mosaic'
+assert 'BentoGrid.ColumnSpan' in sample and 'BentoGrid.RowSpan' in sample, 'Reference mosaic must declare spans'
 for component in ('OverviewPanel', 'AnalyticsOverview', 'WorklistPanel', 'ControlsPanel'):
     assert component in sample, f'Missing business reference pattern: {component}'
+grid = ROOT / 'Theme/ThemeBento/step1.e.11.BentoGrid.cs'
+assert grid.is_file() and 'class BentoGrid : Panel' in grid.read_text() and 'PlacePacked' in grid.read_text()
 settings = (screen/'step1.b.16.CustomizationPanel.xaml').read_text()
 for name in ('ThemePicker', 'AccentPicker', 'DensityPicker', 'ShapePicker', 'TypePicker'):
     assert f'x:Name="{name}"' in settings

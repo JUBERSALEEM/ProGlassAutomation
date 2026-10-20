@@ -48,7 +48,7 @@ def collect(path, values):
 source = (ENGINE / 'step1.a.1.ThemeContract.cs').read_text().split('RequiredStyles')[1]
 required = dict(re.findall(r'\["([^"]+)"\] = typeof\(([^)]+)\)', source))
 required.update({'type:' + key: target for key, target in re.findall(r'\[typeof\(([^)]+)\)\] = typeof\(([^)]+)\)', source)})
-assert len(required) == 46, 'Consumer style contract unexpectedly changed; review coverage'
+assert len(required) == 47, 'Consumer style contract unexpectedly changed; review coverage'
 for mode in ('Light', 'Dark'):
     values = {}
     collect(THEME / f'ThemeBento.{mode}.xaml', values)
@@ -65,4 +65,4 @@ service = (ENGINE / 'step1.a.2.ThemeService.cs').read_text()
 assert 'definition.LoadResources(appearance)' in service, 'Engine must delegate visual composition'
 assert '.xaml' not in service, 'Orchestrator must not hardcode a visual dictionary'
 assert 'MergedDictionaries.Add(styles)' not in service, 'Global visual styles must not survive theme replacement'
-print('PASS: isolated Bento composition, 46 required style/target contracts in both modes, no duplicate/cross-theme keys or engine visuals.')
+print('PASS: isolated Bento composition, 47 required style/target contracts in both modes, no duplicate/cross-theme keys or engine visuals.')

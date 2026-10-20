@@ -112,6 +112,9 @@ public static class ThemeContract
         ["ChartPointSize"] = typeof(double),
         ["ChartDonutRadius"] = typeof(double),
         ["ChartAreaOpacity"] = typeof(double),
+        ["BentoRowHeight"] = typeof(double),
+        ["BentoGutter"] = typeof(double),
+        ["BentoCompactWidth"] = typeof(double),
     });
 
     // Consumer-facing style roles and WPF target types, never a visual implementation.
@@ -153,6 +156,7 @@ public static class ThemeContract
         [typeof(ScrollBar)] = typeof(ScrollBar),
         [typeof(Separator)] = typeof(Separator),
         [typeof(ProgressBar)] = typeof(ProgressBar),
+        ["BentoTile"] = typeof(Border),
         ["ChartCard"] = typeof(Border),
         ["PositivePlate"] = typeof(Border),
         ["FeaturePlate"] = typeof(Border),
