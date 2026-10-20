@@ -33,7 +33,7 @@ pairs += [(fg, 'SurfaceElevated', 4.5) for fg in ('AccentPrimary', 'StatusSucces
 pairs += [('AccentPrimary', 'AccentSoft', 4.5), ('AccentPrimary', 'StateSelected', 4.5)]
 pairs += [(fg, bg, 3) for fg in ('FocusIndicator', 'BorderStrong')
           for bg in ('SurfacePrimary', 'SurfaceSecondary')]
-for package, stem, accents in (('ThemeBento', 'ThemeBento', True), ('ThemeClaymorphism', 'ThemeClaymorphism', False)):
+for package, stem, accents in (('ThemeBento', 'ThemeBento', True), ('ThemeClaymorphism', 'ThemeClaymorphism', False), ('ThemeFluent', 'ThemeFluent', False)):
     for mode in ('Light', 'Dark'):
         path = ROOT / f'Theme/{package}/{stem}.{mode}.xaml'
         tree = ET.parse(path).getroot()
@@ -110,7 +110,7 @@ for path in xamls:
         if local(node.tag) == 'ResourceDictionary' and 'Source' in node.attrib:
             assert (path.parent / node.attrib['Source']).is_file(), (path, node.attrib['Source'])
     posix = path.as_posix()
-    if 'Theme/ThemeBento/' not in posix and 'Theme/ThemeClaymorphism/' not in posix and path.name != 'MainWindow.xaml':
+    if 'Theme/ThemeBento/' not in posix and 'Theme/ThemeClaymorphism/' not in posix and 'Theme/ThemeFluent/' not in posix and path.name != 'MainWindow.xaml':
         assert not re.search(r'#[0-9A-Fa-f]{6,8}\b', text), f'{path}: scattered literal color'
     if path.name == 'MainWindow.xaml':
         assert 'WindowState="Maximized"' in text, 'Shell must remain maximized'
@@ -138,10 +138,12 @@ project = ET.parse(ROOT/'ProGlassAutomation.csproj').getroot()
 assert [(p.attrib['Include'], p.attrib['Version']) for p in project.findall('.//PackageReference')] == [('LiveChartsCore.SkiaSharpView.WPF', '2.0.4')], 'Only the reviewed pinned WPF chart dependency is approved'
 assert project.find('.//TargetFramework').text == 'net8.0-windows7.0'
 assert (ROOT / 'Theme/ThemeClaymorphism/ThemeClaymorphism.Light.xaml').is_file() and (ROOT / 'Theme/ThemeBento/ThemeBento.Light.xaml').is_file()
+assert (ROOT / 'Theme/ThemeFluent/ThemeFluent.Light.xaml').is_file()
 catalog = (ENGINE / 'step1.a.6.ThemeCatalog.cs').read_text()
 assert 'ClayName = "Claymorphism"' in catalog and 'ClayResources.Load' in catalog
+assert 'FluentName = "Fluent / Acrylic"' in catalog and 'FluentResources.Load' in catalog
 runtime = (ROOT / 'Theme/step1.d.tests/step1.d.1.RuntimeChecks.cs').read_text()
-assert 'ThemeService.Clay' in runtime and 'Apply("NotInstalled"' in runtime
+assert 'ThemeService.InstalledThemes' in runtime and 'Apply("NotInstalled"' in runtime
 assert 'Apply("Claymorphism"' not in runtime, 'Clay is installed; do not treat it as missing'
 assert 'theme == ThemeService.Bento' in (ROOT/'step1.ThemeStudio/step1.b.ThemeStudioScreen/step1.b.3.ThemeStudioViewModel.cs').read_text()
 contracts = (ROOT / 'Theme/step1.d.tests/step1.d.2.ContractChecks.cs').read_text()

@@ -12,6 +12,7 @@ public sealed class ThemeService : INotifyPropertyChanged
 {
     public const string Bento = ThemeCatalog.BentoName;
     public const string Clay = ThemeCatalog.ClayName;
+    public const string Fluent = ThemeCatalog.FluentName;
     public static IReadOnlyList<string> InstalledThemes { get; } = Array.AsReadOnly(ThemeCatalog.Installed.Select(theme => theme.Name).ToArray());
     public Appearance ActiveAppearance { get; private set; } = Appearance.Light;
     public string ActiveTheme { get; private set; } = Bento;

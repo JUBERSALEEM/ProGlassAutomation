@@ -190,19 +190,25 @@ internal static class RuntimeChecks
             Pump();
             Check(model.SelectedAccent == ProGlassAutomation.ThemeBento.BentoAccent.Ocean &&
                 (double)themes.GetToken("ControlMinHeight") == 32d, "reset design restores defaults without resetting sample input");
-            Check(ThemeService.InstalledThemes.Contains(ThemeService.Clay), "Clay is a registered theme");
-            var bentoBackground = window.Background;
-            model.SelectedTheme = ThemeService.Clay;
-            Pump();
-            Check(themes.ActiveTheme == ThemeService.Clay, "clay theme activates");
-            Check(!ReferenceEquals(bentoBackground, window.Background), "clay replaces window resources");
-            Check(Equals(window.Background, themes.GetToken("ApplicationBackground")), "clay window background");
-            Check(!model.CanCustomize, "clay keeps the Bento customization engine off");
-            Check(model.DesignSummary == "Theme-default settings", "clay uses theme-default settings");
-            model.IsDark = true;
-            Pump();
-            Check(themes.ActiveTheme == ThemeService.Clay && themes.ActiveAppearance == Appearance.Dark, "clay dark");
-            Check(Equals(window.Background, themes.GetToken("ApplicationBackground")), "clay dark window background");
+            Check(ThemeService.InstalledThemes.Contains(ThemeService.Clay) && ThemeService.InstalledThemes.Contains(ThemeService.Fluent), "Clay and Fluent are registered themes");
+            foreach (string extra in ThemeService.InstalledThemes)
+            {
+                if (extra == ThemeService.Bento) continue;
+                var previous = window.Background;
+                model.SelectedTheme = extra;
+                Pump();
+                Check(themes.ActiveTheme == extra, extra + " activates");
+                Check(!ReferenceEquals(previous, window.Background), extra + " replaces window resources");
+                Check(Equals(window.Background, themes.GetToken("ApplicationBackground")), extra + " window background");
+                Check(!model.CanCustomize, extra + " keeps the Bento customization engine off");
+                Check(model.DesignSummary == "Theme-default settings", extra + " uses theme-default settings");
+                model.IsDark = true;
+                Pump();
+                Check(themes.ActiveTheme == extra && themes.ActiveAppearance == Appearance.Dark, extra + " dark");
+                Check(Equals(window.Background, themes.GetToken("ApplicationBackground")), extra + " dark window background");
+                model.IsLight = true;
+                Pump();
+            }
             model.SelectedTheme = ThemeService.Bento;
             model.IsLight = true;
             Pump();
