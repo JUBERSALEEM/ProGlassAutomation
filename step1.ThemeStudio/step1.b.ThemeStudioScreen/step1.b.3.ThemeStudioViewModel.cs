@@ -6,6 +6,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using ProGlassAutomation.Theming;
 using ProGlassAutomation.ThemeBento;
+using ProGlassAutomation.Customization;
 
 namespace ProGlassAutomation.ThemeStudio;
 
@@ -72,6 +73,8 @@ public sealed partial class ThemeStudioViewModel : INotifyPropertyChanged, IData
             themes.Apply(theme, appearance, theme == ThemeService.Bento
                 ? (package, mode) => BentoCustomization.ApplyExtended(package, mode, current) : null);
             ThemeError = "";
+            lastSaved = lastSaved with { Theme = theme, Appearance = appearance };
+            try { CustomizationStore.Save(lastSaved); } catch (Exception ex) when (ex is IOException or ArgumentException or InvalidOperationException) { }
         }
         catch (ThemeNotificationException error) { ThemeError = error.Message; }
         catch (Exception error) when (error is IOException or XamlParseException or InvalidOperationException or ArgumentException)

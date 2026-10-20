@@ -100,14 +100,15 @@ public sealed partial class ThemeStudioViewModel
         // Restore last saved; if none, defaults
         extended = lastSaved.Preferences ?? new BentoCustomizationState();
         preferences = extended.ToLegacy();
-        try { themes.Apply(SelectedTheme, lastSaved.Appearance, (p,m)=>BentoCustomization.ApplyExtended(p,m,extended)); } catch {}
+        var restored = ThemeService.InstalledThemes.Contains(lastSaved.Theme) ? lastSaved.Theme : ThemeService.Bento;
+        try { themes.Apply(restored, lastSaved.Appearance, restored == ThemeService.Bento ? (p,m)=>BentoCustomization.ApplyExtended(p,m,extended) : null); } catch {}
         ResetDesign = new DelegateCommand(() => ApplyState(new BentoCustomizationState()), () => CanCustomize);
         ToggleMenu = new DelegateCommand(() => IsMenuOpen = !IsMenuOpen);
         ToggleAppearance = new DelegateCommand(() => { if (IsLight) IsDark = true; else IsLight = true; });
         ShowStudio = new DelegateCommand(() => SelectedWorkspace = 0);
         ShowBusiness = new DelegateCommand(() => SelectedWorkspace = 1);
         ApplyPreview = new DelegateCommand(() => { try { themes.Apply(SelectedTheme, themes.ActiveAppearance, (pkg,mode)=>BentoCustomization.ApplyExtended(pkg,mode,extended)); ThemeError=""; Feedback="Preview applied — unsaved changes present."; } catch(Exception ex){ ThemeError=ex.Message; } Changed(nameof(ThemeError)); }, () => CanCustomize);
-        SaveCustomization = new DelegateCommand(() => { lastSaved = new SavedCustomization(2, themes.ActiveAppearance, extended, lastSaved.ChartOptions, lastSaved.ComponentStyles, lastSaved.CustomPresets); CustomizationStore.Save(lastSaved); Feedback="Customization saved — will restore on next launch."; Changed(nameof(IsDirty)); }, () => CanCustomize && extended.Validate() is null);
+        SaveCustomization = new DelegateCommand(() => { lastSaved = new SavedCustomization(2, themes.ActiveAppearance, extended, lastSaved.ChartOptions, lastSaved.ComponentStyles, lastSaved.CustomPresets, themes.ActiveTheme); CustomizationStore.Save(lastSaved); Feedback="Customization saved — will restore on next launch."; Changed(nameof(IsDirty)); }, () => CanCustomize && extended.Validate() is null);
         DiscardChanges = new DelegateCommand(() => { ApplyState(lastSaved.Preferences); Feedback="Discarded unsaved changes."; }, () => IsDirty);
         ResetSection = new DelegateCommand(() => { var defaults = new BentoCustomizationState(); var next = customizationCategory switch { "Appearance" => extended with { Canvas = defaults.Canvas, SurfaceStyle = defaults.SurfaceStyle, TextContrast = defaults.TextContrast, BorderIntensity = defaults.BorderIntensity, Shadow = defaults.Shadow }, "Layout" => extended with { LayoutPreset = defaults.LayoutPreset, Spacing = defaults.Spacing, CardPadding = defaults.CardPadding, HeroCompact = defaults.HeroCompact }, "Typography" => extended with { Typography = defaults.Typography, FontWeight = defaults.FontWeight, Spacing = defaults.Spacing }, _ => defaults }; ApplyState(next); Feedback=$"Reset {customizationCategory} to defaults."; }, () => CanCustomize);
         ResetTheme = new DelegateCommand(() => { ApplyState(new BentoCustomizationState()); lastSaved = new SavedCustomization(); CustomizationStore.Save(lastSaved); Feedback="Theme restored to Bento defaults."; }, () => CanCustomize);

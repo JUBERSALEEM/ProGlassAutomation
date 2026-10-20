@@ -14,4 +14,4 @@ Hue extras (`FluentTint*` / `FluentStroke*`) tint cards, plates, and KPIs. `Show
 
 ## Completeness
 
-Source chrome for the 47 contract roles is filled. Catalog registers Fluent. Contract checks load every installed theme; Bento customization stays off. Windows pixels **0%** (workflow stays in `cols/ci`; no PC).
+Source chrome for the 47 contract roles is filled. Mica/acrylic Light and Dark palettes are Fluent-owned (not Bento copies). Catalog registers Fluent; last theme restores on launch. Bento customization stays off. Windows pixels **0%** (workflow stays in `cols/ci`; no PC).

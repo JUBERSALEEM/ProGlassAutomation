@@ -364,4 +364,5 @@ FodyWeavers.xsd
 
 # Local look-check mockups only — never product source
 /clay-*.png
+/fluent-*.png
 /docs/mockups/

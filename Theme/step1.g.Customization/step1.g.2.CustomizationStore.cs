@@ -29,6 +29,8 @@ public static class CustomizationStore
             // Validate strictly — invalid stored values must fall back, never crash app.
             if (loaded.Preferences?.Validate() is not null) return Defaults();
             if (!Enum.IsDefined(loaded.Appearance)) return Defaults();
+            if (string.IsNullOrWhiteSpace(loaded.Theme) || !ThemeService.InstalledThemes.Contains(loaded.Theme))
+                loaded = loaded with { Theme = ThemeCatalog.BentoName };
             foreach (var preset in loaded.CustomPresets ?? [])
                 if (string.IsNullOrWhiteSpace(preset.Name) || preset.State.Validate() is not null) return Defaults();
             return loaded;
