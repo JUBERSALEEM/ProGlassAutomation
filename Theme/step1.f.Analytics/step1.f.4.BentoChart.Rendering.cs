@@ -69,7 +69,7 @@ public sealed partial class BentoChart
         if (!ShowGrid) { numeric.SeparatorsPaint = null; category.SeparatorsPaint = null; }
         if (!ShowAxis) { numeric.LabelsPaint = null; numeric.NamePaint = null; category.LabelsPaint = null; }
         // BarCorner maps to corner rounding where supported — LiveCharts column geometry exposes Rx/Ry; we keep validated range 0-12 via DP without business impact
-        foreach (var ser in rendered) { if (ser is LiveChartsCore.SkiaSharpView.ColumnSeries<double?> cs) { cs.Rx = (int)Math.Clamp(BarCorner, 0, 12); cs.Ry = (int)Math.Clamp(BarCorner, 0, 12); } }
+        foreach (var ser in rendered) { if (ser is LiveChartsCore.SkiaSharpView.ColumnSeries<double?> cs) { cs.Rx = (float)Math.Clamp(BarCorner, 0, 12); cs.Ry = (float)Math.Clamp(BarCorner, 0, 12); } }
         // Tooltip visibility handled via chart tooltip paint nullability (LiveCharts hides when null)
         cartesian.XAxes = [horizontal ? numeric : category]; cartesian.YAxes = [horizontal ? category : numeric];
     }

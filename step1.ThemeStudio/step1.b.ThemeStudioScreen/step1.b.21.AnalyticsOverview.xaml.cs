@@ -35,7 +35,7 @@ public partial class AnalyticsOverview : UserControl
                 AnalyticsGrid.ColumnDefinitions[0].Width = new GridLength(2, GridUnitType.Star);
                 AnalyticsGrid.ColumnDefinitions[1].Width = new GridLength(2, GridUnitType.Star);
                 Grid.SetColumnSpan(TableCard, 2); TableCard.Visibility = Visibility.Visible; ActivityCard.Visibility = Visibility.Collapsed;
-                TrendText.Visibility = Visibility.Visible; break;
+                break;
             case ProGlassAutomation.Customization.BentoLayoutPreset.AnalyticsFocus:
                 AnalyticsGrid.ColumnDefinitions[0].Width = new GridLength(3, GridUnitType.Star);
                 AnalyticsGrid.ColumnDefinitions[1].Width = new GridLength(2, GridUnitType.Star);

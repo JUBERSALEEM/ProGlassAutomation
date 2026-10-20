@@ -81,8 +81,6 @@ public static class BentoCustomization
         package["BorderThicknessControl"] = state.Shadow switch { BentoShadowIntensity.None => new Thickness(0), BentoShadowIntensity.Elevated => new Thickness(1.2), _ => new Thickness(1) };
         // Density — now supports Spacious
         bool compact = state.Density == BentoDensity.Compact;
-        bool spacious = state.Spacing == BentoSpacing.Spacious || state.Density == BentoDensity.Compact && state.Spacing == BentoSpacing.Spacious;
-        // Spacious is represented via Spacing enum; keep compact flag for heights
         package["ControlMinHeight"] = state.Density switch { BentoDensity.Compact => 32d, BentoDensity.Comfortable => 38d, _ => 44d };
         // Map Spacious correctly — use Spacing to allow Comfortable+Spacious etc
         double spacingFactor = state.Spacing switch { BentoSpacing.Compact => 0.85, BentoSpacing.Spacious => 1.25, _ => 1.0 };

@@ -9,12 +9,10 @@
      <TextBlock Text="Customize" Style="{DynamicResource SectionHeading}" Margin="{DynamicResource MarginItem}"/>
      <TextBlock Text="Left: choose area. Center: live preview. Right: contextual edits." Style="{DynamicResource Caption}" Margin="{DynamicResource MarginItem}"/>
      <Label Content="Category" Target="{Binding ElementName=CategoryList}" Foreground="{DynamicResource TextSecondary}"/>
-     <ListBox x:Name="CategoryList" SelectedItem="{Binding CustomizationCategory}" AutomationProperties.Name="Customization category">
-      <ListBoxItem Content="Appearance"/><ListBoxItem Content="Layout"/><ListBoxItem Content="Components"/><ListBoxItem Content="Charts"/>
-     </ListBox>
+     <ComboBox x:Name="CategoryList" ItemsSource="{Binding AvailableCategories}" SelectedItem="{Binding CustomizationCategory}" AutomationProperties.Name="Customization category"/>
      <Separator Margin="{DynamicResource MarginItem}"/>
      <TextBlock Text="Bento Layout Presets" Style="{DynamicResource Caption}"/>
-     <ListBox ItemsSource="{Binding BuiltInPresets}" DisplayMemberPath="Name" SelectedValue="{Binding SelectedLayoutPreset, Mode=TwoWay}" AutomationProperties.Name="Built-in layout presets" Margin="{DynamicResource MarginItem}">
+     <ListBox ItemsSource="{Binding BuiltInPresets}" DisplayMemberPath="Name" AutomationProperties.Name="Built-in layout presets" Margin="{DynamicResource MarginItem}">
       <ListBox.ItemContainerStyle><Style TargetType="ListBoxItem"><Setter Property="AutomationProperties.Name" Value="{Binding Name}"/></Style></ListBox.ItemContainerStyle>
      </ListBox>
      <TextBlock Text="Your presets (saved to disk)" Style="{DynamicResource Caption}" Margin="{DynamicResource MarginItem}"/>
