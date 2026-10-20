@@ -11,7 +11,12 @@
      <TextBlock Text="Customize the live design system — every control previews instantly" Foreground="{DynamicResource TextSecondary}" Style="{DynamicResource Caption}"/>
     </StackPanel>
     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
-     <Border Style="{DynamicResource StatusBadge}" Tag="Information" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center"><TextBlock Text="{Binding AppearanceLabel, StringFormat='Bento {0}'}" Tag="Information" Style="{DynamicResource StatusText}"/></Border>
+     <Border Background="{DynamicResource SurfaceSecondary}" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="{DynamicResource BorderThicknessControl}" CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{DynamicResource PaddingCompact}" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center">
+      <StackPanel Orientation="Horizontal">
+       <RadioButton Content="Light" IsChecked="{Binding IsLight}" GroupName="HeaderAppearance" AutomationProperties.Name="Light appearance" VerticalAlignment="Center" Margin="{DynamicResource MarginInline}"/>
+       <RadioButton Content="Dark" IsChecked="{Binding IsDark}" GroupName="HeaderAppearance" AutomationProperties.Name="Dark appearance" VerticalAlignment="Center"/>
+      </StackPanel>
+     </Border>
      <Border Style="{DynamicResource StatusBadge}" Tag="Success" VerticalAlignment="Center"><TextBlock Text="{Binding DesignSummary}" Tag="Success" Style="{DynamicResource StatusText}"/></Border>
     </StackPanel>
    </DockPanel>

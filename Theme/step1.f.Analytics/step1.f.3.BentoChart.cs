@@ -36,6 +36,12 @@ public sealed partial class BentoChart
     public BentoChart()
     {
         var root = new StackPanel();
+        // Ensure no white surfaces — chart must be transparent and reveal the dark card behind, including the donut hole.
+        cartesian.Background = System.Windows.Media.Brushes.Transparent;
+        pie.Background = System.Windows.Media.Brushes.Transparent;
+        plot.Background = System.Windows.Media.Brushes.Transparent;
+        Background = System.Windows.Media.Brushes.Transparent;
+        BorderBrush = System.Windows.Media.Brushes.Transparent;
         plot.Children.Add(cartesian); plot.Children.Add(pie); plot.Children.Add(center);
         root.Children.Add(plot); root.Children.Add(legend); root.Children.Add(message); root.Children.Add(summary); root.Children.Add(inspectToggle); root.Children.Add(values);
         inspectToggle.Checked += (_, _) => values.Visibility = Visibility.Visible;

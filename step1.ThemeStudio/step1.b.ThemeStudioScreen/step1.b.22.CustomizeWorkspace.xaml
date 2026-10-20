@@ -2,6 +2,7 @@
  <UserControl.Resources>
   <local:BoolToVisibilityConverter2 x:Key="BoolToVisibility"/>
   <local:CategoryVisibilityConverter x:Key="CategoryVisibilityConverter"/>
+  <local:ComponentSelectionConverter x:Key="ComponentSelectionConverter"/>
   <BooleanToVisibilityConverter x:Key="ShowDiagnostics"/>
  </UserControl.Resources>
  <Grid Background="{DynamicResource ApplicationBackground}">
@@ -49,28 +50,37 @@
        <Grid Margin="{DynamicResource MarginSection}">
         <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
         <Border Style="{DynamicResource PositivePlate}" Margin="{DynamicResource MarginInline}" Tag="KpiRevenue" MouseDown="PreviewCard_MouseDown" Cursor="Hand">
-         <StackPanel>
+         <Grid>
+          <Border Height="3" Background="{DynamicResource AccentPrimary}" VerticalAlignment="Top" CornerRadius="{DynamicResource ChipCornerRadius}" Visibility="{Binding SelectedComponentId, Converter={StaticResource ComponentSelectionConverter}, ConverterParameter=KpiRevenue}"/>
+          <StackPanel Margin="{DynamicResource MarginItem}">
           <TextBlock Text="Revenue" Foreground="{DynamicResource TextMuted}" FontSize="{DynamicResource FontSizeCaption}" FontWeight="SemiBold"/>
           <TextBlock Text="AED 284k" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" Foreground="{DynamicResource TextPrimary}"/>
           <TextBlock x:Name="TrendText" Text="↑ 6.4% trend visible" Foreground="{DynamicResource StatusSuccess}" FontSize="{DynamicResource FontSizeCaption}" Visibility="{Binding ShowKpiTrend, Converter={StaticResource BoolToVisibility}}"/>
-         </StackPanel>
+          </StackPanel>
+         </Grid>
         </Border>
         <Border Grid.Column="1" Style="{DynamicResource FeaturePlate}" Margin="{DynamicResource MarginInline}" Tag="KpiOrders" MouseDown="PreviewCard_MouseDown" Cursor="Hand">
-         <StackPanel>
+         <Grid>
+          <Border Height="3" Background="{DynamicResource AccentPrimary}" VerticalAlignment="Top" CornerRadius="{DynamicResource ChipCornerRadius}" Visibility="{Binding SelectedComponentId, Converter={StaticResource ComponentSelectionConverter}, ConverterParameter=KpiOrders}"/>
+          <StackPanel Margin="{DynamicResource MarginItem}">
           <TextBlock Text="Orders" Foreground="{DynamicResource TextMuted}" FontSize="{DynamicResource FontSizeCaption}" FontWeight="SemiBold"/>
           <TextBlock Text="128" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" Foreground="{DynamicResource TextPrimary}"/>
           <TextBlock Text="120 completed · Demo snapshot" Foreground="{DynamicResource TextSecondary}" FontSize="{DynamicResource FontSizeCaption}"/>
-         </StackPanel>
+          </StackPanel>
+         </Grid>
         </Border>
        </Grid>
        <Border x:Name="HeroPreview" Style="{DynamicResource HeroCard}" Margin="{DynamicResource MarginSection}" Tag="Hero" MouseDown="PreviewCard_MouseDown" Cursor="Hand">
         <Grid>
+         <Border Height="3" Background="{DynamicResource AccentPrimary}" VerticalAlignment="Top" CornerRadius="{DynamicResource ChipCornerRadius}" Visibility="{Binding SelectedComponentId, Converter={StaticResource ComponentSelectionConverter}, ConverterParameter=Hero}"/>
+         <Grid Margin="{DynamicResource MarginItem}">
          <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
          <StackPanel>
           <TextBlock Text="Hero workspace" Foreground="{DynamicResource HeroForeground}" FontWeight="{DynamicResource FontWeightHeading}" />
           <TextBlock Text="Featured module — span and compact live in Layout" Foreground="{DynamicResource HeroSecondaryText}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="Wrap"/>
          </StackPanel>
          <Border Grid.Column="1" Background="{DynamicResource TransparentBrush}" BorderBrush="{DynamicResource HeroAccent}" BorderThickness="1" CornerRadius="{DynamicResource CardCornerRadius}" Padding="{DynamicResource PaddingCompact}" VerticalAlignment="Center" Margin="{DynamicResource MarginInline}"><TextBlock Text="Bento Light · Ocean" Foreground="{DynamicResource HeroAccent}" FontSize="{DynamicResource FontSizeCaption}" FontWeight="SemiBold"/></Border>
+         </Grid>
         </Grid>
        </Border>
        <local:AnalyticsOverview x:Name="LiveOverview"/>
