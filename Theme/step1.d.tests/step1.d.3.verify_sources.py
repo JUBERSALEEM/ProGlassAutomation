@@ -138,6 +138,15 @@ project = ET.parse(ROOT/'ProGlassAutomation.csproj').getroot()
 assert [(p.attrib['Include'], p.attrib['Version']) for p in project.findall('.//PackageReference')] == [('LiveChartsCore.SkiaSharpView.WPF', '2.0.4')], 'Only the reviewed pinned WPF chart dependency is approved'
 assert project.find('.//TargetFramework').text == 'net8.0-windows7.0'
 assert (ROOT / 'Theme/ThemeClaymorphism/ThemeClaymorphism.Light.xaml').is_file() and (ROOT / 'Theme/ThemeBento/ThemeBento.Light.xaml').is_file()
+catalog = (ENGINE / 'step1.a.6.ThemeCatalog.cs').read_text()
+assert 'ClayName = "Claymorphism"' in catalog and 'ClayResources.Load' in catalog
+runtime = (ROOT / 'Theme/step1.d.tests/step1.d.1.RuntimeChecks.cs').read_text()
+assert 'ThemeService.Clay' in runtime and 'Apply("NotInstalled"' in runtime
+assert 'Apply("Claymorphism"' not in runtime, 'Clay is installed; do not treat it as missing'
+assert 'theme == ThemeService.Bento' in (ROOT/'step1.ThemeStudio/step1.b.ThemeStudioScreen/step1.b.3.ThemeStudioViewModel.cs').read_text()
+contracts = (ROOT / 'Theme/step1.d.tests/step1.d.2.ContractChecks.cs').read_text()
+assert 'ThemeService.InstalledThemes' in contracts
+assert 'if (theme == ThemeService.Bento)' in contracts and 'VerifyStyleFailures(resources)' in contracts
 print(f'PASS: {len(contract)} typed tokens × 2 complete variants; {contrast_checks} measured contrast pairs.')
 print(f'PASS: {len(xamls)} XML documents, content/property checks, resource references, dictionary paths and no view-local styling literals.')
 print('LIMITATION: source checks are not a C#/XAML compilation, runtime switching test, visual inspection, or accessibility certification.')

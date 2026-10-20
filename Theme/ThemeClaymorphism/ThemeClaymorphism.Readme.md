@@ -14,4 +14,4 @@ Concave inverts the insets and hides the drop. `ShowDrop` stays false on tabs so
 
 ## Completeness
 
-Source chrome for the 47 contract roles is filled. Windows pixels **0%** (workflow stays in `cols/ci`; no PC). Reports URL is sign-in gated; public chrome there is Crystal, not Clay.
+Source chrome for the 47 contract roles is filled. Catalog registers Clay. Runtime/contract checks load Clay Light/Dark, keep the Bento engine off, and treat unknown names as uninstalled. Windows pixels **0%** (workflow stays in `cols/ci`; no PC). Reports URL is sign-in gated; public chrome there is Crystal, not Clay.

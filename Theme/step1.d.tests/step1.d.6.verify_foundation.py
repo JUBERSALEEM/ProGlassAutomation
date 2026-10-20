@@ -35,6 +35,9 @@ for path in [*ROOT.glob('*.cs'), *ROOT.glob('Theme/**/*.cs'), *ROOT.glob('step1.
     assert not re.search(r'ProGlassAutomation\.(SheetStore|Converters|ViewModels)|Microsoft\.Data\.Sqlite|Dapper|ShellStyles|SheetStoreModule', text), f'Legacy reference: {path}'
 app = (ROOT / 'App.xaml.cs').read_text()
 assert 'Themes.Initialize(Resources)' in app and 'MainWindow.Show()' in app
+runtime = (ROOT / 'Theme/step1.d.tests/step1.d.1.RuntimeChecks.cs').read_text()
+assert 'ThemeService.Clay' in runtime and 'CanCustomize' in runtime
+assert 'Apply("Claymorphism"' not in runtime, 'Clay is installed; do not treat it as missing'
 shell = (ROOT/'MainWindow.xaml').read_text()
 assert '<studio:ThemeStudioView />' in shell and '<studio:BusinessReferenceView />' in shell
 assert 'SelectedIndex="{Binding SelectedWorkspace, Mode=TwoWay}"' in shell

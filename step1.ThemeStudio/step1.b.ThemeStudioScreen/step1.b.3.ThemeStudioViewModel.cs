@@ -84,7 +84,7 @@ public sealed partial class ThemeStudioViewModel : INotifyPropertyChanged, IData
 
     private void ThemeChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName != nameof(ThemeService.ActiveAppearance)) return;
+        if (e.PropertyName != nameof(ThemeService.ActiveAppearance) && e.PropertyName != nameof(ThemeService.ActiveTheme)) return;
         RefreshTokens();
         foreach (string property in new[] { nameof(IsLight), nameof(IsDark), nameof(AppearanceLabel), nameof(SelectedTheme), nameof(CanCustomize), nameof(DesignSummary) }) Changed(property);
         CommandManager.InvalidateRequerySuggested();

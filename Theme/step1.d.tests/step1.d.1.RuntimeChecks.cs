@@ -190,7 +190,24 @@ internal static class RuntimeChecks
             Pump();
             Check(model.SelectedAccent == ProGlassAutomation.ThemeBento.BentoAccent.Ocean &&
                 (double)themes.GetToken("ControlMinHeight") == 32d, "reset design restores defaults without resetting sample input");
-            ContractChecks.ExpectFailure(() => themes.Apply("Claymorphism", Appearance.Dark), "uninstalled theme");
+            Check(ThemeService.InstalledThemes.Contains(ThemeService.Clay), "Clay is a registered theme");
+            var bentoBackground = window.Background;
+            model.SelectedTheme = ThemeService.Clay;
+            Pump();
+            Check(themes.ActiveTheme == ThemeService.Clay, "clay theme activates");
+            Check(!ReferenceEquals(bentoBackground, window.Background), "clay replaces window resources");
+            Check(Equals(window.Background, themes.GetToken("ApplicationBackground")), "clay window background");
+            Check(!model.CanCustomize, "clay keeps the Bento customization engine off");
+            Check(model.DesignSummary == "Theme-default settings", "clay uses theme-default settings");
+            model.IsDark = true;
+            Pump();
+            Check(themes.ActiveTheme == ThemeService.Clay && themes.ActiveAppearance == Appearance.Dark, "clay dark");
+            Check(Equals(window.Background, themes.GetToken("ApplicationBackground")), "clay dark window background");
+            model.SelectedTheme = ThemeService.Bento;
+            model.IsLight = true;
+            Pump();
+            Check(themes.ActiveTheme == ThemeService.Bento && themes.ActiveAppearance == Appearance.Light, "return to bento light");
+            ContractChecks.ExpectFailure(() => themes.Apply("NotInstalled", Appearance.Dark), "uninstalled theme");
             ContractChecks.ExpectFailure(() => themes.Apply(ThemeService.Bento, (Appearance)100), "invalid appearance");
             Check(themes.ActiveAppearance == Appearance.Light, "invalid selection preserves active state");
             Pump();

@@ -11,29 +11,33 @@ internal static class ContractChecks
         CustomizationChecks.Run();
         AnalyticsChecks.DataContracts();
         CustomizationPersistenceChecks.Run();
-        foreach (var mode in Enum.GetValues<Appearance>())
+        foreach (string theme in ThemeService.InstalledThemes)
         {
-            var resources = ThemeService.Load(mode);
-            ResourceValidation.Validate(resources);
-            string[] extra = resources.Keys.Cast<object>().OfType<string>().Except(ThemeContract.Required.Keys).ToArray();
-            if (extra.Length != 0) throw new Exception("Undocumented tokens: " + string.Join(", ", extra));
-            var foregrounds = new[] { "TextPrimary", "TextSecondary", "TextMuted" };
-            foreach (string foreground in foregrounds)
-                foreach (string surface in new[] { "ApplicationBackground", "SurfacePrimary", "SurfaceSecondary", "SurfaceElevated", "StateHover", "StatePressed", "StateSelected", "AccentSoft" })
-                    Contrast(resources, foreground, surface, 4.5);
-            Contrast(resources, "TextOnAccent", "AccentPrimary", 4.5);
-            Contrast(resources, "TextOnAccent", "AccentHover", 4.5);
-            Contrast(resources, "TextOnAccent", "AccentPressed", 4.5);
-            foreach (string status in new[] { "Success", "Warning", "Error", "Information" })
-                Contrast(resources, "Status" + status, "Status" + status + "Surface", 4.5);
-            VerifyStyleFailures(resources);
-            resources.Remove("TextPrimary");
-            ExpectFailure(() => ResourceValidation.Validate(resources), "missing token");
-            resources["TextPrimary"] = "not a brush";
-            ExpectFailure(() => ResourceValidation.Validate(resources), "wrong token type");
-            resources["TextPrimary"] = new SolidColorBrush();
-            resources["SpacingMedium"] = double.NaN;
-            ExpectFailure(() => ResourceValidation.Validate(resources), "invalid numeric token");
+            foreach (var mode in Enum.GetValues<Appearance>())
+            {
+                var resources = ThemeService.Load(mode, theme);
+                ResourceValidation.Validate(resources, theme + " / " + mode);
+                string[] extra = resources.Keys.Cast<object>().OfType<string>().Except(ThemeContract.Required.Keys).ToArray();
+                if (extra.Length != 0) throw new Exception(theme + " undocumented tokens: " + string.Join(", ", extra));
+                var foregrounds = new[] { "TextPrimary", "TextSecondary", "TextMuted" };
+                foreach (string foreground in foregrounds)
+                    foreach (string surface in new[] { "ApplicationBackground", "SurfacePrimary", "SurfaceSecondary", "SurfaceElevated", "StateHover", "StatePressed", "StateSelected", "AccentSoft" })
+                        Contrast(resources, foreground, surface, 4.5);
+                Contrast(resources, "TextOnAccent", "AccentPrimary", 4.5);
+                Contrast(resources, "TextOnAccent", "AccentHover", 4.5);
+                Contrast(resources, "TextOnAccent", "AccentPressed", 4.5);
+                foreach (string status in new[] { "Success", "Warning", "Error", "Information" })
+                    Contrast(resources, "Status" + status, "Status" + status + "Surface", 4.5);
+                if (theme == ThemeService.Bento)
+                    VerifyStyleFailures(resources);
+                resources.Remove("TextPrimary");
+                ExpectFailure(() => ResourceValidation.Validate(resources), "missing token");
+                resources["TextPrimary"] = "not a brush";
+                ExpectFailure(() => ResourceValidation.Validate(resources), "wrong token type");
+                resources["TextPrimary"] = new SolidColorBrush();
+                resources["SpacingMedium"] = double.NaN;
+                ExpectFailure(() => ResourceValidation.Validate(resources), "invalid numeric token");
+            }
         }
     }
 
