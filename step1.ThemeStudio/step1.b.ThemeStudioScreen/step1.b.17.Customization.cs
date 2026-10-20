@@ -12,6 +12,7 @@ public sealed partial class ThemeStudioViewModel
     private SavedCustomization lastSaved = CustomizationStore.Load();
     private BentoCustomizationState draft => extended;
     private int selectedWorkspace = 1;
+    private bool isMenuOpen = true;
     private string customizationCategory = "Appearance";
 
     private string selectedComponentId = "";
@@ -68,12 +69,18 @@ public sealed partial class ThemeStudioViewModel
                 Changed(nameof(IsStudio));
                 Changed(nameof(IsBusiness));
                 Changed(nameof(WorkspaceTitle));
+                Changed(nameof(WorkspaceSubtitle));
             }
         }
     }
     public bool IsStudio { get => selectedWorkspace == 0; set { if (value) SelectedWorkspace = 0; } }
     public bool IsBusiness { get => selectedWorkspace == 1; set { if (value) SelectedWorkspace = 1; } }
     public string WorkspaceTitle => IsStudio ? "Theme Studio" : "Home";
+    public string WorkspaceSubtitle => IsStudio ? "Settings · Theme engine" : "Home";
+    public bool IsMenuOpen { get => isMenuOpen; set { isMenuOpen = value; Changed(nameof(IsMenuOpen)); } }
+    public string ShellClock => DateTime.Now.ToString("dd MMM yyyy / HH:mm", System.Globalization.CultureInfo.GetCultureInfo("en-GB"));
+    public ICommand ToggleMenu { get; private set; } = null!;
+    public ICommand ToggleAppearance { get; private set; } = null!;
     public ICommand ResetDesign { get; private set; } = null!;
     public ICommand ShowStudio { get; private set; } = null!;
     public ICommand ShowBusiness { get; private set; } = null!;
@@ -95,6 +102,8 @@ public sealed partial class ThemeStudioViewModel
         preferences = extended.ToLegacy();
         try { themes.Apply(SelectedTheme, lastSaved.Appearance, (p,m)=>BentoCustomization.ApplyExtended(p,m,extended)); } catch {}
         ResetDesign = new DelegateCommand(() => ApplyState(new BentoCustomizationState()), () => CanCustomize);
+        ToggleMenu = new DelegateCommand(() => IsMenuOpen = !IsMenuOpen);
+        ToggleAppearance = new DelegateCommand(() => { if (IsLight) IsDark = true; else IsLight = true; });
         ShowStudio = new DelegateCommand(() => SelectedWorkspace = 0);
         ShowBusiness = new DelegateCommand(() => SelectedWorkspace = 1);
         ApplyPreview = new DelegateCommand(() => { try { themes.Apply(SelectedTheme, themes.ActiveAppearance, (pkg,mode)=>BentoCustomization.ApplyExtended(pkg,mode,extended)); ThemeError=""; Feedback="Preview applied — unsaved changes present."; } catch(Exception ex){ ThemeError=ex.Message; } Changed(nameof(ThemeError)); }, () => CanCustomize);

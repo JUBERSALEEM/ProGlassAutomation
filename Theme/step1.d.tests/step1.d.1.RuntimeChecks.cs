@@ -48,6 +48,12 @@ internal static class RuntimeChecks
             Check(window.IsVisible, "startup main window is visible");
             var model = (ThemeStudioViewModel)window.DataContext;
             Check(model.SelectedWorkspace == 1, "business reference is the startup page");
+            Check(model.IsMenuOpen, "shell menu starts open");
+            Check(model.WorkspaceTitle == "Home" && model.WorkspaceSubtitle == "Home", "home chrome titles");
+            model.ToggleMenu.Execute(null);
+            Check(!model.IsMenuOpen, "toggle hides the shell chrome");
+            model.ToggleMenu.Execute(null);
+            Check(model.IsMenuOpen, "toggle restores the shell chrome");
             model.SelectedWorkspace = 0;
             Pump();
             var progress = Descendants(window).OfType<ProgressBar>().Single();
