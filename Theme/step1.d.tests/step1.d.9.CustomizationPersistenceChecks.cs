@@ -2,6 +2,7 @@ using System.IO;
 using ProGlassAutomation.Customization;
 using ProGlassAutomation.Theming;
 using ProGlassAutomation.ThemeBento;
+using ProGlassAutomation.ThemeClaymorphism;
 
 namespace ProGlassAutomation.ThemeTests;
 internal static class CustomizationPersistenceChecks
@@ -19,7 +20,7 @@ internal static class CustomizationPersistenceChecks
         // Canvas tint applied
         if (((System.Windows.Media.SolidColorBrush)light["ApplicationBackground"]).Color.ToString() != "#FFF5EFE6") throw new Exception("Warm canvas not applied");
         // Save/load roundtrip
-        var saved = new SavedCustomization(2, Appearance.Dark, state, null, null, [new NamedPreset("My Test", state, Appearance.Dark)], ThemeCatalog.FluentName);
+        var saved = new SavedCustomization(2, Appearance.Dark, state, null, null, [new NamedPreset("My Test", state, Appearance.Dark)], ThemeCatalog.FluentName, new ClayCustomizationState(ClayAccent.Berry));
         var tmp = Path.Combine(Path.GetTempPath(), "proglass-test-" + Guid.NewGuid() + ".json");
         var origPath = CustomizationStore.FilePath;
         // Use temporary store via reflection to avoid polluting real user file — test via direct serialize
@@ -27,6 +28,7 @@ internal static class CustomizationPersistenceChecks
         var reloaded = System.Text.Json.JsonSerializer.Deserialize<SavedCustomization>(json, new System.Text.Json.JsonSerializerOptions{ Converters={ new System.Text.Json.Serialization.JsonStringEnumConverter()}, PropertyNameCaseInsensitive=true});
         if (reloaded!.Preferences.Accent != BentoAccent.Indigo) throw new Exception("Roundtrip accent");
         if (reloaded.Theme != ThemeCatalog.FluentName) throw new Exception("Roundtrip theme");
+        if (reloaded.Clay?.Accent != ClayAccent.Berry) throw new Exception("Roundtrip clay accent");
         if (reloaded.CustomPresets!.Count != 1 || reloaded.CustomPresets[0].Name != "My Test") throw new Exception("Custom preset roundtrip");
         // Built-in protected
         if (!PresetCatalog.IsBuiltIn("Balanced Bento")) throw new Exception("Built-in recognition");

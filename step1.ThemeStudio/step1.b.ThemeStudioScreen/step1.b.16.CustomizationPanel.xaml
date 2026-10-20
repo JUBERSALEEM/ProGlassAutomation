@@ -13,6 +13,17 @@
      <TextBlock Text="Appearance" Style="{DynamicResource Caption}"/><WrapPanel Margin="{DynamicResource MarginItem}"><RadioButton Content="_Light" GroupName="Appearance" IsChecked="{Binding IsLight}" AutomationProperties.Name="Light appearance"/><RadioButton Content="_Dark" GroupName="Appearance" IsChecked="{Binding IsDark}" AutomationProperties.Name="Dark appearance"/></WrapPanel>
     </StackPanel>
    </ContentControl>
+   <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}" IsEnabled="{Binding IsClay}">
+    <StackPanel>
+     <TextBlock Text="Clay volume" Style="{DynamicResource Caption}"/>
+     <Label Content="Clay accent" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding ClayAccentChoices}" SelectedItem="{Binding SelectedClayAccent}" AutomationProperties.Name="Clay accent" Margin="{DynamicResource MarginItem}"/>
+     <Label Content="Canvas" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding ClayCanvasChoices}" SelectedItem="{Binding SelectedClayCanvas}" AutomationProperties.Name="Clay canvas" Margin="{DynamicResource MarginItem}"/>
+     <Label Content="Volume" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding ClayVolumeChoices}" SelectedItem="{Binding SelectedClayVolume}" AutomationProperties.Name="Clay volume" Margin="{DynamicResource MarginItem}"/>
+     <Label Content="Plumpness" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding ClayPlumpnessChoices}" SelectedItem="{Binding SelectedClayPlumpness}" AutomationProperties.Name="Clay plumpness" Margin="{DynamicResource MarginItem}"/>
+     <Label Content="Density" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding ClayDensityChoices}" SelectedItem="{Binding SelectedClayDensity}" AutomationProperties.Name="Clay density" Margin="{DynamicResource MarginItem}"/>
+     <TextBlock Text="Clay settings apply only while Claymorphism is the active theme. Bento and Fluent engines stay untouched." Style="{DynamicResource Caption}"/>
+    </StackPanel>
+   </ContentControl>
    <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
     <StackPanel>
      <TextBlock Text="Bento layout" Style="{DynamicResource Caption}"/>
@@ -25,7 +36,7 @@
    <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
     <StackPanel>
      <TextBlock Text="Global appearance" Style="{DynamicResource Caption}"/>
-     <Label Content="Brand accent" Target="{Binding ElementName=AccentPicker}" Foreground="{DynamicResource TextSecondary}"/><ComboBox x:Name="AccentPicker" IsEnabled="{Binding CanCustomize}" ItemsSource="{Binding AccentChoices}" SelectedItem="{Binding SelectedAccent}" AutomationProperties.Name="Brand accent" Margin="{DynamicResource MarginItem}"/>
+     <Label Content="Brand accent" Target="{Binding ElementName=AccentPicker}" Foreground="{DynamicResource TextSecondary}"/><ComboBox x:Name="AccentPicker" IsEnabled="{Binding CanCustomizeBento}" ItemsSource="{Binding AccentChoices}" SelectedItem="{Binding SelectedAccent}" AutomationProperties.Name="Brand accent" Margin="{DynamicResource MarginItem}"/>
      <Label Content="Canvas tint" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding CanvasChoices}" SelectedItem="{Binding SelectedCanvas}" AutomationProperties.Name="Canvas tint" Margin="{DynamicResource MarginItem}"/>
      <Label Content="Surface style" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding SurfaceChoices}" SelectedItem="{Binding SelectedSurface}" AutomationProperties.Name="Surface style" Margin="{DynamicResource MarginItem}"/>
      <Label Content="Text contrast" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding TextContrastChoices}" SelectedItem="{Binding SelectedTextContrast}" AutomationProperties.Name="Text contrast" Margin="{DynamicResource MarginItem}"/>
@@ -36,11 +47,11 @@
    <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
     <StackPanel>
      <TextBlock Text="Density and type" Style="{DynamicResource Caption}"/>
-     <Label Content="Density" Target="{Binding ElementName=DensityPicker}" Foreground="{DynamicResource TextSecondary}"/><ComboBox x:Name="DensityPicker" IsEnabled="{Binding CanCustomize}" ItemsSource="{Binding DensityChoices}" SelectedItem="{Binding SelectedDensity}" AutomationProperties.Name="Control density" Margin="{DynamicResource MarginItem}"/>
+     <Label Content="Density" Target="{Binding ElementName=DensityPicker}" Foreground="{DynamicResource TextSecondary}"/><ComboBox x:Name="DensityPicker" IsEnabled="{Binding CanCustomizeBento}" ItemsSource="{Binding DensityChoices}" SelectedItem="{Binding SelectedDensity}" AutomationProperties.Name="Control density" Margin="{DynamicResource MarginItem}"/>
      <Label Content="Spacing" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding SpacingChoices}" SelectedItem="{Binding SelectedSpacing}" AutomationProperties.Name="Grid spacing" Margin="{DynamicResource MarginItem}"/>
-     <Label Content="Corner treatment" Target="{Binding ElementName=ShapePicker}" Foreground="{DynamicResource TextSecondary}"/><ComboBox x:Name="ShapePicker" IsEnabled="{Binding CanCustomize}" ItemsSource="{Binding ShapeChoices}" SelectedItem="{Binding SelectedShape}" AutomationProperties.Name="Corner treatment" Margin="{DynamicResource MarginItem}"/>
+     <Label Content="Corner treatment" Target="{Binding ElementName=ShapePicker}" Foreground="{DynamicResource TextSecondary}"/><ComboBox x:Name="ShapePicker" IsEnabled="{Binding CanCustomizeBento}" ItemsSource="{Binding ShapeChoices}" SelectedItem="{Binding SelectedShape}" AutomationProperties.Name="Corner treatment" Margin="{DynamicResource MarginItem}"/>
      <Label Content="Card padding" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding PaddingChoices}" SelectedItem="{Binding SelectedPadding}" AutomationProperties.Name="Card padding" Margin="{DynamicResource MarginItem}"/>
-     <Label Content="Typography" Target="{Binding ElementName=TypePicker}" Foreground="{DynamicResource TextSecondary}"/><ComboBox x:Name="TypePicker" IsEnabled="{Binding CanCustomize}" ItemsSource="{Binding TypeChoices}" SelectedItem="{Binding SelectedTypography}" AutomationProperties.Name="Type scale" Margin="{DynamicResource MarginItem}"/>
+     <Label Content="Typography" Target="{Binding ElementName=TypePicker}" Foreground="{DynamicResource TextSecondary}"/><ComboBox x:Name="TypePicker" IsEnabled="{Binding CanCustomizeBento}" ItemsSource="{Binding TypeChoices}" SelectedItem="{Binding SelectedTypography}" AutomationProperties.Name="Type scale" Margin="{DynamicResource MarginItem}"/>
      <Label Content="Font weight" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding WeightChoices}" SelectedItem="{Binding SelectedWeight}" AutomationProperties.Name="Font weight" Margin="{DynamicResource MarginItem}"/>
     </StackPanel>
    </ContentControl>

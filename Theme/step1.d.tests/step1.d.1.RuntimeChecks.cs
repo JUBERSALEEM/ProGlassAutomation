@@ -200,8 +200,11 @@ internal static class RuntimeChecks
                 Check(themes.ActiveTheme == extra, extra + " activates");
                 Check(!ReferenceEquals(previous, window.Background), extra + " replaces window resources");
                 Check(Equals(window.Background, themes.GetToken("ApplicationBackground")), extra + " window background");
-                Check(!model.CanCustomize, extra + " keeps the Bento customization engine off");
-                Check(model.DesignSummary == "Theme-default settings", extra + " uses theme-default settings");
+                Check(!model.CanCustomizeBento, extra + " keeps the Bento customization engine off");
+                if (extra == ThemeService.Clay)
+                    Check(model.CanCustomizeClay && model.DesignSummary.Contains("Rose"), "clay customization is live");
+                else
+                    Check(model.DesignSummary == "Theme-default settings", extra + " uses theme-default settings");
                 model.IsDark = true;
                 Pump();
                 Check(themes.ActiveTheme == extra && themes.ActiveAppearance == Appearance.Dark, extra + " dark");

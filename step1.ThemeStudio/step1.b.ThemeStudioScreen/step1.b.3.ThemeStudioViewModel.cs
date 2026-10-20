@@ -6,6 +6,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using ProGlassAutomation.Theming;
 using ProGlassAutomation.ThemeBento;
+using ProGlassAutomation.ThemeClaymorphism;
 using ProGlassAutomation.Customization;
 
 namespace ProGlassAutomation.ThemeStudio;
@@ -71,7 +72,9 @@ public sealed partial class ThemeStudioViewModel : INotifyPropertyChanged, IData
         try
         {
             themes.Apply(theme, appearance, theme == ThemeService.Bento
-                ? (package, mode) => BentoCustomization.ApplyExtended(package, mode, current) : null);
+                ? (package, mode) => BentoCustomization.ApplyExtended(package, mode, current)
+                : theme == ThemeService.Clay ? (package, mode) => ClayCustomization.Apply(package, mode, clay)
+                : null);
             ThemeError = "";
             lastSaved = lastSaved with { Theme = theme, Appearance = appearance };
             try { CustomizationStore.Save(lastSaved); } catch (Exception ex) when (ex is IOException or ArgumentException or InvalidOperationException) { }
@@ -89,7 +92,7 @@ public sealed partial class ThemeStudioViewModel : INotifyPropertyChanged, IData
     {
         if (e.PropertyName != nameof(ThemeService.ActiveAppearance) && e.PropertyName != nameof(ThemeService.ActiveTheme)) return;
         RefreshTokens();
-        foreach (string property in new[] { nameof(IsLight), nameof(IsDark), nameof(AppearanceLabel), nameof(SelectedTheme), nameof(CanCustomize), nameof(DesignSummary) }) Changed(property);
+        foreach (string property in new[] { nameof(IsLight), nameof(IsDark), nameof(AppearanceLabel), nameof(SelectedTheme), nameof(IsClay), nameof(CanCustomizeBento), nameof(CanCustomizeClay), nameof(CanCustomize), nameof(DesignSummary) }) Changed(property);
         CommandManager.InvalidateRequerySuggested();
     }
 

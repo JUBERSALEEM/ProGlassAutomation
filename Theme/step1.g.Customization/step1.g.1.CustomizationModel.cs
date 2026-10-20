@@ -74,7 +74,8 @@ public sealed record SavedCustomization(
     Dictionary<string, ChartDisplayOptions>? ChartOptions = null,
     Dictionary<string, ComponentStyle>? ComponentStyles = null,
     List<NamedPreset>? CustomPresets = null,
-    string Theme = ThemeCatalog.BentoName
+    string Theme = ThemeCatalog.BentoName,
+    ClayCustomizationState? Clay = null
 )
 {
     public SavedCustomization() : this(2, Appearance.Light, new BentoCustomizationState()) { }

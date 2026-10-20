@@ -3,6 +3,7 @@ using System.Windows.Media;
 using System.ComponentModel;
 using ProGlassAutomation.Theming;
 using ProGlassAutomation.ThemeBento;
+using ProGlassAutomation.ThemeClaymorphism;
 
 namespace ProGlassAutomation.ThemeTests;
 
@@ -52,6 +53,19 @@ internal static class CustomizationChecks
                 throw new Exception("Notification failure hid activation or prevented other consumers from refreshing.");
         }
         finally { service.PropertyChanged -= failing; }
-        Console.WriteLine($"PASS: {combinations} customization/mode combinations, immutable helpers, preference retention, rejected candidates and notification-failure semantics.");
+        int clayCombinations = 0;
+        foreach (var mode in Enum.GetValues<Appearance>())
+        foreach (var accent in Enum.GetValues<ClayAccent>())
+        {
+            var clay = new ClayCustomizationState(accent);
+            var package = ThemeService.Load(mode, ThemeService.Clay, (candidate, appearance) => ClayCustomization.Apply(candidate, appearance, clay));
+            ResourceValidation.Validate(package);
+            ContractChecks.Contrast(package, "TextOnAccent", "AccentPrimary", 4.5);
+            ContractChecks.Contrast(package, "AccentPrimary", "AccentSoft", 4.5);
+            clayCombinations++;
+        }
+        ContractChecks.ExpectFailure(() => ThemeService.Load(Appearance.Light, ThemeService.Clay, (candidate, appearance) =>
+            ClayCustomization.Apply(candidate, appearance, new ClayCustomizationState((ClayAccent)999))), "invalid clay preset");
+        Console.WriteLine($"PASS: {combinations} customization/mode combinations, {clayCombinations} clay combinations, immutable helpers, preference retention, rejected candidates and notification-failure semantics.");
     }
 }

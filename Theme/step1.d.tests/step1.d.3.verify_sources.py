@@ -73,6 +73,28 @@ for package, stem, accents in (('ThemeBento', 'ThemeBento', True), ('ThemeClaymo
                 assert ratio >= 4.5, f'{package}/{mode} hero contrast: {fg}: {ratio:.2f}'
                 contrast_checks += 1
 
+clay_custom = (ROOT/'Theme/ThemeClaymorphism/step1.e.8.ClayCustomization.cs').read_text()
+assert 'public static class ClayCustomization' in clay_custom and 'BentoCustomization' not in clay_custom
+for mode in ('Light', 'Dark'):
+    path = ROOT / f'Theme/ThemeClaymorphism/ThemeClaymorphism.{mode}.xaml'
+    values = {item.attrib[X+'Key']: item for item in ET.parse(path).getroot() if X+'Key' in item.attrib}
+    current = {key: node.attrib['Color'] for key, node in values.items() if 'Color' in node.attrib}
+    found = 0
+    for name, strings in re.findall(r'\(ClayAccent\.(\w+), Appearance\.' + mode + r'\) => \[(.*?)\]', clay_custom):
+        overrides = re.findall(r'\"(#[0-9A-Fa-f]{6})\"', strings)
+        assert len(overrides) == 5, name
+        sample = dict(current)
+        sample.update(zip(('AccentPrimary', 'AccentHover', 'AccentPressed', 'AccentSoft', 'TextOnAccent'), overrides))
+        sample['FocusIndicator'] = sample['AccentPrimary']
+        sample['StateSelected'] = sample['AccentSoft']
+        for fg, bg, minimum in pairs:
+            a, b = (luminance(sample[k]) for k in (fg, bg))
+            ratio = (max(a, b) + .05) / (min(a, b) + .05)
+            assert ratio >= minimum, f'Clay/{mode}/{name} {fg}/{bg}: {ratio:.2f} < {minimum}'
+            contrast_checks += 1
+        found += 1
+    assert found == 2, f'Clay {mode} needs Berry and Sage accent coverage'
+
 xamls = [ROOT/'App.xaml', ROOT/'MainWindow.xaml', *ROOT.glob('Theme/**/*.xaml'),
          *ROOT.glob('step1.ThemeStudio/step1.b.ThemeStudioScreen/*.xaml')]
 style_keys = set()
@@ -145,7 +167,10 @@ assert 'FluentName = "Fluent / Acrylic"' in catalog and 'FluentResources.Load' i
 runtime = (ROOT / 'Theme/step1.d.tests/step1.d.1.RuntimeChecks.cs').read_text()
 assert 'ThemeService.InstalledThemes' in runtime and 'Apply("NotInstalled"' in runtime
 assert 'Apply("Claymorphism"' not in runtime, 'Clay is installed; do not treat it as missing'
-assert 'theme == ThemeService.Bento' in (ROOT/'step1.ThemeStudio/step1.b.ThemeStudioScreen/step1.b.3.ThemeStudioViewModel.cs').read_text()
+vm = (ROOT/'step1.ThemeStudio/step1.b.ThemeStudioScreen/step1.b.3.ThemeStudioViewModel.cs').read_text()
+assert 'theme == ThemeService.Bento' in vm and 'ClayCustomization.Apply' in vm
+assert 'CanCustomizeBento' in (ROOT/'step1.ThemeStudio/step1.b.ThemeStudioScreen/step1.b.16.CustomizationPanel.xaml').read_text()
+assert 'SelectedClayAccent' in (ROOT/'step1.ThemeStudio/step1.b.ThemeStudioScreen/step1.b.16.CustomizationPanel.xaml').read_text()
 contracts = (ROOT / 'Theme/step1.d.tests/step1.d.2.ContractChecks.cs').read_text()
 assert 'ThemeService.InstalledThemes' in contracts
 assert 'if (theme == ThemeService.Bento)' in contracts and 'VerifyStyleFailures(resources)' in contracts
