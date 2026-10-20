@@ -1,12 +1,11 @@
-# INACTIVE WORKFLOW: GitHub Actions does not run files in docs/ci/.
-# Restore from the repository root using Git Bash (with workflow-write permission):
+# INACTIVE: GitHub Actions does not execute workflows under cols/ci/.
+# To activate later, run from the repository root with workflow-write permission:
 #   mkdir -p .github/workflows
-#   git mv docs/ci/windows-wpf.yml .github/workflows/windows-wpf.yml
-#   git add docs/ci/windows-wpf.yml .github/workflows/windows-wpf.yml
-#   git commit -m "Enable Windows WPF verification workflow"
+#   git mv cols/ci/windows-wpf.yml .github/workflows/windows-wpf.yml
+#   git add -A
+#   git commit -m "Activate Windows WPF verification"
 #   git push origin arena/bd154b4b-proglassautomation
-# Update documentation links to the restored path in the same commit.
-# The original push was rejected because the GitHub App lacked workflows permission.
+# Update documentation links and the foundation guard for the active path too.
 
 name: Windows WPF verification
 
@@ -63,6 +62,8 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Validate isolated resources and contrast
         run: python Theme/step1.d.tests/step1.d.3.verify_sources.py
+      - name: Verify clean V3 foundation and startup
+        run: python Theme/step1.d.tests/step1.d.6.verify_foundation.py
       - name: Verify the source validator rejects regressions
         run: python Theme/step1.d.tests/step1.d.4.CheckerRegression.py
       - name: Restore actual product and test projects

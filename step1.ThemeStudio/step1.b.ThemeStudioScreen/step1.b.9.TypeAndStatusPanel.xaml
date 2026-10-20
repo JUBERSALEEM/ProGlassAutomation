@@ -6,6 +6,7 @@
   <TextBlock Text="Heading / 24" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" Margin="{DynamicResource MarginItem}" />
   <TextBlock Text="Body / A clear hierarchy makes complex work feel simple." Margin="{DynamicResource MarginItem}" />
   <TextBlock Text="Caption / supporting information" Style="{DynamicResource Caption}" Margin="{DynamicResource MarginSection}" />
+  <Border Style="{DynamicResource Plate}" Margin="{DynamicResource MarginItem}"><TextBlock Text="Pending / Awaiting design review" Foreground="{DynamicResource StatusWarning}" /></Border>
   <StackPanel>
    <Border Style="{DynamicResource Plate}" Background="{DynamicResource StatusSuccessSurface}" Margin="{DynamicResource MarginItem}"><TextBlock Text="Success / Ready for review" Foreground="{DynamicResource StatusSuccess}" /></Border>
    <Border Style="{DynamicResource Plate}" Background="{DynamicResource StatusWarningSurface}" Margin="{DynamicResource MarginItem}"><TextBlock Text="Warning / Check before continuing" Foreground="{DynamicResource StatusWarning}" /></Border>

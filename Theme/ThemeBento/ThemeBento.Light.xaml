@@ -46,6 +46,7 @@
   <sys:Double x:Key="ScrollBarSize">12</sys:Double>
   <sys:Double x:Key="DisabledOpacity">0.55</sys:Double>
   <sys:Double x:Key="PopupMaxHeight">280</sys:Double>
+  <sys:Double x:Key="PageMaxWidth">1440</sys:Double>
   <sys:Double x:Key="WindowInitialWidth">1280</sys:Double>
   <sys:Double x:Key="WindowInitialHeight">900</sys:Double>
   <sys:Double x:Key="WindowMinWidth">720</sys:Double>

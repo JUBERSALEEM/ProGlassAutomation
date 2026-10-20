@@ -1,15 +1,8 @@
 <UserControl x:Class="ProGlassAutomation.ThemeStudio.AppearancePanel"
  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
  <Border Style="{DynamicResource Card}"><StackPanel>
-  <TextBlock Text="02 / APPEARANCE" Style="{DynamicResource Caption}" Margin="{DynamicResource MarginItem}" />
-  <TextBlock Text="Make it yours." Style="{DynamicResource SectionHeading}" />
-  <Label Content="Installed theme" Target="{Binding ElementName=ThemePicker}" Foreground="{DynamicResource TextSecondary}" />
-  <ComboBox x:Name="ThemePicker" ItemsSource="{Binding InstalledThemes}" SelectedItem="{Binding SelectedTheme}" AutomationProperties.Name="Installed theme" Margin="{DynamicResource MarginItem}" />
-  <TextBlock Text="Only Bento is installed. Future themes are not selectable." Style="{DynamicResource Caption}" Margin="{DynamicResource MarginItem}" />
-  <WrapPanel Margin="{DynamicResource MarginItem}">
-   <RadioButton Content="_Light" GroupName="Appearance" IsChecked="{Binding IsLight}" AutomationProperties.Name="Light appearance" />
-   <RadioButton Content="_Dark" GroupName="Appearance" IsChecked="{Binding IsDark}" AutomationProperties.Name="Dark appearance" />
-  </WrapPanel>
+  <TextBlock Text="02 / LIVE PREVIEW" Style="{DynamicResource Caption}" Margin="{DynamicResource MarginItem}" />
+  <TextBlock Text="One system. Every window." Style="{DynamicResource SectionHeading}" />
   <TextBlock Text="{Binding ThemeError}" Foreground="{DynamicResource StatusError}" Margin="{DynamicResource MarginItem}" />
   <Border Style="{DynamicResource Plate}" Margin="{DynamicResource MarginItem}"><StackPanel>
    <TextBlock Text="{Binding AppearanceLabel, StringFormat='Active appearance: {0}'}" FontWeight="{DynamicResource FontWeightHeading}" />

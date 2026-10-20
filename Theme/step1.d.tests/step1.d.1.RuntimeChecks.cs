@@ -44,6 +44,12 @@ internal static class RuntimeChecks
             app.MainWindow = window;
             window.Show();
             Pump();
+            Check(window.IsVisible, "startup main window is visible");
+            var progress = Descendants(window).OfType<ProgressBar>().Single();
+            Check(BindingOperations.GetBinding(progress, RangeBase.ValueProperty)?.Mode == BindingMode.OneWay,
+                "display-only progress binding is explicitly one-way");
+            var headerThemePicker = Descendants(window).OfType<ComboBox>().Single();
+            Check(headerThemePicker.IsVisible, "live theme selector is visible in startup header");
             var model = (ThemeStudioViewModel)window.DataContext;
             dialog = new PreviewWindow { Owner = window, DataContext = model };
             dialog.Show();
@@ -90,13 +96,25 @@ internal static class RuntimeChecks
             Pump();
             Check(!Validation.GetHasError(input) && model.Feedback.Contains("Runtime review"), "valid preview action");
             model.AdvanceProgress.Execute(null);
-            Check(model.Progress == 75, "working progress interaction");
+            Pump();
+            Check(model.Progress == 75 && progress.Value == 75, "progress command updates the displayed value");
             model.ResetPreview.Execute(null);
             Check(model.Progress == 50 && model.SampleName == "Bento review", "reset action");
             model.TokenFilter = "SurfacePrimary";
             Check(model.TokenView.Cast<TokenRow>().Count() == 1, "live token search");
             model.TokenFilter = "";
+            model.ReferenceFilter = "no matching pattern";
+            Check(model.ReferenceView.IsEmpty && model.ReferenceSummary.StartsWith("No reference"), "search empty state");
+            model.ReferenceFilter = "";
+            Check(model.ReferenceView.Cast<ReferenceSample>().Count() == 4, "reference search reset");
+            model.SelectedReference = model.ReferenceItems[1];
+            model.ReviewReference.Execute(null);
+            Check(model.Feedback.Contains("Input & validation"), "selected sample review action");
+            model.ClearPreview.Execute(null);
+            Check(model.SampleName == "" && !model.ApplyPreview.CanExecute(null), "clear preview is local and validates");
+            model.ResetPreview.Execute(null);
 
+            int packageCount = app.Resources.MergedDictionaries.Count;
             foreach (double width in new[] { 720d, 1024d, 1440d })
             {
                 window.Width = width;
@@ -106,12 +124,24 @@ internal static class RuntimeChecks
                     themes.Apply(ThemeService.Bento, mode);
                     Pump();
                     Check(Equals(window.Background, themes.GetToken("ApplicationBackground")), $"switch at {width}");
+                    Check(app.Resources.MergedDictionaries.Count == packageCount, "switching does not accumulate resource packages");
                     Check(Equals(dialog.Background, window.Background), "dialog stays synchronized");
                     var studio = Descendants(window).OfType<ThemeStudioView>().Single();
                     var modules = (Grid)studio.FindName("Modules");
                     Check((modules.ColumnDefinitions[1].ActualWidth == 0) == (modules.ActualWidth < 980), "responsive column mode");
+                    var bounds = new List<Rect>();
                     foreach (FrameworkElement child in modules.Children)
+                    {
                         Check(child.ActualWidth > 0 && child.ActualHeight > 0, "module remains laid out");
+                        Rect box = child.TransformToAncestor(modules).TransformBounds(new Rect(child.RenderSize));
+                        Check(box.Left >= -1 && box.Right <= modules.ActualWidth + 1, "module fits horizontal viewport");
+                        foreach (Rect previous in bounds)
+                        {
+                            Rect overlap = Rect.Intersect(previous, box);
+                            Check(overlap.IsEmpty || overlap.Width <= 1 || overlap.Height <= 1, "modules do not overlap");
+                        }
+                        bounds.Add(box);
+                    }
                 }
             }
             ContractChecks.ExpectFailure(() => themes.Apply("Claymorphism", Appearance.Dark), "uninstalled theme");

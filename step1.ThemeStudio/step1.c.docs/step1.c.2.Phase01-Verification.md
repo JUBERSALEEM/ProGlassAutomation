@@ -1,5 +1,7 @@
 # step1.c.2 — Original Phase 01 verification checkpoint (historical)
 
+**Historical checkpoint:** the subsequent [clean-foundation report](step1.c.5.Clean-Foundation-Reference.md) supersedes current ownership, counts and workflow placement. Historical results below are not new Windows execution evidence.
+
 Date: **2026-10-20**. This records the original implementation checkpoint. The subsequent [theme-isolation and Windows CI report](step1.c.3.Theme-Isolation-and-CI.md) supersedes its architecture/file-count/mutation-count details; original unperformed Windows checks remain unperformed. Branch: `arena/bd154b4b-proglassautomation`. Phase 01 explicitly authorized by the user to use the existing root Visual Studio WPF starter. **Implementation is supplied, but build/runtime/visual acceptance remains incomplete.** No further theme/feature is started.
 
 ## Architecture and functionality supplied

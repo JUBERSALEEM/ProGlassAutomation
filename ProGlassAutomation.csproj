@@ -10,7 +10,7 @@
     <EnableDefaultPageItems>false</EnableDefaultPageItems>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
-  <!-- Explicit inclusion keeps unrelated, preserved repository source out of V3.0. -->
+  <!-- Explicit inclusion keeps the application and verification executable separate. -->
   <ItemGroup>
     <Compile Include="App.xaml.cs;MainWindow.xaml.cs;AssemblyInfo.cs" />
     <Compile Include="Theme/step1.a.ThemeEngine/**/*.cs;Theme/ThemeBento/**/*.cs;step1.ThemeStudio/step1.b.ThemeStudioScreen/**/*.cs" />

@@ -1,5 +1,7 @@
 # step1.c.3 — Theme isolation correction and Windows CI evidence
 
+**Historical checkpoint:** the subsequent [clean-foundation report](step1.c.5.Clean-Foundation-Reference.md) supersedes current ownership, counts and workflow placement. Historical results below are not new Windows execution evidence.
+
 Date: **2026-10-20**. This is the current Phase 01 follow-up report; the earlier checkpoint is retained in [step1.c.2](step1.c.2.Phase01-Verification.md). Scope: Bento engine/Studio architecture and verification only. **Windows compilation, runtime and visual approval remain unverified.**
 
 ## Final isolation architecture and exact responsibilities
@@ -60,7 +62,7 @@ No future theme was implemented or simulated to claim this. Semantic compatibili
 
 ## Windows workflow
 
-Path: **[docs/ci/windows-wpf.yml](../../docs/ci/windows-wpf.yml)**.
+Path: **[docs/ci/windows-wpf.yml](../../cols/ci/windows-wpf.yml)**.
 
 - Triggered by pull requests, pushes to master/arena branches and manual dispatch once present on GitHub. Read-only repository permissions; checkout does not persist credentials.
 - Runs on **windows-2022**. Official `actions/setup-dotnet@v4` installs **8.0.x** for the existing `net8.0-windows7.0` projects. A CI-only generated global.json selects the installed 8.0 SDK instead of an unrelated newer preinstalled SDK. No repository target-framework or release-policy change.
@@ -95,4 +97,4 @@ After separately authorized synchronization and Actions-capable GitHub access, r
 
 Even a future green result will not establish visual correctness. Still inspect the real WPF screen in both modes: hierarchy/component states, keyboard focus/access, open dialogs/popups, editing/selection state, resizing/clipping at supported sizes, actual 100/150/200% DPI/scaling, high contrast/screen reader behavior and measured performance. Compare to the Bento specification, correct Bento resources/components, rerun regressions, then seek user acceptance. **Do not begin Claymorphism or another theme.**
 
-Workflow activation status: `docs/ci/windows-wpf.yml` is an **inactive template**, moved at the user’s request after GitHub rejected the push for missing workflow-write permission. Restore it to `.github/workflows/windows-wpf.yml` using the commands in its header before expecting CI runs; restoration requires workflow-write permission.
+Workflow activation status: `docs/ci/windows-wpf.yml` is an **inactive template**, moved at the user’s request after GitHub rejected the push for missing workflow-write permission. Restore it to `cols/ci/windows-wpf.yml` using the commands in its header before expecting CI runs; restoration requires workflow-write permission.

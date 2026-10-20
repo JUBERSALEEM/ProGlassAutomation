@@ -4,7 +4,7 @@ Fresh native **WPF / .NET 8** desktop implementation in the existing root projec
 
 ## What is implemented
 
-- Non-visual orchestration with 76 semantic token roles and 27 required WPF style targets, complete theme-package validation/replacement and active-selection notifications.
+- Non-visual orchestration with 77 semantic token roles and 29 required WPF style targets, complete theme-package validation/replacement and active-selection notifications.
 - Bento-isolated native styles/templates for introduced buttons, inputs, choices, selections, panels, text, status/progress, tooltips, context menus and scrollbars.
 - Studio with modular adaptive layout, real appearance switching, preview commands/validation, live filtered token reference and a modeless shared-resource preview window.
 - Dependency-free Windows STA runtime checks and portable source/contrast/regression checks.
@@ -21,18 +21,19 @@ dotnet run --project ProGlassAutomation.csproj --configuration Release
 dotnet run --project Theme/step1.d.tests/step1.d.ThemeTests.csproj --configuration Release
 ```
 
-These are the intended Windows commands, not successful execution evidence. In this Linux container, `dotnet` is absent; project and solution build attempts exited 127. SDK download connection failed. No WPF UI was launched or screenshot captured. See the [current isolation/CI evidence](step1.ThemeStudio/step1.c.docs/step1.c.3.Theme-Isolation-and-CI.md) and [manual review checklist](step1.ThemeStudio/step1.c.docs/step1.c.2.Phase01-Verification.md).
+These are the intended Windows commands, not successful execution evidence. In this Linux container, `dotnet` is absent; project and solution build attempts exited 127. SDK download connection failed. No WPF UI was launched or screenshot captured. See the [current foundation evidence](step1.ThemeStudio/step1.c.docs/step1.c.5.Clean-Foundation-Reference.md) and [manual review checklist](step1.ThemeStudio/step1.c.docs/step1.c.2.Phase01-Verification.md).
 
 Portable checks actually executed here:
 
 ```sh
 python3 Theme/step1.d.tests/step1.d.3.verify_sources.py
 python3 Theme/step1.d.tests/step1.d.4.CheckerRegression.py
+python3 Theme/step1.d.tests/step1.d.6.verify_foundation.py
 ```
 
 ## Repository boundaries
 
-Phase 01 authorization explicitly permitted using the existing root WPF starter. App/MainWindow and project configuration now integrate the fresh Studio; startup no longer initializes SheetStore or a database. Unrelated `SheetStore/`, `Shared/`, `Converters/` and root `ViewModels/` files remain untouched and excluded through explicit Compile/Page items. No parallel app directory or migration was introduced. AssemblyInfo remains unchanged. See the [decision log](docs/05.Decision-Log.md) for the historical inspection and current authorization.
+The latest clean-foundation instruction explicitly authorized removal of the prior SheetStore/dashboard implementation. All 47 inspected legacy-only files are removed; App/MainWindow start only the V3.0 reference page. No database, DI, legacy navigation or external UI package is required. The root WPF project, AssemblyInfo, solution and approved documentation/theme work remain. See the [before-cleanup inventory](step1.ThemeStudio/step1.c.docs/step1.c.4.Cleanup-Inventory.md) and [current implementation/evidence report](step1.ThemeStudio/step1.c.docs/step1.c.5.Clean-Foundation-Reference.md).
 
 ## Documentation map
 
@@ -51,8 +52,13 @@ All theme implementation is under `Theme/`, with numbered shared implementation 
 
 ## Windows CI verification
 
-[docs/ci/windows-wpf.yml](docs/ci/windows-wpf.yml) checks out on windows-2022, installs/selects official .NET 8, restores/builds both actual projects, runs portable checks, compiled contracts (`--contracts-only`) and a bounded STA WPF runtime smoke test with software rendering. It preserves failure/timeouts and creates no release or executable upload. Local YAML checks passed; **the workflow itself has not run**. GitHub Actions API access returned HTTP 403. The initial push was rejected for missing workflow-write permission; the workflow is now stored inactive under docs/ci at the user’s request. Its header contains commands to restore it to .github/workflows later. It will not run until restored. No SDK/runtime installation was attempted again in this container. Windows runtime assertions remain distinct from human visual approval/DPI/accessibility/performance review.
+[cols/ci/windows-wpf.yml](cols/ci/windows-wpf.yml) checks out on windows-2022, installs/selects official .NET 8, restores/builds both actual projects, runs portable checks, compiled contracts (`--contracts-only`) and a bounded STA WPF runtime smoke test with software rendering. It preserves failure/timeouts and creates no release or executable upload. Local YAML checks passed; **the workflow itself has not run**. GitHub Actions API access returned HTTP 403. The workflow is now restored locally to .github/workflows per the latest instruction. These changes are not committed/pushed and cannot run remotely yet; the existing GitHub connection also lacks workflow-write permission. No SDK/runtime installation was attempted again in this container. Windows runtime assertions remain distinct from human visual approval/DPI/accessibility/performance review.
 
 Bento owns its complete visual engine in Theme/ThemeBento. The shared engine contains no XAML or persistent visual dictionary. Future themes supply independent implementations through the same contract without screen rewrites; no future theme or placeholder is registered.
 
-Workflow activation status: `docs/ci/windows-wpf.yml` is an **inactive template**, moved at the user’s request after GitHub rejected the push for missing workflow-write permission. Restore it to `.github/workflows/windows-wpf.yml` using the commands in its header before expecting CI runs; restoration requires workflow-write permission.
+
+## Seeing the actual Theme Studio
+
+Theme Studio is the root application's startup content, not hidden behind navigation. On Windows, open this branch's `ProGlassAutomation.csproj` as the startup project or run the `dotnet run` command above. No SheetStore service or database is needed. The browser preview here cannot execute WPF; there is no genuine rendered screenshot or remote Windows session available in this environment. Do not confuse the unchanged remote master branch with these local, uncommitted changes.
+
+Latest user instruction: workflow stored **inactive** at `cols/ci/windows-wpf.yml` so the code can be pushed without workflow-write permission. This supersedes earlier restoration/activation statements. No Windows CI run occurs until it is moved back to `.github/workflows/` with suitable permission; restoration commands are in the file header.

@@ -8,7 +8,7 @@ using ProGlassAutomation.Theming;
 
 namespace ProGlassAutomation.ThemeStudio;
 
-public sealed class ThemeStudioViewModel : INotifyPropertyChanged, IDataErrorInfo, IDisposable
+public sealed partial class ThemeStudioViewModel : INotifyPropertyChanged, IDataErrorInfo, IDisposable
 {
     private readonly ThemeService themes;
     private string sampleName = "Bento review";
@@ -58,6 +58,7 @@ public sealed class ThemeStudioViewModel : INotifyPropertyChanged, IDataErrorInf
         AdvanceProgress = new DelegateCommand(() => Progress = Progress >= 100 ? 0 : Progress + 25);
         OpenDialog = new DelegateCommand(() => DialogRequested?.Invoke(this, EventArgs.Empty));
         themes.PropertyChanged += ThemeChanged;
+        InitializeReferenceSamples();
         RefreshTokens();
     }
 

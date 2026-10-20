@@ -26,19 +26,19 @@ AssemblyInfo is unchanged. No code from the unrelated module implementation was 
 
 | File | Responsibility |
 | --- | --- |
-| `step1.a.1.ThemeContract.cs` | Immutable 76-token and 27-style/target contract; Brush roles allow supported future gradient treatments without changing screens. |
+| `step1.a.1.ThemeContract.cs` | Immutable 77-token and 29-style/target contract; Brush roles allow supported future gradient treatments without changing screens. |
 | `step1.a.2.ThemeService.cs` | Centralized loading, validated replacement of one application dictionary slot and active-state notification. Invalid resources/selection leave the previous dictionary installed. |
 | `step1.a.3.ResourceValidation.cs` | Required-key/type checks and finite/nonnegative scalar/opacity constraints. |
 | `step1.a.5.ThemeContract-README.md` | Documented meanings/types, resource precedence and extension procedure. |
 | `step1.a.6.ThemeCatalog.cs` | Small installed-theme registry; Bento only, no placeholder entries. |
 
-The shared engine is non-visual: metadata, lifecycle, resource replacement, validation and notifications only. It has no XAML, style implementation or default visual layer. The manifest defines required tokens and 27 necessary WPF style targets, not a palette/aesthetic.
+The shared engine is non-visual: metadata, lifecycle, resource replacement, validation and notifications only. It has no XAML, style implementation or default visual layer. The manifest defines required tokens and 29 necessary WPF style targets, not a palette/aesthetic.
 
 ### Complete individual theme — `Theme/ThemeBento/`
 
 | File | Responsibility |
 | --- | --- |
-| `ThemeBento.Light.xaml` / `ThemeBento.Dark.xaml` | Bento’s complete 76-token appearance values/semantic mappings, independent of another theme. |
+| `ThemeBento.Light.xaml` / `ThemeBento.Dark.xaml` | Bento’s complete 77-token appearance values/semantic mappings, independent of another theme. |
 | `ThemeBento.Readme.md` | Research, visual specification and Bento validation expectations. |
 | `step1.e.7.BentoResources.cs` | Bento-owned package composition; fresh dictionaries, own sealed style identities reused across modes, no cached brushes. |
 | `step1.e.Components/step1.e.1.Components.xaml` | Compose Bento’s own visual files; not global infrastructure. |
@@ -59,12 +59,14 @@ The old engine a.4 visual branch was removed; step1.e is an internal branch of t
 | `step1.b.4.DelegateCommand.cs` | Minimal native ICommand implementation with command requery. |
 | `step1.b.5.TokenRow.cs` | Current resource name/type/value/brush projection, not an independent palette. |
 | `step1.b.6.OverviewPanel.xaml` + `.xaml.cs` | Current design identity and contract count. |
-| `step1.b.7.AppearancePanel.xaml` + `.xaml.cs` | Actual installed theme/mode selection and preview-window action. |
+| `step1.b.7.AppearancePanel.xaml` + `.xaml.cs` | Shared-resource preview explanation and preview-window action; actual selectors now live in the page header. |
 | `step1.b.8.ControlsPanel.xaml` + `.xaml.cs` | Working input/validation/actions/helper toggle/context menu/progress samples. |
 | `step1.b.9.TypeAndStatusPanel.xaml` + `.xaml.cs` | Text hierarchy and explicit status examples. |
 | `step1.b.10.SurfacesPanel.xaml` + `.xaml.cs` | Surface layering and native list selection. |
 | `step1.b.11.TokensPanel.xaml` + `.xaml.cs` | Filterable live contract values. |
 | `step1.b.12.PreviewWindow.xaml` + `.xaml.cs` | Modeless shared-resource preview; close action only in code-behind. |
+
+Additional focused files: `step1.b.13.MetricsPanel.xaml` (+ paired code-behind) demonstrates three reference metrics; `step1.b.14.WorklistPanel.xaml` (+ paired code-behind) demonstrates a searchable three-column list, metadata, selected rows, empty state and information/action plate. `step1.b.15.ReferenceSamples.cs` is the view-model partial for immutable local sample rows, filtering/selection/review/help/clear actions. No business services or persistence. `step1.d.6.verify_foundation.py` guards the exact cleanup inventory, project items, startup and reference sections.
 
 Panel code-behind only calls InitializeComponent. Paired views share the same basename plus `.cs` for WPF tooling; b.2 is intentionally unused. Views contain layout and resource references, never concrete theme values.
 
@@ -84,7 +86,7 @@ Run commands and real outcomes are in the verification record and root README. W
 - No screen-local theme palette, hardcoded theme-owned brushes/dimensions/type/radii, per-card theme conditionals or copied global styles are intentionally introduced. Live token swatches bind to actual resources, not data-authored colors.
 - Grid proportions, row placement and the 980-DIP reflow threshold are screen layout behavior, not theme palette values. Normalized path geometry for the checkbox mark is template geometry; its brush/stroke thickness/padding consume tokens.
 - The native OS title bar, IME/caret behavior outside defined WPF properties and startup-failure MessageBox remain Windows-owned surfaces. We do not claim to recolor OS chrome. The application client area and introduced WPF templates consume resources.
-- Standard implicit Label/content presentation inherits window typography/resources; no custom business-specific control library is added. Editable ComboBox, submenu hierarchies, tables/DataGrid, indeterminate loading animation, high-contrast theme integration and later controls are **not implemented**; future introduction must extend each implemented theme’s own styles and verification, not bypass the contract.
+- Standard implicit Label/content presentation inherits window typography/resources; no custom business-specific control library is added. Editable ComboBox, submenu hierarchies, DataGrid (the reference uses a structured ListBox), indeterminate loading animation, high-contrast theme integration and later controls are **not implemented**; future introduction must extend each implemented theme’s own styles and verification, not bypass the contract.
 - No runtime performance/DPI/accessibility conformance claims are made before Windows review. High contrast requires further validation/adaptation; no decorative animation is used.
 
 ## Adding an authorized future theme
@@ -93,8 +95,8 @@ Follow the [typed contract and concrete extension process](../../Theme/step1.a.T
 
 ## Windows CI and runtime boundaries
 
-[windows-wpf.yml](../../docs/ci/windows-wpf.yml) uses windows-2022, official setup-dotnet 8.0.x, actual product/test paths, portable checks, compiled `--contracts-only` checks and a timed STA WPF smoke pass. It uses a CI-only SDK pin to avoid accidentally selecting a preinstalled newer SDK, without altering the repository TFM. No uploads/releases, no continue-on-error and no SDK installation attempts in this container. Native process failures/timeouts fail CI.
+[windows-wpf.yml](../../cols/ci/windows-wpf.yml) uses windows-2022, official setup-dotnet 8.0.x, actual product/test paths, portable checks, compiled `--contracts-only` checks and a timed STA WPF smoke pass. It uses a CI-only SDK pin to avoid accidentally selecting a preinstalled newer SDK, without altering the repository TFM. No uploads/releases, no continue-on-error and no SDK installation attempts in this container. Native process failures/timeouts fail CI.
 
 The harness uses actual WPF controls with software rendering and tests existing dialogs/popup, template identity, text/caret state, mode replacement, validation, bindings and layout. It is not a human rendered-screen review or physical DPI/accessibility/performance certification. The new workflow has not run: code is uncommitted/unpushed and Actions API listing returned 403. Do not claim Windows checks passed; no commit/push/publication was authorized.
 
-Workflow activation status: `docs/ci/windows-wpf.yml` is an **inactive template**, moved at the user’s request after GitHub rejected the push for missing workflow-write permission. Restore it to `.github/workflows/windows-wpf.yml` using the commands in its header before expecting CI runs; restoration requires workflow-write permission.
+Latest user instruction: workflow stored **inactive** at `cols/ci/windows-wpf.yml` so the code can be pushed without workflow-write permission. This supersedes earlier restoration/activation statements. No Windows CI run occurs until it is moved back to `.github/workflows/` with suitable permission; restoration commands are in the file header.

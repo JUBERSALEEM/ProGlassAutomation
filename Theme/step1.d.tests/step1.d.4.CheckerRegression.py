@@ -11,6 +11,7 @@ BUTTONS = 'Theme/ThemeBento/step1.e.Components/step1.e.3.Buttons.xaml'
 FOUNDATION = 'Theme/ThemeBento/step1.e.Components/step1.e.2.Foundation.xaml'
 VIEW = 'step1.ThemeStudio/step1.b.ThemeStudioScreen/step1.b.6.OverviewPanel.xaml'
 MUTATIONS = [
+    ('read-only progress binding', 'step1.ThemeStudio/step1.b.ThemeStudioScreen/step1.b.8.ControlsPanel.xaml', 'Value="{Binding Progress, Mode=OneWay}"', 'Value="{Binding Progress}"'),
     ('missing visual style', BUTTONS, 'x:Key="PrimaryButton"', 'x:Key="NotPrimaryButton"'),
     ('wrong visual target', BUTTONS, 'x:Key="PrimaryButton" TargetType="Button"', 'x:Key="PrimaryButton" TargetType="TextBox"'),
     ('cross-theme source', 'Theme/ThemeBento/step1.e.Components/step1.e.1.Components.xaml', 'Source="step1.e.2.Foundation.xaml"', 'Source="../../step1.a.ThemeEngine/Forbidden.xaml"'),
@@ -20,7 +21,7 @@ MUTATIONS = [
     ('contrast regression', PALETTE, 'Color="#202334"', 'Color="#FFFFFF"'),
     ('undefined resource', VIEW, '{DynamicResource TextSecondary}', '{DynamicResource DoesNotExist}'),
     ('screen-local palette', VIEW, 'Foreground="{DynamicResource TextSecondary}"', 'Foreground="#123456"'),
-    ('duplicate property', VIEW, '<Border Style="{DynamicResource Card}">', '<Border Style="{DynamicResource Card}"><Border.Style><Style TargetType="Border" /></Border.Style>'),
+    ('duplicate property', VIEW, '<Border Style="{DynamicResource ElevatedPlate}">', '<Border Style="{DynamicResource ElevatedPlate}"><Border.Style><Style TargetType="Border" /></Border.Style>'),
 ]
 baseline = subprocess.run([sys.executable, str(ROOT / 'Theme/step1.d.tests/step1.d.3.verify_sources.py')], capture_output=True, text=True)
 assert baseline.returncode == 0, ('Baseline must pass before mutations', baseline.stdout, baseline.stderr)
@@ -37,6 +38,7 @@ for name, relative, before, after in MUTATIONS:
         target.write_text(original.replace(before, after, 1))
         result = subprocess.run([sys.executable, str(copy / 'Theme/step1.d.tests/step1.d.3.verify_sources.py')], capture_output=True, text=True)
         expected = {
+            'read-only progress binding': 'read-only Progress binding must be explicitly OneWay',
             'missing visual style': 'undefined dynamic token PrimaryButton',
             'wrong visual target': 'wrong theme style target', 'cross-theme source': 'Forbidden.xaml',
             'duplicate package key': 'duplicate package key: PrimaryButton',

@@ -40,6 +40,7 @@ for mode in ('Light', 'Dark'):
              for bg in ('ApplicationBackground', 'SurfacePrimary', 'SurfaceSecondary', 'SurfaceElevated', 'StateHover', 'StatePressed', 'StateSelected', 'AccentSoft')]
     pairs += [('TextOnAccent', bg, 4.5) for bg in ('AccentPrimary', 'AccentHover', 'AccentPressed')]
     pairs += [(f'Status{s}', f'Status{s}Surface', 4.5) for s in ('Success', 'Warning', 'Error', 'Information')]
+    pairs += [('StatusWarning', 'SurfaceSecondary', 4.5)]
     pairs += [('AccentPrimary', 'AccentSoft', 4.5), ('AccentPrimary', 'StateSelected', 4.5)]
     pairs += [(fg, bg, 3) for fg in ('FocusIndicator', 'BorderStrong')
               for bg in ('SurfacePrimary', 'SurfaceSecondary')]
@@ -62,6 +63,9 @@ for path in xamls:
         for attribute in node.attrib:
             name = local(attribute)
             assert name not in ('LetterSpacing', 'box-shadow', 'backdrop-filter', 'gap'), (path, name)
+        # RangeBase.Value defaults to TwoWay; Progress is intentionally display-only.
+        if local(node.tag) == 'ProgressBar' and 'Binding Progress' in node.attrib.get('Value', ''):
+            assert 'Mode=OneWay' in node.attrib['Value'], f'{path}: read-only Progress binding must be explicitly OneWay'
         # Catch a property assigned as both attribute and property element.
         for child in node:
             child_name = local(child.tag)
