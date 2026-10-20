@@ -1,4 +1,9 @@
 <UserControl x:Class="ProGlassAutomation.ThemeStudio.CustomizeWorkspace" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:ProGlassAutomation.ThemeStudio">
+ <UserControl.Resources>
+  <local:BoolToVisibilityConverter2 x:Key="BoolToVisibility"/>
+  <local:CategoryVisibilityConverter x:Key="CategoryVisibilityConverter"/>
+  <BooleanToVisibilityConverter x:Key="ShowDiagnostics"/>
+ </UserControl.Resources>
  <Border Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
   <Grid x:Name="WorkspaceGrid" SizeChanged="WorkspaceGrid_SizeChanged">
    <Grid.ColumnDefinitions><ColumnDefinition Width="280"/><ColumnDefinition Width="3*"/><ColumnDefinition Width="320"/></Grid.ColumnDefinitions>
