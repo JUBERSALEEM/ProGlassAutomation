@@ -2,6 +2,7 @@ using System.Windows;
 using System.Windows.Input;
 using ProGlassAutomation.Customization;
 using ProGlassAutomation.ThemeBento;
+using ProGlassAutomation.ThemeClaymorphism;
 using ProGlassAutomation.Theming;
 
 namespace ProGlassAutomation.ThemeStudio;
@@ -20,6 +21,7 @@ public sealed partial class ThemeStudioViewModel
     private string selectedComponentId = "";
     private string presetNameInput = "";
     private string? lastSavedSnapshot;
+    private string? lastSavedClaySnapshot;
     public ProGlassAutomation.Customization.ChartCustomizationViewModel ChartEditor { get; } = new();
     public IReadOnlyList<BentoAccent> AccentChoices { get; } = Enum.GetValues<BentoAccent>();
     public IReadOnlyList<BentoDensity> DensityChoices { get; } = Enum.GetValues<BentoDensity>();
@@ -40,11 +42,36 @@ public sealed partial class ThemeStudioViewModel
     public IReadOnlyList<ClayPlumpness> ClayPlumpnessChoices { get; } = Enum.GetValues<ClayPlumpness>();
     public IReadOnlyList<ClayDensity> ClayDensityChoices { get; } = Enum.GetValues<ClayDensity>();
     public IReadOnlyList<ClayCanvas> ClayCanvasChoices { get; } = Enum.GetValues<ClayCanvas>();
+    public IReadOnlyList<ClayType> ClayTypeChoices { get; } = Enum.GetValues<ClayType>();
+    public IReadOnlyList<ClaySpacing> ClaySpacingChoices { get; } = Enum.GetValues<ClaySpacing>();
+    public IReadOnlyList<ClayTextContrast> ClayTextContrastChoices { get; } = Enum.GetValues<ClayTextContrast>();
+    public IReadOnlyList<ClaySheen> ClaySheenChoices { get; } = Enum.GetValues<ClaySheen>();
+    public IReadOnlyList<ClayWeight> ClayWeightChoices { get; } = Enum.GetValues<ClayWeight>();
+    public IReadOnlyList<ClayNamedPreset> ClayBuiltInPresets => ClayCustomization.BuiltIn;
+    public IReadOnlyList<ClayNamedPreset> ClayCustomPresets => lastSaved.ClayPresets ?? [];
+    public IReadOnlyList<string> ClayPresetNames => ClayCustomization.BuiltIn.Select(p => p.Name).Concat((lastSaved.ClayPresets ?? []).Select(p => p.Name)).ToList();
+    private string selectedClayPresetName = ClayCustomization.BuiltIn[0].Name;
+    public string SelectedClayPresetName
+    {
+        get => selectedClayPresetName;
+        set
+        {
+            if (string.IsNullOrWhiteSpace(value) || value == selectedClayPresetName) return;
+            selectedClayPresetName = value;
+            Changed(nameof(SelectedClayPresetName));
+            ApplyPreset.Execute(value);
+        }
+    }
     public ClayAccent SelectedClayAccent { get => clay.Accent; set => UpdateClay(clay with { Accent = value }); }
     public ClayVolume SelectedClayVolume { get => clay.Volume; set => UpdateClay(clay with { Volume = value }); }
     public ClayPlumpness SelectedClayPlumpness { get => clay.Plumpness; set => UpdateClay(clay with { Plumpness = value }); }
     public ClayDensity SelectedClayDensity { get => clay.Density; set => UpdateClay(clay with { Density = value }); }
     public ClayCanvas SelectedClayCanvas { get => clay.Canvas; set => UpdateClay(clay with { Canvas = value }); }
+    public ClayType SelectedClayTypography { get => clay.Typography; set => UpdateClay(clay with { Typography = value }); }
+    public ClaySpacing SelectedClaySpacing { get => clay.Spacing; set => UpdateClay(clay with { Spacing = value }); }
+    public ClayTextContrast SelectedClayTextContrast { get => clay.TextContrast; set => UpdateClay(clay with { TextContrast = value }); }
+    public ClaySheen SelectedClaySheen { get => clay.Sheen; set => UpdateClay(clay with { Sheen = value }); }
+    public ClayWeight SelectedClayWeight { get => clay.Weight; set => UpdateClay(clay with { Weight = value }); }
     public IReadOnlyList<NamedPreset> BuiltInPresets => PresetCatalog.BuiltIn;
     public IReadOnlyList<NamedPreset> CustomPresets => lastSaved.CustomPresets ?? [];
     public BentoAccent SelectedAccent { get => extended.Accent; set => UpdateExtended(extended with { Accent = value }); }
@@ -71,7 +98,7 @@ public sealed partial class ThemeStudioViewModel
     public bool CanCustomizeClay => IsClay;
     public bool CanCustomize => CanCustomizeBento || CanCustomizeClay;
     public string DesignSummary => CanCustomizeClay
-        ? $"{SelectedClayAccent} / {SelectedClayVolume} / {SelectedClayPlumpness}"
+        ? $"{SelectedClayAccent} / {SelectedClayVolume} / {SelectedClayPlumpness} / {SelectedClayTypography}"
         : CanCustomizeBento ? $"{SelectedAccent} / {SelectedDensity} / {SelectedShape} / {SelectedTypography} · {SelectedLayoutPreset}"
         : "Theme-default settings";
     public bool IsDirty => CanCustomizeClay ? clay != (lastSaved.Clay ?? new ClayCustomizationState()) : extended != lastSaved.Preferences;
@@ -134,15 +161,198 @@ public sealed partial class ThemeStudioViewModel
         ShowStudio = new DelegateCommand(() => SelectedWorkspace = 0);
         ShowBusiness = new DelegateCommand(() => SelectedWorkspace = 1);
         ApplyPreview = new DelegateCommand(() => { try { themes.Apply(SelectedTheme, themes.ActiveAppearance, LiveConfigure()); ThemeError=""; Feedback="Preview applied — unsaved changes present."; } catch(Exception ex){ ThemeError=ex.Message; } Changed(nameof(ThemeError)); }, () => CanCustomize);
-        SaveCustomization = new DelegateCommand(() => { lastSaved = new SavedCustomization(2, themes.ActiveAppearance, extended, lastSaved.ChartOptions, lastSaved.ComponentStyles, lastSaved.CustomPresets, themes.ActiveTheme, clay); CustomizationStore.Save(lastSaved); Feedback="Customization saved — will restore on next launch."; Changed(nameof(IsDirty)); }, () => CanCustomize && (CanCustomizeClay ? clay.Validate() is null : extended.Validate() is null));
+        SaveCustomization = new DelegateCommand(() => { lastSaved = new SavedCustomization(2, themes.ActiveAppearance, extended, lastSaved.ChartOptions, lastSaved.ComponentStyles, lastSaved.CustomPresets, themes.ActiveTheme, clay, lastSaved.ClayPresets); CustomizationStore.Save(lastSaved); Feedback="Customization saved — will restore on next launch."; Changed(nameof(IsDirty)); }, () => CanCustomize && (CanCustomizeClay ? clay.Validate() is null : extended.Validate() is null));
         DiscardChanges = new DelegateCommand(() => { if (IsClay) ApplyClayState(lastSaved.Clay ?? new ClayCustomizationState()); else ApplyState(lastSaved.Preferences); Feedback="Discarded unsaved changes."; }, () => IsDirty);
-        ResetSection = new DelegateCommand(() => { var defaults = new BentoCustomizationState(); var next = customizationCategory switch { "Appearance" => extended with { Canvas = defaults.Canvas, SurfaceStyle = defaults.SurfaceStyle, TextContrast = defaults.TextContrast, BorderIntensity = defaults.BorderIntensity, Shadow = defaults.Shadow }, "Layout" => extended with { LayoutPreset = defaults.LayoutPreset, Spacing = defaults.Spacing, CardPadding = defaults.CardPadding, HeroCompact = defaults.HeroCompact }, "Typography" => extended with { Typography = defaults.Typography, FontWeight = defaults.FontWeight, Spacing = defaults.Spacing }, _ => defaults }; ApplyState(next); Feedback=$"Reset {customizationCategory} to defaults."; }, () => CanCustomizeBento);
-        ResetTheme = new DelegateCommand(() => { ApplyState(new BentoCustomizationState()); lastSaved = new SavedCustomization(); CustomizationStore.Save(lastSaved); Feedback="Theme restored to Bento defaults."; }, () => CanCustomizeBento);
-        PreviewDefault = new DelegateCommand(() => { if (lastSavedSnapshot == null) { lastSavedSnapshot = System.Text.Json.JsonSerializer.Serialize(extended); ApplyState(new BentoCustomizationState()); Feedback="Previewing defaults — toggle again to restore."; } else { var prev = System.Text.Json.JsonSerializer.Deserialize<BentoCustomizationState>(lastSavedSnapshot); lastSavedSnapshot = null; if(prev!=null) ApplyState(prev); Feedback="Restored your preview."; } }, () => CanCustomizeBento);
-        ApplyPreset = new DelegateCommand<string>(name => { var preset = BuiltInPresets.Concat(CustomPresets).FirstOrDefault(p=>p.Name==name); if(preset!=null){ ApplyState(preset.State); if(preset.Appearance!=themes.ActiveAppearance) SelectAppearance(ThemeService.Bento, preset.Appearance); Feedback=$"Preset applied: {preset.Name}"; }});
-        SavePreset = new DelegateCommand(() => { var n = presetNameInput.Trim(); if(string.IsNullOrEmpty(n) || PresetCatalog.IsBuiltIn(n)){ ThemeError="Enter unique name not conflicting with built-in presets."; Changed(nameof(ThemeError)); return; } var list = (lastSaved.CustomPresets ?? []).ToList(); list.RemoveAll(p=>p.Name==n); list.Add(new NamedPreset(n, extended, themes.ActiveAppearance)); lastSaved = lastSaved with { CustomPresets = list }; CustomizationStore.Save(lastSaved); PresetNameInput=""; Feedback=$"Preset saved: {n}"; Changed(nameof(ThemeError)); }, () => !string.IsNullOrWhiteSpace(presetNameInput));
-        DeletePreset = new DelegateCommand<string>(name => { if(PresetCatalog.IsBuiltIn(name)) return; var list = (lastSaved.CustomPresets ?? []).ToList(); list.RemoveAll(p=>p.Name==name); lastSaved = lastSaved with { CustomPresets = list }; CustomizationStore.Save(lastSaved); Feedback=$"Deleted preset: {name}"; });
-        RenamePreset = new DelegateCommand<(string oldName,string newName)>(pair => { var n=pair.newName.Trim(); if(string.IsNullOrEmpty(n)||PresetCatalog.IsBuiltIn(n)) return; var list = (lastSaved.CustomPresets ?? []).ToList(); var idx=list.FindIndex(p=>p.Name==pair.oldName); if(idx>=0){ list[idx]=list[idx] with { Name=n }; lastSaved = lastSaved with { CustomPresets = list }; CustomizationStore.Save(lastSaved); Feedback=$"Renamed to {n}"; }});
+        ResetSection = new DelegateCommand(() =>
+        {
+            if (IsClay)
+            {
+                var defaults = new ClayCustomizationState();
+                var next = customizationCategory switch
+                {
+                    "Appearance" => clay with { Accent = defaults.Accent, Canvas = defaults.Canvas, Volume = defaults.Volume, Plumpness = defaults.Plumpness, TextContrast = defaults.TextContrast, Sheen = defaults.Sheen },
+                    "Layout" => clay with { Density = defaults.Density, Spacing = defaults.Spacing },
+                    "Typography" => clay with { Typography = defaults.Typography, Weight = defaults.Weight },
+                    _ => defaults
+                };
+                ApplyClayState(next);
+                Feedback = $"Reset {customizationCategory} to clay defaults.";
+                return;
+            }
+            var bentoDefaults = new BentoCustomizationState();
+            var bentoNext = customizationCategory switch
+            {
+                "Appearance" => extended with { Canvas = bentoDefaults.Canvas, SurfaceStyle = bentoDefaults.SurfaceStyle, TextContrast = bentoDefaults.TextContrast, BorderIntensity = bentoDefaults.BorderIntensity, Shadow = bentoDefaults.Shadow },
+                "Layout" => extended with { LayoutPreset = bentoDefaults.LayoutPreset, Spacing = bentoDefaults.Spacing, CardPadding = bentoDefaults.CardPadding, HeroCompact = bentoDefaults.HeroCompact },
+                "Typography" => extended with { Typography = bentoDefaults.Typography, FontWeight = bentoDefaults.FontWeight, Spacing = bentoDefaults.Spacing },
+                _ => bentoDefaults
+            };
+            ApplyState(bentoNext);
+            Feedback = $"Reset {customizationCategory} to defaults.";
+        }, () => CanCustomize);
+        ResetTheme = new DelegateCommand(() =>
+        {
+            if (IsClay)
+            {
+                ApplyClayState(new ClayCustomizationState());
+                lastSaved = lastSaved with { Clay = new ClayCustomizationState(), Theme = ThemeService.Clay, Appearance = themes.ActiveAppearance };
+                CustomizationStore.Save(lastSaved);
+                Feedback = "Clay restored to defaults.";
+                return;
+            }
+            ApplyState(new BentoCustomizationState());
+            lastSaved = new SavedCustomization();
+            CustomizationStore.Save(lastSaved);
+            Feedback = "Theme restored to Bento defaults.";
+        }, () => CanCustomize);
+        PreviewDefault = new DelegateCommand(() =>
+        {
+            if (IsClay)
+            {
+                if (lastSavedClaySnapshot == null)
+                {
+                    lastSavedClaySnapshot = System.Text.Json.JsonSerializer.Serialize(clay);
+                    ApplyClayState(new ClayCustomizationState());
+                    Feedback = "Previewing clay defaults — toggle again to restore.";
+                }
+                else
+                {
+                    var prev = System.Text.Json.JsonSerializer.Deserialize<ClayCustomizationState>(lastSavedClaySnapshot);
+                    lastSavedClaySnapshot = null;
+                    if (prev != null) ApplyClayState(prev);
+                    Feedback = "Restored your clay preview.";
+                }
+                return;
+            }
+            if (lastSavedSnapshot == null)
+            {
+                lastSavedSnapshot = System.Text.Json.JsonSerializer.Serialize(extended);
+                ApplyState(new BentoCustomizationState());
+                Feedback = "Previewing defaults — toggle again to restore.";
+            }
+            else
+            {
+                var prev = System.Text.Json.JsonSerializer.Deserialize<BentoCustomizationState>(lastSavedSnapshot);
+                lastSavedSnapshot = null;
+                if (prev != null) ApplyState(prev);
+                Feedback = "Restored your preview.";
+            }
+        }, () => CanCustomize);
+        ApplyPreset = new DelegateCommand<string>(name =>
+        {
+            if (IsClay)
+            {
+                var clayPreset = ClayCustomization.BuiltIn.Concat(lastSaved.ClayPresets ?? []).FirstOrDefault(p => p.Name == name);
+                if (clayPreset == null) return;
+                if (clayPreset.Appearance != themes.ActiveAppearance) SelectAppearance(ThemeService.Clay, clayPreset.Appearance);
+                ApplyClayState(clayPreset.State);
+                Feedback = $"Clay preset applied: {clayPreset.Name}";
+                return;
+            }
+            var preset = BuiltInPresets.Concat(CustomPresets).FirstOrDefault(p => p.Name == name);
+            if (preset != null)
+            {
+                ApplyState(preset.State);
+                if (preset.Appearance != themes.ActiveAppearance) SelectAppearance(ThemeService.Bento, preset.Appearance);
+                Feedback = $"Preset applied: {preset.Name}";
+            }
+        });
+        SavePreset = new DelegateCommand(() =>
+        {
+            var n = presetNameInput.Trim();
+            if (string.IsNullOrEmpty(n))
+            {
+                ThemeError = "Enter unique name not conflicting with built-in presets.";
+                Changed(nameof(ThemeError));
+                return;
+            }
+            if (IsClay)
+            {
+                if (ClayCustomization.IsBuiltIn(n))
+                {
+                    ThemeError = "Enter unique name not conflicting with built-in presets.";
+                    Changed(nameof(ThemeError));
+                    return;
+                }
+                var clayList = (lastSaved.ClayPresets ?? []).ToList();
+                clayList.RemoveAll(p => p.Name == n);
+                clayList.Add(new ClayNamedPreset(n, clay, themes.ActiveAppearance));
+                lastSaved = lastSaved with { ClayPresets = clayList, Clay = clay, Theme = themes.ActiveTheme, Appearance = themes.ActiveAppearance };
+                CustomizationStore.Save(lastSaved);
+                PresetNameInput = "";
+                Feedback = $"Clay preset saved: {n}";
+                Changed(nameof(ThemeError));
+                Changed(nameof(ClayCustomPresets));
+                Changed(nameof(ClayPresetNames));
+                return;
+            }
+            if (PresetCatalog.IsBuiltIn(n))
+            {
+                ThemeError = "Enter unique name not conflicting with built-in presets.";
+                Changed(nameof(ThemeError));
+                return;
+            }
+            var list = (lastSaved.CustomPresets ?? []).ToList();
+            list.RemoveAll(p => p.Name == n);
+            list.Add(new NamedPreset(n, extended, themes.ActiveAppearance));
+            lastSaved = lastSaved with { CustomPresets = list };
+            CustomizationStore.Save(lastSaved);
+            PresetNameInput = "";
+            Feedback = $"Preset saved: {n}";
+            Changed(nameof(ThemeError));
+        }, () => !string.IsNullOrWhiteSpace(presetNameInput) && CanCustomize);
+        DeletePreset = new DelegateCommand<string>(name =>
+        {
+            if (IsClay)
+            {
+                if (ClayCustomization.IsBuiltIn(name)) return;
+                var clayList = (lastSaved.ClayPresets ?? []).ToList();
+                clayList.RemoveAll(p => p.Name == name);
+                lastSaved = lastSaved with { ClayPresets = clayList };
+                CustomizationStore.Save(lastSaved);
+                Feedback = $"Deleted clay preset: {name}";
+                Changed(nameof(ClayCustomPresets));
+                Changed(nameof(ClayPresetNames));
+                return;
+            }
+            if (PresetCatalog.IsBuiltIn(name)) return;
+            var list = (lastSaved.CustomPresets ?? []).ToList();
+            list.RemoveAll(p => p.Name == name);
+            lastSaved = lastSaved with { CustomPresets = list };
+            CustomizationStore.Save(lastSaved);
+            Feedback = $"Deleted preset: {name}";
+        });
+        RenamePreset = new DelegateCommand<(string oldName, string newName)>(pair =>
+        {
+            var n = pair.newName.Trim();
+            if (string.IsNullOrEmpty(n)) return;
+            if (IsClay)
+            {
+                if (ClayCustomization.IsBuiltIn(n)) return;
+                var clayList = (lastSaved.ClayPresets ?? []).ToList();
+                var clayIdx = clayList.FindIndex(p => p.Name == pair.oldName);
+                if (clayIdx >= 0)
+                {
+                    clayList[clayIdx] = clayList[clayIdx] with { Name = n };
+                    lastSaved = lastSaved with { ClayPresets = clayList };
+                    CustomizationStore.Save(lastSaved);
+                    Feedback = $"Renamed to {n}";
+                    Changed(nameof(ClayCustomPresets));
+                    Changed(nameof(ClayPresetNames));
+                }
+                return;
+            }
+            if (PresetCatalog.IsBuiltIn(n)) return;
+            var list = (lastSaved.CustomPresets ?? []).ToList();
+            var idx = list.FindIndex(p => p.Name == pair.oldName);
+            if (idx >= 0)
+            {
+                list[idx] = list[idx] with { Name = n };
+                lastSaved = lastSaved with { CustomPresets = list };
+                CustomizationStore.Save(lastSaved);
+                Feedback = $"Renamed to {n}";
+            }
+        });
     }
     private Action<ResourceDictionary, Appearance>? LiveConfigure() =>
         CanCustomizeBento ? (package, mode) => BentoCustomization.ApplyExtended(package, mode, extended)
@@ -183,6 +393,6 @@ public sealed partial class ThemeStudioViewModel
         }
         catch (ThemeNotificationException error) { clay = next; ThemeError = error.Message; }
         catch (Exception error) when (error is InvalidOperationException or ArgumentException or System.IO.IOException or System.Windows.Markup.XamlParseException) { ThemeError=$"Design unchanged: {error.Message}"; }
-        foreach (var n in new[] { nameof(SelectedClayAccent), nameof(SelectedClayVolume), nameof(SelectedClayPlumpness), nameof(SelectedClayDensity), nameof(SelectedClayCanvas), nameof(DesignSummary), nameof(ThemeError), nameof(IsDirty) }) Changed(n);
+        foreach (var n in new[] { nameof(SelectedClayAccent), nameof(SelectedClayVolume), nameof(SelectedClayPlumpness), nameof(SelectedClayDensity), nameof(SelectedClayCanvas), nameof(SelectedClayTypography), nameof(SelectedClaySpacing), nameof(SelectedClayTextContrast), nameof(SelectedClaySheen), nameof(SelectedClayWeight), nameof(DesignSummary), nameof(ThemeError), nameof(IsDirty) }) Changed(n);
     }
 }

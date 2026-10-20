@@ -202,7 +202,19 @@ internal static class RuntimeChecks
                 Check(Equals(window.Background, themes.GetToken("ApplicationBackground")), extra + " window background");
                 Check(!model.CanCustomizeBento, extra + " keeps the Bento customization engine off");
                 if (extra == ThemeService.Clay)
+                {
                     Check(model.CanCustomizeClay && model.DesignSummary.Contains("Rose"), "clay customization is live");
+                    Check(model.ResetTheme.CanExecute(null) && model.PreviewDefault.CanExecute(null) && model.ResetSection.CanExecute(null), "clay studio reset commands");
+                    model.SelectedClayTypography = ProGlassAutomation.ThemeClaymorphism.ClayType.Large;
+                    Pump();
+                    Check((double)themes.GetToken("FontSizeBody") == 14d, "live clay typography");
+                    model.SelectedClayPlumpness = ProGlassAutomation.ThemeClaymorphism.ClayPlumpness.Puffy;
+                    Pump();
+                    Check(((CornerRadius)themes.GetToken("CardCornerRadius")).TopLeft == 40d, "live clay plumpness");
+                    model.ResetDesign.Execute(null);
+                    Pump();
+                    Check(model.SelectedClayAccent == ProGlassAutomation.ThemeClaymorphism.ClayAccent.Rose && (double)themes.GetToken("FontSizeBody") == 13d, "clay reset restores defaults");
+                }
                 else
                     Check(model.DesignSummary == "Theme-default settings", extra + " uses theme-default settings");
                 model.IsDark = true;

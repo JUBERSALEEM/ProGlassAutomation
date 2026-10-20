@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using ProGlassAutomation.Theming;
 using ProGlassAutomation.ThemeBento;
+using ProGlassAutomation.ThemeClaymorphism;
 
 namespace ProGlassAutomation.Customization;
 
@@ -75,7 +76,8 @@ public sealed record SavedCustomization(
     Dictionary<string, ComponentStyle>? ComponentStyles = null,
     List<NamedPreset>? CustomPresets = null,
     string Theme = ThemeCatalog.BentoName,
-    ClayCustomizationState? Clay = null
+    ClayCustomizationState? Clay = null,
+    List<ClayNamedPreset>? ClayPresets = null
 )
 {
     public SavedCustomization() : this(2, Appearance.Light, new BentoCustomizationState()) { }

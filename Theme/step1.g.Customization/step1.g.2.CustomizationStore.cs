@@ -36,6 +36,8 @@ public static class CustomizationStore
             loaded = loaded with { Clay = loaded.Clay ?? new ClayCustomizationState() };
             foreach (var preset in loaded.CustomPresets ?? [])
                 if (string.IsNullOrWhiteSpace(preset.Name) || preset.State.Validate() is not null) return Defaults();
+            foreach (var preset in loaded.ClayPresets ?? [])
+                if (string.IsNullOrWhiteSpace(preset.Name) || preset.State.Validate() is not null) return Defaults();
             return loaded;
         }
         catch (Exception ex) when (ex is IOException or JsonException or ArgumentException or InvalidOperationException)
@@ -48,6 +50,7 @@ public static class CustomizationStore
     {
         ArgumentNullException.ThrowIfNull(state);
         if (state.Preferences.Validate() is not null) throw new ArgumentException("Cannot persist invalid preferences.");
+        if (state.Clay?.Validate() is not null) throw new ArgumentException("Cannot persist invalid clay preferences.");
         var dir = Path.GetDirectoryName(FilePath)!;
         Directory.CreateDirectory(dir);
         // atomic write to avoid corrupt half-written file

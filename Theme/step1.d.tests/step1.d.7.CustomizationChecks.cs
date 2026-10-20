@@ -56,14 +56,26 @@ internal static class CustomizationChecks
         int clayCombinations = 0;
         foreach (var mode in Enum.GetValues<Appearance>())
         foreach (var accent in Enum.GetValues<ClayAccent>())
+        foreach (var volume in Enum.GetValues<ClayVolume>())
         {
-            var clay = new ClayCustomizationState(accent);
+            var clay = new ClayCustomizationState(accent, volume);
             var package = ThemeService.Load(mode, ThemeService.Clay, (candidate, appearance) => ClayCustomization.Apply(candidate, appearance, clay));
             ResourceValidation.Validate(package);
             ContractChecks.Contrast(package, "TextOnAccent", "AccentPrimary", 4.5);
             ContractChecks.Contrast(package, "AccentPrimary", "AccentSoft", 4.5);
             clayCombinations++;
         }
+        var clayFull = new ClayCustomizationState(ClayAccent.Sage, ClayVolume.Deep, ClayPlumpness.Puffy, ClayDensity.Compact, ClayCanvas.Cool, ClayType.Large, ClaySpacing.Spacious, ClayTextContrast.High, ClaySheen.Gloss, ClayWeight.Semibold);
+        var clayPackage = ThemeService.Load(Appearance.Light, ThemeService.Clay, (candidate, appearance) => ClayCustomization.Apply(candidate, appearance, clayFull));
+        ResourceValidation.Validate(clayPackage);
+        if ((double)clayPackage["FontSizeBody"] != 14) throw new Exception("Clay large type");
+        if (((CornerRadius)clayPackage["CardCornerRadius"]).TopLeft != 40) throw new Exception("Clay puffy radius");
+        if ((double)clayPackage["ControlMinHeight"] != 36) throw new Exception("Clay compact height");
+        if ((double)clayPackage["SpacingMedium"] != 12) throw new Exception("Clay spacious spacing");
+        if (((SolidColorBrush)clayPackage["ApplicationBackground"]).Color != (Color)ColorConverter.ConvertFromString("#E8EEF9")) throw new Exception("Clay cool canvas");
+        if (((SolidColorBrush)clayPackage["TextPrimary"]).Color != (Color)ColorConverter.ConvertFromString("#10143A")) throw new Exception("Clay high text");
+        ContractChecks.Contrast(clayPackage, "TextPrimary", "ApplicationBackground", 4.5);
+        if (ClayCustomization.BuiltIn.Count != 4) throw new Exception("Four clay built-in presets required");
         ContractChecks.ExpectFailure(() => ThemeService.Load(Appearance.Light, ThemeService.Clay, (candidate, appearance) =>
             ClayCustomization.Apply(candidate, appearance, new ClayCustomizationState((ClayAccent)999))), "invalid clay preset");
         Console.WriteLine($"PASS: {combinations} customization/mode combinations, {clayCombinations} clay combinations, immutable helpers, preference retention, rejected candidates and notification-failure semantics.");

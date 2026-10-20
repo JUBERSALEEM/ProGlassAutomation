@@ -2,6 +2,7 @@ using System.Windows;
 using ProGlassAutomation.Customization;
 using ProGlassAutomation.Theming;
 using ProGlassAutomation.ThemeBento;
+using ProGlassAutomation.ThemeClaymorphism;
 
 namespace ProGlassAutomation;
 
@@ -19,8 +20,13 @@ public partial class App : Application
             try
             {
                 var saved = CustomizationStore.Load();
-                if (saved.Appearance != Themes.ActiveAppearance || saved.Preferences.Validate() is null)
-                    Themes.Apply(ThemeService.Bento, saved.Appearance, (pkg, mode) => BentoCustomization.ApplyExtended(pkg, mode, saved.Preferences));
+                var theme = ThemeService.InstalledThemes.Contains(saved.Theme) ? saved.Theme : ThemeService.Bento;
+                Action<System.Windows.ResourceDictionary, Appearance>? configure = theme == ThemeService.Bento
+                    ? (pkg, mode) => BentoCustomization.ApplyExtended(pkg, mode, saved.Preferences)
+                    : theme == ThemeService.Clay
+                    ? (pkg, mode) => ClayCustomization.Apply(pkg, mode, saved.Clay ?? new ClayCustomizationState())
+                    : null;
+                Themes.Apply(theme, saved.Appearance, configure);
             }
             catch { /* safe fallback already handled in store */ }
             MainWindow = new MainWindow(Themes);

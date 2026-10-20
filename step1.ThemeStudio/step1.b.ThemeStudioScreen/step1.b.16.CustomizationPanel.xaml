@@ -13,18 +13,29 @@
      <TextBlock Text="Appearance" Style="{DynamicResource Caption}"/><WrapPanel Margin="{DynamicResource MarginItem}"><RadioButton Content="_Light" GroupName="Appearance" IsChecked="{Binding IsLight}" AutomationProperties.Name="Light appearance"/><RadioButton Content="_Dark" GroupName="Appearance" IsChecked="{Binding IsDark}" AutomationProperties.Name="Dark appearance"/></WrapPanel>
     </StackPanel>
    </ContentControl>
-   <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}" IsEnabled="{Binding IsClay}">
+   <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}" IsEnabled="{Binding CanCustomizeClay}">
     <StackPanel>
-     <TextBlock Text="Clay volume" Style="{DynamicResource Caption}"/>
+     <TextBlock Text="Clay studio" Style="{DynamicResource Caption}"/>
+     <Label Content="Clay preset" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding ClayPresetNames}" SelectedItem="{Binding SelectedClayPresetName}" AutomationProperties.Name="Clay preset" Margin="{DynamicResource MarginItem}"/>
      <Label Content="Clay accent" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding ClayAccentChoices}" SelectedItem="{Binding SelectedClayAccent}" AutomationProperties.Name="Clay accent" Margin="{DynamicResource MarginItem}"/>
      <Label Content="Canvas" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding ClayCanvasChoices}" SelectedItem="{Binding SelectedClayCanvas}" AutomationProperties.Name="Clay canvas" Margin="{DynamicResource MarginItem}"/>
      <Label Content="Volume" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding ClayVolumeChoices}" SelectedItem="{Binding SelectedClayVolume}" AutomationProperties.Name="Clay volume" Margin="{DynamicResource MarginItem}"/>
      <Label Content="Plumpness" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding ClayPlumpnessChoices}" SelectedItem="{Binding SelectedClayPlumpness}" AutomationProperties.Name="Clay plumpness" Margin="{DynamicResource MarginItem}"/>
      <Label Content="Density" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding ClayDensityChoices}" SelectedItem="{Binding SelectedClayDensity}" AutomationProperties.Name="Clay density" Margin="{DynamicResource MarginItem}"/>
+     <Label Content="Spacing" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding ClaySpacingChoices}" SelectedItem="{Binding SelectedClaySpacing}" AutomationProperties.Name="Clay spacing" Margin="{DynamicResource MarginItem}"/>
+     <Label Content="Typography" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding ClayTypeChoices}" SelectedItem="{Binding SelectedClayTypography}" AutomationProperties.Name="Clay type scale" Margin="{DynamicResource MarginItem}"/>
+     <Label Content="Font weight" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding ClayWeightChoices}" SelectedItem="{Binding SelectedClayWeight}" AutomationProperties.Name="Clay font weight" Margin="{DynamicResource MarginItem}"/>
+     <Label Content="Text contrast" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding ClayTextContrastChoices}" SelectedItem="{Binding SelectedClayTextContrast}" AutomationProperties.Name="Clay text contrast" Margin="{DynamicResource MarginItem}"/>
+     <Label Content="Sheen" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding ClaySheenChoices}" SelectedItem="{Binding SelectedClaySheen}" AutomationProperties.Name="Clay sheen" Margin="{DynamicResource MarginItem}"/>
+     <TextBlock Text="Clay built-in presets" Style="{DynamicResource Caption}"/>
+     <ListBox ItemsSource="{Binding ClayBuiltInPresets}" DisplayMemberPath="Name" AutomationProperties.Name="Clay built-in presets" Margin="{DynamicResource MarginItem}"/>
+     <TextBlock Text="Your clay presets" Style="{DynamicResource Caption}"/>
+     <ListBox ItemsSource="{Binding ClayCustomPresets}" DisplayMemberPath="Name" AutomationProperties.Name="Your clay presets" Margin="{DynamicResource MarginItem}"/>
+     <DockPanel Margin="{DynamicResource MarginItem}"><TextBox Width="120" Text="{Binding PresetNameInput, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="New clay preset name" Margin="{DynamicResource MarginInline}"/><Button Content="Save clay preset" Command="{Binding SavePreset}" AutomationProperties.Name="Save as clay preset"/></DockPanel>
      <TextBlock Text="Clay settings apply only while Claymorphism is the active theme. Bento and Fluent engines stay untouched." Style="{DynamicResource Caption}"/>
     </StackPanel>
    </ContentControl>
-   <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
+   <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}" IsEnabled="{Binding CanCustomizeBento}">
     <StackPanel>
      <TextBlock Text="Bento layout" Style="{DynamicResource Caption}"/>
      <Label Content="Layout preset" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding LayoutPresetChoices}" SelectedItem="{Binding SelectedLayoutPreset}" AutomationProperties.Name="Layout preset" Margin="{DynamicResource MarginItem}"/>
@@ -33,7 +44,7 @@
      <TextBlock Text="Executive: hero 2col + KPI 4up · Analytics Focus: hides activity, widens charts · Production Ops: strong borders, high contrast · Compact Data Dense: stacks, hides table." Style="{DynamicResource Caption}"/>
     </StackPanel>
    </ContentControl>
-   <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
+   <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}" IsEnabled="{Binding CanCustomizeBento}">
     <StackPanel>
      <TextBlock Text="Global appearance" Style="{DynamicResource Caption}"/>
      <Label Content="Brand accent" Target="{Binding ElementName=AccentPicker}" Foreground="{DynamicResource TextSecondary}"/><ComboBox x:Name="AccentPicker" IsEnabled="{Binding CanCustomizeBento}" ItemsSource="{Binding AccentChoices}" SelectedItem="{Binding SelectedAccent}" AutomationProperties.Name="Brand accent" Margin="{DynamicResource MarginItem}"/>
@@ -44,7 +55,7 @@
      <Label Content="Shadow intensity" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding ShadowChoices}" SelectedItem="{Binding SelectedShadow}" AutomationProperties.Name="Shadow intensity" Margin="{DynamicResource MarginItem}"/>
     </StackPanel>
    </ContentControl>
-   <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
+   <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}" IsEnabled="{Binding CanCustomizeBento}">
     <StackPanel>
      <TextBlock Text="Density and type" Style="{DynamicResource Caption}"/>
      <Label Content="Density" Target="{Binding ElementName=DensityPicker}" Foreground="{DynamicResource TextSecondary}"/><ComboBox x:Name="DensityPicker" IsEnabled="{Binding CanCustomizeBento}" ItemsSource="{Binding DensityChoices}" SelectedItem="{Binding SelectedDensity}" AutomationProperties.Name="Control density" Margin="{DynamicResource MarginItem}"/>
@@ -73,7 +84,7 @@
      <ComboBox ItemsSource="{Binding AvailableCategories}" SelectedItem="{Binding CustomizationCategory}" AutomationProperties.Name="Customization category" Margin="{DynamicResource MarginItem}"/>
     </StackPanel>
    </ContentControl>
-   <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
+   <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}" IsEnabled="{Binding CanCustomizeBento}">
     <StackPanel>
      <TextBlock Text="Presets — built-in stay protected" Style="{DynamicResource Caption}"/>
      <ListBox ItemsSource="{Binding BuiltInPresets}" DisplayMemberPath="Name" AutomationProperties.Name="Built-in presets" Margin="{DynamicResource MarginItem}"/>

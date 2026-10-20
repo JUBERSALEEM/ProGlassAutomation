@@ -20,7 +20,8 @@ internal static class CustomizationPersistenceChecks
         // Canvas tint applied
         if (((System.Windows.Media.SolidColorBrush)light["ApplicationBackground"]).Color.ToString() != "#FFF5EFE6") throw new Exception("Warm canvas not applied");
         // Save/load roundtrip
-        var saved = new SavedCustomization(2, Appearance.Dark, state, null, null, [new NamedPreset("My Test", state, Appearance.Dark)], ThemeCatalog.FluentName, new ClayCustomizationState(ClayAccent.Berry));
+        var clayState = new ClayCustomizationState(ClayAccent.Berry, ClayVolume.Deep, ClayPlumpness.Puffy, ClayDensity.Compact, ClayCanvas.Cool, ClayType.Large, ClaySpacing.Spacious, ClayTextContrast.High, ClaySheen.Gloss, ClayWeight.Semibold);
+        var saved = new SavedCustomization(2, Appearance.Dark, state, null, null, [new NamedPreset("My Test", state, Appearance.Dark)], ThemeCatalog.FluentName, clayState, [new ClayNamedPreset("Berry Night", clayState, Appearance.Dark)]);
         var tmp = Path.Combine(Path.GetTempPath(), "proglass-test-" + Guid.NewGuid() + ".json");
         var origPath = CustomizationStore.FilePath;
         // Use temporary store via reflection to avoid polluting real user file — test via direct serialize
@@ -29,9 +30,12 @@ internal static class CustomizationPersistenceChecks
         if (reloaded!.Preferences.Accent != BentoAccent.Indigo) throw new Exception("Roundtrip accent");
         if (reloaded.Theme != ThemeCatalog.FluentName) throw new Exception("Roundtrip theme");
         if (reloaded.Clay?.Accent != ClayAccent.Berry) throw new Exception("Roundtrip clay accent");
+        if (reloaded.Clay?.Typography != ClayType.Large || reloaded.Clay?.Sheen != ClaySheen.Gloss) throw new Exception("Roundtrip clay extras");
+        if (reloaded.ClayPresets is not { Count: 1 } || reloaded.ClayPresets[0].Name != "Berry Night") throw new Exception("Clay preset roundtrip");
         if (reloaded.CustomPresets!.Count != 1 || reloaded.CustomPresets[0].Name != "My Test") throw new Exception("Custom preset roundtrip");
         // Built-in protected
         if (!PresetCatalog.IsBuiltIn("Balanced Bento")) throw new Exception("Built-in recognition");
+        if (!ClayCustomization.IsBuiltIn("Rose Plush") || ClayCustomization.BuiltIn.Count != 4) throw new Exception("Clay built-in recognition");
         if (PresetCatalog.IsBuiltIn("My Test")) throw new Exception("Custom not built-in");
         if (PresetCatalog.BuiltIn.Count != 5) throw new Exception("Five built-in presets required");
         // Corrupt handling — invalid enum falls back

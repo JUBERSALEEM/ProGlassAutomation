@@ -75,6 +75,8 @@ for package, stem, accents in (('ThemeBento', 'ThemeBento', True), ('ThemeClaymo
 
 clay_custom = (ROOT/'Theme/ThemeClaymorphism/step1.e.8.ClayCustomization.cs').read_text()
 assert 'public static class ClayCustomization' in clay_custom and 'BentoCustomization' not in clay_custom
+assert 'public static IReadOnlyList<ClayNamedPreset> BuiltIn' in clay_custom
+assert all(token in clay_custom for token in ('ClayType', 'ClaySpacing', 'ClayTextContrast', 'ClaySheen', 'ClayWeight', 'ClayDropPositive', 'ClayInsetLightBrush'))
 for mode in ('Light', 'Dark'):
     path = ROOT / f'Theme/ThemeClaymorphism/ThemeClaymorphism.{mode}.xaml'
     values = {item.attrib[X+'Key']: item for item in ET.parse(path).getroot() if X+'Key' in item.attrib}
@@ -169,8 +171,14 @@ assert 'ThemeService.InstalledThemes' in runtime and 'Apply("NotInstalled"' in r
 assert 'Apply("Claymorphism"' not in runtime, 'Clay is installed; do not treat it as missing'
 vm = (ROOT/'step1.ThemeStudio/step1.b.ThemeStudioScreen/step1.b.3.ThemeStudioViewModel.cs').read_text()
 assert 'theme == ThemeService.Bento' in vm and 'ClayCustomization.Apply' in vm
-assert 'CanCustomizeBento' in (ROOT/'step1.ThemeStudio/step1.b.ThemeStudioScreen/step1.b.16.CustomizationPanel.xaml').read_text()
-assert 'SelectedClayAccent' in (ROOT/'step1.ThemeStudio/step1.b.ThemeStudioScreen/step1.b.16.CustomizationPanel.xaml').read_text()
+panel = (ROOT/'step1.ThemeStudio/step1.b.ThemeStudioScreen/step1.b.16.CustomizationPanel.xaml').read_text()
+assert 'CanCustomizeBento' in panel and 'CanCustomizeClay' in panel
+assert 'SelectedClayAccent' in panel and 'SelectedClayTypography' in panel and 'SelectedClaySheen' in panel
+assert 'SelectedClaySpacing' in panel and 'SelectedClayTextContrast' in panel and 'SelectedClayPresetName' in panel
+custom_vm = (ROOT/'step1.ThemeStudio/step1.b.ThemeStudioScreen/step1.b.17.Customization.cs').read_text()
+assert 'using ProGlassAutomation.ThemeClaymorphism;' in custom_vm
+assert 'ApplyClayState' in custom_vm and 'lastSavedClaySnapshot' in custom_vm
+assert 'IsClay)' in custom_vm and 'ResetTheme' in custom_vm
 contracts = (ROOT / 'Theme/step1.d.tests/step1.d.2.ContractChecks.cs').read_text()
 assert 'ThemeService.InstalledThemes' in contracts
 assert 'if (theme == ThemeService.Bento)' in contracts and 'VerifyStyleFailures(resources)' in contracts
