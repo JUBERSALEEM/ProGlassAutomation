@@ -24,6 +24,9 @@ public sealed partial class BentoChart : UserControl
     public static readonly DependencyProperty DonutRadiusProperty = SizeProperty(nameof(DonutRadius));
     public static readonly DependencyProperty CenterFontSizeProperty = SizeProperty(nameof(CenterFontSize));
     public double CenterFontSize { get => (double)GetValue(CenterFontSizeProperty); set => SetValue(CenterFontSizeProperty, value); }
+    public static readonly DependencyProperty ShowGridProperty = DependencyProperty.Register(nameof(ShowGrid), typeof(bool), typeof(BentoChart), new PropertyMetadata(true, PaintChanged));
+    public static readonly DependencyProperty ShowAxisProperty = DependencyProperty.Register(nameof(ShowAxis), typeof(bool), typeof(BentoChart), new PropertyMetadata(true, PaintChanged));
+    public static readonly DependencyProperty BarCornerProperty = DependencyProperty.Register(nameof(BarCorner), typeof(double), typeof(BentoChart), new PropertyMetadata(6d, PaintChanged));
     public static readonly DependencyProperty AreaOpacityProperty = SizeProperty(nameof(AreaOpacity));
     public Brush Series1 { get => (Brush)GetValue(Series1Property); set => SetValue(Series1Property, value); }
     public Brush Series2 { get => (Brush)GetValue(Series2Property); set => SetValue(Series2Property, value); }
@@ -38,6 +41,9 @@ public sealed partial class BentoChart : UserControl
     public double PointSize { get => (double)GetValue(PointSizeProperty); set => SetValue(PointSizeProperty, value); }
     public double DonutRadius { get => (double)GetValue(DonutRadiusProperty); set => SetValue(DonutRadiusProperty, value); }
     public double AreaOpacity { get => (double)GetValue(AreaOpacityProperty); set => SetValue(AreaOpacityProperty, value); }
+    public bool ShowGrid { get => (bool)GetValue(ShowGridProperty); set => SetValue(ShowGridProperty, value); }
+    public bool ShowAxis { get => (bool)GetValue(ShowAxisProperty); set => SetValue(ShowAxisProperty, value); }
+    public double BarCorner { get => (double)GetValue(BarCornerProperty); set => SetValue(BarCornerProperty, value); }
     private static void PaintChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => ((BentoChart)sender).Schedule(false);
     private static void DataChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => ((BentoChart)sender).Schedule(true);
 }

@@ -42,7 +42,7 @@ public sealed partial class ThemeStudioViewModel : INotifyPropertyChanged, IData
     public string Feedback { get => feedback; private set { feedback = value; Changed(nameof(Feedback)); } }
     public int Progress { get => progress; private set { progress = value; Changed(nameof(Progress)); } }
     public string TokenFilter { get => tokenFilter; set { tokenFilter = value; TokenView.Refresh(); Changed(nameof(TokenFilter)); } }
-    public ICommand ApplyPreview { get; }
+    public ICommand QuickApplyPreview { get; }
     public ICommand ResetPreview { get; }
     public ICommand AdvanceProgress { get; }
     public ICommand OpenDialog { get; }
@@ -54,7 +54,7 @@ public sealed partial class ThemeStudioViewModel : INotifyPropertyChanged, IData
         this.themes = themes;
         TokenView = CollectionViewSource.GetDefaultView(Tokens);
         TokenView.Filter = value => value is TokenRow row && row.Name.Contains(tokenFilter, StringComparison.OrdinalIgnoreCase);
-        ApplyPreview = new DelegateCommand(() => Feedback = $"Preview applied: {SampleName.Trim()} · {AppearanceLabel}", () => NameError.Length == 0);
+        QuickApplyPreview = new DelegateCommand(() => Feedback = $"Preview applied: {SampleName.Trim()} · {AppearanceLabel}", () => NameError.Length == 0);
         ResetPreview = new DelegateCommand(() => { SampleName = "Bento review"; ShowHelpers = true; Progress = 50; Feedback = "Preview reset. Appearance unchanged."; });
         AdvanceProgress = new DelegateCommand(() => Progress = Progress >= 100 ? 0 : Progress + 25);
         OpenDialog = new DelegateCommand(() => DialogRequested?.Invoke(this, EventArgs.Empty));
@@ -66,11 +66,11 @@ public sealed partial class ThemeStudioViewModel : INotifyPropertyChanged, IData
 
     private void SelectAppearance(string theme, Appearance appearance)
     {
-        var current = preferences;
+        var current = extended;
         try
         {
             themes.Apply(theme, appearance, theme == ThemeService.Bento
-                ? (package, mode) => BentoCustomization.Apply(package, mode, current) : null);
+                ? (package, mode) => BentoCustomization.ApplyExtended(package, mode, current) : null);
             ThemeError = "";
         }
         catch (ThemeNotificationException error) { ThemeError = error.Message; }

@@ -24,7 +24,7 @@ for kind in ('Compile', 'Page'):
             included.extend(paths)
     assert len(included) == len(set(included)), f'Duplicate {kind} items'
     if kind == 'Compile':
-        expected = set(ROOT.glob('*.cs')) | set(ROOT.glob('Theme/step1.a.ThemeEngine/**/*.cs')) | set(ROOT.glob('Theme/ThemeBento/**/*.cs')) | set(ROOT.glob('Theme/step1.f.Analytics/**/*.cs')) | set(ROOT.glob('step1.ThemeStudio/step1.b.ThemeStudioScreen/**/*.cs'))
+        expected = set(ROOT.glob('*.cs')) | set(ROOT.glob('Theme/step1.a.ThemeEngine/**/*.cs')) | set(ROOT.glob('Theme/ThemeBento/**/*.cs')) | set(ROOT.glob('Theme/step1.f.Analytics/**/*.cs')) | set(ROOT.glob('Theme/step1.g.Customization/**/*.cs')) | set(ROOT.glob('step1.ThemeStudio/step1.b.ThemeStudioScreen/**/*.cs'))
         assert set(included) == expected, 'Application code missing from project'
     print(f'PASS: {len(included)} {kind} items; existing paths and no duplicates.')
 

@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using ProGlassAutomation.Customization;
 using ProGlassAutomation.ThemeBento;
 using ProGlassAutomation.Theming;
 
@@ -7,51 +8,106 @@ namespace ProGlassAutomation.ThemeStudio;
 public sealed partial class ThemeStudioViewModel
 {
     private BentoPreferences preferences = new();
+    private BentoCustomizationState extended = new();
+    private SavedCustomization lastSaved = CustomizationStore.Load();
+    private BentoCustomizationState draft => extended;
     private int selectedWorkspace = 1;
+    private string customizationCategory = "Appearance";
+
+    private string selectedComponentId = "";
+    private string presetNameInput = "";
+    private string? lastSavedSnapshot;
+    public ProGlassAutomation.Customization.ChartCustomizationViewModel ChartEditor { get; } = new();
     public IReadOnlyList<BentoAccent> AccentChoices { get; } = Enum.GetValues<BentoAccent>();
     public IReadOnlyList<BentoDensity> DensityChoices { get; } = Enum.GetValues<BentoDensity>();
     public IReadOnlyList<BentoShape> ShapeChoices { get; } = Enum.GetValues<BentoShape>();
     public IReadOnlyList<BentoType> TypeChoices { get; } = Enum.GetValues<BentoType>();
-    public BentoAccent SelectedAccent { get => preferences.Accent; set => Customize(preferences with { Accent = value }); }
-    public BentoDensity SelectedDensity { get => preferences.Density; set => Customize(preferences with { Density = value }); }
-    public BentoShape SelectedShape { get => preferences.Shape; set => Customize(preferences with { Shape = value }); }
-    public BentoType SelectedTypography { get => preferences.Typography; set => Customize(preferences with { Typography = value }); }
+    public IReadOnlyList<BentoCanvas> CanvasChoices { get; } = Enum.GetValues<BentoCanvas>();
+    public IReadOnlyList<BentoSurfaceStyle> SurfaceChoices { get; } = Enum.GetValues<BentoSurfaceStyle>();
+    public IReadOnlyList<BentoTextContrast> TextContrastChoices { get; } = Enum.GetValues<BentoTextContrast>();
+    public IReadOnlyList<BentoBorderIntensity> BorderChoices { get; } = Enum.GetValues<BentoBorderIntensity>();
+    public IReadOnlyList<BentoShadowIntensity> ShadowChoices { get; } = Enum.GetValues<BentoShadowIntensity>();
+    public IReadOnlyList<BentoSpacing> SpacingChoices { get; } = Enum.GetValues<BentoSpacing>();
+    public IReadOnlyList<BentoCardPadding> PaddingChoices { get; } = Enum.GetValues<BentoCardPadding>();
+    public IReadOnlyList<BentoFontWeight> WeightChoices { get; } = Enum.GetValues<BentoFontWeight>();
+    public IReadOnlyList<string> AvailableCategories => CustomizationCategories.All;
+    public IReadOnlyList<BentoLayoutPreset> LayoutPresetChoices { get; } = Enum.GetValues<BentoLayoutPreset>();
+    public IReadOnlyList<NamedPreset> BuiltInPresets => PresetCatalog.BuiltIn;
+    public List<NamedPreset> CustomPresets => lastSaved.CustomPresets ??= [];
+    public BentoAccent SelectedAccent { get => extended.Accent; set => UpdateExtended(extended with { Accent = value }); }
+    public BentoDensity SelectedDensity { get => extended.Density; set => UpdateExtended(extended with { Density = value }); }
+    public BentoShape SelectedShape { get => extended.Shape; set => UpdateExtended(extended with { Shape = value }); }
+    public BentoType SelectedTypography { get => extended.Typography; set => UpdateExtended(extended with { Typography = value }); }
+    public BentoCanvas SelectedCanvas { get => extended.Canvas; set => UpdateExtended(extended with { Canvas = value }); }
+    public BentoSurfaceStyle SelectedSurface { get => extended.SurfaceStyle; set => UpdateExtended(extended with { SurfaceStyle = value }); }
+    public BentoTextContrast SelectedTextContrast { get => extended.TextContrast; set => UpdateExtended(extended with { TextContrast = value }); }
+    public BentoBorderIntensity SelectedBorder { get => extended.BorderIntensity; set => UpdateExtended(extended with { BorderIntensity = value }); }
+    public BentoShadowIntensity SelectedShadow { get => extended.Shadow; set => UpdateExtended(extended with { Shadow = value }); }
+    public BentoSpacing SelectedSpacing { get => extended.Spacing; set => UpdateExtended(extended with { Spacing = value }); }
+    public BentoCardPadding SelectedPadding { get => extended.CardPadding; set => UpdateExtended(extended with { CardPadding = value }); }
+    public BentoFontWeight SelectedWeight { get => extended.FontWeight; set => UpdateExtended(extended with { FontWeight = value }); }
+    public BentoLayoutPreset SelectedLayoutPreset { get => extended.LayoutPreset; set => UpdateExtended(extended with { LayoutPreset = value }); }
+    public bool HeroCompact { get => extended.HeroCompact; set => UpdateExtended(extended with { HeroCompact = value }); }
+    public bool ShowKpiTrend { get => extended.ShowKpiTrend; set => UpdateExtended(extended with { ShowKpiTrend = value }); }
+    public string CustomizationCategory { get => customizationCategory; set { customizationCategory = value; Changed(nameof(CustomizationCategory)); } }
+    public string SelectedComponentId { get => selectedComponentId; set { selectedComponentId = value; Changed(nameof(SelectedComponentId)); Changed(nameof(ContextualTitle)); } }
+    public string ContextualTitle => string.IsNullOrEmpty(selectedComponentId) ? "Select a card in the preview" : $"Editing: {selectedComponentId}";
+    public string PresetNameInput { get => presetNameInput; set { presetNameInput = value; Changed(nameof(PresetNameInput)); } }
     public bool CanCustomize => SelectedTheme == ThemeService.Bento;
-    public string DesignSummary => !CanCustomize ? "Theme-default settings" : $"{SelectedAccent} / {SelectedDensity} / {SelectedShape} / {SelectedTypography}";
-    public int SelectedWorkspace
-    {
-        get => selectedWorkspace;
-        set { if (value is 0 or 1) { selectedWorkspace = value; Changed(nameof(SelectedWorkspace)); } }
-    }
+    public string DesignSummary => !CanCustomize ? "Theme-default settings" : $"{SelectedAccent} / {SelectedDensity} / {SelectedShape} / {SelectedTypography} · {SelectedLayoutPreset}";
+    public bool IsDirty => extended != lastSaved.Preferences;
+    public int SelectedWorkspace { get => selectedWorkspace; set { if (value is 0 or 1) { selectedWorkspace = value; Changed(nameof(SelectedWorkspace)); } } }
     public ICommand ResetDesign { get; private set; } = null!;
     public ICommand ShowBusiness { get; private set; } = null!;
+    public ICommand ApplyPreview { get; private set; } = null!;
+    public ICommand SaveCustomization { get; private set; } = null!;
+    public ICommand DiscardChanges { get; private set; } = null!;
+    public ICommand ResetSection { get; private set; } = null!;
+    public ICommand ResetTheme { get; private set; } = null!;
+    public ICommand PreviewDefault { get; private set; } = null!;
+    public ICommand ApplyPreset { get; private set; } = null!;
+    public ICommand SavePreset { get; private set; } = null!;
+    public ICommand DeletePreset { get; private set; } = null!;
+    public ICommand RenamePreset { get; private set; } = null!;
 
     private void InitializeCustomization()
     {
-        ResetDesign = new DelegateCommand(() => Customize(new BentoPreferences()), () => CanCustomize);
+        // Restore last saved; if none, defaults
+        extended = lastSaved.Preferences ?? new BentoCustomizationState();
+        preferences = extended.ToLegacy();
+        try { themes.Apply(SelectedTheme, lastSaved.Appearance, (p,m)=>BentoCustomization.ApplyExtended(p,m,extended)); } catch {}
+        ResetDesign = new DelegateCommand(() => ApplyState(new BentoCustomizationState()), () => CanCustomize);
         ShowBusiness = new DelegateCommand(() => SelectedWorkspace = 1);
+        ApplyPreview = new DelegateCommand(() => { try { themes.Apply(SelectedTheme, themes.ActiveAppearance, (pkg,mode)=>BentoCustomization.ApplyExtended(pkg,mode,extended)); ThemeError=""; Feedback="Preview applied — unsaved changes present."; } catch(Exception ex){ ThemeError=ex.Message; } Changed(nameof(ThemeError)); }, () => CanCustomize);
+        SaveCustomization = new DelegateCommand(() => { lastSaved = new SavedCustomization(2, themes.ActiveAppearance, extended, lastSaved.ChartOptions, lastSaved.ComponentStyles, lastSaved.CustomPresets); CustomizationStore.Save(lastSaved); Feedback="Customization saved — will restore on next launch."; Changed(nameof(IsDirty)); }, () => CanCustomize && extended.Validate() is null);
+        DiscardChanges = new DelegateCommand(() => { ApplyState(lastSaved.Preferences); Feedback="Discarded unsaved changes."; }, () => IsDirty);
+        ResetSection = new DelegateCommand(() => { var defaults = new BentoCustomizationState(); var next = customizationCategory switch { "Appearance" => extended with { Canvas = defaults.Canvas, SurfaceStyle = defaults.SurfaceStyle, TextContrast = defaults.TextContrast, BorderIntensity = defaults.BorderIntensity, Shadow = defaults.Shadow }, "Layout" => extended with { LayoutPreset = defaults.LayoutPreset, Spacing = defaults.Spacing, CardPadding = defaults.CardPadding, HeroCompact = defaults.HeroCompact }, "Typography" => extended with { Typography = defaults.Typography, FontWeight = defaults.FontWeight, Spacing = defaults.Spacing }, _ => defaults }; ApplyState(next); Feedback=$"Reset {customizationCategory} to defaults."; }, () => CanCustomize);
+        ResetTheme = new DelegateCommand(() => { ApplyState(new BentoCustomizationState()); lastSaved = new SavedCustomization(); CustomizationStore.Save(lastSaved); Feedback="Theme restored to Bento defaults."; }, () => CanCustomize);
+        PreviewDefault = new DelegateCommand(() => { lastSavedSnapshot = lastSavedSnapshot == null ? System.Text.Json.JsonSerializer.Serialize(extended) : null; if (lastSavedSnapshot != null) { ApplyState(new BentoCustomizationState()); Feedback="Previewing defaults — toggle again to restore."; } else { var prev = System.Text.Json.JsonSerializer.Deserialize<BentoCustomizationState>(lastSavedSnapshot!); if(prev!=null) ApplyState(prev); Feedback="Restored your preview."; } }, () => CanCustomize);
+        ApplyPreset = new DelegateCommand<string>(name => { var preset = BuiltInPresets.Concat(CustomPresets).FirstOrDefault(p=>p.Name==name); if(preset!=null){ ApplyState(preset.State); if(preset.Appearance!=themes.ActiveAppearance) SelectAppearance(ThemeService.Bento, preset.Appearance); Feedback=$"Preset applied: {preset.Name}"; }});
+        SavePreset = new DelegateCommand(() => { var n = presetNameInput.Trim(); if(string.IsNullOrEmpty(n) || PresetCatalog.IsBuiltIn(n)){ ThemeError="Enter unique name not conflicting with built-in presets."; Changed(nameof(ThemeError)); return; } CustomPresets.RemoveAll(p=>p.Name==n); CustomPresets.Add(new NamedPreset(n, extended, themes.ActiveAppearance)); lastSaved = lastSaved with { CustomPresets = CustomPresets }; CustomizationStore.Save(lastSaved); PresetNameInput=""; Feedback=$"Preset saved: {n}"; Changed(nameof(ThemeError)); }, () => !string.IsNullOrWhiteSpace(presetNameInput));
+        DeletePreset = new DelegateCommand<string>(name => { if(PresetCatalog.IsBuiltIn(name)) return; CustomPresets.RemoveAll(p=>p.Name==name); lastSaved = lastSaved with { CustomPresets = CustomPresets }; CustomizationStore.Save(lastSaved); Feedback=$"Deleted preset: {name}"; });
+        RenamePreset = new DelegateCommand<(string oldName,string newName)>(pair => { var n=pair.newName.Trim(); if(string.IsNullOrEmpty(n)||PresetCatalog.IsBuiltIn(n)) return; var idx=CustomPresets.FindIndex(p=>p.Name==pair.oldName); if(idx>=0){ CustomPresets[idx]=CustomPresets[idx] with { Name=n }; lastSaved = lastSaved with { CustomPresets = CustomPresets }; CustomizationStore.Save(lastSaved); Feedback=$"Renamed to {n}"; }});
     }
-
     private void Customize(BentoPreferences candidate)
     {
         if (!CanCustomize || candidate == preferences) return;
+        UpdateExtended(new BentoCustomizationState(candidate.Accent, candidate.Density, candidate.Shape, candidate.Typography, extended.Canvas, extended.SurfaceStyle, extended.TextContrast, extended.BorderIntensity, extended.Shadow, extended.Spacing, extended.CardPadding, extended.FontWeight, extended.LayoutPreset, extended.HeroCompact, extended.ShowKpiTrend, extended.ShowTableStatus));
+    }
+    private void UpdateExtended(BentoCustomizationState next)
+    {
+        if (!CanCustomize || next == extended) return;
+        ApplyState(next);
+    }
+    private void ApplyState(BentoCustomizationState next)
+    {
         try
         {
-            themes.Apply(SelectedTheme, themes.ActiveAppearance,
-                (package, mode) => BentoCustomization.Apply(package, mode, candidate));
-            preferences = candidate;
-            ThemeError = "";
-            Feedback = "Design applied to Studio, Business Reference and the preview window. Session only.";
+            themes.Apply(SelectedTheme, themes.ActiveAppearance, (pkg,mode)=>BentoCustomization.ApplyExtended(pkg,mode,next));
+            extended = next; preferences = next.ToLegacy(); ThemeError=""; Feedback="Live preview updated — use Save to persist.";
         }
-        catch (ThemeNotificationException error)
-        {
-            preferences = candidate; // Package was activated; only notification failed.
-            ThemeError = error.Message;
-        }
-        catch (Exception error) when (error is InvalidOperationException or ArgumentException or System.IO.IOException or System.Windows.Markup.XamlParseException)
-        {
-            ThemeError = $"Design unchanged: {error.Message}";
-        }
-        foreach (string name in new[] { nameof(SelectedAccent), nameof(SelectedDensity), nameof(SelectedShape), nameof(SelectedTypography), nameof(DesignSummary), nameof(ThemeError) }) Changed(name);
+        catch (ThemeNotificationException error) { extended = next; preferences = next.ToLegacy(); ThemeError = error.Message; }
+        catch (Exception error) when (error is InvalidOperationException or ArgumentException or System.IO.IOException or System.Windows.Markup.XamlParseException) { ThemeError=$"Design unchanged: {error.Message}"; }
+        foreach (var n in new[] { nameof(SelectedAccent), nameof(SelectedDensity), nameof(SelectedShape), nameof(SelectedTypography), nameof(SelectedCanvas), nameof(SelectedSurface), nameof(SelectedTextContrast), nameof(SelectedBorder), nameof(SelectedShadow), nameof(SelectedSpacing), nameof(SelectedPadding), nameof(SelectedWeight), nameof(SelectedLayoutPreset), nameof(HeroCompact), nameof(ShowKpiTrend), nameof(DesignSummary), nameof(ThemeError), nameof(IsDirty) }) Changed(n);
     }
 }

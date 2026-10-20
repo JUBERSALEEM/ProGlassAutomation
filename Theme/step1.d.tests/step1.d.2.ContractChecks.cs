@@ -10,6 +10,7 @@ internal static class ContractChecks
     {
         CustomizationChecks.Run();
         AnalyticsChecks.DataContracts();
+        CustomizationPersistenceChecks.Run();
         foreach (var mode in Enum.GetValues<Appearance>())
         {
             var resources = ThemeService.Load(mode);

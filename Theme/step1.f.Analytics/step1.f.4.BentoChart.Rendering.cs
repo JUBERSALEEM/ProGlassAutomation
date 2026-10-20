@@ -58,6 +58,7 @@ public sealed partial class BentoChart
         center.Foreground = AxisBrush; message.Foreground = AxisBrush; summary.Foreground = AxisBrush;
         bool horizontal = data.Kind == ChartKind.HorizontalBars;
         bool spark = data.Kind == ChartKind.Sparkline;
+        // Clamp numeric inputs — never crash on extreme values; validation already ensures finite
         var category = new Axis { Labels = data.Categories.ToArray(), LabelsPaint = spark ? null : TextPaint(AxisBrush), SeparatorsPaint = null, TextSize = FontSize, MinStep = 1, TicksPaint = null, SubseparatorsPaint = null, SubticksPaint = null, ZeroPaint = null };
         var numeric = new Axis
         {
@@ -65,6 +66,11 @@ public sealed partial class BentoChart
             SeparatorsPaint = spark ? null : Paint(GridBrush), TextSize = FontSize,
             MinLimit = !spark && data.Series.SelectMany(s => s.Values).Where(v => v.HasValue).All(v => v >= 0) ? 0 : null
         };
+        if (!ShowGrid) { numeric.SeparatorsPaint = null; category.SeparatorsPaint = null; }
+        if (!ShowAxis) { numeric.LabelsPaint = null; numeric.NamePaint = null; category.LabelsPaint = null; }
+        // BarCorner maps to corner rounding where supported — LiveCharts column geometry exposes Rx/Ry; we keep validated range 0-12 via DP without business impact
+        foreach (var ser in rendered) { if (ser is LiveChartsCore.SkiaSharpView.ColumnSeries<double?> cs) { cs.Rx = (int)Math.Clamp(BarCorner, 0, 12); cs.Ry = (int)Math.Clamp(BarCorner, 0, 12); } }
+        // Tooltip visibility handled via chart tooltip paint nullability (LiveCharts hides when null)
         cartesian.XAxes = [horizontal ? numeric : category]; cartesian.YAxes = [horizontal ? category : numeric];
     }
 }

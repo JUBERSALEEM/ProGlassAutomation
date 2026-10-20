@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Media;
+using ProGlassAutomation.Customization;
 using ProGlassAutomation.Theming;
 
 namespace ProGlassAutomation.ThemeBento;
@@ -12,24 +13,30 @@ public sealed record BentoPreferences(BentoAccent Accent = BentoAccent.Ocean,
     BentoDensity Density = BentoDensity.Compact, BentoShape Shape = BentoShape.Soft,
     BentoType Typography = BentoType.Standard);
 
-/// <summary>Curated, theme-owned customization. No screen palette or mutable global preferences.</summary>
+/// <summary>Curated, theme-owned customization. Backward compat shim delegates to extended model.</summary>
 public static class BentoCustomization
 {
     public static void Apply(ResourceDictionary package, Appearance mode, BentoPreferences preferences)
     {
         ArgumentNullException.ThrowIfNull(package);
         ArgumentNullException.ThrowIfNull(preferences);
+        var state = new BentoCustomizationState(preferences.Accent, preferences.Density, preferences.Shape, preferences.Typography);
+        ApplyExtended(package, mode, state);
+    }
+    public static void ApplyExtended(ResourceDictionary package, Appearance mode, BentoCustomizationState state)
+    {
+        ArgumentNullException.ThrowIfNull(package);
+        ArgumentNullException.ThrowIfNull(state);
         if (!Enum.IsDefined(mode)) throw new ArgumentOutOfRangeException(nameof(mode));
-        if (!Enum.IsDefined(preferences.Accent) || !Enum.IsDefined(preferences.Density) ||
-            !Enum.IsDefined(preferences.Shape) || !Enum.IsDefined(preferences.Typography))
-            throw new ArgumentException("Unsupported Bento customization choice.");
-        string[]? accent = (preferences.Accent, mode) switch
+        if (state.Validate() is not null) throw new ArgumentException(state.Validate());
+        // Accent — curated, validated pairs
+        string[]? accent = (state.Accent, mode) switch
         {
             (BentoAccent.Indigo, Appearance.Light) => ["#5440C8", "#4632B5", "#382690", "#EDE9FF", "#FFFFFF"],
             (BentoAccent.Indigo, Appearance.Dark) => ["#B5A5FF", "#C8BCFF", "#A08FE8", "#2A2448", "#191331"],
             (BentoAccent.Teal, Appearance.Light) => ["#006B61", "#00594F", "#00473F", "#E1F4EF", "#FFFFFF"],
             (BentoAccent.Teal, Appearance.Dark) => ["#75DFCD", "#99EDDE", "#62C9B7", "#173F3B", "#092923"],
-            _ => null // Ocean is supplied by the complete Light/Dark resource dictionaries.
+            _ => null
         };
         if (accent is not null)
         {
@@ -38,17 +45,66 @@ public static class BentoCustomization
             package["FocusIndicator"] = package["AccentPrimary"];
             package["StateSelected"] = package["AccentSoft"];
         }
-        bool compact = preferences.Density == BentoDensity.Compact;
-        package["ControlMinHeight"] = compact ? 32d : 38d;
+        // Canvas — tinted background variants, all validated to keep 4.5:1 on text
+        string? canvas = (state.Canvas, mode) switch
+        {
+            (BentoCanvas.Warm, Appearance.Light) => "#F5EFE6",
+            (BentoCanvas.Cool, Appearance.Light) => "#E6EEF9",
+            (BentoCanvas.Warm, Appearance.Dark) => "#141B2E",
+            (BentoCanvas.Cool, Appearance.Dark) => "#0B1425",
+            _ => null
+        };
+        if (canvas is not null) package["ApplicationBackground"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString(canvas));
+        // Surface style
+        if (state.SurfaceStyle == BentoSurfaceStyle.Elevated)
+        {
+            if (mode == Appearance.Light) { package["SurfacePrimary"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFFFF")); package["SurfaceSecondary"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EFF3FB")); package["SurfaceElevated"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFFFF")); }
+            else { package["SurfacePrimary"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1E2E4A")); package["SurfaceSecondary"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#253A5C")); package["SurfaceElevated"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2A4266")); }
+        }
+        else if (state.SurfaceStyle == BentoSurfaceStyle.Contrast)
+        {
+            if (mode == Appearance.Light) { package["SurfacePrimary"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFFFF")); package["SurfaceSecondary"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E9EEF6")); package["SurfaceElevated"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F8FAFF")); }
+            else { package["SurfacePrimary"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#16223B")); package["SurfaceSecondary"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1C2D4D")); package["SurfaceElevated"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#22365B")); }
+        }
+        // Text contrast — High sharpens primary text subtly
+        if (state.TextContrast == BentoTextContrast.High)
+        {
+            package["TextPrimary"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString(mode == Appearance.Light ? "#0F1D33" : "#FFFFFF"));
+            package["TextMuted"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString(mode == Appearance.Light ? "#3E4E68" : "#C8D6EE"));
+        }
+        // Border intensity
+        if (state.BorderIntensity == BentoBorderIntensity.Strong)
+            package["BorderSubtle"] = package["BorderStrong"];
+        else if (state.BorderIntensity == BentoBorderIntensity.Hidden)
+            package["BorderSubtle"] = new SolidColorBrush(Colors.Transparent);
+        // Shadow intensity maps to border thickness/elevation (no blur)
+        package["BorderThicknessControl"] = state.Shadow switch { BentoShadowIntensity.None => new Thickness(0), BentoShadowIntensity.Elevated => new Thickness(1.2), _ => new Thickness(1) };
+        // Density — now supports Spacious
+        bool compact = state.Density == BentoDensity.Compact;
+        bool spacious = state.Spacing == BentoSpacing.Spacious || state.Density == BentoDensity.Compact && state.Spacing == BentoSpacing.Spacious;
+        // Spacious is represented via Spacing enum; keep compact flag for heights
+        package["ControlMinHeight"] = state.Density switch { BentoDensity.Compact => 32d, BentoDensity.Comfortable => 38d, _ => 44d };
+        // Map Spacious correctly — use Spacing to allow Comfortable+Spacious etc
+        double spacingFactor = state.Spacing switch { BentoSpacing.Compact => 0.85, BentoSpacing.Spacious => 1.25, _ => 1.0 };
+        package["SpacingSmall"] = 4 * spacingFactor;
+        package["SpacingMedium"] = 8 * spacingFactor;
+        package["SpacingLarge"] = 16 * spacingFactor;
+        package["SpacingSection"] = 24 * spacingFactor;
         package["PaddingControl"] = compact ? new Thickness(10, 5, 10, 5) : new Thickness(14, 8, 14, 8);
-        package["PaddingCard"] = new Thickness(compact ? 12 : 18);
-        package["PaddingPlate"] = new Thickness(compact ? 10 : 14);
+        // Card padding
+        double pad = state.CardPadding switch { BentoCardPadding.Compact => 8, BentoCardPadding.Spacious => 18, _ => 12 };
+        package["PaddingCard"] = new Thickness(pad);
+        package["PaddingPlate"] = new Thickness(state.CardPadding == BentoCardPadding.Compact ? 8 : state.CardPadding == BentoCardPadding.Spacious ? 16 : 10);
         package["PaddingSelection"] = compact ? new Thickness(10, 5, 32, 5) : new Thickness(14, 8, 38, 8);
-        double size = preferences.Typography switch { BentoType.Small => 12d, BentoType.Large => 14d, _ => 13d };
+        double size = state.Typography switch { BentoType.Small => 12d, BentoType.Large => 14d, _ => 13d };
         package["FontSizeBody"] = size;
         package["FontSizeCaption"] = 12d;
         package["FontSizeSection"] = size + 3;
-        double radius = preferences.Shape switch { BentoShape.Crisp => 4d, BentoShape.Rounded => 18d, _ => 12d };
+        package["FontWeightHeading"] = state.FontWeight switch { BentoFontWeight.Medium => FontWeights.Medium, BentoFontWeight.Semibold => FontWeights.SemiBold, _ => FontWeights.SemiBold };
+        package["FontWeightBody"] = state.FontWeight switch { BentoFontWeight.Medium => FontWeights.Medium, BentoFontWeight.Semibold => FontWeights.SemiBold, _ => FontWeights.Normal };
+        double radius = state.Shape switch { BentoShape.Crisp => 4d, BentoShape.Rounded => 18d, _ => 12d };
+        // Spacious layout slightly softens radius
+        if (state.LayoutPreset == BentoLayoutPreset.CompactDense) radius = Math.Max(6, radius - 2);
         package["CardCornerRadius"] = new CornerRadius(radius);
         package["ControlCornerRadius"] = new CornerRadius(radius / 2);
     }
