@@ -61,8 +61,11 @@ for name in ('ThemePicker', 'AccentPicker', 'DensityPicker', 'ShapePicker', 'Typ
 for prop in ('SelectedAccent', 'SelectedDensity', 'SelectedShape', 'SelectedTypography'):
     assert f'Binding {prop}' in settings and f'public ' in (screen/'step1.b.17.Customization.cs').read_text()
 assert 'Binding IsDark' in settings and 'Binding ResetDesign' in settings
-workflow = ROOT / 'cols/ci/windows-wpf.yml'
-assert workflow.is_file() and not (ROOT / '.github/workflows/windows-wpf.yml').exists()
+active = ROOT / '.github/workflows/windows-wpf.yml'
+parked = ROOT / 'cols/ci/windows-wpf.yml'
+workflow = active if active.is_file() else parked
+assert workflow.is_file(), 'Windows workflow YAML missing from .github/workflows or cols/ci'
+# Owner may place the file in .github/workflows. Never require that path to be absent.
 for command in ('dotnet build ProGlassAutomation.csproj', '--contracts-only', 'step1.d.6.verify_foundation.py'):
     assert command in workflow.read_text(), f'Missing CI verification: {command}'
 print('PASS: 47 inventoried legacy files absent; no legacy source/startup dependencies; separate customization/business pages, live settings and Windows workflow present.')

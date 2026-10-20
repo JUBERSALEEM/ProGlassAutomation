@@ -91,9 +91,9 @@ The Business Reference page is now the canonical V3.0 sample implementation; The
 
 Consume DynamicResource for appearance-sensitive styling, never copy a palette or introduce screen-local theme styles. Studio uses a compact settings sidebar and live previews, stacking below 1040 content DIPs; Business Reference uses intentional wide/narrow modules, stacking below 1100; other pages may adapt layouts to their workflow without inventing another design system. Verify hover/pressed/disabled/focus/validation, selected rows, empty state, both modes, resize and DPI/accessibility before acceptance. Update the reference when an approved component rule changes. No static mockup is native WPF evidence. See step1.c.8 for the latest implementation and verification gaps.
 
-The Windows workflow remains at `cols/ci/windows-wpf.yml`. Moving it to `.github/workflows/` was attempted and **rejected** by GitHub (the App lacks `workflows` permission). Actions cannot run until that permission is granted. Do not create a pull request without two separate confirmations.
+If `windows-wpf.yml` is in `.github/workflows/`, leave it there. Do not move it back to `cols/ci`. The agent GitHub App cannot publish workflow files (missing `workflows` permission); the owner placing the file under `.github/workflows/` is the activation path. Foundation checks must accept either location. Do not create a pull request without two separate confirmations.
 
-Latest user instruction: track GitHub Action builds and fix failures. The YAML could not be published to `.github/workflows/` (GitHub App missing `workflows` permission); it stays at `cols/ci/windows-wpf.yml` until that permission exists. No pull request without two separate explicit confirmations.
+Latest user instruction: track GitHub Action builds and fix failures. If the owner puts `windows-wpf.yml` in `.github/workflows/`, do not move it back to `cols/ci`. The agent App cannot publish workflow files. No pull request without two separate explicit confirmations.
 
 ## Standing Git delivery and double-confirmation PR safeguards
 
