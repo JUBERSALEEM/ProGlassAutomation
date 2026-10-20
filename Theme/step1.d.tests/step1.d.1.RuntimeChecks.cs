@@ -115,7 +115,8 @@ internal static class RuntimeChecks
             model.ResetPreview.Execute(null);
 
             int packageCount = app.Resources.MergedDictionaries.Count;
-            foreach (double width in new[] { 720d, 1024d, 1440d })
+            window.WindowState = WindowState.Normal;
+            foreach (double width in new[] { 720d, 1024d, 1440d, 1920d, 2560d })
             {
                 window.Width = width;
                 window.Height = 900;
@@ -129,8 +130,13 @@ internal static class RuntimeChecks
                     var studio = Descendants(window).OfType<ThemeStudioView>().Single();
                     var modules = (Grid)studio.FindName("Modules");
                     Check((modules.ColumnDefinitions[1].ActualWidth == 0) == (modules.ActualWidth < 980), "responsive column mode");
+                    Check((modules.ColumnDefinitions[2].ActualWidth > 0) == (modules.ActualWidth >= 1500), "wide three-column mode");
+                    var cards = Descendants(modules).OfType<UserControl>().ToArray();
+                    Check(cards.Length == 8, "all eight cards survive reflow");
+                    Check(input.Text == model.SampleName && BindingOperations.IsDataBound(input, TextBox.TextProperty), "input binding survives column redistribution");
+                    Check(model.SelectedReference == model.ReferenceItems[1], "selected sample survives column redistribution");
                     var bounds = new List<Rect>();
-                    foreach (FrameworkElement child in modules.Children)
+                    foreach (FrameworkElement child in cards)
                     {
                         Check(child.ActualWidth > 0 && child.ActualHeight > 0, "module remains laid out");
                         Rect box = child.TransformToAncestor(modules).TransformBounds(new Rect(child.RenderSize));

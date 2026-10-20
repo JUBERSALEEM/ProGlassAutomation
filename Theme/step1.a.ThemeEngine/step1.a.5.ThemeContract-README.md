@@ -65,7 +65,7 @@ These are names/types consumed by current application screens, not a required pa
 | `ScrollBarSize` | `double` |
 | `DisabledOpacity` | `double` |
 | `PopupMaxHeight` | `double` |
-| `PageMaxWidth` | `double` |
+| `ReferenceListMaxHeight` | `double` |
 | `WindowInitialWidth` | `double` |
 | `WindowInitialHeight` | `double` |
 | `WindowMinWidth` | `double` |
@@ -149,4 +149,4 @@ Only after Bento approval and separate authorization:
 4. Validate the 77 public roles and 29 style target types independently; validate the theme’s own extra resources, accessibility/state/contrast expectations and duplicate/cross-theme keys. Extend per-theme source/runtime checks and CI before registration is accepted. Missing styles must fail even if the active theme supplies the same key.
 5. Run research/specification/build/runtime/comparison/correction/regression/user review. Verify existing screens, windows/dialogs/popups, editing/selection/focus/scroll state and diagnostics. Preserve failure status. Do not implement an extra theme merely to demonstrate extensibility.
 
-Only Bento is registered. [Windows CI](../../.github/workflows/windows-wpf.yml) is configured but has not verified the current unpushed code; see the [current isolation/CI evidence](../../step1.ThemeStudio/step1.c.docs/step1.c.3.Theme-Isolation-and-CI.md). Actual rendered visual inspection remains separate from compilation and runtime assertions.
+Only Bento is registered. [Windows CI](../../cols/ci/windows-wpf.yml) is configured but has not verified the current unpushed code; see the [current isolation/CI evidence](../../step1.ThemeStudio/step1.c.docs/step1.c.3.Theme-Isolation-and-CI.md). Actual rendered visual inspection remains separate from compilation and runtime assertions.

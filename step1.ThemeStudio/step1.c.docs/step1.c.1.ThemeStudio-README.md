@@ -54,7 +54,7 @@ The old engine a.4 visual branch was removed; step1.e is an internal branch of t
 
 | Numbered file | Responsibility |
 | --- | --- |
-| `step1.b.1.ThemeStudioView.xaml` + `.xaml.cs` | Screen composition and width-based module reflow; two columns at >=980 content DIPs, stacked below. |
+| `step1.b.1.ThemeStudioView.xaml` + `.xaml.cs` | Screen composition and width-based module reflow; independent native card lanes: one below 980 content DIPs, two below 1500, three above; shortest-lane packing at breakpoint changes. |
 | `step1.b.3.ThemeStudioViewModel.cs` | Actual selection, notifications, validation, preview commands and filtered live tokens; errors shown rather than silently swallowed. |
 | `step1.b.4.DelegateCommand.cs` | Minimal native ICommand implementation with command requery. |
 | `step1.b.5.TokenRow.cs` | Current resource name/type/value/brush projection, not an independent palette. |
@@ -100,3 +100,5 @@ Follow the [typed contract and concrete extension process](../../Theme/step1.a.T
 The harness uses actual WPF controls with software rendering and tests existing dialogs/popup, template identity, text/caret state, mode replacement, validation, bindings and layout. It is not a human rendered-screen review or physical DPI/accessibility/performance certification. The new workflow has not run: code is uncommitted/unpushed and Actions API listing returned 403. Do not claim Windows checks passed; no commit/push/publication was authorized.
 
 Latest user instruction: workflow stored **inactive** at `cols/ci/windows-wpf.yml` so the code can be pushed without workflow-write permission. This supersedes earlier restoration/activation statements. No Windows CI run occurs until it is moved back to `.github/workflows/` with suitable permission; restoration commands are in the file header.
+
+Latest layout specification and evidence: [full-width compact Studio](step1.c.6.Full-Width-Layout.md). Studio opens maximized without a width cap; token browsing has a theme-owned bounded viewport. Cards keep their instances and view-model binding across lane changes.

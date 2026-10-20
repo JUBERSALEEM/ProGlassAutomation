@@ -4,6 +4,6 @@
  xmlns:studio="clr-namespace:ProGlassAutomation.ThemeStudio"
  Title="ProGlass V3.0 · Theme Studio" Width="{DynamicResource WindowInitialWidth}" Height="{DynamicResource WindowInitialHeight}"
  MinWidth="{DynamicResource WindowMinWidth}" MinHeight="{DynamicResource WindowMinHeight}"
- WindowStartupLocation="CenterScreen" Style="{DynamicResource ThemedWindow}">
+ WindowState="Maximized" WindowStartupLocation="CenterScreen" Style="{DynamicResource ThemedWindow}">
  <studio:ThemeStudioView />
 </Window>

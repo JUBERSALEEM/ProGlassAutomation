@@ -40,6 +40,13 @@ view = (ROOT / 'step1.ThemeStudio/step1.b.ThemeStudioScreen/step1.b.1.ThemeStudi
 for component in ('Overview', 'Appearance', 'Metrics', 'Controls', 'TypeAndStatus', 'Worklist', 'Surfaces', 'Tokens'):
     assert f'x:Name="{component}"' in view, f'Missing reference section: {component}'
 assert 'x:Name="ThemePicker"' in view and 'Binding IsDark' in view
+assert 'MaxWidth="{DynamicResource PageMaxWidth}"' not in view, 'Studio must use full available width'
+assert 'WindowState="Maximized"' in (ROOT / 'MainWindow.xaml').read_text()
+for lane in ('LaneOne', 'LaneTwo', 'LaneThree'):
+    assert f'x:Name="{lane}"' in view, f'Missing independent card lane: {lane}'
+layout = (ROOT / 'step1.ThemeStudio/step1.b.ThemeStudioScreen/step1.b.1.ThemeStudioView.xaml.cs').read_text()
+assert '980' in layout and '1500' in layout and 'heights.Min()' in layout
+assert 'new Binding(nameof(DataContext)) { Source = this }' in layout, 'Preserve card view-model context during reflow'
 workflow = ROOT / 'cols/ci/windows-wpf.yml'
 assert workflow.is_file() and not (ROOT / '.github/workflows/windows-wpf.yml').exists()
 for command in ('dotnet build ProGlassAutomation.csproj', '--contracts-only', 'step1.d.6.verify_foundation.py'):

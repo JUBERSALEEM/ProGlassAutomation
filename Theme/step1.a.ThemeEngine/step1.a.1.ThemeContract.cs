@@ -59,7 +59,7 @@ public static class ThemeContract
         ["ScrollBarSize"] = typeof(double),
         ["DisabledOpacity"] = typeof(double),
         ["PopupMaxHeight"] = typeof(double),
-        ["PageMaxWidth"] = typeof(double),
+        ["ReferenceListMaxHeight"] = typeof(double),
         ["WindowInitialWidth"] = typeof(double),
         ["WindowInitialHeight"] = typeof(double),
         ["WindowMinWidth"] = typeof(double),
