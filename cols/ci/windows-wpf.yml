@@ -1,11 +1,9 @@
-# INACTIVE: GitHub Actions does not execute workflows under cols/ci/.
-# To activate later, run from the repository root with workflow-write permission:
-#   mkdir -p .github/workflows
+# INACTIVE here: GitHub Actions does not execute cols/ci/.
+# Attempt to publish at .github/workflows/windows-wpf.yml was rejected:
+#   refusing to allow a GitHub App to create or update workflow without `workflows` permission
+# After that permission is granted:
 #   git mv cols/ci/windows-wpf.yml .github/workflows/windows-wpf.yml
-#   git add -A
-#   git commit -m "Activate Windows WPF verification"
-#   git push origin arena/bd154b4b-proglassautomation
-# Update documentation links and the foundation guard for the active path too.
+#   git add -A && git commit -m "Activate Windows WPF verification" && git push
 
 name: Windows WPF verification
 

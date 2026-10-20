@@ -7,8 +7,21 @@ using ProGlassAutomation.ThemeBento;
 namespace ProGlassAutomation.ThemeStudio;
 public partial class AnalyticsOverview : UserControl
 {
+    public static readonly DependencyProperty CompactProperty = DependencyProperty.Register(
+        nameof(Compact), typeof(bool), typeof(AnalyticsOverview),
+        new PropertyMetadata(false));
     private ThemeStudioViewModel? vm;
-    public AnalyticsOverview() => InitializeComponent();
+    public AnalyticsOverview()
+    {
+        InitializeComponent();
+        Loaded += (_, _) => ApplyLayout();
+    }
+    public bool Compact { get => (bool)GetValue(CompactProperty); set => SetValue(CompactProperty, value); }
+    protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+    {
+        base.OnPropertyChanged(e);
+        if (e.Property == CompactProperty && IsLoaded) ApplyLayout();
+    }
     protected override void OnInitialized(EventArgs e)
     {
         base.OnInitialized(e);
@@ -20,35 +33,60 @@ public partial class AnalyticsOverview : UserControl
         if (vm != null) vm.PropertyChanged -= VmChanged;
         vm = DataContext as ThemeStudioViewModel;
         if (vm != null) vm.PropertyChanged += VmChanged;
-        ApplyLayoutPreset();
+        if (IsLoaded) ApplyLayout();
     }
     private void VmChanged(object? s, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(ThemeStudioViewModel.SelectedLayoutPreset))
-            ApplyLayoutPreset();
+            ApplyLayout();
     }
-    private void ApplyLayoutPreset()
+    private void ApplyLayout()
     {
-        if (vm == null) return;
-        BentoGrid.SetColumn(RevenueCard, 0); BentoGrid.SetRow(RevenueCard, 1); BentoGrid.SetColumnSpan(RevenueCard, 2); BentoGrid.SetRowSpan(RevenueCard, 2);
-        BentoGrid.SetColumn(MixCard, 2); BentoGrid.SetRow(MixCard, 1); BentoGrid.SetColumnSpan(MixCard, 1); BentoGrid.SetRowSpan(MixCard, 2);
-        BentoGrid.SetColumnSpan(TableCard, 4);
+        if (AnalyticsGrid is null) return;
+        if (Compact)
+        {
+            AnalyticsGrid.Columns = 2;
+            Show(KpiRevenue, 0, 0, 2, 1);
+            Hide(KpiOrders); Hide(KpiConversion);
+            Show(RevenueCard, 0, 1, 2, 1);
+            Show(MixCard, 0, 2, 1, 1);
+            Show(TargetCard, 1, 2, 1, 1);
+            Hide(TrendCard); Hide(ActivityCard); Hide(StatusCard); Hide(TableCard);
+            return;
+        }
+        AnalyticsGrid.Columns = 4;
+        Show(KpiRevenue, 0, 0, 2, 1);
+        Show(KpiOrders, 2, 0, 1, 1);
+        Show(KpiConversion, 3, 0, 1, 1);
+        Show(RevenueCard, 0, 1, 2, 2);
+        Show(MixCard, 2, 1, 1, 2);
+        Show(TargetCard, 3, 1, 1, 2);
+        Show(TrendCard, 0, 3, 2, 1);
+        Show(ActivityCard, 2, 3, 1, 1);
+        Show(StatusCard, 3, 3, 1, 1);
+        Show(TableCard, 0, 4, 4, 1);
+        if (vm is null) return;
         switch (vm.SelectedLayoutPreset)
         {
             case BentoLayoutPreset.Executive:
-                ActivityCard.Visibility = Visibility.Collapsed; StatusCard.Visibility = Visibility.Visible; TableCard.Visibility = Visibility.Visible;
-                BentoGrid.SetColumnSpan(MixCard, 2); TargetCard.Visibility = Visibility.Collapsed;
+                Hide(ActivityCard); Hide(TargetCard);
+                Show(MixCard, 2, 1, 2, 2);
                 break;
             case BentoLayoutPreset.AnalyticsFocus:
-                ActivityCard.Visibility = Visibility.Collapsed; StatusCard.Visibility = Visibility.Collapsed; TableCard.Visibility = Visibility.Visible;
-                TargetCard.Visibility = Visibility.Visible;
+                Hide(ActivityCard); Hide(StatusCard);
                 break;
             case BentoLayoutPreset.CompactDense:
-                TableCard.Visibility = Visibility.Collapsed; ActivityCard.Visibility = Visibility.Collapsed; TargetCard.Visibility = Visibility.Visible; StatusCard.Visibility = Visibility.Visible;
-                break;
-            default:
-                TableCard.Visibility = Visibility.Visible; ActivityCard.Visibility = Visibility.Visible; StatusCard.Visibility = Visibility.Visible; TargetCard.Visibility = Visibility.Visible;
+                Hide(TableCard); Hide(ActivityCard);
                 break;
         }
     }
+    private static void Show(UIElement tile, int column, int row, int columnSpan, int rowSpan)
+    {
+        tile.Visibility = Visibility.Visible;
+        BentoGrid.SetColumn(tile, column);
+        BentoGrid.SetRow(tile, row);
+        BentoGrid.SetColumnSpan(tile, columnSpan);
+        BentoGrid.SetRowSpan(tile, rowSpan);
+    }
+    private static void Hide(UIElement tile) => tile.Visibility = Visibility.Collapsed;
 }

@@ -101,7 +101,7 @@ Follow the [typed contract and concrete extension process](../../Theme/step1.a.T
 
 The harness uses actual WPF controls with software rendering and tests existing dialogs/popup, template identity, text/caret state, mode replacement, validation, bindings and layout. It is not a human rendered-screen review or physical DPI/accessibility/performance certification. The new workflow has not run: code is uncommitted/unpushed and Actions API listing returned 403. Do not claim Windows checks passed; no commit/push/publication was authorized.
 
-Latest user instruction: workflow stored **inactive** at `cols/ci/windows-wpf.yml` so the code can be pushed without workflow-write permission. This supersedes earlier restoration/activation statements. No Windows CI run occurs until it is moved back to `.github/workflows/` with suitable permission; restoration commands are in the file header.
+Latest user instruction: no pull request without two separate confirmations. Windows Action YAML could not be published (missing `workflows` permission).
 
 Latest layout specification and evidence: [full-width compact Studio](step1.c.6.Full-Width-Layout.md). Studio opens maximized without a width cap; token browsing has a theme-owned bounded viewport. Cards keep their instances and view-model binding across lane changes.
 

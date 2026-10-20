@@ -57,7 +57,7 @@ All theme implementation is under `Theme/`, with numbered shared implementation 
 
 ## Windows CI verification
 
-[cols/ci/windows-wpf.yml](cols/ci/windows-wpf.yml) checks out on windows-2022, installs/selects official .NET 8, restores/builds both actual projects, runs portable checks, compiled contracts (`--contracts-only`) and a bounded STA WPF runtime smoke test with software rendering. It preserves failure/timeouts and creates no release or executable upload. Local YAML checks passed; **the workflow itself has not run**. GitHub Actions API access returned HTTP 403. The workflow is now restored locally to .github/workflows per the latest instruction. These changes are not committed/pushed and cannot run remotely yet; the existing GitHub connection also lacks workflow-write permission. No SDK/runtime installation was attempted again in this container. Windows runtime assertions remain distinct from human visual approval/DPI/accessibility/performance review.
+[cols/ci/windows-wpf.yml](cols/ci/windows-wpf.yml) is the Windows job (windows-2022, .NET 8, portable checks, contracts, STA smoke). Publishing it to `.github/workflows/` was rejected: the GitHub App lacks `workflows` permission, so Actions cannot run on this branch yet.
 
 Bento owns its complete visual engine in Theme/ThemeBento. The shared engine contains no XAML or persistent visual dictionary. Future themes supply independent implementations through the same contract without screen rewrites; no future theme or placeholder is registered.
 
@@ -66,10 +66,10 @@ Bento owns its complete visual engine in Theme/ThemeBento. The shared engine con
 
 Theme Studio is the root application's startup content, not hidden behind navigation. On Windows, open this branch's `ProGlassAutomation.csproj` as the startup project or run the `dotnet run` command above. No SheetStore service or database is needed. The browser preview here cannot execute WPF; there is no genuine rendered screenshot or remote Windows session available in this environment. Do not confuse the unchanged remote master branch with these local, uncommitted changes.
 
-Latest user instruction: workflow stored **inactive** at `cols/ci/windows-wpf.yml` so the code can be pushed without workflow-write permission. This supersedes earlier restoration/activation statements. No Windows CI run occurs until it is moved back to `.github/workflows/` with suitable permission; restoration commands are in the file header.
+Latest user instruction: no pull request without two separate confirmations. Windows Action tracking needs `workflows` permission.
 
 ## Current rich Bento workspace
 
 The startup tab is **Theme Studio**: edit Ocean/Indigo/Teal accent, compact/comfortable density, crisp/soft/rounded corners and small/standard/large body typography. Reset design keeps sample inputs separate. **Business Reference** is a distinct tab with a compact KPI band, wide themed feature/trend, selected-work review list, status badges, preview form and handoff surfaces. It is illustrative local data, not an implemented ERP module. All design changes use the real active package and carry across mode switches and both pages. Settings are not saved to disk.
 
-The current source supplies 102 semantic tokens and 47 required styles; portable checks cover measured contrast pairings and 14 deliberate regressions. The compiled harness adds 108 appearance/customization combinations and native page-switching checks, but those Windows tests have not run here. The workflow is still intentionally inactive in cols/ci. See the current feature report for exact responsibilities and limitations.
+The current source supplies 102 semantic tokens and 47 required styles. See [c.11](step1.ThemeStudio/step1.c.docs/step1.c.11.Bento-Grid-Engine.md).

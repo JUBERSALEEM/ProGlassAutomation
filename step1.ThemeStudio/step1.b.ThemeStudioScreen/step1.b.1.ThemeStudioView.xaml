@@ -7,21 +7,21 @@
     <StackPanel>
      <TextBlock Text="PROGLASS — BENTO WORKSPACE" Foreground="{DynamicResource HeroSecondaryText}" Style="{DynamicResource Caption}" FontWeight="{DynamicResource FontWeightHeading}"/>
      <TextBlock Text="Theme Studio" Foreground="{DynamicResource HeroForeground}" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}"/>
-     <TextBlock Text="Live mosaic — settings, preview and gallery occupy unequal cells of one grid" Foreground="{DynamicResource HeroSecondaryText}" Style="{DynamicResource Caption}"/>
+     <TextBlock Text="One mosaic — settings, compact live preview and gallery share equal-height rows" Foreground="{DynamicResource HeroSecondaryText}" Style="{DynamicResource Caption}"/>
     </StackPanel>
    </DockPanel>
   </Border>
   <bento:BentoGrid x:Name="Modules" Grid.Row="1" Columns="4" FillAvailable="True"
                    RowHeight="{DynamicResource BentoRowHeight}" Gutter="{DynamicResource BentoGutter}" CompactWidth="{DynamicResource BentoCompactWidth}"
                    Margin="{DynamicResource PaddingPage}">
-   <local:AnalyticsOverview x:Name="Preview" bento:BentoGrid.Column="1" bento:BentoGrid.Row="0" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="2"/>
-   <local:CustomizationPanel x:Name="Settings" bento:BentoGrid.Column="0" bento:BentoGrid.Row="0" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="3"/>
+   <local:CustomizationPanel x:Name="Settings" bento:BentoGrid.Column="0" bento:BentoGrid.Row="0" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="4"/>
+   <local:AnalyticsOverview x:Name="Preview" Compact="True" bento:BentoGrid.Column="1" bento:BentoGrid.Row="0" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="3"/>
    <local:TypeAndStatusPanel x:Name="Signals" bento:BentoGrid.Column="3" bento:BentoGrid.Row="0" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="1"/>
    <local:ControlsPanel x:Name="Controls" bento:BentoGrid.Column="3" bento:BentoGrid.Row="1" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="1"/>
-   <local:ChartGallery x:Name="Gallery" bento:BentoGrid.Column="1" bento:BentoGrid.Row="2" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="1"/>
    <Border x:Name="DiagnosticsToggle" Style="{DynamicResource Card}" bento:BentoGrid.Column="3" bento:BentoGrid.Row="2" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="1">
     <ScrollViewer VerticalScrollBarVisibility="Auto"><local:TokensPanel x:Name="Tokens"/></ScrollViewer>
    </Border>
+   <local:ChartGallery x:Name="Gallery" bento:BentoGrid.Column="1" bento:BentoGrid.Row="3" bento:BentoGrid.ColumnSpan="3" bento:BentoGrid.RowSpan="1"/>
   </bento:BentoGrid>
  </Grid>
 </UserControl>
