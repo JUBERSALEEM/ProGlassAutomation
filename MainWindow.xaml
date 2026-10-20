@@ -4,9 +4,68 @@
  xmlns:studio="clr-namespace:ProGlassAutomation.ThemeStudio"
  Title="ProGlass V3.0 · Bento Workspace" Width="{DynamicResource WindowInitialWidth}" Height="{DynamicResource WindowInitialHeight}"
  MinWidth="{DynamicResource WindowMinWidth}" MinHeight="{DynamicResource WindowMinHeight}"
- WindowState="Maximized" WindowStartupLocation="CenterScreen" Style="{DynamicResource ThemedWindow}">
- <TabControl x:Name="WorkspaceTabs" SelectedIndex="{Binding SelectedWorkspace, Mode=TwoWay}" AutomationProperties.Name="Design workspace pages">
-  <TabItem Header="_Theme Studio"><studio:ThemeStudioView /></TabItem>
-  <TabItem Header="_Business Reference"><studio:BusinessReferenceView /></TabItem>
- </TabControl>
+ WindowState="Maximized" WindowStartupLocation="CenterScreen" Background="{DynamicResource ApplicationBackground}">
+ <Grid>
+  <Grid.ColumnDefinitions><ColumnDefinition Width="220"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+  <Grid.RowDefinitions><RowDefinition Height="56"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+  <!-- LEFT NAV: dark premium, bold — mockup 01 executive -->
+  <Border Grid.RowSpan="2" Background="{DynamicResource HeroBackground}" CornerRadius="0" BorderThickness="0" Padding="{DynamicResource PaddingCard}">
+   <DockPanel LastChildFill="True">
+    <StackPanel DockPanel.Dock="Top">
+     <StackPanel Orientation="Horizontal" Margin="{DynamicResource MarginSection}">
+      <Border Width="28" Height="28" Background="{DynamicResource TransparentBrush}" CornerRadius="6"><TextBlock Text="◈" Foreground="{DynamicResource HeroForeground}" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/></Border>
+      <TextBlock Text="Studio" Foreground="{DynamicResource HeroForeground}" FontSize="{DynamicResource FontSizeSection}" FontWeight="{DynamicResource FontWeightHeading}" VerticalAlignment="Center" Margin="8,0,0,0"/>
+     </StackPanel>
+     <Separator Background="{DynamicResource TransparentBrush}" Margin="0,12,0,12" Opacity="0.2"/>
+     <!-- Navigation — single authoritative Studio entry -->
+     <RadioButton Content="Dashboard" GroupName="Nav" IsChecked="True" Foreground="{DynamicResource HeroForeground}" FontWeight="SemiBold" Background="{DynamicResource StateSelected}" Margin="{DynamicResource MarginItem}" Padding="{DynamicResource PaddingControl}" AutomationProperties.Name="Dashboard">
+      <RadioButton.Template>
+       <ControlTemplate TargetType="RadioButton">
+        <Border Background="{TemplateBinding Background}" CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="0">
+         <TextBlock Text="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" FontWeight="{TemplateBinding FontWeight}"/>
+        </Border>
+       </ControlTemplate>
+      </RadioButton.Template>
+     </RadioButton>
+     <!-- Simplified mockup nav items — visual only, preserve single Studio entry -->
+     <StackPanel Margin="{DynamicResource MarginSection}">
+      <TextBlock Text="Projects" Foreground="{DynamicResource HeroSecondaryText}" Style="{DynamicResource Caption}" Margin="{DynamicResource MarginItem}"/>
+      <TextBlock Text="Analytics" Foreground="{DynamicResource HeroSecondaryText}" Style="{DynamicResource Caption}" Margin="{DynamicResource MarginItem}"/>
+      <TextBlock Text="Reports" Foreground="{DynamicResource HeroSecondaryText}" Style="{DynamicResource Caption}" Margin="{DynamicResource MarginItem}"/>
+      <TextBlock Text="Team" Foreground="{DynamicResource HeroSecondaryText}" Style="{DynamicResource Caption}" Margin="{DynamicResource MarginItem}"/>
+     </StackPanel>
+    </StackPanel>
+    <StackPanel DockPanel.Dock="Bottom" Margin="0,0,0,12">
+     <TextBlock Text="Settings" Foreground="{DynamicResource HeroSecondaryText}" Style="{DynamicResource Caption}" Margin="{DynamicResource MarginItem}"/>
+     <TextBlock Text="Help" Foreground="{DynamicResource HeroSecondaryText}" Style="{DynamicResource Caption}" Margin="{DynamicResource MarginItem}"/>
+    </StackPanel>
+   </DockPanel>
+  </Border>
+  <!-- TOP BAR: pure white, bold, search + user — mockup 01 -->
+  <Border Grid.Column="1" Background="{DynamicResource SurfacePrimary}" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="0,0,0,1" Padding="{DynamicResource PaddingControl}">
+   <Grid>
+    <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+    <TextBlock Text="Dashboard" Foreground="{DynamicResource TextPrimary}" FontSize="{DynamicResource FontSizeSection}" FontWeight="{DynamicResource FontWeightHeading}" VerticalAlignment="Center" Margin="{DynamicResource MarginInline}"/>
+    <Border Grid.Column="1" Background="{DynamicResource SurfaceSecondary}" CornerRadius="{DynamicResource ControlCornerRadius}" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="{DynamicResource BorderThicknessControl}" Padding="{DynamicResource PaddingCompact}" MaxWidth="420" HorizontalAlignment="Center" VerticalAlignment="Center" Width="420">
+     <DockPanel>
+      <TextBlock Text="Search" Foreground="{DynamicResource TextMuted}" VerticalAlignment="Center" Margin="{DynamicResource MarginInline}"/>
+      <TextBox BorderThickness="0" Background="Transparent" Foreground="{DynamicResource TextPrimary}" AutomationProperties.Name="Search"/>
+     </DockPanel>
+    </Border>
+    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+     <Border Background="{DynamicResource SurfaceSecondary}" CornerRadius="14" Padding="6" Margin="{DynamicResource MarginInline}"><TextBlock Text="🔔" Foreground="{DynamicResource TextSecondary}"/></Border>
+     <TextBlock Text="Andrew Miller" Foreground="{DynamicResource TextPrimary}" FontWeight="SemiBold" VerticalAlignment="Center" Margin="{DynamicResource MarginInline}"/>
+     <Border Background="{DynamicResource AccentSoft}" CornerRadius="14" Padding="8,4" VerticalAlignment="Center"><TextBlock Text="AM" Foreground="{DynamicResource AccentPrimary}" FontWeight="Bold"/></Border>
+    </StackPanel>
+   </Grid>
+  </Border>
+  <!-- MAIN CONTENT: TabControl hidden chrome, full-cover -->
+  <TabControl x:Name="WorkspaceTabs" Grid.Column="1" Grid.Row="1" SelectedIndex="{Binding SelectedWorkspace, Mode=TwoWay}" AutomationProperties.Name="Design workspace pages" Background="{DynamicResource ApplicationBackground}" BorderThickness="0">
+   <TabControl.Resources>
+    <Style TargetType="TabItem"><Setter Property="Visibility" Value="Collapsed"/></Style>
+   </TabControl.Resources>
+   <TabItem Header="_Theme Studio"><studio:ThemeStudioView /></TabItem>
+   <TabItem Header="_Business Reference"><studio:BusinessReferenceView /></TabItem>
+  </TabControl>
+ </Grid>
 </Window>

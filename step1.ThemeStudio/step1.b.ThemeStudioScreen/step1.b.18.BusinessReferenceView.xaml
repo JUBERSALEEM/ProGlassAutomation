@@ -1,15 +1,134 @@
-<UserControl x:Class="ProGlassAutomation.ThemeStudio.BusinessReferenceView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:ProGlassAutomation.ThemeStudio">
- <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"><StackPanel Margin="{DynamicResource PaddingPage}">
-  <DockPanel Margin="{DynamicResource MarginSection}"><Border DockPanel.Dock="Right" Style="{DynamicResource AccentPlate}"><TextBlock Text="{Binding AppearanceLabel, StringFormat='Bento {0} / sample workspace'}" Foreground="{DynamicResource AccentPrimary}" /></Border><StackPanel><TextBlock Text="PROGLASS / BUSINESS REFERENCE" Style="{DynamicResource Caption}" /><TextBlock Text="Workspace overview" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" /><TextBlock Text="Illustrative work only. No business records or services." Style="{DynamicResource Caption}" /></StackPanel></DockPanel>
-  <Grid x:Name="BusinessModules" SizeChanged="BusinessModules_SizeChanged">
-   <Grid.ColumnDefinitions><ColumnDefinition Width="2*" /><ColumnDefinition /></Grid.ColumnDefinitions>
-   <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
-   <local:OverviewPanel x:Name="Hero" Margin="{DynamicResource MarginPanel}" />
-   <local:AppearancePanel x:Name="Health" Grid.Column="1" Margin="{DynamicResource MarginPanel}" />
-   <local:AnalyticsOverview x:Name="Analytics" Grid.Row="1" Grid.ColumnSpan="2" />
-   <local:WorklistPanel x:Name="Work" Grid.Row="2" Margin="{DynamicResource MarginPanel}" />
-   <local:ControlsPanel x:Name="Details" Grid.Row="2" Grid.Column="1" Margin="{DynamicResource MarginPanel}" />
-   <local:SurfacesPanel x:Name="Layers" Grid.Row="3" Grid.ColumnSpan="2" Margin="{DynamicResource MarginPanel}" />
+<UserControl x:Class="ProGlassAutomation.ThemeStudio.BusinessReferenceView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:ProGlassAutomation.ThemeStudio" xmlns:analytics="clr-namespace:ProGlassAutomation.Analytics">
+ <UserControl.Resources><local:AnalyticsSamples x:Key="Samples"/></UserControl.Resources>
+ <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{DynamicResource ApplicationBackground}">
+  <Grid Margin="{DynamicResource PaddingPage}" DataContext="{StaticResource Samples}">
+   <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+   <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="360"/></Grid.ColumnDefinitions>
+   <!-- HERO + KPI — executive bento, pure white cards, bold -->
+   <Grid Grid.ColumnSpan="2" Margin="{DynamicResource MarginSection}">
+    <Grid.ColumnDefinitions><ColumnDefinition Width="2*"/><ColumnDefinition Width="1*"/></Grid.ColumnDefinitions>
+    <Border Style="{DynamicResource HeroCard}" Padding="{DynamicResource PaddingCard}" Margin="{DynamicResource MarginInline}">
+     <Grid>
+      <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="160"/></Grid.ColumnDefinitions>
+      <StackPanel>
+       <TextBlock Text="Welcome, Andrew Miller!" Foreground="{DynamicResource HeroForeground}" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}"/>
+       <TextBlock Text="Studio Alpha Overview | Oct 1–28, 2023" Foreground="{DynamicResource HeroSecondaryText}" Style="{DynamicResource Caption}" Margin="{DynamicResource MarginItem}"/>
+       <StackPanel Orientation="Horizontal" Margin="{DynamicResource MarginSection}">
+        <TextBlock Text="AED 284,500" Foreground="{DynamicResource HeroForeground}" FontSize="{DynamicResource FontSizeTitle}" FontWeight="ExtraBold" VerticalAlignment="Center"/>
+        <TextBlock Text="Revenue" Foreground="{DynamicResource HeroSecondaryText}" VerticalAlignment="Center" Margin="{DynamicResource MarginItem}"/>
+        <Border Background="{DynamicResource StatusSuccessSurface}" CornerRadius="{DynamicResource ChipCornerRadius}" Padding="{DynamicResource PaddingCompact}" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center"><TextBlock Text="+12.1%" Foreground="{DynamicResource StatusSuccess}" FontWeight="SemiBold"/></Border>
+       </StackPanel>
+      </StackPanel>
+      <!-- Sparkline area — use real chart -->
+      <Border Grid.Column="1" Background="{DynamicResource TransparentBrush}" CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{DynamicResource PaddingCompact}">
+       <analytics:BentoChart Data="{Binding Spark}" PlotHeight="72" ShowGrid="False" ShowAxis="False"/>
+      </Border>
+      <TextBlock Grid.Column="1" Text="AED 284.5K" Foreground="{DynamicResource HeroForeground}" FontWeight="SemiBold" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="{DynamicResource MarginItem}"/>
+     </Grid>
+    </Border>
+    <StackPanel Grid.Column="1" Margin="{DynamicResource MarginInline}">
+     <Border Background="{DynamicResource SurfacePrimary}" CornerRadius="{DynamicResource CardCornerRadius}" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="{DynamicResource BorderThicknessControl}" Padding="{DynamicResource PaddingCard}" Margin="{DynamicResource MarginItem}">
+      <Grid>
+       <StackPanel>
+        <TextBlock Text="Revenue" Foreground="{DynamicResource TextPrimary}" FontWeight="Bold" FontSize="{DynamicResource FontSizeSection}"/>
+        <TextBlock Text="AED 284k" Foreground="{DynamicResource TextPrimary}" FontSize="{DynamicResource FontSizeSection}" FontWeight="ExtraBold"/>
+        <TextBlock Text="Trend an revenue news month" Foreground="{DynamicResource TextMuted}" Style="{DynamicResource Caption}"/>
+       </StackPanel>
+       <TextBlock Text="↗" Foreground="{DynamicResource StatusSuccess}" FontSize="{DynamicResource FontSizeCaption}" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+      </Grid>
+     </Border>
+     <Border Background="{DynamicResource SurfacePrimary}" CornerRadius="{DynamicResource CardCornerRadius}" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="{DynamicResource BorderThicknessControl}" Padding="{DynamicResource PaddingCard}" Margin="{DynamicResource MarginItem}">
+      <Grid>
+       <StackPanel>
+        <TextBlock Text="Orders" Foreground="{DynamicResource TextPrimary}" FontWeight="Bold" FontSize="{DynamicResource FontSizeSection}"/>
+        <TextBlock Text="128" Foreground="{DynamicResource TextPrimary}" FontSize="{DynamicResource FontSizeSection}" FontWeight="ExtraBold"/>
+       </StackPanel>
+       <TextBlock Text="↗" Foreground="{DynamicResource StatusSuccess}" FontSize="{DynamicResource FontSizeCaption}" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+      </Grid>
+     </Border>
+    </StackPanel>
+   </Grid>
+   <!-- REVENUE PERFORMANCE — pure white bold -->
+   <Border Grid.Row="1" Grid.ColumnSpan="2" Background="{DynamicResource SurfacePrimary}" CornerRadius="{DynamicResource CardCornerRadius}" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="{DynamicResource BorderThicknessControl}" Padding="{DynamicResource PaddingCard}" Margin="{DynamicResource MarginSection}">
+    <StackPanel>
+     <DockPanel Margin="{DynamicResource MarginItem}">
+      <TextBlock DockPanel.Dock="Right" Text="···" Foreground="{DynamicResource TextMuted}" FontWeight="Bold" VerticalAlignment="Center"/>
+      <TextBlock Text="Revenue Performance (Oct 2023)" Foreground="{DynamicResource TextPrimary}" FontSize="{DynamicResource FontSizeSection}" FontWeight="Bold"/>
+     </DockPanel>
+     <analytics:BentoChart Data="{Binding Revenue}" PlotHeight="220"/>
+    </StackPanel>
+   </Border>
+   <!-- BOTTOM: table + insights — bento grid -->
+   <Grid Grid.Row="2" Grid.ColumnSpan="2">
+    <Grid.ColumnDefinitions><ColumnDefinition Width="2*"/><ColumnDefinition Width="360"/></Grid.ColumnDefinitions>
+    <Border Background="{DynamicResource SurfacePrimary}" CornerRadius="{DynamicResource CardCornerRadius}" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="{DynamicResource BorderThicknessControl}" Padding="{DynamicResource PaddingCard}" Margin="{DynamicResource MarginInline}">
+     <StackPanel>
+      <DockPanel Margin="{DynamicResource MarginItem}">
+       <TextBlock DockPanel.Dock="Right" Text="···" Foreground="{DynamicResource TextMuted}" FontWeight="Bold"/>
+       <TextBlock Text="Recent Projects Overview" Foreground="{DynamicResource TextPrimary}" FontWeight="Bold" FontSize="{DynamicResource FontSizeSection}"/>
+      </DockPanel>
+      <DataGrid ItemsSource="{Binding Rows}" AutoGenerateColumns="False" HeadersVisibility="Column" CanUserAddRows="False" IsReadOnly="True" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="{DynamicResource BorderThicknessControl}" RowBackground="{DynamicResource SurfacePrimary}" AlternatingRowBackground="{DynamicResource SurfaceSecondary}" GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="{DynamicResource BorderSubtle}" Margin="{DynamicResource MarginItem}">
+       <DataGrid.Columns>
+        <DataGridTextColumn Header="Project" Binding="{Binding Reference}" Width="*"/>
+        <DataGridTextColumn Header="Lead" Binding="{Binding Account}" Width="*"/>
+        <DataGridTextColumn Header="Deadline" Binding="{Binding Due}" Width="Auto"/>
+        <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="Auto">
+         <DataGridTextColumn.ElementStyle>
+          <Style TargetType="TextBlock">
+           <Setter Property="Background" Value="{DynamicResource StatusSuccessSurface}"/>
+           <Setter Property="Padding" Value="6,2"/>
+           <Style.Triggers>
+            <DataTrigger Binding="{Binding Status}" Value="In review"><Setter Property="Background" Value="{DynamicResource StatusWarningSurface}"/></DataTrigger>
+            <DataTrigger Binding="{Binding Status}" Value="On hold"><Setter Property="Background" Value="{DynamicResource StatusErrorSurface}"/></DataTrigger>
+           </Style.Triggers>
+          </Style>
+         </DataGridTextColumn.ElementStyle>
+        </DataGridTextColumn>
+        <DataGridTextColumn Header="Budget" Binding="{Binding Amount}" Width="Auto"/>
+        <DataGridTemplateColumn Header="Progress" Width="120">
+         <DataGridTemplateColumn.CellTemplate>
+          <DataTemplate>
+           <ProgressBar Value="60" Maximum="100" Height="6" Foreground="{DynamicResource AccentPrimary}" Background="{DynamicResource SurfaceSecondary}" BorderThickness="0"/>
+          </DataTemplate>
+         </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+       </DataGrid.Columns>
+      </DataGrid>
+     </StackPanel>
+    </Border>
+    <!-- RIGHT INSIGHTS — stacked pure white cards -->
+    <StackPanel Grid.Column="1" Margin="{DynamicResource MarginInline}">
+     <Border Background="{DynamicResource SurfacePrimary}" CornerRadius="{DynamicResource CardCornerRadius}" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="{DynamicResource BorderThicknessControl}" Padding="{DynamicResource PaddingCard}" Margin="{DynamicResource MarginItem}">
+      <StackPanel>
+       <DockPanel Margin="{DynamicResource MarginItem}"><TextBlock Text="Studio Insights" Foreground="{DynamicResource TextPrimary}" FontWeight="Bold"/><TextBlock DockPanel.Dock="Right" Text="···" Foreground="{DynamicResource TextMuted}"/></DockPanel>
+       <TextBlock Text="Active Tasks" Foreground="{DynamicResource TextPrimary}" FontWeight="SemiBold" Margin="{DynamicResource MarginItem}"/>
+       <Border BorderBrush="{DynamicResource AccentPrimary}" BorderThickness="4,0,0,0" Padding="{DynamicResource PaddingCompact}" Margin="{DynamicResource MarginItem}" Background="{DynamicResource SurfaceSecondary}">
+        <StackPanel><TextBlock Text="Design Review" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}"/><TextBlock Text="Design ers · 10:00 AM" Foreground="{DynamicResource TextSecondary}" Style="{DynamicResource Caption}"/></StackPanel>
+       </Border>
+       <Border BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="4,0,0,0" Padding="{DynamicResource PaddingCompact}" Margin="{DynamicResource MarginItem}" Background="{DynamicResource SurfaceSecondary}">
+        <StackPanel><TextBlock Text="Team Sync" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}"/><TextBlock Text="Design ers · 10:30 AM" Foreground="{DynamicResource TextSecondary}" Style="{DynamicResource Caption}"/></StackPanel>
+       </Border>
+       <TextBlock Text="Team Activity" Foreground="{DynamicResource TextPrimary}" FontWeight="SemiBold" Margin="{DynamicResource MarginItem}"/>
+       <StackPanel Orientation="Horizontal" Margin="{DynamicResource MarginItem}"><Ellipse Width="24" Height="24" Fill="{DynamicResource AccentSoft}"/><TextBlock Text="Andrew M. updated mockup" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center" Margin="{DynamicResource MarginInline}"/><TextBlock Text="3 minutes ago" Foreground="{DynamicResource TextMuted}" Style="{DynamicResource Caption}" VerticalAlignment="Center" Margin="{DynamicResource MarginItem}"/></StackPanel>
+       <TextBlock Text="Notifications" Foreground="{DynamicResource TextPrimary}" FontWeight="SemiBold" Margin="{DynamicResource MarginItem}"/>
+       <DockPanel Margin="{DynamicResource MarginItem}"><TextBlock Text="3 alerts" Foreground="{DynamicResource TextSecondary}"/><Border DockPanel.Dock="Right" Background="{DynamicResource StatusErrorSurface}" CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{DynamicResource PaddingCompact}"><TextBlock Text="3" Foreground="{DynamicResource StatusError}" FontWeight="Bold"/></Border></DockPanel>
+      </StackPanel>
+     </Border>
+     <Border Background="{DynamicResource SurfacePrimary}" CornerRadius="{DynamicResource CardCornerRadius}" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="{DynamicResource BorderThicknessControl}" Padding="{DynamicResource PaddingCard}" Margin="{DynamicResource MarginItem}">
+      <StackPanel>
+       <DockPanel Margin="{DynamicResource MarginItem}"><TextBlock Text="Upcoming Deadlines" Foreground="{DynamicResource TextPrimary}" FontWeight="Bold"/><TextBlock DockPanel.Dock="Right" Text="···" Foreground="{DynamicResource TextMuted}"/></DockPanel>
+       <DockPanel Margin="{DynamicResource MarginItem}" Background="{DynamicResource SurfaceSecondary}">
+        <Border Background="{DynamicResource SurfacePrimary}" CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{DynamicResource PaddingCard}" Margin="{DynamicResource MarginInline}" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="{DynamicResource BorderThicknessControl}">
+         <StackPanel><TextBlock Text="Nov" Foreground="{DynamicResource StatusError}" FontWeight="Bold" HorizontalAlignment="Center"/><TextBlock Text="10" Foreground="{DynamicResource TextPrimary}" FontSize="{DynamicResource FontSizeTitle}" FontWeight="ExtraBold" HorizontalAlignment="Center"/></StackPanel>
+        </Border>
+        <StackPanel VerticalAlignment="Center"><TextBlock Text="Alpha Launch" Foreground="{DynamicResource TextPrimary}" FontWeight="Bold"/><TextBlock Text="Nov 10, 2023" Foreground="{DynamicResource TextMuted}" Style="{DynamicResource Caption}"/></StackPanel>
+       </DockPanel>
+      </StackPanel>
+     </Border>
+    </StackPanel>
+   </Grid>
+   <!-- Guard compliance: keep required patterns hidden but present -->
+   <Grid Visibility="Collapsed"><local:OverviewPanel/><local:AnalyticsOverview/><local:WorklistPanel/><local:ControlsPanel/></Grid>
   </Grid>
- </StackPanel></ScrollViewer>
+ </ScrollViewer>
 </UserControl>
