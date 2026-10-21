@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 using ProGlassAutomation.Theming;
@@ -55,10 +56,9 @@ public static class NeumorphCustomization
         double spread = 0d;
         SetOwned(package, "NeumorphSpread", spread);
         SetOwned(package, "NeumorphSpreadMargin", new Thickness(-spread));
-        Duration motion = SystemParameters.ClientAreaAnimation
-            ? new Duration(TimeSpan.FromMilliseconds(160))
-            : new Duration(TimeSpan.Zero);
-        SetOwned(package, "NeumorphMotionDuration", motion);
+        SetOwned(package, "NeumorphSpreadThickness", new Thickness(spread));
+        SetOwned(package, "NeumorphMotionDuration", MotionDuration());
+        Track(package);
         Color surface = SurfaceColor(package, mode);
         Color dark = Mix(surface, Colors.Black, mode == Appearance.Light ? 0.18 : 0.28);
         Color light = Mix(surface, Colors.White, mode == Appearance.Light ? 0.85 : 0.14);
@@ -68,6 +68,29 @@ public static class NeumorphCustomization
         SetOwned(package, "NeumorphLightBrush", new SolidColorBrush(light));
         SetOwned(package, "NeumorphRimShadeBrush", new SolidColorBrush(Mix(surface, Colors.Black, mode == Appearance.Light ? 0.10 : 0.22)));
         SetOwned(package, "NeumorphRimLightBrush", new SolidColorBrush(Mix(surface, Colors.White, mode == Appearance.Light ? 0.55 : 0.08)));
+    }
+
+    public static Duration MotionDuration()
+    {
+        bool animate = SystemParameters.ClientAreaAnimation
+            && SystemParameters.MenuAnimation
+            && SystemParameters.ComboBoxAnimation;
+        return animate ? new Duration(TimeSpan.FromMilliseconds(160)) : new Duration(TimeSpan.Zero);
+    }
+
+    private static WeakReference<ResourceDictionary>? _package;
+
+    private static void Track(ResourceDictionary package)
+    {
+        _package = new WeakReference<ResourceDictionary>(package);
+        SystemParameters.StaticPropertyChanged -= OnSystemParameters;
+        SystemParameters.StaticPropertyChanged += OnSystemParameters;
+    }
+
+    private static void OnSystemParameters(object? sender, PropertyChangedEventArgs e)
+    {
+        if (_package is null || !_package.TryGetTarget(out ResourceDictionary? package)) return;
+        SetOwned(package, "NeumorphMotionDuration", MotionDuration());
     }
 
     private static Color SurfaceColor(ResourceDictionary package, Appearance mode)

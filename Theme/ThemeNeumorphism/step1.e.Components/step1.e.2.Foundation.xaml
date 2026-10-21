@@ -85,30 +85,23 @@
        <DropShadowEffect Color="{DynamicResource NeumorphLightColor}" BlurRadius="{DynamicResource NeumorphBlur}" ShadowDepth="{DynamicResource NeumorphLiftDistance}" Direction="125" Opacity="{DynamicResource NeumorphLightOpacity}" RenderingBias="Quality" />
       </Border.Effect>
      </Border>
-     <Border x:Name="DarkNear" Visibility="Collapsed" Background="{TemplateBinding DarkBrush}" Opacity="0.55" CornerRadius="{TemplateBinding CornerRadius}" Margin="3,3,0,0" IsHitTestVisible="False" />
-     <Border x:Name="LightNear" Visibility="Collapsed" Background="{TemplateBinding LightBrush}" Opacity="0.85" CornerRadius="{TemplateBinding CornerRadius}" Margin="0,0,3,3" IsHitTestVisible="False" />
+     <Border x:Name="DarkSpread" BorderBrush="{DynamicResource NeumorphDarkBrush}" BorderThickness="{DynamicResource NeumorphSpreadThickness}" Background="{DynamicResource TransparentBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False" />
+     <Border x:Name="LightSpread" BorderBrush="{DynamicResource NeumorphLightBrush}" BorderThickness="{DynamicResource NeumorphSpreadThickness}" Background="{DynamicResource TransparentBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False" />
      <Border x:Name="Face" Background="{DynamicResource NeumorphSheenBrush}" CornerRadius="{TemplateBinding CornerRadius}" Margin="0">
       <Grid>
-       <Border x:Name="InsetHost" Visibility="Collapsed" Opacity="0" ClipToBounds="False" Background="{DynamicResource TransparentBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
-        <Grid>
-         <Border Margin="6" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
-          <Border.Effect>
-           <DropShadowEffect Color="{DynamicResource NeumorphDarkColor}" BlurRadius="12" ShadowDepth="6" Direction="125" Opacity="{DynamicResource NeumorphDarkOpacity}" RenderingBias="Quality" />
-          </Border.Effect>
-         </Border>
-         <Border Margin="6" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
-          <Border.Effect>
-           <DropShadowEffect Color="{DynamicResource NeumorphLightColor}" BlurRadius="12" ShadowDepth="6" Direction="305" Opacity="{DynamicResource NeumorphLightOpacity}" RenderingBias="Quality" />
-          </Border.Effect>
-         </Border>
-         <Border Margin="6" Background="{DynamicResource NeumorphWellSheenBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False" />
-        </Grid>
+       <Border x:Name="InsetHost" Visibility="Collapsed" Opacity="0" BorderThickness="6" Background="{DynamicResource TransparentBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+        <Border.BorderBrush>
+         <LinearGradientBrush StartPoint="0.21,0.09" EndPoint="0.79,0.91">
+          <GradientStop Color="{DynamicResource NeumorphDarkColor}" Offset="0" />
+          <GradientStop Color="#00000000" Offset="0.5" />
+          <GradientStop Color="{DynamicResource NeumorphLightColor}" Offset="1" />
+         </LinearGradientBrush>
+        </Border.BorderBrush>
+        <Border.Effect>
+         <BlurEffect Radius="12" KernelType="Gaussian" />
+        </Border.Effect>
        </Border>
-       <Border x:Name="RimShade" BorderBrush="{TemplateBinding RimShadeBrush}" BorderThickness="{DynamicResource NeumorphRimShadeThickness}" CornerRadius="{TemplateBinding CornerRadius}">
-        <Border x:Name="RimLight" BorderBrush="{TemplateBinding RimLightBrush}" BorderThickness="{DynamicResource NeumorphRimLightThickness}" CornerRadius="{TemplateBinding CornerRadius}" Padding="{TemplateBinding Padding}">
-         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-        </Border>
-       </Border>
+       <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
       </Grid>
      </Border>
     </Grid>
@@ -117,8 +110,6 @@
     <Trigger Property="Rank" Value="Control">
      <Setter TargetName="Volume" Property="Margin" Value="0" />
      <Setter TargetName="Face" Property="Margin" Value="0" />
-     <Setter TargetName="DarkNear" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="LightNear" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="DarkGlowControl" Property="Visibility" Value="Visible" />
@@ -131,8 +122,6 @@
     <Trigger Property="Rank" Value="Chip">
      <Setter TargetName="Volume" Property="Margin" Value="0" />
      <Setter TargetName="Face" Property="Margin" Value="0" />
-     <Setter TargetName="DarkNear" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="LightNear" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="DarkGlowControl" Property="Visibility" Value="Collapsed" />
@@ -161,29 +150,11 @@
      <Setter TargetName="LightGlowChip" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="DarkGlowLift" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightGlowLift" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="DarkNear" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="LightNear" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="Volume" Property="Margin" Value="0" />
      <Setter TargetName="Face" Property="Margin" Value="0" />
      <Setter TargetName="Face" Property="ClipToBounds" Value="True" />
      <Setter TargetName="InsetHost" Property="Visibility" Value="Visible" />
      <Setter TargetName="Face" Property="Background" Value="{DynamicResource NeumorphWellSheenBrush}" />
-     <Setter TargetName="RimShade" Property="BorderThickness" Value="{DynamicResource NeumorphInsetShadeThickness}" />
-     <Setter TargetName="RimLight" Property="BorderThickness" Value="{DynamicResource NeumorphInsetLightThickness}" />
-     <Trigger.EnterActions>
-      <BeginStoryboard>
-       <Storyboard>
-        <DoubleAnimation Storyboard.TargetName="InsetHost" Storyboard.TargetProperty="Opacity" To="1" Duration="{DynamicResource NeumorphMotionDuration}" />
-       </Storyboard>
-      </BeginStoryboard>
-     </Trigger.EnterActions>
-     <Trigger.ExitActions>
-      <BeginStoryboard>
-       <Storyboard>
-        <DoubleAnimation Storyboard.TargetName="InsetHost" Storyboard.TargetProperty="Opacity" To="0" Duration="{DynamicResource NeumorphMotionDuration}" />
-       </Storyboard>
-      </BeginStoryboard>
-     </Trigger.ExitActions>
     </Trigger>
    </ControlTemplate.Triggers>
   </ControlTemplate></Setter.Value></Setter>
@@ -237,7 +208,9 @@
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ProgressBar">
    <neu:NeumorphSurface Concave="True" Rank="Chip" Background="{DynamicResource SurfacePrimary}" CornerRadius="{DynamicResource ChipCornerRadius}">
     <Border x:Name="PART_Track">
-     <neu:NeumorphSurface x:Name="PART_Indicator" Rank="Chip" Lifted="True" HorizontalAlignment="Left" Background="{DynamicResource SurfacePrimary}" CornerRadius="{DynamicResource ChipCornerRadius}" />
+     <Border x:Name="PART_Indicator" HorizontalAlignment="Left">
+      <neu:NeumorphSurface Rank="Chip" Lifted="True" Background="{DynamicResource SurfacePrimary}" CornerRadius="{DynamicResource ChipCornerRadius}" />
+     </Border>
     </Border>
    </neu:NeumorphSurface>
   </ControlTemplate></Setter.Value></Setter>

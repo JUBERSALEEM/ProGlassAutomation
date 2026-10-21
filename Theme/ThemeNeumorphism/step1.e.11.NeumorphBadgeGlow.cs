@@ -1,14 +1,14 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Media.Effects;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 
 namespace ProGlassAutomation.ThemeNeumorphism;
 
 /// <summary>
-/// Second shadow for StatusBadge. Border allows one Effect; the light plate is a sibling.
-/// Contract stays Border. Not a NeumorphSurface.
+/// Second shadow for StatusBadge. Wraps the Border in a Grid so light and dark
+/// share one cell (no ActualWidth drift). Contract stays Border.
 /// </summary>
 public static class NeumorphBadgeGlow
 {
@@ -21,9 +21,9 @@ public static class NeumorphBadgeGlow
     public static void SetLightGlow(DependencyObject element, bool value) => element.SetValue(LightGlowProperty, value);
     public static bool GetLightGlow(DependencyObject element) => (bool)element.GetValue(LightGlowProperty);
 
-    private static readonly DependencyProperty LightPlateProperty = DependencyProperty.RegisterAttached(
-        "LightPlate",
-        typeof(Border),
+    private static readonly DependencyProperty WrappedProperty = DependencyProperty.RegisterAttached(
+        "Wrapped",
+        typeof(bool),
         typeof(NeumorphBadgeGlow));
 
     private static void OnLightGlowChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -39,29 +39,18 @@ public static class NeumorphBadgeGlow
     {
         if (sender is not Border badge) return;
         badge.Loaded -= OnLoaded;
-        if (badge.Parent is not Panel panel) return;
-        if (badge.GetValue(LightPlateProperty) is Border) return;
+        if (Equals(badge.GetValue(WrappedProperty), true)) return;
 
         Border light = new()
         {
             IsHitTestVisible = false,
             SnapsToDevicePixels = true,
             UseLayoutRounding = true,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch,
         };
         light.SetBinding(Border.BackgroundProperty, new Binding(nameof(Border.Background)) { Source = badge });
         light.SetBinding(Border.CornerRadiusProperty, new Binding(nameof(Border.CornerRadius)) { Source = badge });
-        light.SetBinding(FrameworkElement.WidthProperty, new Binding(nameof(FrameworkElement.ActualWidth)) { Source = badge });
-        light.SetBinding(FrameworkElement.HeightProperty, new Binding(nameof(FrameworkElement.ActualHeight)) { Source = badge });
-        light.SetBinding(FrameworkElement.MarginProperty, new Binding(nameof(FrameworkElement.Margin)) { Source = badge });
-        light.HorizontalAlignment = badge.HorizontalAlignment;
-        light.VerticalAlignment = badge.VerticalAlignment;
-        Grid.SetColumn(light, Grid.GetColumn(badge));
-        Grid.SetRow(light, Grid.GetRow(badge));
-        Grid.SetColumnSpan(light, Grid.GetColumnSpan(badge));
-        Grid.SetRowSpan(light, Grid.GetRowSpan(badge));
-        if (panel is DockPanel)
-            DockPanel.SetDock(light, DockPanel.GetDock(badge));
-
         DropShadowEffect effect = new()
         {
             BlurRadius = 12,
@@ -75,9 +64,49 @@ public static class NeumorphBadgeGlow
             effect.Opacity = opacity;
         light.Effect = effect;
 
-        int index = panel.Children.IndexOf(badge);
-        if (index < 0) return;
-        panel.Children.Insert(index, light);
-        badge.SetValue(LightPlateProperty, light);
+        Grid wrap = new() { ClipToBounds = false };
+        wrap.Children.Add(light);
+
+        DependencyObject parent = badge.Parent;
+        switch (parent)
+        {
+            case Panel panel:
+            {
+                int index = panel.Children.IndexOf(badge);
+                if (index < 0) return;
+                CopyLayout(badge, wrap);
+                panel.Children.RemoveAt(index);
+                wrap.Children.Add(badge);
+                panel.Children.Insert(index, wrap);
+                break;
+            }
+            case ContentControl content:
+                content.Content = null;
+                wrap.Children.Add(badge);
+                content.Content = wrap;
+                break;
+            case Decorator decorator:
+                decorator.Child = null;
+                wrap.Children.Add(badge);
+                decorator.Child = wrap;
+                break;
+            default:
+                return;
+        }
+
+        badge.SetValue(WrappedProperty, true);
+    }
+
+    private static void CopyLayout(FrameworkElement from, FrameworkElement to)
+    {
+        to.HorizontalAlignment = from.HorizontalAlignment;
+        to.VerticalAlignment = from.VerticalAlignment;
+        to.Margin = from.Margin;
+        from.Margin = new Thickness(0);
+        Grid.SetColumn(to, Grid.GetColumn(from));
+        Grid.SetRow(to, Grid.GetRow(from));
+        Grid.SetColumnSpan(to, Grid.GetColumnSpan(from));
+        Grid.SetRowSpan(to, Grid.GetRowSpan(from));
+        DockPanel.SetDock(to, DockPanel.GetDock(from));
     }
 }
