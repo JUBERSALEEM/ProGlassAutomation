@@ -10,6 +10,8 @@ namespace ProGlassAutomation.Customization;
 /// Studio-owned card geometry written into the 102-token contract.
 /// Future modules inherit rounding by binding CardCornerRadius / ControlCornerRadius.
 /// This is not a material engine and does not run on themes that own their radius.
+/// Font and color-plate overlays always run after the active engine so every theme
+/// keeps its own material while sharing type and accent roles.
 /// </summary>
 public enum CardRounding { Crisp, Soft, Rounded, Pill }
 
@@ -61,13 +63,17 @@ public static class SharedGeometry
         BentoCustomizationState bento,
         ClayCustomizationState clay,
         SharedGeometryState geometry,
-        NeumorphCustomizationState? neumorph = null)
+        NeumorphCustomizationState? neumorph = null,
+        FontCustomizationState? font = null,
+        ColorPlateState? colors = null)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(theme);
         ArgumentNullException.ThrowIfNull(bento);
         ArgumentNullException.ThrowIfNull(clay);
         ArgumentNullException.ThrowIfNull(geometry);
         var neu = neumorph ?? new NeumorphCustomizationState();
+        var type = font ?? new FontCustomizationState();
+        var plate = colors ?? new ColorPlateState();
         return (package, mode) =>
         {
             if (theme == ThemeService.Bento)
@@ -76,6 +82,8 @@ public static class SharedGeometry
                 ClayCustomization.Apply(package, mode, clay);
             else if (theme == ThemeService.Neumorphism)
                 NeumorphCustomization.Apply(package, mode, neu);
+            FontService.Apply(package, type);
+            ColorPlateService.Apply(package, mode, plate);
             if (ThemeCatalog.Find(theme).Geometry != ThemeGeometry.SharedTokens)
                 return;
             Apply(package, geometry);

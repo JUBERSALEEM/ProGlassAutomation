@@ -59,7 +59,7 @@ for component in ('OverviewPanel', 'AnalyticsOverview', 'WorklistPanel', 'Contro
 grid = ROOT / 'Theme/ThemeBento/step1.e.11.BentoGrid.cs'
 assert grid.is_file() and 'class BentoGrid : Panel' in grid.read_text() and 'PlacePacked' in grid.read_text()
 settings = (screen/'step1.b.16.CustomizationPanel.xaml').read_text()
-for name in ('ThemePicker', 'AccentPicker', 'DensityPicker', 'ShapePicker', 'TypePicker'):
+for name in ('ThemePicker', 'FontPicker', 'ColorPlatePicker', 'AccentPicker', 'DensityPicker', 'ShapePicker', 'TypePicker'):
     assert f'x:Name="{name}"' in settings
 for prop in ('SelectedAccent', 'SelectedDensity', 'SelectedShape', 'SelectedTypography'):
     assert f'Binding {prop}' in settings and f'public ' in (screen/'step1.b.17.Customization.cs').read_text()

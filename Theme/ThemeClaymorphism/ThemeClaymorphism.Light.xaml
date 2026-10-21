@@ -75,6 +75,8 @@
   <FontFamily x:Key="FontFamilyMono">Consolas</FontFamily>
   <FontWeight x:Key="FontWeightHeading">Bold</FontWeight>
   <FontWeight x:Key="FontWeightBody">Normal</FontWeight>
+  <FontStyle x:Key="FontStyleBody">Normal</FontStyle>
+  <TextDecorationCollection x:Key="TextDecorationsBody" />
   <Thickness x:Key="PaddingMark">4</Thickness>
   <Thickness x:Key="PaddingSelection">16,10,40,10</Thickness>
   <CornerRadius x:Key="ChoiceCornerRadius">20</CornerRadius>

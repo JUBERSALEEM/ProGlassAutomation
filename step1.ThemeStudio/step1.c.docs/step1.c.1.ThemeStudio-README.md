@@ -2,7 +2,9 @@
 
 # step1 — Shared theme engine and Theme Studio
 
-**Phase 01 explicitly authorized on 2026-10-20; implementation is present. Windows build/runtime acceptance is blocked in this container, not claimed complete.** Read [AGENTS.md](../../AGENTS.md), [naming](../../docs/00.Project-Rules.md), [architecture](../../docs/01.Architecture-Principles.md), and [design policy](../../docs/02.UI-UX-Design-System.md) before editing. See the [current isolation/CI evidence](step1.c.3.Theme-Isolation-and-CI.md) and [earlier Phase 01 checkpoint](step1.c.2.Phase01-Verification.md).
+**Phase 01 explicitly authorized on 2026-10-20; implementation is present. Windows build/runtime acceptance is blocked in this container, not claimed complete.**
+
+Texts Studio and Colors Studio are shared overlays (`Theme/step1.g.Customization/step1.g.5.FontService.cs`, `step1.g.6.ColorPlateService.cs`). They run after the active material engine so Bento, Clay, Fluent and Neumorphism stay separate. Built-in typefaces plus imported TTF/OTF/TTC/OTC (8 MB) write `FontFamilyBody` / heading weight / `FontStyleBody` / `TextDecorationsBody`. Six named plates (Ocean, Forest, Sunset, Slate, Violet, Sand) with stops 50–800 plus role hex overrides write Accent, Focus and Chart tokens only. Contract coverage is 104 semantic roles including `FontStyleBody` and `TextDecorationsBody` in every Light/Dark package. Read [AGENTS.md](../../AGENTS.md), [naming](../../docs/00.Project-Rules.md), [architecture](../../docs/01.Architecture-Principles.md), and [design policy](../../docs/02.UI-UX-Design-System.md) before editing. See the [current isolation/CI evidence](step1.c.3.Theme-Isolation-and-CI.md) and [earlier Phase 01 checkpoint](step1.c.2.Phase01-Verification.md).
 
 ## Scope and operation
 

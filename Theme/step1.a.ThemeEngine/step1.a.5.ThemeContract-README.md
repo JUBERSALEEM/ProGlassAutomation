@@ -1,6 +1,6 @@
 # Typed theme consumer contract — nonvisual
 
-ThemeContract.cs is authoritative. Current coverage: 102 semantic roles, 47 required exact WPF style targets. All concrete values/templates belong to each theme. Registered packages: [Bento](../ThemeBento/ThemeBento.Readme.md) (default, owns customization) and [Claymorphism](../ThemeClaymorphism/ThemeClaymorphism.Readme.md). There is no global visual dictionary.
+ThemeContract.cs is authoritative. Current coverage: 104 semantic roles, 47 required exact WPF style targets. All concrete values/templates belong to each theme. Registered packages: [Bento](../ThemeBento/ThemeBento.Readme.md) (default, owns customization) and [Claymorphism](../ThemeClaymorphism/ThemeClaymorphism.Readme.md). There is no global visual dictionary.
 
 ## Resource roles
 
@@ -82,6 +82,8 @@ ThemeContract.cs is authoritative. Current coverage: 102 semantic roles, 47 requ
 | `FontFamilyMono` | `FontFamily` |
 | `FontWeightHeading` | `FontWeight` |
 | `FontWeightBody` | `FontWeight` |
+| `FontStyleBody` | `FontStyle` |
+| `TextDecorationsBody` | `TextDecorationCollection` |
 | `PaddingMark` | `Thickness` |
 | `PaddingSelection` | `Thickness` |
 | `ChoiceCornerRadius` | `CornerRadius` |

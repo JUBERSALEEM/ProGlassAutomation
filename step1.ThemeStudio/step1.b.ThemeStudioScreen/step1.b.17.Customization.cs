@@ -2,6 +2,7 @@ using System.IO;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using Microsoft.Win32;
 using ProGlassAutomation.Customization;
 using ProGlassAutomation.ThemeBento;
@@ -18,6 +19,10 @@ public sealed partial class ThemeStudioViewModel
     private ClayCustomizationState clay = new();
     private NeumorphCustomizationState neumorph = new();
     private SharedGeometryState geometry = new();
+    private FontCustomizationState font = new();
+    private ColorPlateState colors = new();
+    private string selectedColorRole = ColorPlateService.Roles[0];
+    private string colorRoleHexDraft = "";
     private SavedCustomization lastSaved = CustomizationStore.Load();
     private BentoCustomizationState draft => extended;
     private int selectedWorkspace = 1;
@@ -58,6 +63,65 @@ public sealed partial class ThemeStudioViewModel
     public IReadOnlyList<ClayLighting> ClayLightingChoices { get; } = Enum.GetValues<ClayLighting>();
     public IReadOnlyList<ClayRelief> ClayReliefChoices { get; } = Enum.GetValues<ClayRelief>();
     public IReadOnlyList<ClayEffects> ClayEffectsChoices { get; } = Enum.GetValues<ClayEffects>();
+    public IReadOnlyList<string> FontFamilyChoices
+    {
+        get
+        {
+            var names = FontService.AvailableFamilies().ToList();
+            if (!string.IsNullOrWhiteSpace(font.Family) && !names.Contains(font.Family, StringComparer.OrdinalIgnoreCase))
+                names.Add(font.Family);
+            return names;
+        }
+    }
+    public IReadOnlyList<string> ColorPlateChoices => ColorPlateService.BuiltIn.Select(plate => plate.Name).ToList();
+    public IReadOnlyList<string> ColorRoleChoices => ColorPlateService.Roles;
+    public string SelectedFontFamily
+    {
+        get => font.Family;
+        set { if (!string.IsNullOrWhiteSpace(value)) UpdateFont(font with { Family = value }); }
+    }
+    public bool HeadingBold { get => font.HeadingBold; set => UpdateFont(font with { HeadingBold = value }); }
+    public bool BodyItalic { get => font.BodyItalic; set => UpdateFont(font with { BodyItalic = value }); }
+    public bool BodyUnderline { get => font.BodyUnderline; set => UpdateFont(font with { BodyUnderline = value }); }
+    public string SelectedColorPlate
+    {
+        get => colors.Plate;
+        set { if (!string.IsNullOrWhiteSpace(value)) UpdateColors(colors with { Plate = value }); }
+    }
+    public string SelectedColorRole
+    {
+        get => selectedColorRole;
+        set
+        {
+            if (string.IsNullOrWhiteSpace(value) || value == selectedColorRole) return;
+            selectedColorRole = value;
+            colorRoleHexDraft = ColorPlateService.ResolvedHex(colors, themes.ActiveAppearance, value);
+            Changed(nameof(SelectedColorRole));
+            Changed(nameof(ColorRoleHex));
+        }
+    }
+    public string ColorRoleHex
+    {
+        get => colorRoleHexDraft;
+        set
+        {
+            colorRoleHexDraft = value ?? "";
+            Changed(nameof(ColorRoleHex));
+            if (ColorPlateService.ParseHex(colorRoleHexDraft) is not Color parsed) return;
+            string hex = ColorPlateService.ToHex(parsed);
+            string plateHex = ColorPlateService.ResolvedHex(colors with { RoleHex = null }, themes.ActiveAppearance, selectedColorRole);
+            var nextRoles = colors.RoleHex is null ? new Dictionary<string, string>() : new Dictionary<string, string>(colors.RoleHex);
+            if (string.Equals(hex, plateHex, StringComparison.OrdinalIgnoreCase))
+                nextRoles.Remove(selectedColorRole);
+            else
+                nextRoles[selectedColorRole] = hex;
+            UpdateColors(colors with { RoleHex = nextRoles.Count == 0 ? null : nextRoles });
+        }
+    }
+    public string ColorStopSummary =>
+        string.Join("  ·  ", ColorPlateService.StopsOf(colors.Plate).Select(stop => stop.Name + " " + stop.Hex));
+    public string ColorRoleSummary =>
+        string.Join("  ·  ", ColorPlateService.Roles.Select(role => role + " " + ColorPlateService.ResolvedHex(colors, themes.ActiveAppearance, role)));
     public IReadOnlyList<NeumorphDepth> NeumorphDepthChoices { get; } = Enum.GetValues<NeumorphDepth>();
     public IReadOnlyList<NeumorphBlur> NeumorphBlurChoices { get; } = Enum.GetValues<NeumorphBlur>();
     public IReadOnlyList<NeumorphIntensity> NeumorphIntensityChoices { get; } = Enum.GetValues<NeumorphIntensity>();
@@ -174,7 +238,9 @@ public sealed partial class ThemeStudioViewModel
         || geometry != (lastSaved.Geometry ?? new SharedGeometryState())
         || (CanCustomizeClay && clay != (lastSaved.Clay ?? new ClayCustomizationState()))
         || (CanCustomizeNeumorph && neumorph != (lastSaved.Neumorph ?? new NeumorphCustomizationState()))
-        || (CanCustomizeBento && extended != lastSaved.Preferences);
+        || (CanCustomizeBento && extended != lastSaved.Preferences)
+        || font != (lastSaved.Font ?? new FontCustomizationState())
+        || !SameColors(colors, lastSaved.Colors ?? new ColorPlateState());
     public int SelectedWorkspace
     {
         get => selectedWorkspace;
@@ -214,6 +280,10 @@ public sealed partial class ThemeStudioViewModel
     public ICommand RenamePreset { get; private set; } = null!;
     public ICommand ImportCustomization { get; private set; } = null!;
     public ICommand ExportCustomization { get; private set; } = null!;
+    public ICommand ImportFont { get; private set; } = null!;
+    public ICommand ResetFont { get; private set; } = null!;
+    public ICommand ResetColors { get; private set; } = null!;
+    public ICommand ClearColorOverride { get; private set; } = null!;
 
     private void InitializeCustomization()
     {
@@ -222,12 +292,15 @@ public sealed partial class ThemeStudioViewModel
         clay = lastSaved.Clay ?? new ClayCustomizationState();
         neumorph = lastSaved.Neumorph ?? new NeumorphCustomizationState();
         geometry = lastSaved.Geometry ?? new SharedGeometryState(SharedGeometry.FromShape(extended.Shape));
+        font = lastSaved.Font ?? new FontCustomizationState();
+        colors = lastSaved.Colors ?? new ColorPlateState();
+        colorRoleHexDraft = ColorPlateService.ResolvedHex(colors, lastSaved.Appearance, selectedColorRole);
         if (lastSaved.Geometry is null) lastSaved = lastSaved with { Geometry = geometry };
         preferences = extended.ToLegacy();
         var restored = ThemeService.InstalledThemes.Contains(lastSaved.Theme) ? lastSaved.Theme : ThemeService.Bento;
         try
         {
-            themes.Apply(restored, lastSaved.Appearance, SharedGeometry.Compose(restored, extended, clay, geometry, neumorph));
+            themes.Apply(restored, lastSaved.Appearance, SharedGeometry.Compose(restored, extended, clay, geometry, neumorph, font, colors));
         }
         catch { }
         ResetDesign = new DelegateCommand(() =>
@@ -246,7 +319,7 @@ public sealed partial class ThemeStudioViewModel
         ApplyPreview = new DelegateCommand(() => { try { themes.Apply(SelectedTheme, themes.ActiveAppearance, LiveConfigure()); ThemeError=""; Feedback="Preview applied — unsaved changes present."; } catch(Exception ex){ ThemeError=ex.Message; } Changed(nameof(ThemeError)); }, () => CanCustomize || CanCustomizeGeometry);
         SaveCustomization = new DelegateCommand(() =>
         {
-            if (extended.Validate() is not null || (clay ?? new ClayCustomizationState()).Validate() is not null || (neumorph ?? new NeumorphCustomizationState()).Validate() is not null)
+            if (extended.Validate() is not null || (clay ?? new ClayCustomizationState()).Validate() is not null || (neumorph ?? new NeumorphCustomizationState()).Validate() is not null || font.Validate() is not null || colors.Validate() is not null)
             {
                 ThemeError = "Cannot save invalid customization.";
                 Changed(nameof(ThemeError));
@@ -266,7 +339,7 @@ public sealed partial class ThemeStudioViewModel
             }
             Changed(nameof(ThemeError));
             Changed(nameof(IsDirty));
-        }, () => extended.Validate() is null && (clay ?? new ClayCustomizationState()).Validate() is null && (neumorph ?? new NeumorphCustomizationState()).Validate() is null);
+        }, () => extended.Validate() is null && (clay ?? new ClayCustomizationState()).Validate() is null && (neumorph ?? new NeumorphCustomizationState()).Validate() is null && font.Validate() is null && colors.Validate() is null);
         DiscardChanges = new DelegateCommand(() =>
         {
             RestoreSaved(lastSaved);
@@ -301,6 +374,45 @@ public sealed partial class ThemeStudioViewModel
                 ThemeError = "Export failed: " + ex.Message;
                 Changed(nameof(ThemeError));
             }
+        });
+        ImportFont = new DelegateCommand(() =>
+        {
+            try
+            {
+                var dialog = new OpenFileDialog
+                {
+                    Filter = "Font files (*.ttf;*.otf;*.ttc;*.otc)|*.ttf;*.otf;*.ttc;*.otc",
+                    Title = "Import a TrueType or OpenType font"
+                };
+                if (dialog.ShowDialog() != true) return;
+                string name = FontService.Import(dialog.FileName);
+                Changed(nameof(FontFamilyChoices));
+                UpdateFont(font with { Family = name });
+                Feedback = "Imported font: " + name;
+            }
+            catch (Exception ex) when (ex is IOException or ArgumentException or InvalidOperationException or NotSupportedException or FileFormatException)
+            {
+                ThemeError = "Font import rejected: " + ex.Message;
+                Changed(nameof(ThemeError));
+            }
+        });
+        ResetFont = new DelegateCommand(() =>
+        {
+            UpdateFont(new FontCustomizationState());
+            Changed(nameof(FontFamilyChoices));
+            Feedback = "Texts restored to Segoe UI.";
+        });
+        ResetColors = new DelegateCommand(() =>
+        {
+            UpdateColors(new ColorPlateState());
+            Feedback = "Colors restored to the Ocean plate.";
+        });
+        ClearColorOverride = new DelegateCommand(() =>
+        {
+            if (colors.RoleHex is null || !colors.RoleHex.ContainsKey(selectedColorRole)) return;
+            var next = new Dictionary<string, string>(colors.RoleHex);
+            next.Remove(selectedColorRole);
+            UpdateColors(colors with { RoleHex = next.Count == 0 ? null : next });
         });
         ResetSection = new DelegateCommand(() =>
         {
@@ -584,7 +696,7 @@ public sealed partial class ThemeStudioViewModel
         });
     }
     private Action<ResourceDictionary, Appearance> LiveConfigure() =>
-        SharedGeometry.Compose(SelectedTheme, extended, clay, geometry, neumorph);
+        SharedGeometry.Compose(SelectedTheme, extended, clay, geometry, neumorph, font, colors);
     private void Customize(BentoPreferences candidate)
     {
         if (!CanCustomizeBento || candidate == preferences) return;
@@ -604,7 +716,7 @@ public sealed partial class ThemeStudioViewModel
     {
         try
         {
-            themes.Apply(ThemeService.Bento, themes.ActiveAppearance, SharedGeometry.Compose(ThemeService.Bento, next, clay, geometry, neumorph));
+            themes.Apply(ThemeService.Bento, themes.ActiveAppearance, SharedGeometry.Compose(ThemeService.Bento, next, clay, geometry, neumorph, font, colors));
             extended = next; preferences = next.ToLegacy(); ThemeError=""; Feedback="Live preview updated — use Save to persist.";
         }
         catch (ThemeNotificationException error) { extended = next; preferences = next.ToLegacy(); ThemeError = error.Message; }
@@ -615,7 +727,7 @@ public sealed partial class ThemeStudioViewModel
     {
         try
         {
-            themes.Apply(ThemeService.Clay, themes.ActiveAppearance, SharedGeometry.Compose(ThemeService.Clay, extended, next, geometry, neumorph));
+            themes.Apply(ThemeService.Clay, themes.ActiveAppearance, SharedGeometry.Compose(ThemeService.Clay, extended, next, geometry, neumorph, font, colors));
             clay = next; ThemeError=""; Feedback="Live clay preview updated — use Save to persist.";
         }
         catch (ThemeNotificationException error) { clay = next; ThemeError = error.Message; }
@@ -632,7 +744,7 @@ public sealed partial class ThemeStudioViewModel
     {
         try
         {
-            themes.Apply(ThemeService.Neumorphism, themes.ActiveAppearance, SharedGeometry.Compose(ThemeService.Neumorphism, extended, clay, geometry, next));
+            themes.Apply(ThemeService.Neumorphism, themes.ActiveAppearance, SharedGeometry.Compose(ThemeService.Neumorphism, extended, clay, geometry, next, font, colors));
             neumorph = next; ThemeError = ""; Feedback = "Live neumorph preview updated — use Save to persist.";
         }
         catch (ThemeNotificationException error) { neumorph = next; ThemeError = error.Message; }
@@ -652,7 +764,9 @@ public sealed partial class ThemeStudioViewModel
         lastSaved.ClayPresets,
         geometry,
         neumorph,
-        lastSaved.NeumorphPresets);
+        lastSaved.NeumorphPresets,
+        font,
+        colors with { RoleHex = colors.RoleHex is null ? null : new Dictionary<string, string>(colors.RoleHex) });
 
     private void ApplySharedOnly()
     {
@@ -686,19 +800,26 @@ public sealed partial class ThemeStudioViewModel
         var nextClay = package.Clay ?? new ClayCustomizationState();
         var nextNeumorph = package.Neumorph ?? new NeumorphCustomizationState();
         var nextGeometry = package.Geometry ?? new SharedGeometryState(SharedGeometry.FromShape(nextBento.Shape));
+        var nextFont = package.Font ?? new FontCustomizationState();
+        var nextColors = package.Colors ?? new ColorPlateState();
         var theme = ThemeService.InstalledThemes.Contains(package.Theme) ? package.Theme : ThemeService.Bento;
         var previousBento = extended;
         var previousClay = clay;
         var previousNeumorph = neumorph;
         var previousGeometry = geometry;
+        var previousFont = font;
+        var previousColors = colors;
         try
         {
             extended = nextBento;
             clay = nextClay;
             neumorph = nextNeumorph;
             geometry = nextGeometry;
+            font = nextFont;
+            colors = nextColors;
+            colorRoleHexDraft = ColorPlateService.ResolvedHex(colors, package.Appearance, selectedColorRole);
             preferences = nextBento.ToLegacy();
-            themes.Apply(theme, package.Appearance, SharedGeometry.Compose(theme, nextBento, nextClay, nextGeometry, nextNeumorph));
+            themes.Apply(theme, package.Appearance, SharedGeometry.Compose(theme, nextBento, nextClay, nextGeometry, nextNeumorph, nextFont, nextColors));
             ThemeError = "";
             if (persist)
             {
@@ -716,10 +837,74 @@ public sealed partial class ThemeStudioViewModel
             clay = previousClay;
             neumorph = previousNeumorph;
             geometry = previousGeometry;
+            font = previousFont;
+            colors = previousColors;
+            colorRoleHexDraft = ColorPlateService.ResolvedHex(colors, themes.ActiveAppearance, selectedColorRole);
             preferences = previousBento.ToLegacy();
             ThemeError = error.Message;
         }
-        foreach (var n in new[] { nameof(SelectedAccent), nameof(SelectedDensity), nameof(SelectedShape), nameof(SelectedTypography), nameof(SelectedCanvas), nameof(SelectedSurface), nameof(SelectedTextContrast), nameof(SelectedBorder), nameof(SelectedShadow), nameof(SelectedSpacing), nameof(SelectedPadding), nameof(SelectedWeight), nameof(SelectedLayoutPreset), nameof(HeroCompact), nameof(ShowKpiTrend), nameof(SelectedRounding), nameof(SelectedClayAccent), nameof(SelectedClayVolume), nameof(SelectedClayPlumpness), nameof(SelectedClayDensity), nameof(SelectedClayCanvas), nameof(SelectedClayTypography), nameof(SelectedClaySpacing), nameof(SelectedClayTextContrast), nameof(SelectedClaySheen), nameof(SelectedClayWeight), nameof(SelectedClayLighting), nameof(SelectedClayRelief), nameof(SelectedClayEffects), nameof(SelectedNeumorphDepth), nameof(SelectedNeumorphBlur), nameof(SelectedNeumorphIntensity), nameof(DesignSummary), nameof(ThemeError), nameof(IsDirty) }) Changed(n);
+        foreach (var n in new[] { nameof(SelectedAccent), nameof(SelectedDensity), nameof(SelectedShape), nameof(SelectedTypography), nameof(SelectedCanvas), nameof(SelectedSurface), nameof(SelectedTextContrast), nameof(SelectedBorder), nameof(SelectedShadow), nameof(SelectedSpacing), nameof(SelectedPadding), nameof(SelectedWeight), nameof(SelectedLayoutPreset), nameof(HeroCompact), nameof(ShowKpiTrend), nameof(SelectedRounding), nameof(SelectedClayAccent), nameof(SelectedClayVolume), nameof(SelectedClayPlumpness), nameof(SelectedClayDensity), nameof(SelectedClayCanvas), nameof(SelectedClayTypography), nameof(SelectedClaySpacing), nameof(SelectedClayTextContrast), nameof(SelectedClaySheen), nameof(SelectedClayWeight), nameof(SelectedClayLighting), nameof(SelectedClayRelief), nameof(SelectedClayEffects), nameof(SelectedNeumorphDepth), nameof(SelectedNeumorphBlur), nameof(SelectedNeumorphIntensity), nameof(SelectedFontFamily), nameof(HeadingBold), nameof(BodyItalic), nameof(BodyUnderline), nameof(SelectedColorPlate), nameof(ColorStopSummary), nameof(ColorRoleSummary), nameof(ColorRoleHex), nameof(FontFamilyChoices), nameof(DesignSummary), nameof(ThemeError), nameof(IsDirty) }) Changed(n);
         CommandManager.InvalidateRequerySuggested();
+    }
+
+    private void UpdateFont(FontCustomizationState next)
+    {
+        if (next == font) return;
+        try
+        {
+            themes.Apply(SelectedTheme, themes.ActiveAppearance, SharedGeometry.Compose(SelectedTheme, extended, clay, geometry, neumorph, next, colors));
+            font = next;
+            ThemeError = "";
+            Feedback = "Live type overlay updated — use Save to persist.";
+        }
+        catch (ThemeNotificationException error) { font = next; ThemeError = error.Message; }
+        catch (Exception error) when (error is InvalidOperationException or ArgumentException or IOException or System.Windows.Markup.XamlParseException)
+        {
+            ThemeError = $"Design unchanged: {error.Message}";
+        }
+        NotifyFontColor();
+    }
+
+    private void UpdateColors(ColorPlateState next)
+    {
+        if (SameColors(next, colors)) return;
+        try
+        {
+            themes.Apply(SelectedTheme, themes.ActiveAppearance, SharedGeometry.Compose(SelectedTheme, extended, clay, geometry, neumorph, font, next));
+            colors = next;
+            colorRoleHexDraft = ColorPlateService.ResolvedHex(colors, themes.ActiveAppearance, selectedColorRole);
+            ThemeError = "";
+            Feedback = "Live color overlay updated — use Save to persist.";
+        }
+        catch (ThemeNotificationException error)
+        {
+            colors = next;
+            colorRoleHexDraft = ColorPlateService.ResolvedHex(colors, themes.ActiveAppearance, selectedColorRole);
+            ThemeError = error.Message;
+        }
+        catch (Exception error) when (error is InvalidOperationException or ArgumentException or IOException or System.Windows.Markup.XamlParseException)
+        {
+            ThemeError = $"Design unchanged: {error.Message}";
+        }
+        NotifyFontColor();
+    }
+
+    private void NotifyFontColor()
+    {
+        foreach (var n in new[] { nameof(SelectedFontFamily), nameof(HeadingBold), nameof(BodyItalic), nameof(BodyUnderline), nameof(SelectedColorPlate), nameof(ColorStopSummary), nameof(ColorRoleSummary), nameof(ColorRoleHex), nameof(FontFamilyChoices), nameof(ThemeError), nameof(IsDirty) })
+            Changed(n);
+        CommandManager.InvalidateRequerySuggested();
+    }
+
+    private static bool SameColors(ColorPlateState left, ColorPlateState right)
+    {
+        if (!string.Equals(left.Plate, right.Plate, StringComparison.OrdinalIgnoreCase)) return false;
+        var a = left.RoleHex ?? [];
+        var b = right.RoleHex ?? [];
+        if (a.Count != b.Count) return false;
+        foreach (var pair in a)
+            if (!b.TryGetValue(pair.Key, out string? hex) || !string.Equals(pair.Value, hex, StringComparison.OrdinalIgnoreCase))
+                return false;
+        return true;
     }
 }

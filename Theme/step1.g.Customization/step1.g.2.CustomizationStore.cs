@@ -53,9 +53,13 @@ public static class CustomizationStore
         {
             Clay = loaded.Clay ?? new ClayCustomizationState(),
             Geometry = loaded.Geometry ?? new SharedGeometryState(),
-            Neumorph = loaded.Neumorph ?? new NeumorphCustomizationState()
+            Neumorph = loaded.Neumorph ?? new NeumorphCustomizationState(),
+            Font = loaded.Font ?? new FontCustomizationState(),
+            Colors = loaded.Colors ?? new ColorPlateState()
         };
         if (loaded.Geometry.Validate() is not null) throw new ArgumentException("Theme file contains invalid card rounding.");
+        if (loaded.Font?.Validate() is not null) throw new ArgumentException("Theme file contains invalid font preferences.");
+        if (loaded.Colors?.Validate() is not null) throw new ArgumentException("Theme file contains invalid color plate preferences.");
         foreach (var preset in loaded.CustomPresets ?? [])
             if (string.IsNullOrWhiteSpace(preset.Name) || preset.State.Validate() is not null)
                 throw new ArgumentException("Theme file contains an invalid Bento preset.");
@@ -78,12 +82,20 @@ public static class CustomizationStore
         if (state.Clay?.Validate() is not null) throw new ArgumentException("Cannot persist invalid clay preferences.");
         if (state.Neumorph?.Validate() is not null) throw new ArgumentException("Cannot persist invalid neumorph preferences.");
         if ((state.Geometry ?? new SharedGeometryState()).Validate() is not null) throw new ArgumentException("Cannot persist invalid card rounding.");
+        if ((state.Font ?? new FontCustomizationState()).Validate() is not null) throw new ArgumentException("Cannot persist invalid font preferences.");
+        if ((state.Colors ?? new ColorPlateState()).Validate() is not null) throw new ArgumentException("Cannot persist invalid color plate preferences.");
         var dir = Path.GetDirectoryName(Path.GetFullPath(path))!;
         Directory.CreateDirectory(dir);
         var tmp = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
         try
         {
-            File.WriteAllText(tmp, JsonSerializer.Serialize(state with { Version = 2, Geometry = state.Geometry ?? new SharedGeometryState() }, Options));
+            File.WriteAllText(tmp, JsonSerializer.Serialize(state with
+            {
+                Version = 2,
+                Geometry = state.Geometry ?? new SharedGeometryState(),
+                Font = state.Font ?? new FontCustomizationState(),
+                Colors = state.Colors ?? new ColorPlateState()
+            }, Options));
             File.Move(tmp, path, overwrite: true);
         }
         finally

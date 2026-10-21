@@ -7,7 +7,7 @@
    <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
     <StackPanel>
      <DockPanel Margin="{DynamicResource MarginItem}"><TextBlock Text="Design settings" Style="{DynamicResource SectionHeading}"/><Border Tag="Success" Style="{DynamicResource StatusBadge}" HorizontalAlignment="Right"><TextBlock Text="LIVE" Foreground="{DynamicResource StatusSuccess}" Style="{DynamicResource Caption}"/></Border></DockPanel>
-     <TextBlock Text="Pick a theme to open its own studio. Engines stay separate — Bento, Clay and Fluent never share knobs." Style="{DynamicResource Caption}"/>
+     <TextBlock Text="Pick a theme to open its own studio. Engines stay separate — Bento, Clay, Fluent and Neumorphism never share knobs. Texts and Colors below are shared overlays that run after the active theme." Style="{DynamicResource Caption}"/>
     </StackPanel>
    </ContentControl>
    <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
@@ -26,6 +26,41 @@
      </WrapPanel>
      <TextBlock Text="Import applies to live application resources. Save persists. Discard restores the last saved package. Invalid or oversized files are rejected." Style="{DynamicResource Caption}"/>
      <TextBlock Text="{Binding ThemeError}" Foreground="{DynamicResource StatusError}" AutomationProperties.LiveSetting="Assertive" Margin="{DynamicResource MarginItem}"/>
+    </StackPanel>
+   </ContentControl>
+   <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
+    <StackPanel>
+     <TextBlock Text="Texts studio" Style="{DynamicResource Caption}"/>
+     <TextBlock Text="Built-in families plus imported TTF, OTF, TTC or OTC files (8 MB). Bold applies to headings. Italic and underline apply to body text. The active theme still owns density, radius and material." Style="{DynamicResource Caption}"/>
+     <Label Content="Typeface" Target="{Binding ElementName=FontPicker}" Foreground="{DynamicResource TextSecondary}"/>
+     <ComboBox x:Name="FontPicker" ItemsSource="{Binding FontFamilyChoices}" SelectedItem="{Binding SelectedFontFamily}" AutomationProperties.Name="Body typeface" Margin="{DynamicResource MarginItem}"/>
+     <WrapPanel Margin="{DynamicResource MarginItem}">
+      <CheckBox Content="_Bold headings" IsChecked="{Binding HeadingBold}" AutomationProperties.Name="Heading bold" Margin="{DynamicResource MarginInline}"/>
+      <CheckBox Content="_Italic" IsChecked="{Binding BodyItalic}" AutomationProperties.Name="Body italic" Margin="{DynamicResource MarginInline}"/>
+      <CheckBox Content="_Underline" IsChecked="{Binding BodyUnderline}" AutomationProperties.Name="Body underline" Margin="{DynamicResource MarginInline}"/>
+     </WrapPanel>
+     <WrapPanel Margin="{DynamicResource MarginItem}">
+      <Button Content="Import font" Command="{Binding ImportFont}" Margin="{DynamicResource MarginInline}" AutomationProperties.Name="Import custom font"/>
+      <Button Content="Reset texts" Command="{Binding ResetFont}" Margin="{DynamicResource MarginInline}" AutomationProperties.Name="Reset texts to Segoe UI"/>
+     </WrapPanel>
+    </StackPanel>
+   </ContentControl>
+   <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
+    <StackPanel>
+     <TextBlock Text="Colors studio" Style="{DynamicResource Caption}"/>
+     <TextBlock Text="A plate is one hue with named values 50–800. Role hex overrides keep an exact accent, focus or chart stop. Overlay writes Accent, Focus and Chart tokens only — no canvas melt, no extra engines." Style="{DynamicResource Caption}"/>
+     <Label Content="Color plate" Target="{Binding ElementName=ColorPlatePicker}" Foreground="{DynamicResource TextSecondary}"/>
+     <ComboBox x:Name="ColorPlatePicker" ItemsSource="{Binding ColorPlateChoices}" SelectedItem="{Binding SelectedColorPlate}" AutomationProperties.Name="Color plate" Margin="{DynamicResource MarginItem}"/>
+     <TextBlock Text="{Binding ColorStopSummary}" Style="{DynamicResource TokenValue}" Margin="{DynamicResource MarginItem}"/>
+     <Label Content="Color role" Foreground="{DynamicResource TextSecondary}"/>
+     <ComboBox ItemsSource="{Binding ColorRoleChoices}" SelectedItem="{Binding SelectedColorRole}" AutomationProperties.Name="Color role" Margin="{DynamicResource MarginItem}"/>
+     <Label Content="Role hex" Foreground="{DynamicResource TextSecondary}"/>
+     <DockPanel Margin="{DynamicResource MarginItem}">
+      <Button DockPanel.Dock="Right" Content="Clear override" Command="{Binding ClearColorOverride}" Margin="{DynamicResource MarginInline}" AutomationProperties.Name="Clear color role override"/>
+      <TextBox Text="{Binding ColorRoleHex, UpdateSourceTrigger=LostFocus}" AutomationProperties.Name="Color role hex"/>
+     </DockPanel>
+     <TextBlock Text="{Binding ColorRoleSummary}" Style="{DynamicResource TokenValue}" Margin="{DynamicResource MarginItem}"/>
+     <Button Content="Reset colors" Command="{Binding ResetColors}" Margin="{DynamicResource MarginItem}" HorizontalAlignment="Left" AutomationProperties.Name="Reset colors to Ocean"/>
     </StackPanel>
    </ContentControl>
    <StackPanel Visibility="{Binding CanCustomizeBento, Converter={StaticResource BoolVis}}">

@@ -81,7 +81,9 @@ public sealed record SavedCustomization(
     List<ClayNamedPreset>? ClayPresets = null,
     SharedGeometryState? Geometry = null,
     NeumorphCustomizationState? Neumorph = null,
-    List<NeumorphNamedPreset>? NeumorphPresets = null
+    List<NeumorphNamedPreset>? NeumorphPresets = null,
+    FontCustomizationState? Font = null,
+    ColorPlateState? Colors = null
 )
 {
     public SavedCustomization() : this(2, Appearance.Light, new BentoCustomizationState()) { }

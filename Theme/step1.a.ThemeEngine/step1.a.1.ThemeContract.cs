@@ -89,6 +89,8 @@ public static class ThemeContract
         ["FontFamilyMono"] = typeof(FontFamily),
         ["FontWeightHeading"] = typeof(FontWeight),
         ["FontWeightBody"] = typeof(FontWeight),
+        ["FontStyleBody"] = typeof(FontStyle),
+        ["TextDecorationsBody"] = typeof(TextDecorationCollection),
         ["PaddingMark"] = typeof(Thickness),
         ["PaddingSelection"] = typeof(Thickness),
         ["ChoiceCornerRadius"] = typeof(CornerRadius),

@@ -26,7 +26,9 @@ public partial class App : Application
                     saved.Preferences ?? new BentoCustomizationState(),
                     saved.Clay ?? new ClayCustomizationState(),
                     saved.Geometry ?? new SharedGeometryState(),
-                    saved.Neumorph ?? new NeumorphCustomizationState()));
+                    saved.Neumorph ?? new NeumorphCustomizationState(),
+                    saved.Font ?? new FontCustomizationState(),
+                    saved.Colors ?? new ColorPlateState()));
             }
             catch { /* safe fallback already handled in store */ }
             MainWindow = new MainWindow(Themes);
