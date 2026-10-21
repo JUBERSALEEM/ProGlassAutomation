@@ -6,6 +6,7 @@
   <TextBlock Text="These values come from the active resource dictionary. Switch appearances to see the same semantic names resolve to new values." Foreground="{DynamicResource TextSecondary}" Margin="{DynamicResource MarginItem}" />
   <Label Content="Filter tokens by semantic name" Target="{Binding ElementName=TokenSearch}" Foreground="{DynamicResource TextSecondary}" />
   <TextBox x:Name="TokenSearch" Text="{Binding TokenFilter, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Filter semantic tokens" Margin="{DynamicResource MarginSection}" />
+  <ScrollViewer MaxHeight="{DynamicResource ReferenceListMaxHeight}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" CanContentScroll="False">
   <ItemsControl ItemsSource="{Binding TokenView}" AutomationProperties.Name="Scrollable semantic resource reference">
    <ItemsControl.ItemTemplate><DataTemplate>
     <ContentControl Style="{DynamicResource Plate}" Margin="{DynamicResource MarginItem}">
@@ -16,5 +17,6 @@
     </ContentControl>
    </DataTemplate></ItemsControl.ItemTemplate>
   </ItemsControl>
+  </ScrollViewer>
  </StackPanel></ContentControl>
 </UserControl>
