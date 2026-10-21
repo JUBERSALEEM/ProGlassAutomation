@@ -1,10 +1,12 @@
-<UserControl x:Class="ProGlassAutomation.ThemeStudio.ColorsStudioView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<UserControl x:Class="ProGlassAutomation.ThemeStudio.ColorsStudioView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:ProGlassAutomation.ThemeStudio">
  <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
   <StackPanel Margin="{DynamicResource PaddingPage}">
    <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
     <StackPanel>
      <TextBlock Text="Colors studio" Style="{DynamicResource PageHeading}"/>
-     <TextBlock Text="A plate is one hue with named values 50–800. Pick a plate, then override a role with #RRGGBB if you need an exact stop. Overlay writes Accent, Focus and Chart tokens only — the active theme still owns canvas and material." Style="{DynamicResource Caption}"/>
+     <TextBlock Text="A plate is one hue with named values 50–800. The bar below picks an exact #RRGGBB for the selected role. Overlay writes Accent, Focus and Chart tokens only — the active theme still owns canvas and material." Style="{DynamicResource Caption}"/>
+     <TextBlock Text="Color bar" Style="{DynamicResource SectionHeading}"/>
+     <local:ColorPickerBar SelectedHex="{Binding ColorRoleHex, UpdateSourceTrigger=PropertyChanged}" Margin="{DynamicResource MarginItem}"/>
      <Label Content="Color plate" Target="{Binding ElementName=ColorPlatePicker}" Foreground="{DynamicResource TextSecondary}"/>
      <ComboBox x:Name="ColorPlatePicker" ItemsSource="{Binding ColorPlateChoices}" SelectedItem="{Binding SelectedColorPlate}" AutomationProperties.Name="Color plate" Margin="{DynamicResource MarginItem}"/>
      <ItemsControl ItemsSource="{Binding ColorPlateCards}" Margin="{DynamicResource MarginItem}">

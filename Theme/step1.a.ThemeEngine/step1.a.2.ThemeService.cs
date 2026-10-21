@@ -65,6 +65,20 @@ public sealed class ThemeService : INotifyPropertyChanged
             throw new ThemeNotificationException($"{theme} / {appearance} is active, but a consumer failed to refresh.", new AggregateException(failures));
     }
 
+    /// <summary>
+    /// Writes into the live package without replacing it. Font/color overlays must
+    /// not swap dictionaries while a ListBox/ComboBox selection is running.
+    /// </summary>
+    public void Overlay(Action<ResourceDictionary, Appearance> mutate)
+    {
+        Application.Current.Dispatcher.VerifyAccess();
+        ArgumentNullException.ThrowIfNull(mutate);
+        if (activeResources is null)
+            throw new InvalidOperationException("Initialize the theme engine before overlay.");
+        mutate(activeResources, ActiveAppearance);
+        ResourceValidation.Validate(activeResources, ActiveTheme + " / " + ActiveAppearance);
+    }
+
     public object GetToken(string key) => activeResources?[key]
         ?? throw new InvalidOperationException($"No active token named {key}.");
 

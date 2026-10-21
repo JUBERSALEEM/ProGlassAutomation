@@ -116,31 +116,42 @@ public static class FontService
         Set(package, "FontWeightHeading", state.HeadingBold ? FontWeights.Bold : FontWeights.SemiBold);
         Set(package, "FontWeightBody", FontWeights.Normal);
         Set(package, "FontStyleBody", state.BodyItalic ? FontStyles.Italic : FontStyles.Normal);
-        Set(package, "TextDecorationsBody", state.BodyUnderline ? TextDecorations.Underline : new TextDecorationCollection());
+        var decorations = state.BodyUnderline
+            ? (TextDecorationCollection)TextDecorations.Underline.Clone()
+            : new TextDecorationCollection();
+        if (decorations.CanFreeze) decorations.Freeze();
+        Set(package, "TextDecorationsBody", decorations);
     }
 
     public static FontFamily Resolve(string name)
     {
         if (string.IsNullOrWhiteSpace(name)) return new FontFamily("Segoe UI");
-        if (Directory.Exists(ImportDirectory))
+        try
         {
-            foreach (string file in Directory.EnumerateFiles(ImportDirectory))
+            if (Directory.Exists(ImportDirectory))
             {
-                if (!AllowedExtensions.Contains(Path.GetExtension(file))) continue;
-                try
+                foreach (string file in Directory.EnumerateFiles(ImportDirectory))
                 {
-                    if (!string.Equals(FamilyNameOf(file), name, StringComparison.OrdinalIgnoreCase)) continue;
-                    string folder = ImportDirectory.EndsWith(Path.DirectorySeparatorChar)
-                        ? ImportDirectory
-                        : ImportDirectory + Path.DirectorySeparatorChar;
-                    return new FontFamily(new Uri(folder), "./#" + name);
-                }
-                catch (Exception ex) when (ex is IOException or ArgumentException or NotSupportedException or FileFormatException)
-                {
+                    if (!AllowedExtensions.Contains(Path.GetExtension(file))) continue;
+                    try
+                    {
+                        if (!string.Equals(FamilyNameOf(file), name, StringComparison.OrdinalIgnoreCase)) continue;
+                        string folder = ImportDirectory.EndsWith(Path.DirectorySeparatorChar)
+                            ? ImportDirectory
+                            : ImportDirectory + Path.DirectorySeparatorChar;
+                        return new FontFamily(new Uri(folder), "./#" + name);
+                    }
+                    catch (Exception ex) when (ex is IOException or ArgumentException or NotSupportedException or FileFormatException)
+                    {
+                    }
                 }
             }
+            return new FontFamily(name);
         }
-        return new FontFamily(name);
+        catch (Exception ex) when (ex is ArgumentException or IOException or NotSupportedException or FileFormatException)
+        {
+            return new FontFamily("Segoe UI");
+        }
     }
 
     private static string FamilyNameOf(string file)

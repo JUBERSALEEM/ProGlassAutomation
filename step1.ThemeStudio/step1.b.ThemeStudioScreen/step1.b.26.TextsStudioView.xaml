@@ -13,7 +13,7 @@
      <ListBox x:Name="FontPicker" ItemsSource="{Binding FontFamilyChoices}" SelectedItem="{Binding SelectedFontFamily}" AutomationProperties.Name="Body typeface" MinHeight="{DynamicResource ReferenceListMaxHeight}" Margin="{DynamicResource MarginItem}">
       <ListBox.ItemTemplate>
        <DataTemplate>
-        <TextBlock Text="{Binding}" FontFamily="{Binding}" FontSize="{DynamicResource FontSizeSection}" Margin="{DynamicResource MarginItem}"/>
+        <TextBlock Text="{Binding}" FontSize="{DynamicResource FontSizeSection}" Margin="{DynamicResource MarginItem}"/>
        </DataTemplate>
       </ListBox.ItemTemplate>
      </ListBox>

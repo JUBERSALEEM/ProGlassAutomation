@@ -63,23 +63,20 @@ public sealed partial class ThemeStudioViewModel
     public IReadOnlyList<ClayLighting> ClayLightingChoices { get; } = Enum.GetValues<ClayLighting>();
     public IReadOnlyList<ClayRelief> ClayReliefChoices { get; } = Enum.GetValues<ClayRelief>();
     public IReadOnlyList<ClayEffects> ClayEffectsChoices { get; } = Enum.GetValues<ClayEffects>();
-    public IReadOnlyList<string> FontFamilyChoices
-    {
-        get
-        {
-            var names = FontService.AvailableFamilies().ToList();
-            if (!string.IsNullOrWhiteSpace(font.Family) && !names.Contains(font.Family, StringComparer.OrdinalIgnoreCase))
-                names.Add(font.Family);
-            return names;
-        }
-    }
+    private bool overlayBusy;
+    private IReadOnlyList<string> fontFamilyChoices = FontService.AvailableFamilies();
+    public IReadOnlyList<string> FontFamilyChoices => fontFamilyChoices;
     public IReadOnlyList<string> ColorPlateChoices => ColorPlateService.BuiltIn.Select(plate => plate.Name).ToList();
     public IReadOnlyList<ColorPlateCard> ColorPlateCards => ColorPlateService.Cards;
     public IReadOnlyList<string> ColorRoleChoices => ColorPlateService.Roles;
     public string SelectedFontFamily
     {
         get => font.Family;
-        set { if (!string.IsNullOrWhiteSpace(value)) UpdateFont(font with { Family = value }); }
+        set
+        {
+            if (overlayBusy || string.IsNullOrWhiteSpace(value) || value == font.Family) return;
+            UpdateFont(font with { Family = value });
+        }
     }
     public bool HeadingBold { get => font.HeadingBold; set => UpdateFont(font with { HeadingBold = value }); }
     public bool BodyItalic { get => font.BodyItalic; set => UpdateFont(font with { BodyItalic = value }); }
@@ -106,6 +103,7 @@ public sealed partial class ThemeStudioViewModel
         get => colorRoleHexDraft;
         set
         {
+            if (overlayBusy || string.Equals(value, colorRoleHexDraft, StringComparison.OrdinalIgnoreCase)) return;
             colorRoleHexDraft = value ?? "";
             Changed(nameof(ColorRoleHex));
             if (ColorPlateService.ParseHex(colorRoleHexDraft) is not Color parsed) return;
@@ -409,7 +407,7 @@ public sealed partial class ThemeStudioViewModel
                 };
                 if (dialog.ShowDialog() != true) return;
                 string name = FontService.Import(dialog.FileName);
-                Changed(nameof(FontFamilyChoices));
+                RefreshFontFamilies(name);
                 UpdateFont(font with { Family = name });
                 Feedback = "Imported font: " + name;
             }
@@ -422,7 +420,7 @@ public sealed partial class ThemeStudioViewModel
         ResetFont = new DelegateCommand(() =>
         {
             UpdateFont(new FontCustomizationState());
-            Changed(nameof(FontFamilyChoices));
+            RefreshFontFamilies(font.Family);
             Feedback = "Texts restored to Segoe UI.";
         });
         ResetColors = new DelegateCommand(() =>
@@ -872,49 +870,55 @@ public sealed partial class ThemeStudioViewModel
 
     private void UpdateFont(FontCustomizationState next)
     {
-        if (next == font) return;
+        if (overlayBusy || next == font) return;
+        overlayBusy = true;
         try
         {
-            themes.Apply(SelectedTheme, themes.ActiveAppearance, SharedGeometry.Compose(SelectedTheme, extended, clay, geometry, neumorph, next, colors));
+            themes.Overlay((package, _) => FontService.Apply(package, next));
             font = next;
             ThemeError = "";
             Feedback = "Live type overlay updated — use Save to persist.";
         }
-        catch (ThemeNotificationException error) { font = next; ThemeError = error.Message; }
-        catch (Exception error) when (error is InvalidOperationException or ArgumentException or IOException or System.Windows.Markup.XamlParseException)
+        catch (Exception error) when (error is InvalidOperationException or ArgumentException or IOException or System.Windows.Markup.XamlParseException or System.Runtime.InteropServices.COMException)
         {
             ThemeError = $"Design unchanged: {error.Message}";
         }
+        finally { overlayBusy = false; }
         NotifyFontColor();
     }
 
     private void UpdateColors(ColorPlateState next)
     {
-        if (SameColors(next, colors)) return;
+        if (overlayBusy || SameColors(next, colors)) return;
+        overlayBusy = true;
         try
         {
-            themes.Apply(SelectedTheme, themes.ActiveAppearance, SharedGeometry.Compose(SelectedTheme, extended, clay, geometry, neumorph, font, next));
+            themes.Overlay((package, mode) => ColorPlateService.Apply(package, mode, next));
             colors = next;
             colorRoleHexDraft = ColorPlateService.ResolvedHex(colors, themes.ActiveAppearance, selectedColorRole);
             ThemeError = "";
             Feedback = "Live color overlay updated — use Save to persist.";
         }
-        catch (ThemeNotificationException error)
-        {
-            colors = next;
-            colorRoleHexDraft = ColorPlateService.ResolvedHex(colors, themes.ActiveAppearance, selectedColorRole);
-            ThemeError = error.Message;
-        }
-        catch (Exception error) when (error is InvalidOperationException or ArgumentException or IOException or System.Windows.Markup.XamlParseException)
+        catch (Exception error) when (error is InvalidOperationException or ArgumentException or IOException or System.Windows.Markup.XamlParseException or System.Runtime.InteropServices.COMException)
         {
             ThemeError = $"Design unchanged: {error.Message}";
         }
+        finally { overlayBusy = false; }
         NotifyFontColor();
+    }
+
+    private void RefreshFontFamilies(string? extra = null)
+    {
+        var names = FontService.AvailableFamilies().ToList();
+        if (!string.IsNullOrWhiteSpace(extra) && !names.Contains(extra, StringComparer.OrdinalIgnoreCase))
+            names.Add(extra);
+        fontFamilyChoices = names;
+        Changed(nameof(FontFamilyChoices));
     }
 
     private void NotifyFontColor()
     {
-        foreach (var n in new[] { nameof(SelectedFontFamily), nameof(HeadingBold), nameof(BodyItalic), nameof(BodyUnderline), nameof(SelectedColorPlate), nameof(ColorStopSummary), nameof(ColorRoleSummary), nameof(ColorRoleHex), nameof(FontFamilyChoices), nameof(ThemeError), nameof(IsDirty) })
+        foreach (var n in new[] { nameof(SelectedFontFamily), nameof(HeadingBold), nameof(BodyItalic), nameof(BodyUnderline), nameof(SelectedColorPlate), nameof(ColorStopSummary), nameof(ColorRoleSummary), nameof(ColorRoleHex), nameof(ThemeError), nameof(IsDirty) })
             Changed(n);
         CommandManager.InvalidateRequerySuggested();
     }
