@@ -10,38 +10,10 @@
    </fluent:FluentSurface>
   </ControlTemplate></Setter.Value></Setter>
  </Style>
- <Style x:Key="PositivePlate" TargetType="ContentControl" BasedOn="{StaticResource ChartCard}">
-  <Setter Property="Background" Value="{DynamicResource SurfacePositive}" />
-  <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
-   <fluent:FluentSurface Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}" TintBrush="{DynamicResource FluentTintPositive}" StrokeBrush="{DynamicResource FluentStrokePositive}" LuminosityBrush="{DynamicResource FluentLuminosityBrush}">
-    <ContentPresenter />
-   </fluent:FluentSurface>
-  </ControlTemplate></Setter.Value></Setter>
- </Style>
- <Style x:Key="FeaturePlate" TargetType="ContentControl" BasedOn="{StaticResource ChartCard}">
-  <Setter Property="Background" Value="{DynamicResource SurfaceFeature}" />
-  <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
-   <fluent:FluentSurface Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}" TintBrush="{DynamicResource FluentTintFeature}" StrokeBrush="{DynamicResource FluentStrokeFeature}" LuminosityBrush="{DynamicResource FluentLuminosityBrush}">
-    <ContentPresenter />
-   </fluent:FluentSurface>
-  </ControlTemplate></Setter.Value></Setter>
- </Style>
- <Style x:Key="InformationPlate" TargetType="ContentControl" BasedOn="{StaticResource ChartCard}">
-  <Setter Property="Background" Value="{DynamicResource SurfaceInformation}" />
-  <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
-   <fluent:FluentSurface Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}" TintBrush="{DynamicResource FluentTintInformation}" StrokeBrush="{DynamicResource FluentStrokeInformation}" LuminosityBrush="{DynamicResource FluentLuminosityBrush}">
-    <ContentPresenter />
-   </fluent:FluentSurface>
-  </ControlTemplate></Setter.Value></Setter>
- </Style>
- <Style x:Key="AttentionPlate" TargetType="ContentControl" BasedOn="{StaticResource ChartCard}">
-  <Setter Property="Background" Value="{DynamicResource SurfaceAttention}" />
-  <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
-   <fluent:FluentSurface Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}" TintBrush="{DynamicResource FluentTintAttention}" StrokeBrush="{DynamicResource FluentStrokeAttention}" LuminosityBrush="{DynamicResource FluentLuminosityBrush}">
-    <ContentPresenter />
-   </fluent:FluentSurface>
-  </ControlTemplate></Setter.Value></Setter>
- </Style>
+ <Style x:Key="PositivePlate" TargetType="ContentControl" BasedOn="{StaticResource ChartCard}" />
+ <Style x:Key="FeaturePlate" TargetType="ContentControl" BasedOn="{StaticResource ChartCard}" />
+ <Style x:Key="InformationPlate" TargetType="ContentControl" BasedOn="{StaticResource ChartCard}" />
+ <Style x:Key="AttentionPlate" TargetType="ContentControl" BasedOn="{StaticResource ChartCard}" />
  <Style TargetType="analytics:BentoChart">
   <Setter Property="FontSize" Value="{DynamicResource FontSizeCaption}" /><Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
   <Setter Property="Series1" Value="{DynamicResource ChartSeries1}" />
@@ -60,23 +32,26 @@
   <Setter Property="AreaOpacity" Value="{DynamicResource ChartAreaOpacity}" />
  </Style>
  <Style TargetType="analytics:BentoKpi">
-  <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" /><Setter Property="Background" Value="{DynamicResource SurfaceInformation}" />
+  <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" /><Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
   <Setter Property="Padding" Value="{DynamicResource PaddingCard}" />
   <Setter Property="HorizontalAlignment" Value="Stretch" /><Setter Property="VerticalAlignment" Value="Stretch" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="analytics:BentoKpi">
-   <fluent:FluentSurface x:Name="Pod" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}" TintBrush="{DynamicResource FluentTintInformation}" StrokeBrush="{DynamicResource FluentStrokeInformation}" LuminosityBrush="{DynamicResource FluentLuminosityBrush}">
-    <StackPanel><TextBlock Text="{TemplateBinding Label}" Foreground="{DynamicResource TextSecondary}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="Wrap" />
-     <TextBlock Text="{TemplateBinding Value}" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" TextWrapping="Wrap" />
-     <TextBlock Text="{TemplateBinding Detail}" Foreground="{DynamicResource TextSecondary}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="Wrap" />
-    </StackPanel>
+   <fluent:FluentSurface x:Name="Pod" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource CardCornerRadius}" TintBrush="{DynamicResource FluentTintBrush}" StrokeBrush="{DynamicResource FluentStrokeBrush}" LuminosityBrush="{DynamicResource FluentLuminosityBrush}">
+    <DockPanel>
+     <Border x:Name="Rail" DockPanel.Dock="Left" Width="{DynamicResource SpacingSmall}" Background="{DynamicResource AccentPrimary}" CornerRadius="{DynamicResource ChipCornerRadius}" Margin="{DynamicResource PaddingCompact}" />
+     <StackPanel Margin="{TemplateBinding Padding}">
+      <TextBlock Text="{TemplateBinding Label}" Foreground="{DynamicResource TextMuted}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="Wrap" />
+      <TextBlock x:Name="ValueText" Text="{TemplateBinding Value}" FontSize="{DynamicResource FontSizeDisplay}" FontWeight="{DynamicResource FontWeightHeading}" TextWrapping="Wrap" />
+      <TextBlock Text="{TemplateBinding Detail}" Foreground="{DynamicResource TextSecondary}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="Wrap" />
+     </StackPanel>
+    </DockPanel>
    </fluent:FluentSurface>
    <ControlTemplate.Triggers>
-    <Trigger Property="Tag" Value="Positive"><Setter TargetName="Pod" Property="TintBrush" Value="{DynamicResource FluentTintPositive}" /><Setter TargetName="Pod" Property="StrokeBrush" Value="{DynamicResource FluentStrokePositive}" /></Trigger>
-    <Trigger Property="Tag" Value="Feature"><Setter TargetName="Pod" Property="TintBrush" Value="{DynamicResource FluentTintFeature}" /><Setter TargetName="Pod" Property="StrokeBrush" Value="{DynamicResource FluentStrokeFeature}" /></Trigger>
-    <Trigger Property="Tag" Value="Attention"><Setter TargetName="Pod" Property="TintBrush" Value="{DynamicResource FluentTintAttention}" /><Setter TargetName="Pod" Property="StrokeBrush" Value="{DynamicResource FluentStrokeAttention}" /></Trigger>
+    <Trigger Property="Tag" Value="Positive"><Setter TargetName="Rail" Property="Background" Value="{DynamicResource StatusSuccess}" /><Setter TargetName="ValueText" Property="Foreground" Value="{DynamicResource StatusSuccess}" /></Trigger>
+    <Trigger Property="Tag" Value="Feature"><Setter TargetName="Rail" Property="Background" Value="{DynamicResource AccentSecondary}" /></Trigger>
+    <Trigger Property="Tag" Value="Attention"><Setter TargetName="Rail" Property="Background" Value="{DynamicResource StatusWarning}" /><Setter TargetName="ValueText" Property="Foreground" Value="{DynamicResource StatusWarning}" /></Trigger>
    </ControlTemplate.Triggers>
   </ControlTemplate></Setter.Value></Setter>
-  <Style.Triggers><Trigger Property="Tag" Value="Positive"><Setter Property="Background" Value="{DynamicResource SurfacePositive}" /></Trigger><Trigger Property="Tag" Value="Feature"><Setter Property="Background" Value="{DynamicResource SurfaceFeature}" /></Trigger><Trigger Property="Tag" Value="Attention"><Setter Property="Background" Value="{DynamicResource SurfaceAttention}" /></Trigger></Style.Triggers>
  </Style>
  <Style TargetType="DataGrid">
   <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" /><Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />

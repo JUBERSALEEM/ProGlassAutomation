@@ -130,7 +130,9 @@
             <Setter Property="Margin" Value="{DynamicResource PaddingCompact}" />
         </Style>
         <Style x:Key="ShellModuleBanner" TargetType="Border">
-            <Setter Property="Background" Value="{DynamicResource AccentPrimary}" />
+            <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderSubtle}" />
+            <Setter Property="BorderThickness" Value="{DynamicResource BorderThicknessControl}" />
             <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
             <Setter Property="Padding" Value="{DynamicResource PaddingControl}" />
             <Setter Property="Margin" Value="{DynamicResource MarginSection}" />
@@ -246,8 +248,8 @@
                             </Border.Style>
                         </Border>
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="{Binding WorkspaceTitle}" Foreground="{DynamicResource TextOnAccent}" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" />
-                            <TextBlock Text="{Binding WorkspaceSubtitle}" Foreground="{DynamicResource TextOnAccent}" Style="{DynamicResource Caption}" />
+                            <TextBlock Text="{Binding WorkspaceTitle}" Foreground="{DynamicResource TextPrimary}" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" />
+                            <TextBlock Text="{Binding WorkspaceSubtitle}" Style="{DynamicResource Caption}" />
                         </StackPanel>
                     </StackPanel>
                     <Border Grid.Column="2" Style="{StaticResource ShellBannerCluster}">

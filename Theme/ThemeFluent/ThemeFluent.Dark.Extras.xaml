@@ -1,17 +1,17 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  <SolidColorBrush x:Key="FluentTintBrush" Color="#335EC8FF" />
-  <SolidColorBrush x:Key="FluentLuminosityBrush" Color="#33FFFFFF" />
-  <SolidColorBrush x:Key="FluentStrokeBrush" Color="#666A8199" />
+  <SolidColorBrush x:Key="FluentTintBrush" Color="#5960CDFF" />
+  <SolidColorBrush x:Key="FluentLuminosityBrush" Color="#40FFFFFF" />
+  <SolidColorBrush x:Key="FluentStrokeBrush" Color="#668A8A8A" />
   <SolidColorBrush x:Key="FluentTintPositive" Color="#335EE0A8" />
   <SolidColorBrush x:Key="FluentStrokePositive" Color="#665EE0A8" />
   <SolidColorBrush x:Key="FluentTintFeature" Color="#33B8A8FF" />
   <SolidColorBrush x:Key="FluentStrokeFeature" Color="#66B8A8FF" />
-  <SolidColorBrush x:Key="FluentTintInformation" Color="#335EC8FF" />
-  <SolidColorBrush x:Key="FluentStrokeInformation" Color="#665EC8FF" />
+  <SolidColorBrush x:Key="FluentTintInformation" Color="#3360CDFF" />
+  <SolidColorBrush x:Key="FluentStrokeInformation" Color="#6660CDFF" />
   <SolidColorBrush x:Key="FluentTintAttention" Color="#33F0C060" />
   <SolidColorBrush x:Key="FluentStrokeAttention" Color="#66F0C060" />
-  <SolidColorBrush x:Key="FluentTintAccent" Color="#335EC8FF" />
-  <SolidColorBrush x:Key="FluentStrokeAccent" Color="#665EC8FF" />
-  <SolidColorBrush x:Key="FluentTintHero" Color="#3316364C" />
-  <SolidColorBrush x:Key="FluentStrokeHero" Color="#665EC8FF" />
+  <SolidColorBrush x:Key="FluentTintAccent" Color="#5960CDFF" />
+  <SolidColorBrush x:Key="FluentStrokeAccent" Color="#6660CDFF" />
+  <SolidColorBrush x:Key="FluentTintHero" Color="#331E3A4A" />
+  <SolidColorBrush x:Key="FluentStrokeHero" Color="#6660CDFF" />
 </ResourceDictionary>

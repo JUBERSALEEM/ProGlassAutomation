@@ -34,8 +34,8 @@
   <SolidColorBrush x:Key="HeroForeground" Color="#F5F8FF" />
   <SolidColorBrush x:Key="HeroSecondaryText" Color="#D5E2FF" />
   <SolidColorBrush x:Key="HeroAccent" Color="#7CEADB" />
-  <sys:Double x:Key="FontSizeDisplay">30</sys:Double>
-  <sys:Double x:Key="FontSizeTitle">22</sys:Double>
+  <sys:Double x:Key="FontSizeDisplay">28</sys:Double>
+  <sys:Double x:Key="FontSizeTitle">20</sys:Double>
   <sys:Double x:Key="FontSizeSection">16</sys:Double>
   <sys:Double x:Key="FontSizeBody">13</sys:Double>
   <sys:Double x:Key="FontSizeCaption">12</sys:Double>
@@ -57,11 +57,11 @@
   <sys:Double x:Key="WindowMinWidth">720</sys:Double>
   <sys:Double x:Key="WindowMinHeight">600</sys:Double>
   <Thickness x:Key="PaddingControl">10,5</Thickness>
-  <Thickness x:Key="PaddingCard">12</Thickness>
-  <Thickness x:Key="PaddingPlate">10</Thickness>
-  <Thickness x:Key="PaddingPage">12</Thickness>
-  <Thickness x:Key="MarginItem">0,0,0,6</Thickness>
-  <Thickness x:Key="MarginSection">0,0,0,10</Thickness>
+  <Thickness x:Key="PaddingCard">16</Thickness>
+  <Thickness x:Key="PaddingPlate">12</Thickness>
+  <Thickness x:Key="PaddingPage">16</Thickness>
+  <Thickness x:Key="MarginItem">0,0,0,8</Thickness>
+  <Thickness x:Key="MarginSection">0,0,0,12</Thickness>
   <Thickness x:Key="MarginInline">0,0,8,4</Thickness>
   <Thickness x:Key="MarginPanel">0</Thickness>
   <Thickness x:Key="BorderThicknessControl">1</Thickness>
@@ -71,20 +71,20 @@
   <CornerRadius x:Key="CardCornerRadius">18</CornerRadius>
   <CornerRadius x:Key="ControlCornerRadius">9</CornerRadius>
   <CornerRadius x:Key="ChipCornerRadius">6</CornerRadius>
-  <FontFamily x:Key="FontFamilyBody">Segoe UI</FontFamily>
+  <FontFamily x:Key="FontFamilyBody">Segoe UI Variable, Segoe UI</FontFamily>
   <FontFamily x:Key="FontFamilyMono">Consolas</FontFamily>
-  <FontWeight x:Key="FontWeightHeading">ExtraBold</FontWeight>
+  <FontWeight x:Key="FontWeightHeading">SemiBold</FontWeight>
   <FontWeight x:Key="FontWeightBody">Normal</FontWeight>
   <Thickness x:Key="PaddingMark">4</Thickness>
   <Thickness x:Key="PaddingSelection">10,5,32,5</Thickness>
   <CornerRadius x:Key="ChoiceCornerRadius">14</CornerRadius>
-  <sys:Double x:Key="StrokeWidth">2</sys:Double>
+  <sys:Double x:Key="StrokeWidth">1</sys:Double>
   <sys:Double x:Key="SelectionOpacity">1</sys:Double>
   <Thickness x:Key="MarginFocus">-3</Thickness>
-  <SolidColorBrush x:Key="SurfacePositive" Color="#D4F0E0" />
-  <SolidColorBrush x:Key="SurfaceFeature" Color="#E6DFFA" />
-  <SolidColorBrush x:Key="SurfaceInformation" Color="#D8E8FC" />
-  <SolidColorBrush x:Key="SurfaceAttention" Color="#F8E4C8" />
+  <SolidColorBrush x:Key="SurfacePositive" Color="#F3FAF6" />
+  <SolidColorBrush x:Key="SurfaceFeature" Color="#F6F4FC" />
+  <SolidColorBrush x:Key="SurfaceInformation" Color="#F3F7FC" />
+  <SolidColorBrush x:Key="SurfaceAttention" Color="#FFF8F0" />
   <SolidColorBrush x:Key="ChartSeries1" Color="#254EDA" />
   <SolidColorBrush x:Key="ChartSeries2" Color="#00766B" />
   <SolidColorBrush x:Key="ChartSeries3" Color="#8755B5" />
