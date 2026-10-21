@@ -60,13 +60,13 @@
   <Setter Property="AreaOpacity" Value="{DynamicResource ChartAreaOpacity}" />
  </Style>
  <Style TargetType="analytics:BentoKpi">
-  <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" /><Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
+  <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" /><Setter Property="Background" Value="{DynamicResource SurfaceInformation}" />
   <Setter Property="Padding" Value="{DynamicResource PaddingCard}" />
   <Setter Property="HorizontalAlignment" Value="Stretch" /><Setter Property="VerticalAlignment" Value="Stretch" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="analytics:BentoKpi">
    <clay:ClaySurface x:Name="Pod" Rank="Card" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource CardCornerRadius}" DropBrush="{DynamicResource ClayDropBrush}" ShadeBrush="{DynamicResource ClayInsetShadeBrush}" LightBrush="{DynamicResource ClayInsetLightBrush}">
     <DockPanel>
-     <Border x:Name="Rail" DockPanel.Dock="Left" Width="{DynamicResource SpacingSmall}" Background="{DynamicResource AccentPrimary}" CornerRadius="{DynamicResource ChipCornerRadius}" Margin="{DynamicResource PaddingCompact}" />
+     <Border x:Name="Rail" DockPanel.Dock="Left" Width="{DynamicResource SpacingSmall}" Visibility="Collapsed" Background="{DynamicResource AccentPrimary}" CornerRadius="{DynamicResource ChipCornerRadius}" Margin="{DynamicResource PaddingCompact}" />
      <StackPanel Margin="{TemplateBinding Padding}">
       <TextBlock Text="{TemplateBinding Label}" Foreground="{DynamicResource TextMuted}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="Wrap" />
       <TextBlock x:Name="ValueText" Text="{TemplateBinding Value}" FontSize="{DynamicResource FontSizeDisplay}" FontWeight="{DynamicResource FontWeightHeading}" TextWrapping="Wrap" />
@@ -75,9 +75,10 @@
     </DockPanel>
    </clay:ClaySurface>
    <ControlTemplate.Triggers>
-    <Trigger Property="Tag" Value="Positive"><Setter TargetName="Pod" Property="DropBrush" Value="{DynamicResource ClayDropPositive}" /><Setter TargetName="Pod" Property="ShadeBrush" Value="{DynamicResource ClayShadePositive}" /><Setter TargetName="Rail" Property="Background" Value="{DynamicResource StatusSuccess}" /><Setter TargetName="ValueText" Property="Foreground" Value="{DynamicResource StatusSuccess}" /></Trigger>
-    <Trigger Property="Tag" Value="Feature"><Setter TargetName="Pod" Property="DropBrush" Value="{DynamicResource ClayDropFeature}" /><Setter TargetName="Pod" Property="ShadeBrush" Value="{DynamicResource ClayShadeFeature}" /><Setter TargetName="Rail" Property="Background" Value="{DynamicResource AccentSecondary}" /></Trigger>
-    <Trigger Property="Tag" Value="Attention"><Setter TargetName="Pod" Property="DropBrush" Value="{DynamicResource ClayDropAttention}" /><Setter TargetName="Pod" Property="ShadeBrush" Value="{DynamicResource ClayShadeAttention}" /><Setter TargetName="Rail" Property="Background" Value="{DynamicResource StatusWarning}" /><Setter TargetName="ValueText" Property="Foreground" Value="{DynamicResource StatusWarning}" /></Trigger>
+    <Trigger Property="Tag" Value="Positive"><Setter TargetName="Pod" Property="Background" Value="{DynamicResource SurfacePositive}" /><Setter TargetName="Pod" Property="DropBrush" Value="{DynamicResource ClayDropPositive}" /><Setter TargetName="Pod" Property="ShadeBrush" Value="{DynamicResource ClayShadePositive}" /><Setter TargetName="Rail" Property="Visibility" Value="Collapsed" /><Setter TargetName="ValueText" Property="Foreground" Value="{DynamicResource StatusSuccess}" /></Trigger>
+    <Trigger Property="Tag" Value="Feature"><Setter TargetName="Pod" Property="Background" Value="{DynamicResource SurfaceFeature}" /><Setter TargetName="Pod" Property="DropBrush" Value="{DynamicResource ClayDropFeature}" /><Setter TargetName="Pod" Property="ShadeBrush" Value="{DynamicResource ClayShadeFeature}" /><Setter TargetName="Rail" Property="Visibility" Value="Collapsed" /></Trigger>
+    <Trigger Property="Tag" Value="Information"><Setter TargetName="Pod" Property="Background" Value="{DynamicResource SurfaceInformation}" /><Setter TargetName="Pod" Property="DropBrush" Value="{DynamicResource ClayDropInformation}" /><Setter TargetName="Pod" Property="ShadeBrush" Value="{DynamicResource ClayShadeInformation}" /><Setter TargetName="Rail" Property="Visibility" Value="Collapsed" /></Trigger>
+    <Trigger Property="Tag" Value="Attention"><Setter TargetName="Pod" Property="Background" Value="{DynamicResource SurfaceAttention}" /><Setter TargetName="Pod" Property="DropBrush" Value="{DynamicResource ClayDropAttention}" /><Setter TargetName="Pod" Property="ShadeBrush" Value="{DynamicResource ClayShadeAttention}" /><Setter TargetName="Rail" Property="Visibility" Value="Collapsed" /><Setter TargetName="ValueText" Property="Foreground" Value="{DynamicResource StatusWarning}" /></Trigger>
    </ControlTemplate.Triggers>
   </ControlTemplate></Setter.Value></Setter>
  </Style>

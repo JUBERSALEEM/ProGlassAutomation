@@ -11,11 +11,11 @@
   </ControlTemplate></Setter.Value></Setter>
  </Style>
  <Style x:Key="MetricCard" TargetType="ContentControl">
-  <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
+  <Setter Property="Background" Value="{DynamicResource SurfaceFeature}" />
   <Setter Property="Padding" Value="{DynamicResource PaddingPlate}" />
   <Setter Property="Focusable" Value="False" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
-   <clay:ClaySurface Rank="Control" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ControlCornerRadius}" DropBrush="{DynamicResource ClayDropBrush}" ShadeBrush="{DynamicResource ClayInsetShadeBrush}" LightBrush="{DynamicResource ClayInsetLightBrush}">
+   <clay:ClaySurface Rank="Card" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}" DropBrush="{DynamicResource ClayDropFeature}" ShadeBrush="{DynamicResource ClayShadeFeature}" LightBrush="{DynamicResource ClayInsetLightBrush}">
     <ContentPresenter />
    </clay:ClaySurface>
   </ControlTemplate></Setter.Value></Setter>

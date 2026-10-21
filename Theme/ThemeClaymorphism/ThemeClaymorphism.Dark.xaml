@@ -81,10 +81,10 @@
   <sys:Double x:Key="StrokeWidth">2.5</sys:Double>
   <sys:Double x:Key="SelectionOpacity">1</sys:Double>
   <Thickness x:Key="MarginFocus">-3</Thickness>
-  <SolidColorBrush x:Key="SurfacePositive" Color="#1A3A30" />
-  <SolidColorBrush x:Key="SurfaceFeature" Color="#2E2450" />
-  <SolidColorBrush x:Key="SurfaceInformation" Color="#1E2A48" />
-  <SolidColorBrush x:Key="SurfaceAttention" Color="#3A2A20" />
+  <SolidColorBrush x:Key="SurfacePositive" Color="#244A3C" />
+  <SolidColorBrush x:Key="SurfaceFeature" Color="#3A3060" />
+  <SolidColorBrush x:Key="SurfaceInformation" Color="#2A3A58" />
+  <SolidColorBrush x:Key="SurfaceAttention" Color="#4A3828" />
   <SolidColorBrush x:Key="ChartSeries1" Color="#FF8A80" />
   <SolidColorBrush x:Key="ChartSeries2" Color="#5EE0C0" />
   <SolidColorBrush x:Key="ChartSeries3" Color="#B8A8FF" />
