@@ -18,7 +18,7 @@
   <SolidColorBrush x:Key="StateSelected" Color="#343C4C" />
   <SolidColorBrush x:Key="AccentHover" Color="#9AC2FF" />
   <SolidColorBrush x:Key="AccentPressed" Color="#5A94E0" />
-  <SolidColorBrush x:Key="DisabledSurface" Color="#242830" />
+  <SolidColorBrush x:Key="DisabledSurface" Color="#2A2F38" />
   <SolidColorBrush x:Key="DisabledText" Color="#7A8490" />
   <SolidColorBrush x:Key="StatusSuccess" Color="#6ED9B0" />
   <SolidColorBrush x:Key="StatusSuccessSurface" Color="#1A2E28" />
