@@ -52,6 +52,9 @@ public static class NeumorphCustomization
         SetOwned(package, "NeumorphLiftDistance", distance + 3d);
         SetOwned(package, "NeumorphDarkOpacity", darkOpacity);
         SetOwned(package, "NeumorphLightOpacity", lightOpacity);
+        double spread = 0d;
+        SetOwned(package, "NeumorphSpread", spread);
+        SetOwned(package, "NeumorphSpreadMargin", new Thickness(-spread));
         Color surface = SurfaceColor(package, mode);
         Color dark = Mix(surface, Colors.Black, mode == Appearance.Light ? 0.18 : 0.28);
         Color light = Mix(surface, Colors.White, mode == Appearance.Light ? 0.85 : 0.14);
