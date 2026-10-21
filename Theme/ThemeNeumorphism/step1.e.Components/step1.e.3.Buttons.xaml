@@ -3,8 +3,8 @@
   <Setter Property="FocusVisualStyle" Value="{DynamicResource KeyboardFocus}" />
   <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
   <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
-  <Setter Property="BorderBrush" Value="{DynamicResource NeumorphDarkBrush}" />
-  <Setter Property="BorderThickness" Value="{DynamicResource BorderThicknessControl}" />
+  <Setter Property="BorderBrush" Value="{DynamicResource TransparentBrush}" />
+  <Setter Property="BorderThickness" Value="0" />
   <Setter Property="Padding" Value="{DynamicResource PaddingControl}" />
   <Setter Property="MinHeight" Value="{DynamicResource ControlMinHeight}" />
   <Setter Property="MinWidth" Value="{DynamicResource ControlMinWidth}" />
@@ -30,7 +30,7 @@
  </Style>
  <Style x:Key="PrimaryButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
   <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
-  <Setter Property="BorderBrush" Value="{DynamicResource NeumorphDarkBrush}" />
+  <Setter Property="BorderBrush" Value="{DynamicResource TransparentBrush}" />
   <Setter Property="Foreground" Value="{DynamicResource AccentPrimary}" />
   <Style.Triggers>
    <Trigger Property="IsEnabled" Value="False"><Setter Property="Background" Value="{DynamicResource DisabledSurface}" /><Setter Property="Foreground" Value="{DynamicResource DisabledText}" /></Trigger>
@@ -38,12 +38,12 @@
  </Style>
  <Style x:Key="SubtleButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
   <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
-  <Setter Property="BorderBrush" Value="{DynamicResource NeumorphDarkBrush}" />
+  <Setter Property="BorderBrush" Value="{DynamicResource TransparentBrush}" />
  </Style>
  <Style x:Key="DestructiveButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
   <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
   <Setter Property="Foreground" Value="{DynamicResource StatusError}" />
-  <Setter Property="BorderBrush" Value="{DynamicResource NeumorphDarkBrush}" />
+  <Setter Property="BorderBrush" Value="{DynamicResource TransparentBrush}" />
   <Style.Triggers>
    <Trigger Property="IsEnabled" Value="False"><Setter Property="Background" Value="{DynamicResource DisabledSurface}" /><Setter Property="Foreground" Value="{DynamicResource DisabledText}" /></Trigger>
   </Style.Triggers>
