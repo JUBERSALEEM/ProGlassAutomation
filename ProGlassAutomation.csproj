@@ -6,6 +6,10 @@
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Version>3.0.0</Version>
+    <AssemblyTitle>ProGlass Automation</AssemblyTitle>
+    <Product>ProGlass Automation</Product>
+    <InformationalVersion>3.0</InformationalVersion>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <EnableDefaultPageItems>false</EnableDefaultPageItems>
     <ApplicationManifest>app.manifest</ApplicationManifest>

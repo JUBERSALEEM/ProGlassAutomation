@@ -20,6 +20,7 @@ public static class OverflowSpotlight
 /// </summary>
 public sealed class OverflowPopup : ContentControl
 {
+    private static OverflowPopup? active;
     private readonly Popup popup = new();
     private readonly ScrollViewer scroller = new();
     private readonly ContentControl frame = new();
@@ -39,19 +40,25 @@ public sealed class OverflowPopup : ContentControl
         popup.Child = frame;
         hide.Tick += (_, _) => CloseFlyout();
         MouseEnter += (_, _) => ShowFlyout();
-        MouseLeave += (_, _) => hide.Start();
+        MouseLeave += (_, _) => { if (!popup.IsOpen) hide.Start(); };
         popup.MouseEnter += (_, _) => hide.Stop();
         popup.MouseLeave += (_, _) => hide.Start();
+        OverflowSpotlight.Changed += OnSpotlight;
         Loaded += (_, _) =>
         {
             if (TryFindResource("Card") is Style card) frame.Style = card;
             popup.PlacementTarget = this;
         };
-        Unloaded += (_, _) => CloseFlyout();
+        Unloaded += (_, _) =>
+        {
+            OverflowSpotlight.Changed -= OnSpotlight;
+            CloseFlyout();
+        };
     }
 
     protected override Size MeasureOverride(Size available)
     {
+        if (popup.IsOpen) return base.MeasureOverride(available);
         if (Content is UIElement child)
         {
             double width = double.IsInfinity(available.Width) ? 240 : Math.Max(0, available.Width);
@@ -60,6 +67,11 @@ public sealed class OverflowPopup : ContentControl
             Cursor = overflowing ? Cursors.Hand : Cursors.Arrow;
         }
         return base.MeasureOverride(available);
+    }
+
+    private void OnSpotlight(bool on)
+    {
+        if (!on && popup.IsOpen) CloseFlyout();
     }
 
     private void ShowFlyout()
@@ -74,19 +86,24 @@ public sealed class OverflowPopup : ContentControl
             clone.Data = chart.Data;
             clone.PlotHeight = chart.PlotHeight;
         }
+        if (active is not null && !ReferenceEquals(active, this)) active.CloseFlyout();
         scroller.Content = copy;
         scroller.Width = Math.Max(ActualWidth, 280);
         scroller.MaxHeight = TryFindResource("PopupMaxHeight") is double cap && cap > 0 ? Math.Max(cap, 360) : 360;
         popup.PlacementTarget = this;
         popup.IsOpen = true;
+        active = this;
         OverflowSpotlight.Set(true);
     }
 
     private void CloseFlyout()
     {
         hide.Stop();
-        if (popup.IsOpen) OverflowSpotlight.Set(false);
+        if (!popup.IsOpen) return;
         popup.IsOpen = false;
         scroller.Content = null;
+        if (!ReferenceEquals(active, this)) return;
+        active = null;
+        OverflowSpotlight.Set(false);
     }
 }

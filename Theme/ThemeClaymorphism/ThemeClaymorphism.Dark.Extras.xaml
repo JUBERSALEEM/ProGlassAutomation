@@ -1,4 +1,9 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+  <sys:Boolean x:Key="ClayShowDrop">True</sys:Boolean>
+  <Thickness x:Key="ClayDropMargin">3,4,0,0</Thickness>
+  <Thickness x:Key="ClayFaceMargin">0,0,3,4</Thickness>
+  <Thickness x:Key="ClayShadeThickness">0,0,3,3</Thickness>
+  <Thickness x:Key="ClayLightThickness">2,2,0,0</Thickness>
   <Color x:Key="ClayShadowColor">#0A0818</Color>
   <Color x:Key="ClayHighlightColor">#66FFFFFF</Color>
   <SolidColorBrush x:Key="ClayDropBrush" Color="#990A0818" />

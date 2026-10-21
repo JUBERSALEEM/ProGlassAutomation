@@ -112,6 +112,9 @@
       <Label Content="Volume" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding ClayVolumeChoices}" SelectedItem="{Binding SelectedClayVolume}" AutomationProperties.Name="Clay volume" Margin="{DynamicResource MarginItem}"/>
       <Label Content="Plumpness" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding ClayPlumpnessChoices}" SelectedItem="{Binding SelectedClayPlumpness}" AutomationProperties.Name="Clay plumpness" Margin="{DynamicResource MarginItem}"/>
       <Label Content="Sheen" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding ClaySheenChoices}" SelectedItem="{Binding SelectedClaySheen}" AutomationProperties.Name="Clay sheen" Margin="{DynamicResource MarginItem}"/>
+      <Label Content="Edge lighting" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding ClayLightingChoices}" SelectedItem="{Binding SelectedClayLighting}" AutomationProperties.Name="Clay edge lighting" Margin="{DynamicResource MarginItem}"/>
+      <Label Content="Plate relief" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding ClayReliefChoices}" SelectedItem="{Binding SelectedClayRelief}" AutomationProperties.Name="Clay plate relief" Margin="{DynamicResource MarginItem}"/>
+      <Label Content="Effects" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding ClayEffectsChoices}" SelectedItem="{Binding SelectedClayEffects}" AutomationProperties.Name="Clay effects" Margin="{DynamicResource MarginItem}"/>
      </StackPanel>
     </ContentControl>
     <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">

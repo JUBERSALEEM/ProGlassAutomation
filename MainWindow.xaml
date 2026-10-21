@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:studio="clr-namespace:ProGlassAutomation.ThemeStudio"
-        Title="ProGlass" Height="1000" Width="1700"
+        Title="ProGlass Automation" Height="1000" Width="1700"
         MinHeight="{DynamicResource WindowMinHeight}" MinWidth="{DynamicResource WindowMinWidth}"
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
@@ -16,6 +16,27 @@
         Focusable="True"
         ShowInTaskbar="True">
     <Window.Resources>
+        <DrawingImage x:Key="AppMark">
+            <DrawingImage.Drawing>
+                <DrawingGroup>
+                    <GeometryDrawing Brush="{DynamicResource AccentPrimary}">
+                        <GeometryDrawing.Geometry>
+                            <RectangleGeometry Rect="1,1,30,30" RadiusX="8" RadiusY="8" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="{DynamicResource AccentSoft}">
+                        <GeometryDrawing.Geometry>
+                            <RectangleGeometry Rect="6,6,20,20" RadiusX="5" RadiusY="5" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="{DynamicResource TextOnAccent}">
+                        <GeometryDrawing.Geometry>
+                            <PathGeometry Figures="M10,22 L10,10 L15,10 C18.2,10 20,11.6 20,14.2 C20,16.8 18.2,18.2 15,18.2 L13.2,18.2 L13.2,22 Z M13.2,15.6 L14.8,15.6 C16.2,15.6 16.8,15 16.8,14.2 C16.8,13.4 16.2,12.8 14.8,12.8 L13.2,12.8 Z M21.2,22 L24.4,10 L27.2,10 L22.6,22 Z" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
         <Style x:Key="ShellSidebar" TargetType="Border">
             <Setter Property="Width" Value="{DynamicResource StudioSidebarWidth}" />
             <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
@@ -132,11 +153,11 @@
                     <Button DockPanel.Dock="Right" Content="◀◀" Command="{Binding ToggleMenu}" Style="{StaticResource ShellIconButton}" ToolTip="Hide menu" AutomationProperties.Name="Close menu" />
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                         <Border Width="{DynamicResource ControlMinHeight}" Height="{DynamicResource ControlMinHeight}" CornerRadius="{DynamicResource ChipCornerRadius}" Background="{DynamicResource AccentSoft}" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center">
-                            <TextBlock Text="PG" Foreground="{DynamicResource AccentPrimary}" FontWeight="{DynamicResource FontWeightHeading}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Image Source="{StaticResource AppMark}" Stretch="Uniform" Margin="{DynamicResource PaddingMark}" />
                         </Border>
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="ProGlass" FontWeight="{DynamicResource FontWeightHeading}" />
-                            <TextBlock Text="Automation" Style="{DynamicResource Caption}" />
+                            <TextBlock Text="ProGlass Automation" FontWeight="{DynamicResource FontWeightHeading}" />
+                            <TextBlock Text="Version 3.0" Style="{DynamicResource Caption}" />
                         </StackPanel>
                     </StackPanel>
                 </DockPanel>
@@ -175,7 +196,7 @@
                         </Expander>
                     </StackPanel>
                 </ScrollViewer>
-                <TextBlock Grid.Row="2" Text="Phase 01 · Theme engine" Style="{StaticResource ShellSectionLabel}" />
+                <TextBlock Grid.Row="2" Text="ProGlass Automation · Version 3.0" Style="{StaticResource ShellSectionLabel}" />
             </Grid>
         </Border>
         <Grid Grid.Column="1">
@@ -239,6 +260,9 @@
             </Button.Style>
         </Button>
         </Grid>
-        <Border x:Name="SpotlightScrim" Background="{DynamicResource ApplicationBackground}" Opacity="0.45" Visibility="Collapsed" IsHitTestVisible="True" />
+        <Grid x:Name="SpotlightScrim" Visibility="Collapsed" IsHitTestVisible="True">
+            <Border x:Name="SpotlightSnap" />
+            <Border Background="{DynamicResource ApplicationBackground}" Opacity="0.35" />
+        </Grid>
     </Grid>
 </Window>

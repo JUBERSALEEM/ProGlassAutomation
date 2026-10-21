@@ -34,7 +34,7 @@ public partial class App : Application
         }
         catch (Exception error)
         {
-            MessageBox.Show(error.ToString(), "ProGlass could not start", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show(error.ToString(), "ProGlass Automation could not start", MessageBoxButton.OK, MessageBoxImage.Error);
             Shutdown(1);
         }
     }

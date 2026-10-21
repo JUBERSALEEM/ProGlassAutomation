@@ -47,6 +47,9 @@ public sealed partial class ThemeStudioViewModel
     public IReadOnlyList<ClayTextContrast> ClayTextContrastChoices { get; } = Enum.GetValues<ClayTextContrast>();
     public IReadOnlyList<ClaySheen> ClaySheenChoices { get; } = Enum.GetValues<ClaySheen>();
     public IReadOnlyList<ClayWeight> ClayWeightChoices { get; } = Enum.GetValues<ClayWeight>();
+    public IReadOnlyList<ClayLighting> ClayLightingChoices { get; } = Enum.GetValues<ClayLighting>();
+    public IReadOnlyList<ClayRelief> ClayReliefChoices { get; } = Enum.GetValues<ClayRelief>();
+    public IReadOnlyList<ClayEffects> ClayEffectsChoices { get; } = Enum.GetValues<ClayEffects>();
     public IReadOnlyList<ClayNamedPreset> ClayBuiltInPresets => ClayCustomization.BuiltIn;
     public IReadOnlyList<ClayNamedPreset> ClayCustomPresets => lastSaved.ClayPresets ?? [];
     public IReadOnlyList<string> ClayPresetNames => ClayCustomization.BuiltIn.Select(p => p.Name).Concat((lastSaved.ClayPresets ?? []).Select(p => p.Name)).ToList();
@@ -72,6 +75,9 @@ public sealed partial class ThemeStudioViewModel
     public ClayTextContrast SelectedClayTextContrast { get => clay.TextContrast; set => UpdateClay(clay with { TextContrast = value }); }
     public ClaySheen SelectedClaySheen { get => clay.Sheen; set => UpdateClay(clay with { Sheen = value }); }
     public ClayWeight SelectedClayWeight { get => clay.Weight; set => UpdateClay(clay with { Weight = value }); }
+    public ClayLighting SelectedClayLighting { get => clay.Lighting; set => UpdateClay(clay with { Lighting = value }); }
+    public ClayRelief SelectedClayRelief { get => clay.Relief; set => UpdateClay(clay with { Relief = value }); }
+    public ClayEffects SelectedClayEffects { get => clay.Effects; set => UpdateClay(clay with { Effects = value }); }
     public IReadOnlyList<NamedPreset> BuiltInPresets => PresetCatalog.BuiltIn;
     public IReadOnlyList<NamedPreset> CustomPresets => lastSaved.CustomPresets ?? [];
     public BentoAccent SelectedAccent { get => extended.Accent; set => UpdateExtended(extended with { Accent = value }); }
@@ -171,7 +177,7 @@ public sealed partial class ThemeStudioViewModel
                 var defaults = new ClayCustomizationState();
                 var next = customizationCategory switch
                 {
-                    "Appearance" => clay with { Accent = defaults.Accent, Canvas = defaults.Canvas, Volume = defaults.Volume, Plumpness = defaults.Plumpness, TextContrast = defaults.TextContrast, Sheen = defaults.Sheen },
+                    "Appearance" => clay with { Accent = defaults.Accent, Canvas = defaults.Canvas, Volume = defaults.Volume, Plumpness = defaults.Plumpness, TextContrast = defaults.TextContrast, Sheen = defaults.Sheen, Lighting = defaults.Lighting, Relief = defaults.Relief, Effects = defaults.Effects },
                     "Layout" => clay with { Density = defaults.Density, Spacing = defaults.Spacing },
                     "Typography" => clay with { Typography = defaults.Typography, Weight = defaults.Weight },
                     _ => defaults
@@ -394,6 +400,6 @@ public sealed partial class ThemeStudioViewModel
         }
         catch (ThemeNotificationException error) { clay = next; ThemeError = error.Message; }
         catch (Exception error) when (error is InvalidOperationException or ArgumentException or System.IO.IOException or System.Windows.Markup.XamlParseException) { ThemeError=$"Design unchanged: {error.Message}"; }
-        foreach (var n in new[] { nameof(SelectedClayAccent), nameof(SelectedClayVolume), nameof(SelectedClayPlumpness), nameof(SelectedClayDensity), nameof(SelectedClayCanvas), nameof(SelectedClayTypography), nameof(SelectedClaySpacing), nameof(SelectedClayTextContrast), nameof(SelectedClaySheen), nameof(SelectedClayWeight), nameof(DesignSummary), nameof(ThemeError), nameof(IsDirty) }) Changed(n);
+        foreach (var n in new[] { nameof(SelectedClayAccent), nameof(SelectedClayVolume), nameof(SelectedClayPlumpness), nameof(SelectedClayDensity), nameof(SelectedClayCanvas), nameof(SelectedClayTypography), nameof(SelectedClaySpacing), nameof(SelectedClayTextContrast), nameof(SelectedClaySheen), nameof(SelectedClayWeight), nameof(SelectedClayLighting), nameof(SelectedClayRelief), nameof(SelectedClayEffects), nameof(DesignSummary), nameof(ThemeError), nameof(IsDirty) }) Changed(n);
     }
 }

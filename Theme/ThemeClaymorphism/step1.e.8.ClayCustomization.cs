@@ -14,6 +14,9 @@ public enum ClaySpacing { Compact, Comfortable, Spacious }
 public enum ClayTextContrast { Standard, High }
 public enum ClaySheen { Quiet, Standard, Gloss }
 public enum ClayWeight { Regular, Medium, Semibold }
+public enum ClayLighting { Directional, Balanced }
+public enum ClayRelief { Raised, Inset }
+public enum ClayEffects { Full, Reduced }
 
 public sealed record ClayCustomizationState(
     ClayAccent Accent = ClayAccent.Rose,
@@ -25,14 +28,18 @@ public sealed record ClayCustomizationState(
     ClaySpacing Spacing = ClaySpacing.Comfortable,
     ClayTextContrast TextContrast = ClayTextContrast.Standard,
     ClaySheen Sheen = ClaySheen.Standard,
-    ClayWeight Weight = ClayWeight.Regular)
+    ClayWeight Weight = ClayWeight.Regular,
+    ClayLighting Lighting = ClayLighting.Directional,
+    ClayRelief Relief = ClayRelief.Raised,
+    ClayEffects Effects = ClayEffects.Full)
 {
     public string? Validate()
     {
         if (!Enum.IsDefined(Accent) || !Enum.IsDefined(Volume) || !Enum.IsDefined(Plumpness) ||
             !Enum.IsDefined(Density) || !Enum.IsDefined(Canvas) || !Enum.IsDefined(Typography) ||
             !Enum.IsDefined(Spacing) || !Enum.IsDefined(TextContrast) || !Enum.IsDefined(Sheen) ||
-            !Enum.IsDefined(Weight))
+            !Enum.IsDefined(Weight) || !Enum.IsDefined(Lighting) || !Enum.IsDefined(Relief) ||
+            !Enum.IsDefined(Effects))
             return "Unsupported clay customization choice.";
         return null;
     }
@@ -163,6 +170,28 @@ public static class ClayCustomization
         SetOwned(package, "ClayInsetLightBrush", Brush(mode == Appearance.Light
             ? state.Sheen switch { ClaySheen.Quiet => "#66FFFFFF", ClaySheen.Gloss => "#FFFFFFFF", _ => "#E6FFFFFF" }
             : state.Sheen switch { ClaySheen.Quiet => "#22FFFFFF", ClaySheen.Gloss => "#88FFFFFF", _ => "#55FFFFFF" }));
+
+        bool reduced = state.Effects == ClayEffects.Reduced;
+        bool inset = state.Relief == ClayRelief.Inset;
+        bool balanced = state.Lighting == ClayLighting.Balanced;
+        SetOwned(package, "ClayShowDrop", !reduced && !inset);
+        SetOwned(package, "ClayDropMargin", reduced || inset ? new Thickness(0) : new Thickness(3, 4, 0, 0));
+        SetOwned(package, "ClayFaceMargin", reduced || inset ? new Thickness(0) : new Thickness(0, 0, 3, 4));
+        if (reduced)
+        {
+            SetOwned(package, "ClayShadeThickness", new Thickness(1));
+            SetOwned(package, "ClayLightThickness", new Thickness(1));
+        }
+        else if (inset)
+        {
+            SetOwned(package, "ClayShadeThickness", balanced ? new Thickness(2) : new Thickness(3, 3, 0, 0));
+            SetOwned(package, "ClayLightThickness", balanced ? new Thickness(2) : new Thickness(0, 0, 2, 2));
+        }
+        else
+        {
+            SetOwned(package, "ClayShadeThickness", balanced ? new Thickness(2) : new Thickness(0, 0, 3, 3));
+            SetOwned(package, "ClayLightThickness", balanced ? new Thickness(2) : new Thickness(2, 2, 0, 0));
+        }
     }
 
     private static SolidColorBrush Brush(string color) =>
