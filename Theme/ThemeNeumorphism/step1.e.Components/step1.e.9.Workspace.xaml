@@ -21,11 +21,17 @@
   </ControlTemplate></Setter.Value></Setter>
  </Style>
  <Style x:Key="StatusBadge" TargetType="Border">
-  <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
+  <Setter Property="Background" Value="{DynamicResource NeumorphSheenBrush}" />
   <Setter Property="CornerRadius" Value="20" />
   <Setter Property="Padding" Value="{DynamicResource PaddingCompact}" />
   <Setter Property="BorderBrush" Value="{DynamicResource TransparentBrush}" />
   <Setter Property="BorderThickness" Value="0" />
+  <Setter Property="SnapsToDevicePixels" Value="True" />
+  <Setter Property="Effect">
+   <Setter.Value>
+    <DropShadowEffect Color="{DynamicResource NeumorphDarkColor}" BlurRadius="12" ShadowDepth="6" Direction="325" Opacity="{DynamicResource NeumorphDarkOpacity}" RenderingBias="Quality" />
+   </Setter.Value>
+  </Setter>
  </Style>
  <Style x:Key="StatusText" TargetType="TextBlock">
   <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" /><Setter Property="FontSize" Value="{DynamicResource FontSizeCaption}" /><Setter Property="TextWrapping" Value="Wrap" />
