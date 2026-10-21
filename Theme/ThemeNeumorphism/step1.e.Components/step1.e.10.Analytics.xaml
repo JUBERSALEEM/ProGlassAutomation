@@ -72,7 +72,6 @@
    </Border><Thumb x:Name="PART_LeftHeaderGripper" Style="{StaticResource NeumorphColumnGripper}" HorizontalAlignment="Left" /><Thumb x:Name="PART_RightHeaderGripper" Style="{StaticResource NeumorphColumnGripper}" HorizontalAlignment="Right" /></Grid>
    <ControlTemplate.Triggers>
     <Trigger Property="SortDirection" Value="Ascending"><Setter TargetName="SortMark" Property="Text" Value=" ↑" /></Trigger><Trigger Property="SortDirection" Value="Descending"><Setter TargetName="SortMark" Property="Text" Value=" ↓" /></Trigger>
-    <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Frame" Property="Background" Value="{DynamicResource StateHover}" /></Trigger>
     <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Frame" Property="BorderBrush" Value="{DynamicResource FocusIndicator}" /></Trigger>
    </ControlTemplate.Triggers>
   </ControlTemplate></Setter.Value></Setter>
@@ -81,13 +80,12 @@
  </Style>
  <Style TargetType="DataGridRow">
   <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
-  <Style.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter Property="Background" Value="{DynamicResource StateHover}" /></Trigger>
-   <Trigger Property="IsSelected" Value="True"><Setter Property="Background" Value="{DynamicResource StateSelected}" /></Trigger></Style.Triggers>
+  <Style.Triggers><Trigger Property="IsSelected" Value="True"><Setter Property="Foreground" Value="{DynamicResource AccentPrimary}" /></Trigger></Style.Triggers>
  </Style>
  <Style TargetType="DataGridCell">
   <Setter Property="Background" Value="{DynamicResource TransparentBrush}" /><Setter Property="Foreground" Value="{DynamicResource TextPrimary}" /><Setter Property="Padding" Value="{DynamicResource PaddingCompact}" />
   <Setter Property="BorderBrush" Value="{DynamicResource TransparentBrush}" /><Setter Property="BorderThickness" Value="{DynamicResource BorderThicknessControl}" />
-  <Style.Triggers><Trigger Property="IsSelected" Value="True"><Setter Property="Background" Value="{DynamicResource StateSelected}" /><Setter Property="Foreground" Value="{DynamicResource AccentPrimary}" /></Trigger>
+  <Style.Triggers><Trigger Property="IsSelected" Value="True"><Setter Property="Foreground" Value="{DynamicResource AccentPrimary}" /></Trigger>
    <Trigger Property="IsKeyboardFocusWithin" Value="True"><Setter Property="BorderBrush" Value="{DynamicResource FocusIndicator}" /></Trigger></Style.Triggers>
  </Style>
 </ResourceDictionary>
