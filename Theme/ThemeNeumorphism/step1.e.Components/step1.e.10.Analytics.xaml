@@ -36,20 +36,17 @@
   <Setter Property="Padding" Value="{DynamicResource PaddingCard}" />
   <Setter Property="HorizontalAlignment" Value="Stretch" /><Setter Property="VerticalAlignment" Value="Stretch" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="analytics:BentoKpi">
-   <neu:NeumorphSurface x:Name="Pod" Rank="Card" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource CardCornerRadius}">
-    <DockPanel>
-     <Border x:Name="Rail" DockPanel.Dock="Left" Width="{DynamicResource SpacingSmall}" Background="{DynamicResource AccentPrimary}" CornerRadius="{DynamicResource ChipCornerRadius}" Margin="{DynamicResource PaddingCompact}" />
-     <StackPanel Margin="{TemplateBinding Padding}">
-      <TextBlock Text="{TemplateBinding Label}" Foreground="{DynamicResource TextMuted}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="Wrap" />
-      <TextBlock x:Name="ValueText" Text="{TemplateBinding Value}" FontSize="{DynamicResource FontSizeDisplay}" FontWeight="{DynamicResource FontWeightHeading}" TextWrapping="Wrap" />
-      <TextBlock Text="{TemplateBinding Detail}" Foreground="{DynamicResource TextSecondary}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="Wrap" />
-     </StackPanel>
-    </DockPanel>
+   <neu:NeumorphSurface x:Name="Pod" Rank="Card" Background="{DynamicResource SurfacePrimary}" CornerRadius="{DynamicResource CardCornerRadius}">
+    <StackPanel Margin="{TemplateBinding Padding}">
+     <TextBlock Text="{TemplateBinding Label}" Foreground="{DynamicResource TextMuted}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="Wrap" />
+     <TextBlock x:Name="ValueText" Text="{TemplateBinding Value}" FontSize="{DynamicResource FontSizeDisplay}" FontWeight="{DynamicResource FontWeightHeading}" TextWrapping="Wrap" />
+     <TextBlock Text="{TemplateBinding Detail}" Foreground="{DynamicResource TextSecondary}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="Wrap" />
+    </StackPanel>
    </neu:NeumorphSurface>
    <ControlTemplate.Triggers>
-    <Trigger Property="Tag" Value="Positive"><Setter TargetName="Rail" Property="Background" Value="{DynamicResource StatusSuccess}" /><Setter TargetName="ValueText" Property="Foreground" Value="{DynamicResource StatusSuccess}" /></Trigger>
-    <Trigger Property="Tag" Value="Feature"><Setter TargetName="Rail" Property="Background" Value="{DynamicResource AccentSecondary}" /></Trigger>
-    <Trigger Property="Tag" Value="Attention"><Setter TargetName="Rail" Property="Background" Value="{DynamicResource StatusWarning}" /><Setter TargetName="ValueText" Property="Foreground" Value="{DynamicResource StatusWarning}" /></Trigger>
+    <Trigger Property="Tag" Value="Positive"><Setter TargetName="ValueText" Property="Foreground" Value="{DynamicResource StatusSuccess}" /></Trigger>
+    <Trigger Property="Tag" Value="Feature"><Setter TargetName="ValueText" Property="Foreground" Value="{DynamicResource AccentSecondary}" /></Trigger>
+    <Trigger Property="Tag" Value="Attention"><Setter TargetName="ValueText" Property="Foreground" Value="{DynamicResource StatusWarning}" /></Trigger>
    </ControlTemplate.Triggers>
   </ControlTemplate></Setter.Value></Setter>
  </Style>
