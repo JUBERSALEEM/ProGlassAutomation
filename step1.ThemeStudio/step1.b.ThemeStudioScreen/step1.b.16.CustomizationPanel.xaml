@@ -93,7 +93,7 @@
     <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
      <StackPanel>
       <TextBlock Text="Clay studio" Style="{DynamicResource Caption}"/>
-      <TextBlock Text="Presets and identity. Live mosaic is the laboratory — this Clay engine stays separate from Bento and Fluent." Style="{DynamicResource Caption}"/>
+      <TextBlock Text="Clay is a plump volume engine: hue-matched far/near drop, inner rim, sheen, and inset wells. Volume, plumpness, sheen, lighting and relief below stay Clay-owned. Not Bento, not Fluent, not Neumorphism." Style="{DynamicResource Caption}"/>
       <Label Content="Clay preset" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding ClayPresetNames}" SelectedItem="{Binding SelectedClayPresetName}" AutomationProperties.Name="Clay preset" Margin="{DynamicResource MarginItem}"/>
       <TextBlock Text="Clay built-in presets" Style="{DynamicResource Caption}"/>
       <ListBox ItemsSource="{Binding ClayBuiltInPresets}" DisplayMemberPath="Name" AutomationProperties.Name="Clay built-in presets" Margin="{DynamicResource MarginItem}"/>

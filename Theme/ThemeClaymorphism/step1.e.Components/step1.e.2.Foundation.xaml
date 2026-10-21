@@ -35,6 +35,7 @@
  <Style TargetType="clay:ClaySurface">
   <Setter Property="Focusable" Value="False" />
   <Setter Property="SnapsToDevicePixels" Value="True" />
+  <Setter Property="ClipToBounds" Value="False" />
   <Setter Property="HorizontalContentAlignment" Value="Stretch" />
   <Setter Property="VerticalContentAlignment" Value="Stretch" />
   <Setter Property="ShowDrop" Value="{DynamicResource ClayShowDrop}" />
@@ -42,26 +43,46 @@
   <Setter Property="ShadeBrush" Value="{DynamicResource ClayInsetShadeBrush}" />
   <Setter Property="LightBrush" Value="{DynamicResource ClayInsetLightBrush}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="clay:ClaySurface">
-   <Grid>
+   <Grid ClipToBounds="False">
+    <Border x:Name="DropFar" Background="{TemplateBinding DropBrush}" Opacity="0.4" CornerRadius="{TemplateBinding CornerRadius}" Margin="{DynamicResource ClayDropFarMargin}" IsHitTestVisible="False" />
     <Border x:Name="Drop" Background="{TemplateBinding DropBrush}" CornerRadius="{TemplateBinding CornerRadius}" Margin="{DynamicResource ClayDropMargin}" IsHitTestVisible="False" />
     <Border x:Name="Face" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" Margin="{DynamicResource ClayFaceMargin}">
-     <Border x:Name="InnerShade" BorderBrush="{TemplateBinding ShadeBrush}" BorderThickness="{DynamicResource ClayShadeThickness}" CornerRadius="{TemplateBinding CornerRadius}">
-      <Border x:Name="InnerLight" BorderBrush="{TemplateBinding LightBrush}" BorderThickness="{DynamicResource ClayLightThickness}" CornerRadius="{TemplateBinding CornerRadius}" Padding="{TemplateBinding Padding}">
-       <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+     <Grid>
+      <Border x:Name="Sheen" Background="{DynamicResource ClaySheenBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False" />
+      <Border x:Name="InnerShade" BorderBrush="{TemplateBinding ShadeBrush}" BorderThickness="{DynamicResource ClayShadeThickness}" CornerRadius="{TemplateBinding CornerRadius}">
+       <Border x:Name="InnerLight" BorderBrush="{TemplateBinding LightBrush}" BorderThickness="{DynamicResource ClayLightThickness}" CornerRadius="{TemplateBinding CornerRadius}" Padding="{TemplateBinding Padding}">
+        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+       </Border>
       </Border>
-     </Border>
+     </Grid>
     </Border>
    </Grid>
    <ControlTemplate.Triggers>
+    <Trigger Property="Rank" Value="Control">
+     <Setter TargetName="DropFar" Property="Visibility" Value="Collapsed" />
+    </Trigger>
+    <Trigger Property="Rank" Value="Chip">
+     <Setter TargetName="DropFar" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="Drop" Property="Margin" Value="2,2,0,0" />
+     <Setter TargetName="Face" Property="Margin" Value="0,0,2,2" />
+    </Trigger>
+    <Trigger Property="Lifted" Value="True">
+     <Setter TargetName="DropFar" Property="Visibility" Value="Visible" />
+     <Setter TargetName="Drop" Property="Margin" Value="{DynamicResource ClayLiftDropMargin}" />
+     <Setter TargetName="Face" Property="Margin" Value="{DynamicResource ClayLiftFaceMargin}" />
+    </Trigger>
     <Trigger Property="ShowDrop" Value="False">
+     <Setter TargetName="DropFar" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="Drop" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="Face" Property="Margin" Value="0" />
     </Trigger>
     <Trigger Property="Concave" Value="True">
+     <Setter TargetName="DropFar" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="Drop" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="Face" Property="Margin" Value="2" />
-     <Setter TargetName="InnerShade" Property="BorderThickness" Value="3,3,0,0" />
-     <Setter TargetName="InnerLight" Property="BorderThickness" Value="0,0,2,2" />
+     <Setter TargetName="Sheen" Property="Background" Value="{DynamicResource ClayWellSheenBrush}" />
+     <Setter TargetName="InnerShade" Property="BorderThickness" Value="{DynamicResource ClayWellShadeThickness}" />
+     <Setter TargetName="InnerLight" Property="BorderThickness" Value="{DynamicResource ClayWellLightThickness}" />
     </Trigger>
    </ControlTemplate.Triggers>
   </ControlTemplate></Setter.Value></Setter>
@@ -73,7 +94,7 @@
   <Setter Property="VerticalAlignment" Value="Stretch" />
   <Setter Property="Focusable" Value="False" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
-   <clay:ClaySurface Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}" DropBrush="{DynamicResource ClayDropBrush}" ShadeBrush="{DynamicResource ClayInsetShadeBrush}" LightBrush="{DynamicResource ClayInsetLightBrush}">
+   <clay:ClaySurface Rank="Card" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}" DropBrush="{DynamicResource ClayDropBrush}" ShadeBrush="{DynamicResource ClayInsetShadeBrush}" LightBrush="{DynamicResource ClayInsetLightBrush}">
     <ContentPresenter />
    </clay:ClaySurface>
   </ControlTemplate></Setter.Value></Setter>
@@ -85,7 +106,7 @@
   <Setter Property="Background" Value="{DynamicResource SurfaceSecondary}" />
   <Setter Property="Padding" Value="{DynamicResource PaddingPlate}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
-   <clay:ClaySurface Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ControlCornerRadius}" DropBrush="{DynamicResource ClayDropBrush}" ShadeBrush="{DynamicResource ClayInsetShadeBrush}" LightBrush="{DynamicResource ClayInsetLightBrush}">
+   <clay:ClaySurface Rank="Control" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ControlCornerRadius}" DropBrush="{DynamicResource ClayDropBrush}" ShadeBrush="{DynamicResource ClayInsetShadeBrush}" LightBrush="{DynamicResource ClayInsetLightBrush}">
     <ContentPresenter />
    </clay:ClaySurface>
   </ControlTemplate></Setter.Value></Setter>
@@ -93,13 +114,18 @@
  <Style x:Key="AccentPlate" TargetType="ContentControl" BasedOn="{StaticResource Plate}">
   <Setter Property="Background" Value="{DynamicResource AccentSoft}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
-   <clay:ClaySurface Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ControlCornerRadius}" DropBrush="{DynamicResource ClayDropAccent}" ShadeBrush="{DynamicResource ClayShadeAccent}" LightBrush="{DynamicResource ClayInsetLightBrush}">
+   <clay:ClaySurface Rank="Control" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ControlCornerRadius}" DropBrush="{DynamicResource ClayDropAccent}" ShadeBrush="{DynamicResource ClayShadeAccent}" LightBrush="{DynamicResource ClayInsetLightBrush}">
     <ContentPresenter />
    </clay:ClaySurface>
   </ControlTemplate></Setter.Value></Setter>
  </Style>
  <Style x:Key="ElevatedPlate" TargetType="ContentControl" BasedOn="{StaticResource Plate}">
   <Setter Property="Background" Value="{DynamicResource SurfaceElevated}" />
+  <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
+   <clay:ClaySurface Rank="Card" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ControlCornerRadius}" DropBrush="{DynamicResource ClayDropBrush}" ShadeBrush="{DynamicResource ClayInsetShadeBrush}" LightBrush="{DynamicResource ClayInsetLightBrush}">
+    <ContentPresenter />
+   </clay:ClaySurface>
+  </ControlTemplate></Setter.Value></Setter>
  </Style>
  <Style x:Key="TokenValue" TargetType="TextBlock" BasedOn="{StaticResource Caption}">
   <Setter Property="FontFamily" Value="{DynamicResource FontFamilyMono}" />
@@ -107,22 +133,17 @@
  <Style TargetType="Separator">
   <Setter Property="Margin" Value="{DynamicResource MarginItem}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Separator">
-   <Border Height="3" Background="{DynamicResource ClayInsetShadeBrush}" CornerRadius="{DynamicResource ChipCornerRadius}" BorderBrush="{DynamicResource ClayInsetLightBrush}" BorderThickness="0,0,0,1" />
+   <clay:ClaySurface Height="{DynamicResource SpacingMedium}" Concave="True" Rank="Chip" Background="{DynamicResource SurfaceSecondary}" CornerRadius="{DynamicResource ChipCornerRadius}" />
   </ControlTemplate></Setter.Value></Setter>
  </Style>
  <Style TargetType="ProgressBar">
   <Setter Property="Height" Value="{DynamicResource SpacingLarge}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ProgressBar">
-   <Grid>
-    <Border Background="{DynamicResource ClayDropBrush}" CornerRadius="{DynamicResource ChipCornerRadius}" Margin="2,3,0,0" IsHitTestVisible="False" />
-    <Border Background="{DynamicResource SurfaceSecondary}" CornerRadius="{DynamicResource ChipCornerRadius}" Margin="0,0,2,3" BorderBrush="{DynamicResource ClayInsetShadeBrush}" BorderThickness="2,2,0,0">
-     <Border BorderBrush="{DynamicResource ClayInsetLightBrush}" BorderThickness="0,0,2,2" CornerRadius="{DynamicResource ChipCornerRadius}">
-      <Border x:Name="PART_Track">
-       <Border x:Name="PART_Indicator" HorizontalAlignment="Left" Background="{DynamicResource AccentPrimary}" CornerRadius="{DynamicResource ChipCornerRadius}" BorderBrush="{DynamicResource ClayInsetLightBrush}" BorderThickness="1,1,0,0" />
-      </Border>
-     </Border>
+   <clay:ClaySurface Concave="True" Rank="Chip" Background="{DynamicResource SurfaceSecondary}" CornerRadius="{DynamicResource ChipCornerRadius}">
+    <Border x:Name="PART_Track">
+     <Border x:Name="PART_Indicator" HorizontalAlignment="Left" Background="{DynamicResource AccentPrimary}" CornerRadius="{DynamicResource ChipCornerRadius}" BorderBrush="{DynamicResource ClayInsetLightBrush}" BorderThickness="1,1,0,0" />
     </Border>
-   </Grid>
+   </clay:ClaySurface>
   </ControlTemplate></Setter.Value></Setter>
  </Style>
 </ResourceDictionary>

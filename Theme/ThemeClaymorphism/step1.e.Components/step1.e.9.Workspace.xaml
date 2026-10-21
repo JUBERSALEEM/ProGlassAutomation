@@ -5,7 +5,7 @@
   <Setter Property="HorizontalAlignment" Value="Stretch" /><Setter Property="VerticalAlignment" Value="Stretch" />
   <Setter Property="Focusable" Value="False" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
-   <clay:ClaySurface Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}" DropBrush="{DynamicResource ClayDropHero}" ShadeBrush="{DynamicResource ClayShadeHero}" LightBrush="{DynamicResource ClayInsetLightBrush}">
+   <clay:ClaySurface Rank="Card" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}" DropBrush="{DynamicResource ClayDropHero}" ShadeBrush="{DynamicResource ClayShadeHero}" LightBrush="{DynamicResource ClayInsetLightBrush}">
     <ContentPresenter />
    </clay:ClaySurface>
   </ControlTemplate></Setter.Value></Setter>
@@ -15,7 +15,7 @@
   <Setter Property="Padding" Value="{DynamicResource PaddingPlate}" />
   <Setter Property="Focusable" Value="False" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
-   <clay:ClaySurface Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ControlCornerRadius}" DropBrush="{DynamicResource ClayDropBrush}" ShadeBrush="{DynamicResource ClayInsetShadeBrush}" LightBrush="{DynamicResource ClayInsetLightBrush}">
+   <clay:ClaySurface Rank="Control" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ControlCornerRadius}" DropBrush="{DynamicResource ClayDropBrush}" ShadeBrush="{DynamicResource ClayInsetShadeBrush}" LightBrush="{DynamicResource ClayInsetLightBrush}">
     <ContentPresenter />
    </clay:ClaySurface>
   </ControlTemplate></Setter.Value></Setter>
@@ -42,7 +42,7 @@
  <Style TargetType="TabControl">
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="TabControl">
    <Grid><Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition /></Grid.RowDefinitions>
-    <clay:ClaySurface Concave="True" Background="{DynamicResource SurfaceSecondary}" Padding="{DynamicResource PaddingCompact}" CornerRadius="{DynamicResource ControlCornerRadius}">
+    <clay:ClaySurface Concave="True" Rank="Control" Background="{DynamicResource SurfaceSecondary}" Padding="{DynamicResource PaddingCompact}" CornerRadius="{DynamicResource ControlCornerRadius}">
      <TabPanel IsItemsHost="True" KeyboardNavigation.TabNavigation="Once" />
     </clay:ClaySurface>
     <ContentPresenter x:Name="PART_SelectedContentHost" Grid.Row="1" ContentSource="SelectedContent" />
@@ -52,12 +52,12 @@
  <Style TargetType="TabItem">
   <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" /><Setter Property="FocusVisualStyle" Value="{DynamicResource KeyboardFocus}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="TabItem">
-   <clay:ClaySurface x:Name="Pod" ShowDrop="False" Concave="True" Background="{DynamicResource TransparentBrush}" Padding="{DynamicResource PaddingControl}" CornerRadius="{DynamicResource ChipCornerRadius}">
+   <clay:ClaySurface x:Name="Pod" ShowDrop="False" Concave="True" Rank="Chip" Background="{DynamicResource TransparentBrush}" Padding="{DynamicResource PaddingControl}" CornerRadius="{DynamicResource ChipCornerRadius}">
     <ContentPresenter ContentSource="Header" RecognizesAccessKey="True" />
    </clay:ClaySurface>
    <ControlTemplate.Triggers>
     <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Pod" Property="Background" Value="{DynamicResource StateHover}" /></Trigger>
-    <Trigger Property="IsSelected" Value="True"><Setter TargetName="Pod" Property="Background" Value="{DynamicResource SurfacePrimary}" /><Setter TargetName="Pod" Property="Concave" Value="False" /><Setter Property="Foreground" Value="{DynamicResource AccentPrimary}" /></Trigger>
+    <Trigger Property="IsSelected" Value="True"><Setter TargetName="Pod" Property="Background" Value="{DynamicResource SurfacePrimary}" /><Setter TargetName="Pod" Property="Concave" Value="False" /><Setter TargetName="Pod" Property="ShowDrop" Value="True" /><Setter TargetName="Pod" Property="Rank" Value="Control" /><Setter Property="Foreground" Value="{DynamicResource AccentPrimary}" /></Trigger>
     <Trigger Property="IsEnabled" Value="False"><Setter Property="Foreground" Value="{DynamicResource DisabledText}" /><Setter TargetName="Pod" Property="Background" Value="{DynamicResource DisabledSurface}" /></Trigger>
    </ControlTemplate.Triggers>
   </ControlTemplate></Setter.Value></Setter>

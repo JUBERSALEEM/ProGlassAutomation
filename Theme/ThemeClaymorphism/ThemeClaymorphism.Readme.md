@@ -1,17 +1,18 @@
 # Claymorphism — second registered theme (Phase 01 / step1)
 
-Date: **2026-10-20**. Native WPF. Engines stay separate: Bento cards remain a flat `Border` in their templates.
+Native WPF. Engines stay separate: not Bento plates, not Neumorph gray volume, not Fluent acrylic.
 
 ## Engine
 
-`ClaySurface` is the clay volume (clay.css recipe, no CSS):
+`ClaySurface` is hue-matched plump volume:
 
-- modest colored **drop** (bottom-right)
-- **inner shade** on the face (bottom-right inset)
-- **inner light** on the face (top-left inset)
+- far + near colored **drop** (bottom-right)
+- **inner shade** and **inner light** on the face
+- **sheen** wash on raised faces, well wash when concave
+- **Rank** Chip / Control / Card; **Lifted** on hover; press inverts to a well
 
-Concave inverts the insets and hides the drop. `ShowDrop` stays false on tabs so selected pills do not jump. Hue extras (`ClayDrop*` / `ClayShade*`) tint cards, plates, and KPIs.
+Concave fields, lists, tabs, progress, scroll tracks, and check/radio wells use extras thicknesses (`ClayWellShadeThickness`) so studio lighting/relief still apply. Volume scales drop distance, not only alpha.
 
 ## Completeness
 
-Source chrome for the 47 contract roles is filled. Catalog registers Clay. `ClayCustomization` is a Clay-owned engine (accent, canvas, volume, plumpness, density) — it does not call BentoCustomization. Windows pixels **0%** (workflow stays in `cols/ci`; no PC). Reports URL is sign-in gated; public chrome there is Crystal, not Clay.
+47 contract roles. `ClayCustomization` stays Clay-owned. Windows pixels **0%**.

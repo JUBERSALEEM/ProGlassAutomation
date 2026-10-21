@@ -174,23 +174,34 @@ public static class ClayCustomization
         bool reduced = state.Effects == ClayEffects.Reduced;
         bool inset = state.Relief == ClayRelief.Inset;
         bool balanced = state.Lighting == ClayLighting.Balanced;
+        double near = state.Volume switch { ClayVolume.Soft => 2d, ClayVolume.Deep => 5d, _ => 3d };
+        double far = state.Volume switch { ClayVolume.Soft => 3d, ClayVolume.Deep => 7d, _ => 4d };
         SetOwned(package, "ClayShowDrop", !reduced && !inset);
-        SetOwned(package, "ClayDropMargin", reduced || inset ? new Thickness(0) : new Thickness(3, 4, 0, 0));
-        SetOwned(package, "ClayFaceMargin", reduced || inset ? new Thickness(0) : new Thickness(0, 0, 3, 4));
+        SetOwned(package, "ClayDropMargin", reduced || inset ? new Thickness(0) : new Thickness(near, far, 0, 0));
+        SetOwned(package, "ClayFaceMargin", reduced || inset ? new Thickness(0) : new Thickness(0, 0, near, far));
+        SetOwned(package, "ClayDropFarMargin", reduced || inset ? new Thickness(0) : new Thickness(near + 3, far + 4, 0, 0));
+        SetOwned(package, "ClayLiftDropMargin", new Thickness(near + 2, far + 3, 0, 0));
+        SetOwned(package, "ClayLiftFaceMargin", new Thickness(0, 0, near + 2, far + 3));
         if (reduced)
         {
             SetOwned(package, "ClayShadeThickness", new Thickness(1));
             SetOwned(package, "ClayLightThickness", new Thickness(1));
+            SetOwned(package, "ClayWellShadeThickness", new Thickness(1));
+            SetOwned(package, "ClayWellLightThickness", new Thickness(1));
         }
         else if (inset)
         {
             SetOwned(package, "ClayShadeThickness", balanced ? new Thickness(2) : new Thickness(3, 3, 0, 0));
             SetOwned(package, "ClayLightThickness", balanced ? new Thickness(2) : new Thickness(0, 0, 2, 2));
+            SetOwned(package, "ClayWellShadeThickness", balanced ? new Thickness(2) : new Thickness(3.5, 3.5, 0, 0));
+            SetOwned(package, "ClayWellLightThickness", balanced ? new Thickness(2) : new Thickness(0, 0, 2.5, 2.5));
         }
         else
         {
             SetOwned(package, "ClayShadeThickness", balanced ? new Thickness(2) : new Thickness(0, 0, 3, 3));
             SetOwned(package, "ClayLightThickness", balanced ? new Thickness(2) : new Thickness(2, 2, 0, 0));
+            SetOwned(package, "ClayWellShadeThickness", balanced ? new Thickness(2) : new Thickness(3.5, 3.5, 0, 0));
+            SetOwned(package, "ClayWellLightThickness", balanced ? new Thickness(2) : new Thickness(0, 0, 2.5, 2.5));
         }
     }
 

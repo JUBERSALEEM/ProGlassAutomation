@@ -5,7 +5,7 @@
   <Setter Property="Margin" Value="{DynamicResource MarginPanel}" />
   <Setter Property="Focusable" Value="False" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
-   <clay:ClaySurface Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}" DropBrush="{DynamicResource ClayDropBrush}" ShadeBrush="{DynamicResource ClayInsetShadeBrush}" LightBrush="{DynamicResource ClayInsetLightBrush}">
+   <clay:ClaySurface Rank="Card" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}" DropBrush="{DynamicResource ClayDropBrush}" ShadeBrush="{DynamicResource ClayInsetShadeBrush}" LightBrush="{DynamicResource ClayInsetLightBrush}">
     <ContentPresenter />
    </clay:ClaySurface>
   </ControlTemplate></Setter.Value></Setter>
@@ -13,7 +13,7 @@
  <Style x:Key="PositivePlate" TargetType="ContentControl" BasedOn="{StaticResource ChartCard}">
   <Setter Property="Background" Value="{DynamicResource SurfacePositive}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
-   <clay:ClaySurface Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}" DropBrush="{DynamicResource ClayDropPositive}" ShadeBrush="{DynamicResource ClayShadePositive}" LightBrush="{DynamicResource ClayInsetLightBrush}">
+   <clay:ClaySurface Rank="Card" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}" DropBrush="{DynamicResource ClayDropPositive}" ShadeBrush="{DynamicResource ClayShadePositive}" LightBrush="{DynamicResource ClayInsetLightBrush}">
     <ContentPresenter />
    </clay:ClaySurface>
   </ControlTemplate></Setter.Value></Setter>
@@ -21,7 +21,7 @@
  <Style x:Key="FeaturePlate" TargetType="ContentControl" BasedOn="{StaticResource ChartCard}">
   <Setter Property="Background" Value="{DynamicResource SurfaceFeature}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
-   <clay:ClaySurface Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}" DropBrush="{DynamicResource ClayDropFeature}" ShadeBrush="{DynamicResource ClayShadeFeature}" LightBrush="{DynamicResource ClayInsetLightBrush}">
+   <clay:ClaySurface Rank="Card" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}" DropBrush="{DynamicResource ClayDropFeature}" ShadeBrush="{DynamicResource ClayShadeFeature}" LightBrush="{DynamicResource ClayInsetLightBrush}">
     <ContentPresenter />
    </clay:ClaySurface>
   </ControlTemplate></Setter.Value></Setter>
@@ -29,7 +29,7 @@
  <Style x:Key="InformationPlate" TargetType="ContentControl" BasedOn="{StaticResource ChartCard}">
   <Setter Property="Background" Value="{DynamicResource SurfaceInformation}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
-   <clay:ClaySurface Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}" DropBrush="{DynamicResource ClayDropInformation}" ShadeBrush="{DynamicResource ClayShadeInformation}" LightBrush="{DynamicResource ClayInsetLightBrush}">
+   <clay:ClaySurface Rank="Card" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}" DropBrush="{DynamicResource ClayDropInformation}" ShadeBrush="{DynamicResource ClayShadeInformation}" LightBrush="{DynamicResource ClayInsetLightBrush}">
     <ContentPresenter />
    </clay:ClaySurface>
   </ControlTemplate></Setter.Value></Setter>
@@ -37,7 +37,7 @@
  <Style x:Key="AttentionPlate" TargetType="ContentControl" BasedOn="{StaticResource ChartCard}">
   <Setter Property="Background" Value="{DynamicResource SurfaceAttention}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
-   <clay:ClaySurface Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}" DropBrush="{DynamicResource ClayDropAttention}" ShadeBrush="{DynamicResource ClayShadeAttention}" LightBrush="{DynamicResource ClayInsetLightBrush}">
+   <clay:ClaySurface Rank="Card" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}" DropBrush="{DynamicResource ClayDropAttention}" ShadeBrush="{DynamicResource ClayShadeAttention}" LightBrush="{DynamicResource ClayInsetLightBrush}">
     <ContentPresenter />
    </clay:ClaySurface>
   </ControlTemplate></Setter.Value></Setter>
@@ -60,23 +60,26 @@
   <Setter Property="AreaOpacity" Value="{DynamicResource ChartAreaOpacity}" />
  </Style>
  <Style TargetType="analytics:BentoKpi">
-  <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" /><Setter Property="Background" Value="{DynamicResource SurfaceInformation}" />
+  <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" /><Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
   <Setter Property="Padding" Value="{DynamicResource PaddingCard}" />
   <Setter Property="HorizontalAlignment" Value="Stretch" /><Setter Property="VerticalAlignment" Value="Stretch" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="analytics:BentoKpi">
-   <clay:ClaySurface x:Name="Pod" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}" DropBrush="{DynamicResource ClayDropInformation}" ShadeBrush="{DynamicResource ClayShadeInformation}" LightBrush="{DynamicResource ClayInsetLightBrush}">
-    <StackPanel><TextBlock Text="{TemplateBinding Label}" Foreground="{DynamicResource TextSecondary}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="Wrap" />
-     <TextBlock Text="{TemplateBinding Value}" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" TextWrapping="Wrap" />
-     <TextBlock Text="{TemplateBinding Detail}" Foreground="{DynamicResource TextSecondary}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="Wrap" />
-    </StackPanel>
+   <clay:ClaySurface x:Name="Pod" Rank="Card" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource CardCornerRadius}" DropBrush="{DynamicResource ClayDropBrush}" ShadeBrush="{DynamicResource ClayInsetShadeBrush}" LightBrush="{DynamicResource ClayInsetLightBrush}">
+    <DockPanel>
+     <Border x:Name="Rail" DockPanel.Dock="Left" Width="{DynamicResource SpacingSmall}" Background="{DynamicResource AccentPrimary}" CornerRadius="{DynamicResource ChipCornerRadius}" Margin="{DynamicResource PaddingCompact}" />
+     <StackPanel Margin="{TemplateBinding Padding}">
+      <TextBlock Text="{TemplateBinding Label}" Foreground="{DynamicResource TextMuted}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="Wrap" />
+      <TextBlock x:Name="ValueText" Text="{TemplateBinding Value}" FontSize="{DynamicResource FontSizeDisplay}" FontWeight="{DynamicResource FontWeightHeading}" TextWrapping="Wrap" />
+      <TextBlock Text="{TemplateBinding Detail}" Foreground="{DynamicResource TextSecondary}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="Wrap" />
+     </StackPanel>
+    </DockPanel>
    </clay:ClaySurface>
    <ControlTemplate.Triggers>
-    <Trigger Property="Tag" Value="Positive"><Setter TargetName="Pod" Property="DropBrush" Value="{DynamicResource ClayDropPositive}" /><Setter TargetName="Pod" Property="ShadeBrush" Value="{DynamicResource ClayShadePositive}" /></Trigger>
-    <Trigger Property="Tag" Value="Feature"><Setter TargetName="Pod" Property="DropBrush" Value="{DynamicResource ClayDropFeature}" /><Setter TargetName="Pod" Property="ShadeBrush" Value="{DynamicResource ClayShadeFeature}" /></Trigger>
-    <Trigger Property="Tag" Value="Attention"><Setter TargetName="Pod" Property="DropBrush" Value="{DynamicResource ClayDropAttention}" /><Setter TargetName="Pod" Property="ShadeBrush" Value="{DynamicResource ClayShadeAttention}" /></Trigger>
+    <Trigger Property="Tag" Value="Positive"><Setter TargetName="Pod" Property="DropBrush" Value="{DynamicResource ClayDropPositive}" /><Setter TargetName="Pod" Property="ShadeBrush" Value="{DynamicResource ClayShadePositive}" /><Setter TargetName="Rail" Property="Background" Value="{DynamicResource StatusSuccess}" /><Setter TargetName="ValueText" Property="Foreground" Value="{DynamicResource StatusSuccess}" /></Trigger>
+    <Trigger Property="Tag" Value="Feature"><Setter TargetName="Pod" Property="DropBrush" Value="{DynamicResource ClayDropFeature}" /><Setter TargetName="Pod" Property="ShadeBrush" Value="{DynamicResource ClayShadeFeature}" /><Setter TargetName="Rail" Property="Background" Value="{DynamicResource AccentSecondary}" /></Trigger>
+    <Trigger Property="Tag" Value="Attention"><Setter TargetName="Pod" Property="DropBrush" Value="{DynamicResource ClayDropAttention}" /><Setter TargetName="Pod" Property="ShadeBrush" Value="{DynamicResource ClayShadeAttention}" /><Setter TargetName="Rail" Property="Background" Value="{DynamicResource StatusWarning}" /><Setter TargetName="ValueText" Property="Foreground" Value="{DynamicResource StatusWarning}" /></Trigger>
    </ControlTemplate.Triggers>
   </ControlTemplate></Setter.Value></Setter>
-  <Style.Triggers><Trigger Property="Tag" Value="Positive"><Setter Property="Background" Value="{DynamicResource SurfacePositive}" /></Trigger><Trigger Property="Tag" Value="Feature"><Setter Property="Background" Value="{DynamicResource SurfaceFeature}" /></Trigger><Trigger Property="Tag" Value="Attention"><Setter Property="Background" Value="{DynamicResource SurfaceAttention}" /></Trigger></Style.Triggers>
  </Style>
  <Style TargetType="DataGrid">
   <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" /><Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />

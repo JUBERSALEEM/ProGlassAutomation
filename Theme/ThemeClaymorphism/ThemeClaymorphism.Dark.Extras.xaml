@@ -1,14 +1,27 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
   <sys:Boolean x:Key="ClayShowDrop">True</sys:Boolean>
   <Thickness x:Key="ClayDropMargin">3,4,0,0</Thickness>
+  <Thickness x:Key="ClayDropFarMargin">6,8,0,0</Thickness>
   <Thickness x:Key="ClayFaceMargin">0,0,3,4</Thickness>
+  <Thickness x:Key="ClayLiftDropMargin">5,7,0,0</Thickness>
+  <Thickness x:Key="ClayLiftFaceMargin">0,0,5,7</Thickness>
   <Thickness x:Key="ClayShadeThickness">0,0,3,3</Thickness>
   <Thickness x:Key="ClayLightThickness">2,2,0,0</Thickness>
+  <Thickness x:Key="ClayWellShadeThickness">3.5,3.5,0,0</Thickness>
+  <Thickness x:Key="ClayWellLightThickness">0,0,2.5,2.5</Thickness>
   <Color x:Key="ClayShadowColor">#0A0818</Color>
   <Color x:Key="ClayHighlightColor">#66FFFFFF</Color>
   <SolidColorBrush x:Key="ClayDropBrush" Color="#990A0818" />
   <SolidColorBrush x:Key="ClayInsetLightBrush" Color="#55FFFFFF" />
   <SolidColorBrush x:Key="ClayInsetShadeBrush" Color="#66000000" />
+  <LinearGradientBrush x:Key="ClaySheenBrush" StartPoint="0,0" EndPoint="1,1">
+    <GradientStop Color="#33FFFFFF" Offset="0" />
+    <GradientStop Color="#00FFFFFF" Offset="0.55" />
+  </LinearGradientBrush>
+  <LinearGradientBrush x:Key="ClayWellSheenBrush" StartPoint="0,0" EndPoint="1,1">
+    <GradientStop Color="#44000000" Offset="0" />
+    <GradientStop Color="#00000000" Offset="0.6" />
+  </LinearGradientBrush>
   <SolidColorBrush x:Key="ClayDropPositive" Color="#991A3A30" />
   <SolidColorBrush x:Key="ClayShadePositive" Color="#661A3A30" />
   <SolidColorBrush x:Key="ClayDropFeature" Color="#992E2450" />
