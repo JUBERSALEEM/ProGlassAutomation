@@ -115,7 +115,7 @@
    </Grid>
    <ControlTemplate.Triggers>
     <Trigger Property="Rank" Value="Control">
-     <Setter TargetName="Volume" Property="Margin" Value="0" />
+     <Setter TargetName="Volume" Property="Margin" Value="6" />
      <Setter TargetName="Face" Property="Margin" Value="0" />
      <Setter TargetName="DarkNear" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightNear" Property="Visibility" Value="Collapsed" />
@@ -129,7 +129,7 @@
      <Setter TargetName="LightGlowLift" Property="Visibility" Value="Collapsed" />
     </Trigger>
     <Trigger Property="Rank" Value="Chip">
-     <Setter TargetName="Volume" Property="Margin" Value="0" />
+     <Setter TargetName="Volume" Property="Margin" Value="4" />
      <Setter TargetName="Face" Property="Margin" Value="0" />
      <Setter TargetName="DarkNear" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightNear" Property="Visibility" Value="Collapsed" />
