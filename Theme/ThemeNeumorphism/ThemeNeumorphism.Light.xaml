@@ -44,7 +44,7 @@
   <sys:Double x:Key="SpacingLarge">16</sys:Double>
   <sys:Double x:Key="SpacingSection">24</sys:Double>
   <sys:Double x:Key="SpacingPage">32</sys:Double>
-  <sys:Double x:Key="ControlMinHeight">32</sys:Double>
+  <sys:Double x:Key="ControlMinHeight">36</sys:Double>
   <sys:Double x:Key="ControlMinWidth">76</sys:Double>
   <sys:Double x:Key="ChoiceMarkSize">18</sys:Double>
   <sys:Double x:Key="ScrollBarSize">12</sys:Double>
@@ -69,8 +69,8 @@
   <Thickness x:Key="PaddingChoice">8</Thickness>
   <Thickness x:Key="PaddingCompact">8,4</Thickness>
   <CornerRadius x:Key="CardCornerRadius">18</CornerRadius>
-  <CornerRadius x:Key="ControlCornerRadius">9</CornerRadius>
-  <CornerRadius x:Key="ChipCornerRadius">6</CornerRadius>
+  <CornerRadius x:Key="ControlCornerRadius">12</CornerRadius>
+  <CornerRadius x:Key="ChipCornerRadius">12</CornerRadius>
   <FontFamily x:Key="FontFamilyBody">Segoe UI Variable, Segoe UI</FontFamily>
   <FontFamily x:Key="FontFamilyMono">Consolas</FontFamily>
   <FontWeight x:Key="FontWeightHeading">SemiBold</FontWeight>
