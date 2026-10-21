@@ -79,6 +79,11 @@ public static class SharedGeometry
             if (ThemeCatalog.Find(theme).Geometry != ThemeGeometry.SharedTokens)
                 return;
             Apply(package, geometry);
+            if (theme == ThemeService.Neumorphism)
+            {
+                package["ControlCornerRadius"] = new CornerRadius(12);
+                package["ChipCornerRadius"] = new CornerRadius(12);
+            }
             if (theme == ThemeService.Bento && bento.LayoutPreset == BentoLayoutPreset.CompactDense)
             {
                 double card = Math.Max(6d, CardRadius(geometry.Rounding) - 2d);
