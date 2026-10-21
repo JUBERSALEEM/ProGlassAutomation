@@ -1,13 +1,15 @@
 # Liquid Glass — fifth theme (Phase 01 / step1)
 
-Native WPF reading of Apple Liquid Glass / iOS 26 widgets and the glass-ui recipe (`--glass-bg: rgba(255,255,255,0.25)`, `--glass-border: rgba(255,255,255,0.18)`, `--blur: 30px`, `--glass-shadow: 0 8px 32px`). Not Fluent acrylic, not Clay extras, not theme 6 Glassmorphism, not CSS `backdrop-filter`, not desktop capture, not a sine-wave lining field.
+Native WPF reading of Apple Liquid Glass / iOS 26 widgets: a translucent veil over a **theme-owned wallpaper**, not a scene catalog. Wallpaper follows the GlassPulse / WWDC showcase pattern (mesh of overlapping light orbs). Glass follows glass-ui (`--glass-bg`, `--glass-border`, `--glass-shadow`). Not Fluent acrylic, not Clay, not CSS, not desktop capture, not a sine-wave lining, not a built-in scene generator.
+
+## Showcase canvas
+
+`LiquidCanvasBrush` is the Liquid Glass wallpaper — one DrawingBrush in extras, Light and Dark. Cyan / violet / rose orbs on a sky field so glass has something to sit on. No PNG, no extra type, no wallpaper picker.
 
 ## Standard
 
-- **Wallpaper** is a smooth sky→violet→rose gradient (`LiquidCanvasBrush`). No striped caustics.
-- **Glass face** is a translucent white veil (`LiquidFaceBrush`). Clear = 22% (glass-ui default). The wallpaper must show through the card.
-- **Edge** is a hairline white border (`--glass-border`), not a chromatic fringe.
-- **Specular** is a short top sheen (`inset 0 1px white`). Hover brightens it.
+- **Glass face** is a translucent white veil. Clear = 22%. Wallpaper must show through.
+- **Edge** is a visible white hairline, plus a short top specular.
 - **Lift** is an unnamed `DropShadowEffect` on a near-transparent caster — never on the content tree, never `x:Name`.
 - **Inputs** stay `LiquidWellBrush`. Charts stay CPU; no Blur, no BitmapCache.
 - **Reduced transparency** swaps in `LiquidOpaqueBrush` and drops sheen/lift.
@@ -16,7 +18,7 @@ True Metal refraction, per-card desktop capture, Win2D and extra NuGet are **not
 
 ## Engine
 
-`LiquidGlassSurface` paints those layers. Frost / specular / tint are Liquid-owned extras. Rounding stays SharedTokens. Font and color overlays still run after material.
+`LiquidGlassSurface` paints the glass. Frost / specular / tint are Liquid-owned extras. Rounding stays SharedTokens.
 
 ## Completeness
 

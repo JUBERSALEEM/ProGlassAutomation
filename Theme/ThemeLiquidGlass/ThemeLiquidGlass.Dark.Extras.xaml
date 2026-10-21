@@ -14,8 +14,8 @@
     <GradientStop Color="#00FFFFFF" Offset="1" />
   </LinearGradientBrush>
   <SolidColorBrush x:Key="LiquidSpecularBrush" Color="#73FFFFFF" />
-  <SolidColorBrush x:Key="LiquidRimBrush" Color="#33FFFFFF" />
-  <SolidColorBrush x:Key="LiquidStrokeBrush" Color="#33FFFFFF" />
+  <SolidColorBrush x:Key="LiquidRimBrush" Color="#40FFFFFF" />
+  <SolidColorBrush x:Key="LiquidStrokeBrush" Color="#73FFFFFF" />
   <LinearGradientBrush x:Key="LiquidSpecularHoverBrush" StartPoint="0,0" EndPoint="0,1">
     <GradientStop Color="#B3FFFFFF" Offset="0" />
     <GradientStop Color="#40FFFFFF" Offset="1" />
@@ -40,13 +40,65 @@
   <sys:Double x:Key="LiquidLiftBlur">32</sys:Double>
   <sys:Double x:Key="LiquidLiftDepth">8</sys:Double>
   <sys:Double x:Key="LiquidLiftOpacity">0.28</sys:Double>
-  <sys:Double x:Key="LiquidSheenHeight">14</sys:Double>
+  <sys:Double x:Key="LiquidSheenHeight">8</sys:Double>
   <Thickness x:Key="LiquidSpecularThickness">2,2,0,0</Thickness>
   <Thickness x:Key="LiquidRimThickness">1</Thickness>
   <sys:Boolean x:Key="LiquidReduceTransparency">False</sys:Boolean>
-  <LinearGradientBrush x:Key="LiquidCanvasBrush" StartPoint="0,0" EndPoint="1,1">
-    <GradientStop Color="#0A3A58" Offset="0" />
-    <GradientStop Color="#2A2060" Offset="0.5" />
-    <GradientStop Color="#4A1848" Offset="1" />
-  </LinearGradientBrush>
+  <DrawingBrush x:Key="LiquidCanvasBrush" Stretch="UniformToFill" AlignmentX="Center" AlignmentY="Center">
+    <DrawingBrush.Drawing>
+      <DrawingGroup>
+        <GeometryDrawing Brush="#071A32">
+          <GeometryDrawing.Geometry>
+            <RectangleGeometry Rect="0,0,400,240" />
+          </GeometryDrawing.Geometry>
+        </GeometryDrawing>
+        <GeometryDrawing>
+          <GeometryDrawing.Brush>
+            <RadialGradientBrush Center="0.24,0.20" GradientOrigin="0.24,0.20" RadiusX="0.42" RadiusY="0.48">
+              <GradientStop Color="#992A8AB8" Offset="0" />
+              <GradientStop Color="#550A3A58" Offset="0.55" />
+              <GradientStop Color="#00071A32" Offset="1" />
+            </RadialGradientBrush>
+          </GeometryDrawing.Brush>
+          <GeometryDrawing.Geometry>
+            <EllipseGeometry Center="96,52" RadiusX="168" RadiusY="118" />
+          </GeometryDrawing.Geometry>
+        </GeometryDrawing>
+        <GeometryDrawing>
+          <GeometryDrawing.Brush>
+            <RadialGradientBrush Center="0.78,0.44" GradientOrigin="0.78,0.44" RadiusX="0.40" RadiusY="0.50">
+              <GradientStop Color="#AA5A3CA8" Offset="0" />
+              <GradientStop Color="#552A2060" Offset="0.5" />
+              <GradientStop Color="#00071A32" Offset="1" />
+            </RadialGradientBrush>
+          </GeometryDrawing.Brush>
+          <GeometryDrawing.Geometry>
+            <EllipseGeometry Center="312,110" RadiusX="160" RadiusY="128" />
+          </GeometryDrawing.Geometry>
+        </GeometryDrawing>
+        <GeometryDrawing>
+          <GeometryDrawing.Brush>
+            <RadialGradientBrush Center="0.68,0.88" GradientOrigin="0.68,0.88" RadiusX="0.36" RadiusY="0.32">
+              <GradientStop Color="#998A2870" Offset="0" />
+              <GradientStop Color="#00071A32" Offset="1" />
+            </RadialGradientBrush>
+          </GeometryDrawing.Brush>
+          <GeometryDrawing.Geometry>
+            <EllipseGeometry Center="272,210" RadiusX="144" RadiusY="86" />
+          </GeometryDrawing.Geometry>
+        </GeometryDrawing>
+        <GeometryDrawing>
+          <GeometryDrawing.Brush>
+            <RadialGradientBrush Center="0.14,0.80" GradientOrigin="0.14,0.80" RadiusX="0.28" RadiusY="0.26">
+              <GradientStop Color="#771A6A68" Offset="0" />
+              <GradientStop Color="#00071A32" Offset="1" />
+            </RadialGradientBrush>
+          </GeometryDrawing.Brush>
+          <GeometryDrawing.Geometry>
+            <EllipseGeometry Center="56,192" RadiusX="112" RadiusY="68" />
+          </GeometryDrawing.Geometry>
+        </GeometryDrawing>
+      </DrawingGroup>
+    </DrawingBrush.Drawing>
+  </DrawingBrush>
 </ResourceDictionary>
