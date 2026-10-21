@@ -51,7 +51,7 @@ assert 'MaxWidth=' not in view and 'MaxWidth=' not in sample, 'Use full viewport
 assert 'bento:BentoGrid' in view and 'bento:BentoGrid' in sample, 'Studio and reference must use the Bento grid'
 assert 'FillAvailable="True"' in view and 'FillAvailable="True"' in sample, 'Studio and reference mosaics fill the viewport'
 assert 'Compact="True"' in view, 'Studio preview must use the compact 2×3 mosaic, not a nested full page'
-assert 'ScrollViewer' not in sample, 'Business reference is a viewport mosaic, not a scrolling card document'
+assert 'ScrollViewer' in sample and 'BusinessModules' in sample, 'Home mosaic must scroll when it is taller than the viewport'
 assert 'UniformGrid' not in sample, 'Equal KPI strips are not a bento mosaic'
 assert 'BentoGrid.ColumnSpan' in sample and 'BentoGrid.RowSpan' in sample, 'Reference mosaic must declare spans'
 for component in ('OverviewPanel', 'AnalyticsOverview', 'WorklistPanel', 'ControlsPanel'):
