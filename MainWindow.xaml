@@ -70,23 +70,52 @@
                 </ControlTemplate.Triggers>
             </ControlTemplate></Setter.Value></Setter>
         </Style>
-        <Style x:Key="ShellGroupToggle" TargetType="ToggleButton">
-            <Setter Property="FocusVisualStyle" Value="{DynamicResource KeyboardFocus}" />
-            <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
+        <Style x:Key="ShellExpanderCard" TargetType="Expander">
+            <Setter Property="Background" Value="{DynamicResource SurfaceElevated}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderSubtle}" />
+            <Setter Property="BorderThickness" Value="{DynamicResource BorderThicknessControl}" />
+            <Setter Property="Padding" Value="{DynamicResource PaddingCompact}" />
+            <Setter Property="Margin" Value="{DynamicResource MarginItem}" />
             <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
-            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="Padding" Value="{DynamicResource PaddingControl}" />
-            <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ToggleButton">
-                <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
-                    <DockPanel>
-                        <TextBlock x:Name="Chevron" DockPanel.Dock="Right" Text="▾" Foreground="{DynamicResource TextMuted}" />
-                        <ContentPresenter VerticalAlignment="Center" RecognizesAccessKey="True" />
-                    </DockPanel>
-                </Border>
-                <ControlTemplate.Triggers>
-                    <Trigger Property="IsChecked" Value="False"><Setter TargetName="Chevron" Property="Text" Value="▸" /></Trigger>
-                </ControlTemplate.Triggers>
-            </ControlTemplate></Setter.Value></Setter>
+            <Setter Property="FocusVisualStyle" Value="{DynamicResource KeyboardFocus}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Expander">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{DynamicResource ControlCornerRadius}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition x:Name="ContentRow" Height="0" />
+                                </Grid.RowDefinitions>
+                                <ToggleButton Grid.Row="0" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" Content="{TemplateBinding Header}" Background="{DynamicResource TransparentBrush}" BorderThickness="0" Padding="{DynamicResource PaddingControl}" Cursor="Hand" FocusVisualStyle="{DynamicResource KeyboardFocus}">
+                                    <ToggleButton.Template>
+                                        <ControlTemplate TargetType="ToggleButton">
+                                            <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ChipCornerRadius}">
+                                                <DockPanel>
+                                                    <TextBlock x:Name="Arrow" DockPanel.Dock="Right" Text="▾" Foreground="{DynamicResource TextMuted}" VerticalAlignment="Center" />
+                                                    <ContentPresenter VerticalAlignment="Center" RecognizesAccessKey="True" />
+                                                </DockPanel>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsChecked" Value="False"><Setter TargetName="Arrow" Property="Text" Value="▸" /></Trigger>
+                                                <Trigger Property="IsMouseOver" Value="True"><Setter Property="Background" Value="{DynamicResource StateHover}" /></Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </ToggleButton.Template>
+                                </ToggleButton>
+                                <Border Grid.Row="1" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="0,1,0,0" Padding="{DynamicResource PaddingCompact}">
+                                    <ContentPresenter />
+                                </Border>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsExpanded" Value="True">
+                                <Setter TargetName="ContentRow" Property="Height" Value="Auto" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
         <Style x:Key="ShellSectionLabel" TargetType="TextBlock" BasedOn="{StaticResource Caption}">
             <Setter Property="Margin" Value="{DynamicResource PaddingCompact}" />
@@ -112,7 +141,7 @@
             </Border.Style>
             <Button Command="{Binding ToggleMenu}" Style="{StaticResource ShellIconButton}" AutomationProperties.Name="Open shell">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="☰" Margin="{DynamicResource MarginInline}" />
+                    <TextBlock Text="▶▶" Margin="{DynamicResource MarginInline}" />
                     <TextBlock Text="{Binding WorkspaceTitle}" FontWeight="{DynamicResource FontWeightHeading}" />
                 </StackPanel>
             </Button>
@@ -163,23 +192,23 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <DockPanel Margin="{DynamicResource PaddingCompact}">
-                        <Button DockPanel.Dock="Right" Content="✕" Command="{Binding ToggleMenu}" Style="{StaticResource ShellIconButton}" AutomationProperties.Name="Close menu" />
-                        <TextBlock Text="Menu" FontWeight="{DynamicResource FontWeightHeading}" VerticalAlignment="Center" />
+                        <Button DockPanel.Dock="Right" Content="◀◀" Command="{Binding ToggleMenu}" Style="{StaticResource ShellIconButton}" ToolTip="Hide menu" AutomationProperties.Name="Close menu" />
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Border Width="{DynamicResource ControlMinHeight}" Height="{DynamicResource ControlMinHeight}" CornerRadius="{DynamicResource ChipCornerRadius}" Background="{DynamicResource AccentSoft}" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center">
+                                <TextBlock Text="PG" Foreground="{DynamicResource AccentPrimary}" FontWeight="{DynamicResource FontWeightHeading}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="ProGlass" FontWeight="{DynamicResource FontWeightHeading}" />
+                                <TextBlock Text="Automation" Style="{DynamicResource Caption}" />
+                            </StackPanel>
+                        </StackPanel>
                     </DockPanel>
                     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Focusable="False">
                         <StackPanel>
-                            <ToggleButton x:Name="SettingsGroup" Style="{StaticResource ShellGroupToggle}" Content="Settings" IsChecked="True" />
-                            <StackPanel>
-                                <StackPanel.Style>
-                                    <Style TargetType="StackPanel">
-                                        <Setter Property="Visibility" Value="Visible" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsChecked, ElementName=SettingsGroup}" Value="False">
-                                                <Setter Property="Visibility" Value="Collapsed" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </StackPanel.Style>
+                            <Expander x:Name="SettingsGroup" Style="{StaticResource ShellExpanderCard}" IsExpanded="True" AutomationProperties.Name="Settings">
+                                <Expander.Header>
+                                    <TextBlock Text="Settings" FontWeight="{DynamicResource FontWeightHeading}" />
+                                </Expander.Header>
                                 <Button Command="{Binding ShowStudio}" AutomationProperties.Name="Theme Studio page">
                                     <Button.Style>
                                         <Style TargetType="Button" BasedOn="{StaticResource ShellNavButton}">
@@ -193,7 +222,7 @@
                                     </Button.Style>
                                     <TextBlock Text="Theme Studio" />
                                 </Button>
-                            </StackPanel>
+                            </Expander>
                         </StackPanel>
                     </ScrollViewer>
                     <TextBlock Grid.Row="2" Text="Phase 01 · Theme engine" Style="{StaticResource ShellSectionLabel}" />
