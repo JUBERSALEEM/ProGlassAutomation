@@ -198,7 +198,7 @@
   </ControlTemplate></Setter.Value></Setter>
  </Style>
  <Style x:Key="AccentPlate" TargetType="ContentControl" BasedOn="{StaticResource Plate}">
-  <Setter Property="Background" Value="{DynamicResource AccentSoft}" />
+  <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
  </Style>
  <Style x:Key="ElevatedPlate" TargetType="ContentControl" BasedOn="{StaticResource Plate}">
   <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />

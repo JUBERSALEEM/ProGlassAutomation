@@ -29,12 +29,10 @@
   </Style.Triggers>
  </Style>
  <Style x:Key="PrimaryButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-  <Setter Property="Background" Value="{DynamicResource AccentPrimary}" />
-  <Setter Property="BorderBrush" Value="{DynamicResource AccentHover}" />
-  <Setter Property="Foreground" Value="{DynamicResource TextOnAccent}" />
+  <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
+  <Setter Property="BorderBrush" Value="{DynamicResource NeumorphDarkBrush}" />
+  <Setter Property="Foreground" Value="{DynamicResource AccentPrimary}" />
   <Style.Triggers>
-   <Trigger Property="IsMouseOver" Value="True"><Setter Property="Background" Value="{DynamicResource AccentHover}" /></Trigger>
-   <Trigger Property="IsPressed" Value="True"><Setter Property="Background" Value="{DynamicResource AccentPressed}" /></Trigger>
    <Trigger Property="IsEnabled" Value="False"><Setter Property="Background" Value="{DynamicResource DisabledSurface}" /><Setter Property="Foreground" Value="{DynamicResource DisabledText}" /></Trigger>
   </Style.Triggers>
  </Style>
@@ -43,13 +41,11 @@
   <Setter Property="BorderBrush" Value="{DynamicResource NeumorphDarkBrush}" />
  </Style>
  <Style x:Key="DestructiveButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-  <Setter Property="Background" Value="{DynamicResource StatusErrorSurface}" />
+  <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
   <Setter Property="Foreground" Value="{DynamicResource StatusError}" />
-  <Setter Property="BorderBrush" Value="{DynamicResource StatusError}" />
+  <Setter Property="BorderBrush" Value="{DynamicResource NeumorphDarkBrush}" />
   <Style.Triggers>
-   <Trigger Property="IsMouseOver" Value="True"><Setter Property="Background" Value="{DynamicResource StatusErrorSurface}" /></Trigger>
-   <Trigger Property="IsPressed" Value="True"><Setter Property="Background" Value="{DynamicResource StatusErrorSurface}" /></Trigger>
-   <Trigger Property="IsEnabled" Value="False"><Setter Property="Background" Value="{DynamicResource DisabledSurface}" /><Setter Property="Foreground" Value="{DynamicResource DisabledText}" /><Setter Property="BorderBrush" Value="{DynamicResource BorderSubtle}" /></Trigger>
+   <Trigger Property="IsEnabled" Value="False"><Setter Property="Background" Value="{DynamicResource DisabledSurface}" /><Setter Property="Foreground" Value="{DynamicResource DisabledText}" /></Trigger>
   </Style.Triggers>
  </Style>
 </ResourceDictionary>
