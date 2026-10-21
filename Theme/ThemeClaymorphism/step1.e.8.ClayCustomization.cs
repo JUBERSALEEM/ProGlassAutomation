@@ -87,21 +87,18 @@ public static class ClayCustomization
 
         var canvas = (state.Canvas, mode) switch
         {
-            (ClayCanvas.Warm, Appearance.Light) => ("#F7EFE6", "#EDE3D6"),
-            (ClayCanvas.Cool, Appearance.Light) => ("#E8EEF9", "#DCE5F3"),
-            (ClayCanvas.Warm, Appearance.Dark) => ("#241820", "#1C1418"),
-            (ClayCanvas.Cool, Appearance.Dark) => ("#141A30", "#101428"),
-            _ => ((string?)null, (string?)null)
+            (ClayCanvas.Warm, Appearance.Light) => ("#F7EFE6", "#EDE3D6", "#F3E0CC"),
+            (ClayCanvas.Cool, Appearance.Light) => ("#E8EEF9", "#DCE5F3", "#D4DFF0"),
+            (ClayCanvas.Warm, Appearance.Dark) => ("#241820", "#1C1418", "#322028"),
+            (ClayCanvas.Cool, Appearance.Dark) => ("#141A30", "#101428", "#1C2448"),
+            _ => ((string?)null, (string?)null, (string?)null)
         };
         if (canvas.Item1 is not null)
         {
             package["ApplicationBackground"] = Brush(canvas.Item1);
             package["SurfaceSecondary"] = Brush(canvas.Item2!);
-        }
-        if (package["ApplicationBackground"] is SolidColorBrush canvasBrush)
-        {
-            package["SurfacePrimary"] = new SolidColorBrush(canvasBrush.Color);
-            package["SurfaceElevated"] = new SolidColorBrush(canvasBrush.Color);
+            package["SurfacePrimary"] = Brush(canvas.Item3!);
+            package["SurfaceElevated"] = Brush(canvas.Item3!);
         }
 
         if (state.TextContrast == ClayTextContrast.High)

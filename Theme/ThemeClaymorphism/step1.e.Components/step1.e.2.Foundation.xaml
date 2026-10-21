@@ -85,6 +85,7 @@
        <DropShadowEffect Color="{DynamicResource ClayHighlightColor}" BlurRadius="{DynamicResource ClayBlur}" ShadowDepth="{DynamicResource ClayLiftDistance}" Direction="135" Opacity="{DynamicResource ClayLightGlowOpacity}" RenderingBias="Quality" />
       </Border.Effect>
      </Border>
+     <Border x:Name="Drop" Background="{TemplateBinding DropBrush}" CornerRadius="{TemplateBinding CornerRadius}" Margin="{DynamicResource ClayDropMargin}" IsHitTestVisible="False" />
      <Border x:Name="Face" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" Margin="{DynamicResource ClayFaceMargin}">
       <Grid>
        <Border x:Name="Curve" Background="{DynamicResource ClayCurveBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False" />
@@ -100,6 +101,7 @@
    <ControlTemplate.Triggers>
     <Trigger Property="Rank" Value="Control">
      <Setter TargetName="Volume" Property="Margin" Value="0" />
+     <Setter TargetName="Drop" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="DarkGlowControl" Property="Visibility" Value="Collapsed" />
@@ -111,6 +113,7 @@
     </Trigger>
     <Trigger Property="Rank" Value="Chip">
      <Setter TargetName="Volume" Property="Margin" Value="0" />
+     <Setter TargetName="Drop" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="DarkGlowControl" Property="Visibility" Value="Collapsed" />
@@ -131,6 +134,7 @@
      <Setter TargetName="LightGlowLift" Property="Visibility" Value="Visible" />
     </MultiTrigger>
     <Trigger Property="ShowDrop" Value="False">
+     <Setter TargetName="Drop" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="DarkGlowControl" Property="Visibility" Value="Collapsed" />
@@ -143,6 +147,7 @@
      <Setter TargetName="Face" Property="Margin" Value="0" />
     </Trigger>
     <Trigger Property="Concave" Value="True">
+     <Setter TargetName="Drop" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="DarkGlowControl" Property="Visibility" Value="Collapsed" />

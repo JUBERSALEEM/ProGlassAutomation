@@ -1,8 +1,8 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
   <SolidColorBrush x:Key="ApplicationBackground" Color="#F3F0FB" />
-  <SolidColorBrush x:Key="SurfacePrimary" Color="#F3F0FB" />
-  <SolidColorBrush x:Key="SurfaceSecondary" Color="#E6E0F2" />
-  <SolidColorBrush x:Key="SurfaceElevated" Color="#F3F0FB" />
+  <SolidColorBrush x:Key="SurfacePrimary" Color="#E4DCF4" />
+  <SolidColorBrush x:Key="SurfaceSecondary" Color="#D8D0EC" />
+  <SolidColorBrush x:Key="SurfaceElevated" Color="#EDE6FA" />
   <SolidColorBrush x:Key="TextPrimary" Color="#1A1F4D" />
   <SolidColorBrush x:Key="TextSecondary" Color="#3A4270" />
   <SolidColorBrush x:Key="TextMuted" Color="#4A5278" />
