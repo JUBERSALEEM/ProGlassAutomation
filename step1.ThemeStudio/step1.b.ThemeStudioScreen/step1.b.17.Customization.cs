@@ -1,5 +1,8 @@
+using System.IO;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Input;
+using Microsoft.Win32;
 using ProGlassAutomation.Customization;
 using ProGlassAutomation.ThemeBento;
 using ProGlassAutomation.ThemeClaymorphism;
@@ -108,7 +111,11 @@ public sealed partial class ThemeStudioViewModel
         ? $"{SelectedClayAccent} / {SelectedClayVolume} / {SelectedClayPlumpness} / {SelectedClayTypography}"
         : CanCustomizeBento ? $"{SelectedAccent} / {SelectedDensity} / {SelectedShape} / {SelectedTypography} · {SelectedLayoutPreset}"
         : "Theme-default settings";
-    public bool IsDirty => CanCustomizeClay ? clay != (lastSaved.Clay ?? new ClayCustomizationState()) : extended != lastSaved.Preferences;
+    public bool IsDirty =>
+        themes.ActiveTheme != lastSaved.Theme
+        || themes.ActiveAppearance != lastSaved.Appearance
+        || (CanCustomizeClay && clay != (lastSaved.Clay ?? new ClayCustomizationState()))
+        || (CanCustomizeBento && extended != lastSaved.Preferences);
     public int SelectedWorkspace
     {
         get => selectedWorkspace;
@@ -146,6 +153,8 @@ public sealed partial class ThemeStudioViewModel
     public ICommand SavePreset { get; private set; } = null!;
     public ICommand DeletePreset { get; private set; } = null!;
     public ICommand RenamePreset { get; private set; } = null!;
+    public ICommand ImportCustomization { get; private set; } = null!;
+    public ICommand ExportCustomization { get; private set; } = null!;
 
     private void InitializeCustomization()
     {
@@ -168,8 +177,64 @@ public sealed partial class ThemeStudioViewModel
         ShowStudio = new DelegateCommand(() => SelectedWorkspace = 0);
         ShowBusiness = new DelegateCommand(() => SelectedWorkspace = 1);
         ApplyPreview = new DelegateCommand(() => { try { themes.Apply(SelectedTheme, themes.ActiveAppearance, LiveConfigure()); ThemeError=""; Feedback="Preview applied — unsaved changes present."; } catch(Exception ex){ ThemeError=ex.Message; } Changed(nameof(ThemeError)); }, () => CanCustomize);
-        SaveCustomization = new DelegateCommand(() => { lastSaved = new SavedCustomization(2, themes.ActiveAppearance, extended, lastSaved.ChartOptions, lastSaved.ComponentStyles, lastSaved.CustomPresets, themes.ActiveTheme, clay, lastSaved.ClayPresets); CustomizationStore.Save(lastSaved); Feedback="Customization saved — will restore on next launch."; Changed(nameof(IsDirty)); }, () => CanCustomize && (CanCustomizeClay ? clay.Validate() is null : extended.Validate() is null));
-        DiscardChanges = new DelegateCommand(() => { if (IsClay) ApplyClayState(lastSaved.Clay ?? new ClayCustomizationState()); else ApplyState(lastSaved.Preferences); Feedback="Discarded unsaved changes."; }, () => IsDirty);
+        SaveCustomization = new DelegateCommand(() =>
+        {
+            if (extended.Validate() is not null || (clay ?? new ClayCustomizationState()).Validate() is not null)
+            {
+                ThemeError = "Cannot save invalid customization.";
+                Changed(nameof(ThemeError));
+                return;
+            }
+            var candidate = CaptureLive();
+            try
+            {
+                CustomizationStore.Save(candidate);
+                lastSaved = candidate;
+                ThemeError = "";
+                Feedback = "Customization saved — will restore on next launch.";
+            }
+            catch (Exception ex) when (ex is IOException or ArgumentException or InvalidOperationException)
+            {
+                ThemeError = "Save failed; previous saved package kept. " + ex.Message;
+            }
+            Changed(nameof(ThemeError));
+            Changed(nameof(IsDirty));
+        }, () => extended.Validate() is null && (clay ?? new ClayCustomizationState()).Validate() is null);
+        DiscardChanges = new DelegateCommand(() =>
+        {
+            RestoreSaved(lastSaved);
+            Feedback = "Discarded unsaved changes.";
+        }, () => IsDirty);
+        ImportCustomization = new DelegateCommand(() =>
+        {
+            try
+            {
+                var dialog = new OpenFileDialog { Filter = "ProGlass theme (*.json)|*.json", Title = "Import customization" };
+                if (dialog.ShowDialog() != true) return;
+                ApplyImported(CustomizationStore.ReadFile(dialog.FileName));
+                Feedback = "Imported into the live application — use Save to persist, Discard to revert.";
+            }
+            catch (Exception ex) when (ex is IOException or ArgumentException or InvalidOperationException or JsonException)
+            {
+                ThemeError = "Import rejected: " + ex.Message;
+                Changed(nameof(ThemeError));
+            }
+        });
+        ExportCustomization = new DelegateCommand(() =>
+        {
+            try
+            {
+                var dialog = new SaveFileDialog { Filter = "ProGlass theme (*.json)|*.json", Title = "Export customization", FileName = "proglass-theme.json" };
+                if (dialog.ShowDialog() != true) return;
+                CustomizationStore.WriteFile(CaptureLive(), dialog.FileName);
+                Feedback = "Exported current live customization.";
+            }
+            catch (Exception ex) when (ex is IOException or ArgumentException or InvalidOperationException)
+            {
+                ThemeError = "Export failed: " + ex.Message;
+                Changed(nameof(ThemeError));
+            }
+        });
         ResetSection = new DelegateCommand(() =>
         {
             if (IsClay)
@@ -361,9 +426,10 @@ public sealed partial class ThemeStudioViewModel
             }
         });
     }
-    private Action<ResourceDictionary, Appearance>? LiveConfigure() =>
-        CanCustomizeBento ? (package, mode) => BentoCustomization.ApplyExtended(package, mode, extended)
-        : CanCustomizeClay ? (package, mode) => ClayCustomization.Apply(package, mode, clay)
+    private Action<ResourceDictionary, Appearance>? LiveConfigure() => ConfigureFor(SelectedTheme);
+    private Action<ResourceDictionary, Appearance>? ConfigureFor(string theme) =>
+        theme == ThemeService.Bento ? (package, mode) => BentoCustomization.ApplyExtended(package, mode, extended)
+        : theme == ThemeService.Clay ? (package, mode) => ClayCustomization.Apply(package, mode, clay)
         : null;
     private void Customize(BentoPreferences candidate)
     {
@@ -401,5 +467,59 @@ public sealed partial class ThemeStudioViewModel
         catch (ThemeNotificationException error) { clay = next; ThemeError = error.Message; }
         catch (Exception error) when (error is InvalidOperationException or ArgumentException or System.IO.IOException or System.Windows.Markup.XamlParseException) { ThemeError=$"Design unchanged: {error.Message}"; }
         foreach (var n in new[] { nameof(SelectedClayAccent), nameof(SelectedClayVolume), nameof(SelectedClayPlumpness), nameof(SelectedClayDensity), nameof(SelectedClayCanvas), nameof(SelectedClayTypography), nameof(SelectedClaySpacing), nameof(SelectedClayTextContrast), nameof(SelectedClaySheen), nameof(SelectedClayWeight), nameof(SelectedClayLighting), nameof(SelectedClayRelief), nameof(SelectedClayEffects), nameof(DesignSummary), nameof(ThemeError), nameof(IsDirty) }) Changed(n);
+    }
+
+    private SavedCustomization CaptureLive() => new(
+        2,
+        themes.ActiveAppearance,
+        extended,
+        lastSaved.ChartOptions,
+        lastSaved.ComponentStyles,
+        lastSaved.CustomPresets,
+        themes.ActiveTheme,
+        clay,
+        lastSaved.ClayPresets);
+
+    private void ApplyImported(SavedCustomization loaded)
+    {
+        ArgumentNullException.ThrowIfNull(loaded);
+        AdoptPackage(loaded, persist: false);
+    }
+
+    private void RestoreSaved(SavedCustomization saved) => AdoptPackage(saved, persist: false);
+
+    private void AdoptPackage(SavedCustomization package, bool persist)
+    {
+        var nextBento = package.Preferences ?? new BentoCustomizationState();
+        var nextClay = package.Clay ?? new ClayCustomizationState();
+        var theme = ThemeService.InstalledThemes.Contains(package.Theme) ? package.Theme : ThemeService.Bento;
+        var previousBento = extended;
+        var previousClay = clay;
+        try
+        {
+            extended = nextBento;
+            clay = nextClay;
+            preferences = nextBento.ToLegacy();
+            themes.Apply(theme, package.Appearance, ConfigureFor(theme));
+            ThemeError = "";
+            if (persist)
+            {
+                CustomizationStore.Save(package);
+                lastSaved = package;
+            }
+        }
+        catch (ThemeNotificationException error)
+        {
+            ThemeError = error.Message;
+        }
+        catch (Exception error) when (error is InvalidOperationException or ArgumentException or IOException or System.Windows.Markup.XamlParseException)
+        {
+            extended = previousBento;
+            clay = previousClay;
+            preferences = previousBento.ToLegacy();
+            ThemeError = error.Message;
+        }
+        foreach (var n in new[] { nameof(SelectedAccent), nameof(SelectedDensity), nameof(SelectedShape), nameof(SelectedTypography), nameof(SelectedCanvas), nameof(SelectedSurface), nameof(SelectedTextContrast), nameof(SelectedBorder), nameof(SelectedShadow), nameof(SelectedSpacing), nameof(SelectedPadding), nameof(SelectedWeight), nameof(SelectedLayoutPreset), nameof(HeroCompact), nameof(ShowKpiTrend), nameof(SelectedClayAccent), nameof(SelectedClayVolume), nameof(SelectedClayPlumpness), nameof(SelectedClayDensity), nameof(SelectedClayCanvas), nameof(SelectedClayTypography), nameof(SelectedClaySpacing), nameof(SelectedClayTextContrast), nameof(SelectedClaySheen), nameof(SelectedClayWeight), nameof(SelectedClayLighting), nameof(SelectedClayRelief), nameof(SelectedClayEffects), nameof(DesignSummary), nameof(ThemeError), nameof(IsDirty) }) Changed(n);
+        CommandManager.InvalidateRequerySuggested();
     }
 }

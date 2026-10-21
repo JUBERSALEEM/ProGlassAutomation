@@ -23,8 +23,20 @@ internal static class CustomizationPersistenceChecks
         var clayState = new ClayCustomizationState(ClayAccent.Berry, ClayVolume.Deep, ClayPlumpness.Puffy, ClayDensity.Compact, ClayCanvas.Cool, ClayType.Large, ClaySpacing.Spacious, ClayTextContrast.High, ClaySheen.Gloss, ClayWeight.Semibold);
         var saved = new SavedCustomization(2, Appearance.Dark, state, null, null, [new NamedPreset("My Test", state, Appearance.Dark)], ThemeCatalog.FluentName, clayState, [new ClayNamedPreset("Berry Night", clayState, Appearance.Dark)]);
         var tmp = Path.Combine(Path.GetTempPath(), "proglass-test-" + Guid.NewGuid() + ".json");
-        var origPath = CustomizationStore.FilePath;
-        // Use temporary store via reflection to avoid polluting real user file — test via direct serialize
+        CustomizationStore.WriteFile(saved, tmp);
+        var fromFile = CustomizationStore.ReadFile(tmp);
+        if (fromFile.Preferences.Accent != BentoAccent.Indigo || fromFile.Theme != ThemeCatalog.FluentName) throw new Exception("Store write/read roundtrip");
+        if (fromFile.Clay?.Accent != ClayAccent.Berry) throw new Exception("Store clay roundtrip");
+        File.WriteAllText(tmp, "{\"Version\":1}");
+        try { CustomizationStore.ReadFile(tmp); throw new Exception("Version 1 import must fail"); }
+        catch (ArgumentException) { }
+        File.WriteAllBytes(tmp, new byte[CustomizationStore.MaxBytes + 1]);
+        try { CustomizationStore.ReadFile(tmp); throw new Exception("Oversized import must fail"); }
+        catch (ArgumentException) { }
+        File.WriteAllText(tmp, "{}");
+        try { CustomizationStore.ReadFile(tmp); throw new Exception("Empty import must fail"); }
+        catch (ArgumentException) { }
+        File.Delete(tmp);
         var json = System.Text.Json.JsonSerializer.Serialize(saved, new System.Text.Json.JsonSerializerOptions{ WriteIndented=true, Converters={ new System.Text.Json.Serialization.JsonStringEnumConverter()}});
         var reloaded = System.Text.Json.JsonSerializer.Deserialize<SavedCustomization>(json, new System.Text.Json.JsonSerializerOptions{ Converters={ new System.Text.Json.Serialization.JsonStringEnumConverter()}, PropertyNameCaseInsensitive=true});
         if (reloaded!.Preferences.Accent != BentoAccent.Indigo) throw new Exception("Roundtrip accent");

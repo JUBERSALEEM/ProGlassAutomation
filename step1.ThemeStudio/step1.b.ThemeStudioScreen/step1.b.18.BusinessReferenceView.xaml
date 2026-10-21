@@ -4,14 +4,14 @@
                    RowHeight="{DynamicResource BentoRowHeight}" Gutter="{DynamicResource BentoGutter}" CompactWidth="{DynamicResource BentoCompactWidth}">
    <local:OverviewPanel x:Name="Hero" bento:BentoGrid.Column="0" bento:BentoGrid.Row="0" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="2" />
    <local:AppearancePanel x:Name="Health" bento:BentoGrid.Column="2" bento:BentoGrid.Row="0" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="2" />
-   <local:AnalyticsOverview x:Name="Analytics" bento:BentoGrid.Column="0" bento:BentoGrid.Row="2" bento:BentoGrid.ColumnSpan="4" bento:BentoGrid.RowSpan="3" />
-   <local:OverflowPopup bento:BentoGrid.Column="0" bento:BentoGrid.Row="5" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="2">
+   <local:AnalyticsOverview x:Name="Analytics" bento:BentoGrid.Column="0" bento:BentoGrid.Row="2" bento:BentoGrid.ColumnSpan="4" bento:BentoGrid.RowSpan="5" />
+   <local:OverflowPopup bento:BentoGrid.Column="0" bento:BentoGrid.Row="7" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="2">
     <local:WorklistPanel x:Name="Work" />
    </local:OverflowPopup>
-   <local:OverflowPopup bento:BentoGrid.Column="2" bento:BentoGrid.Row="5" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="2">
+   <local:OverflowPopup bento:BentoGrid.Column="2" bento:BentoGrid.Row="7" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="2">
     <local:ControlsPanel x:Name="Details" />
    </local:OverflowPopup>
-   <local:OverflowPopup bento:BentoGrid.Column="0" bento:BentoGrid.Row="7" bento:BentoGrid.ColumnSpan="4" bento:BentoGrid.RowSpan="1">
+   <local:OverflowPopup bento:BentoGrid.Column="0" bento:BentoGrid.Row="9" bento:BentoGrid.ColumnSpan="4" bento:BentoGrid.RowSpan="2">
     <local:SurfacesPanel x:Name="Layers" />
    </local:OverflowPopup>
   </bento:BentoGrid>

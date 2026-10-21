@@ -8,6 +8,7 @@ namespace ProGlassAutomation.Customization;
 
 public static class CustomizationStore
 {
+    public const int MaxBytes = 64 * 1024;
     private static readonly JsonSerializerOptions Options = new()
     {
         WriteIndented = true,
@@ -24,21 +25,7 @@ public static class CustomizationStore
         try
         {
             if (!File.Exists(FilePath)) return Defaults();
-            var json = File.ReadAllText(FilePath);
-            var loaded = JsonSerializer.Deserialize<SavedCustomization>(json, Options);
-            if (loaded is null || loaded.Version != 2) return Defaults();
-            // Validate strictly — invalid stored values must fall back, never crash app.
-            if (loaded.Preferences?.Validate() is not null) return Defaults();
-            if (loaded.Clay?.Validate() is not null) return Defaults();
-            if (!Enum.IsDefined(loaded.Appearance)) return Defaults();
-            if (string.IsNullOrWhiteSpace(loaded.Theme) || !ThemeService.InstalledThemes.Contains(loaded.Theme))
-                loaded = loaded with { Theme = ThemeCatalog.BentoName };
-            loaded = loaded with { Clay = loaded.Clay ?? new ClayCustomizationState() };
-            foreach (var preset in loaded.CustomPresets ?? [])
-                if (string.IsNullOrWhiteSpace(preset.Name) || preset.State.Validate() is not null) return Defaults();
-            foreach (var preset in loaded.ClayPresets ?? [])
-                if (string.IsNullOrWhiteSpace(preset.Name) || preset.State.Validate() is not null) return Defaults();
-            return loaded;
+            return ReadFile(FilePath);
         }
         catch (Exception ex) when (ex is IOException or JsonException or ArgumentException or InvalidOperationException)
         {
@@ -46,17 +33,50 @@ public static class CustomizationStore
         }
     }
 
-    public static void Save(SavedCustomization state)
+    public static SavedCustomization ReadFile(string path)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(path);
+        var info = new FileInfo(path);
+        if (!info.Exists) throw new FileNotFoundException("Theme file not found.", path);
+        if (info.Length > MaxBytes) throw new ArgumentException("Theme files must be at most 64 KB.");
+        var json = File.ReadAllText(path);
+        var loaded = JsonSerializer.Deserialize<SavedCustomization>(json, Options);
+        if (loaded is null || loaded.Version != 2) throw new ArgumentException("Unsupported or empty ProGlass theme file.");
+        if (loaded.Preferences is null || loaded.Preferences.Validate() is not null) throw new ArgumentException("Theme file contains invalid Bento preferences.");
+        if (loaded.Clay?.Validate() is not null) throw new ArgumentException("Theme file contains invalid Clay preferences.");
+        if (!Enum.IsDefined(loaded.Appearance)) throw new ArgumentException("Theme file appearance is not supported.");
+        if (string.IsNullOrWhiteSpace(loaded.Theme) || !ThemeService.InstalledThemes.Contains(loaded.Theme))
+            loaded = loaded with { Theme = ThemeCatalog.BentoName };
+        loaded = loaded with { Clay = loaded.Clay ?? new ClayCustomizationState() };
+        foreach (var preset in loaded.CustomPresets ?? [])
+            if (string.IsNullOrWhiteSpace(preset.Name) || preset.State.Validate() is not null)
+                throw new ArgumentException("Theme file contains an invalid Bento preset.");
+        foreach (var preset in loaded.ClayPresets ?? [])
+            if (string.IsNullOrWhiteSpace(preset.Name) || preset.State.Validate() is not null)
+                throw new ArgumentException("Theme file contains an invalid Clay preset.");
+        return loaded;
+    }
+
+    public static void Save(SavedCustomization state) => WriteFile(state, FilePath);
+
+    public static void WriteFile(SavedCustomization state, string path)
     {
         ArgumentNullException.ThrowIfNull(state);
+        ArgumentException.ThrowIfNullOrWhiteSpace(path);
         if (state.Preferences.Validate() is not null) throw new ArgumentException("Cannot persist invalid preferences.");
         if (state.Clay?.Validate() is not null) throw new ArgumentException("Cannot persist invalid clay preferences.");
-        var dir = Path.GetDirectoryName(FilePath)!;
+        var dir = Path.GetDirectoryName(Path.GetFullPath(path))!;
         Directory.CreateDirectory(dir);
-        // atomic write to avoid corrupt half-written file
-        var tmp = FilePath + ".tmp";
-        File.WriteAllText(tmp, JsonSerializer.Serialize(state with { Version = 2 }, Options));
-        File.Move(tmp, FilePath, overwrite: true);
+        var tmp = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
+        try
+        {
+            File.WriteAllText(tmp, JsonSerializer.Serialize(state with { Version = 2 }, Options));
+            File.Move(tmp, path, overwrite: true);
+        }
+        finally
+        {
+            if (File.Exists(tmp)) File.Delete(tmp);
+        }
     }
 
     public static SavedCustomization Defaults() => new();

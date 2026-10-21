@@ -4,7 +4,8 @@ using System.Windows.Controls;
 namespace ProGlassAutomation.ThemeBento;
 
 /// <summary>
-/// Bento mosaic: equal-height rows, explicit spans, packed gutters.
+/// Enterprise Bento mosaic: equal-height rows, explicit column/row spans, packed gutters.
+/// Wide modules (hero, analytics, tables) sit beside compact KPI/status tiles.
 /// Compact widths reflow in document order without mutating attached slots.
 /// </summary>
 public sealed class BentoGrid : Panel

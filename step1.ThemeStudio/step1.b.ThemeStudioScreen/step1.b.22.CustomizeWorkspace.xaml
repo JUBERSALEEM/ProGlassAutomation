@@ -143,6 +143,8 @@
        <Button Content="Apply" Command="{Binding ApplyPreview}" Style="{DynamicResource PrimaryButton}" Margin="{DynamicResource MarginItem}" Padding="{DynamicResource PaddingControl}" AutomationProperties.Name="Apply to theme"/>
        <Button Content="Save" Command="{Binding SaveCustomization}" Margin="{DynamicResource MarginItem}" Padding="{DynamicResource PaddingControl}" AutomationProperties.Name="Save to disk"/>
        <Button Content="Discard" Command="{Binding DiscardChanges}" Margin="{DynamicResource MarginItem}" Padding="{DynamicResource PaddingControl}" AutomationProperties.Name="Discard unsaved changes"/>
+       <Button Content="Import JSON" Command="{Binding ImportCustomization}" Margin="{DynamicResource MarginItem}" Padding="{DynamicResource PaddingControl}" AutomationProperties.Name="Import customization JSON"/>
+       <Button Content="Export JSON" Command="{Binding ExportCustomization}" Margin="{DynamicResource MarginItem}" Padding="{DynamicResource PaddingControl}" AutomationProperties.Name="Export customization JSON"/>
        <Button Content="Preview default" Command="{Binding PreviewDefault}" Margin="{DynamicResource MarginItem}" Padding="{DynamicResource PaddingControl}" AutomationProperties.Name="Toggle preview default"/>
        <Button Content="Reset section" Command="{Binding ResetSection}" Margin="{DynamicResource MarginItem}" Padding="{DynamicResource PaddingControl}" AutomationProperties.Name="Reset current section"/>
        <Button Content="Reset theme" Command="{Binding ResetTheme}" Style="{DynamicResource DestructiveButton}" Margin="{DynamicResource MarginItem}" Padding="{DynamicResource PaddingControl}" AutomationProperties.Name="Reset theme to defaults"/>

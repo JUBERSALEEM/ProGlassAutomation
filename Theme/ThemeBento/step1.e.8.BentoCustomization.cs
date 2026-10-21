@@ -6,7 +6,7 @@ using ProGlassAutomation.Theming;
 namespace ProGlassAutomation.ThemeBento;
 
 public enum BentoAccent { Ocean, Indigo, Teal }
-public enum BentoDensity { Compact, Comfortable }
+public enum BentoDensity { Compact, Comfortable, Spacious }
 public enum BentoShape { Crisp, Soft, Rounded }
 public enum BentoType { Small, Standard, Large }
 public sealed record BentoPreferences(BentoAccent Accent = BentoAccent.Ocean,
@@ -79,33 +79,36 @@ public static class BentoCustomization
             package["BorderSubtle"] = new SolidColorBrush(Colors.Transparent);
         // Shadow intensity maps to border thickness/elevation (no blur)
         package["BorderThicknessControl"] = state.Shadow switch { BentoShadowIntensity.None => new Thickness(0), BentoShadowIntensity.Elevated => new Thickness(1.2), _ => new Thickness(1) };
-        // Density — now supports Spacious
         bool compact = state.Density == BentoDensity.Compact;
         package["ControlMinHeight"] = state.Density switch { BentoDensity.Compact => 32d, BentoDensity.Comfortable => 38d, _ => 44d };
-        // Map Spacious correctly — use Spacing to allow Comfortable+Spacious etc
         double spacingFactor = state.Spacing switch { BentoSpacing.Compact => 0.85, BentoSpacing.Spacious => 1.25, _ => 1.0 };
         package["SpacingSmall"] = 4 * spacingFactor;
         package["SpacingMedium"] = 8 * spacingFactor;
         package["SpacingLarge"] = 16 * spacingFactor;
         package["SpacingSection"] = 24 * spacingFactor;
         package["PaddingControl"] = compact ? new Thickness(10, 5, 10, 5) : new Thickness(14, 8, 14, 8);
-        // Card padding
         double pad = state.CardPadding switch { BentoCardPadding.Compact => 8, BentoCardPadding.Spacious => 18, _ => 12 };
         package["PaddingCard"] = new Thickness(pad);
         package["PaddingPlate"] = new Thickness(state.CardPadding == BentoCardPadding.Compact ? 8 : state.CardPadding == BentoCardPadding.Spacious ? 16 : 10);
         package["PaddingSelection"] = compact ? new Thickness(10, 5, 32, 5) : new Thickness(14, 8, 38, 8);
         double size = state.Typography switch { BentoType.Small => 12d, BentoType.Large => 14d, _ => 13d };
         package["FontSizeBody"] = size;
-        package["FontSizeCaption"] = 12d;
-        package["FontSizeSection"] = size + 3;
+        package["FontSizeCaption"] = Math.Max(11d, size - 1);
+        package["FontSizeSection"] = size + 4;
+        package["FontSizeTitle"] = size + 7;
+        package["FontSizeDisplay"] = size + 15;
         package["FontWeightHeading"] = state.FontWeight switch { BentoFontWeight.Medium => FontWeights.Medium, BentoFontWeight.Semibold => FontWeights.SemiBold, _ => FontWeights.SemiBold };
         package["FontWeightBody"] = state.FontWeight switch { BentoFontWeight.Medium => FontWeights.Medium, BentoFontWeight.Semibold => FontWeights.SemiBold, _ => FontWeights.Normal };
         double radius = state.Shape switch { BentoShape.Crisp => 4d, BentoShape.Rounded => 18d, _ => 12d };
-        // Spacious layout slightly softens radius
+        if (compact) radius = Math.Max(6, radius - 2);
         if (state.LayoutPreset == BentoLayoutPreset.CompactDense) radius = Math.Max(6, radius - 2);
         package["CardCornerRadius"] = new CornerRadius(radius);
         package["ControlCornerRadius"] = new CornerRadius(radius / 2);
-        package["BentoGutter"] = 16 * spacingFactor;
-        package["BentoRowHeight"] = (state.Density == BentoDensity.Compact ? 124d : 136d) * spacingFactor;
+        package["BentoGutter"] = Math.Max(8, 16 * spacingFactor);
+        double row = state.Density switch { BentoDensity.Compact => 152d, BentoDensity.Comfortable => 176d, _ => 200d };
+        if (state.LayoutPreset == BentoLayoutPreset.CompactDense) row = Math.Max(132d, row - 16);
+        package["BentoRowHeight"] = row;
+        package["ChartPlotHeight"] = state.Density switch { BentoDensity.Compact => 140d, BentoDensity.Comfortable => 168d, _ => 196d };
+        package["PaddingPage"] = compact ? new Thickness(12) : new Thickness(16);
     }
 }
