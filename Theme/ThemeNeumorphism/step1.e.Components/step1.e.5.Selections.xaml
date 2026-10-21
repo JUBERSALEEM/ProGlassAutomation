@@ -61,13 +61,12 @@
   <Setter Property="Padding" Value="{DynamicResource PaddingControl}" />
   <Setter Property="HorizontalContentAlignment" Value="Stretch" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListBoxItem">
-   <Border x:Name="Frame" Background="{DynamicResource TransparentBrush}" BorderBrush="{DynamicResource TransparentBrush}" BorderThickness="{DynamicResource BorderThicknessControl}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ChipCornerRadius}">
+   <neu:NeumorphSurface x:Name="Pod" Rank="Chip" Background="{DynamicResource SurfacePrimary}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ChipCornerRadius}">
     <ContentPresenter />
-   </Border>
+   </neu:NeumorphSurface>
    <ControlTemplate.Triggers>
-    <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Frame" Property="Background" Value="{DynamicResource StateHover}" /></Trigger>
-    <Trigger Property="IsSelected" Value="True"><Setter TargetName="Frame" Property="Background" Value="{DynamicResource StateSelected}" /><Setter TargetName="Frame" Property="BorderBrush" Value="{DynamicResource NeumorphDarkBrush}" /><Setter Property="Foreground" Value="{DynamicResource AccentPrimary}" /></Trigger>
-    <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Frame" Property="BorderBrush" Value="{DynamicResource FocusIndicator}" /></Trigger>
+    <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Pod" Property="Lifted" Value="True" /></Trigger>
+    <Trigger Property="IsSelected" Value="True"><Setter TargetName="Pod" Property="Concave" Value="True" /><Setter TargetName="Pod" Property="Lifted" Value="False" /><Setter Property="Foreground" Value="{DynamicResource AccentPrimary}" /></Trigger>
     <Trigger Property="IsEnabled" Value="False"><Setter Property="Foreground" Value="{DynamicResource DisabledText}" /></Trigger>
    </ControlTemplate.Triggers>
   </ControlTemplate></Setter.Value></Setter>

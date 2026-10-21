@@ -142,16 +142,16 @@
      <Setter TargetName="DarkGlowLift" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightGlowLift" Property="Visibility" Value="Collapsed" />
     </Trigger>
-    <MultiTrigger>
-     <MultiTrigger.Conditions>
-      <Condition Property="Lifted" Value="True" />
-      <Condition Property="Rank" Value="Card" />
-     </MultiTrigger.Conditions>
+    <Trigger Property="Lifted" Value="True">
      <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowControl" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlowControl" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowChip" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlowChip" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="DarkGlowLift" Property="Visibility" Value="Visible" />
      <Setter TargetName="LightGlowLift" Property="Visibility" Value="Visible" />
-    </MultiTrigger>
+    </Trigger>
     <Trigger Property="Concave" Value="True">
      <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />

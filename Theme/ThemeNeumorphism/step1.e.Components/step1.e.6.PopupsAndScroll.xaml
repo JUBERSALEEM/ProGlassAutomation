@@ -21,7 +21,7 @@
     <ContentPresenter ContentSource="Header" RecognizesAccessKey="True" />
    </Border>
    <ControlTemplate.Triggers>
-    <Trigger Property="IsHighlighted" Value="True"><Setter TargetName="Frame" Property="Background" Value="{DynamicResource StateHover}" /><Setter TargetName="Frame" Property="BorderBrush" Value="{DynamicResource NeumorphDarkBrush}" /></Trigger>
+    <Trigger Property="IsHighlighted" Value="True"><Setter TargetName="Frame" Property="BorderBrush" Value="{DynamicResource FocusIndicator}" /></Trigger>
     <Trigger Property="IsEnabled" Value="False"><Setter Property="Foreground" Value="{DynamicResource DisabledText}" /></Trigger>
    </ControlTemplate.Triggers>
   </ControlTemplate></Setter.Value></Setter>

@@ -32,12 +32,12 @@
   <Setter Property="Padding" Value="{DynamicResource PaddingControl}" />
   <Setter Property="HorizontalContentAlignment" Value="Stretch" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ComboBoxItem">
-   <Border x:Name="Row" Background="{DynamicResource TransparentBrush}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ChipCornerRadius}" BorderBrush="{DynamicResource TransparentBrush}" BorderThickness="{DynamicResource BorderThicknessControl}">
+   <neu:NeumorphSurface x:Name="Pod" Rank="Chip" Background="{DynamicResource SurfacePrimary}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ChipCornerRadius}">
     <ContentPresenter />
-   </Border>
+   </neu:NeumorphSurface>
    <ControlTemplate.Triggers>
-    <Trigger Property="IsHighlighted" Value="True"><Setter TargetName="Row" Property="Background" Value="{DynamicResource StateHover}" /></Trigger>
-    <Trigger Property="IsSelected" Value="True"><Setter TargetName="Row" Property="Background" Value="{DynamicResource StateSelected}" /><Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource NeumorphDarkBrush}" /><Setter Property="Foreground" Value="{DynamicResource AccentPrimary}" /></Trigger>
+    <Trigger Property="IsHighlighted" Value="True"><Setter TargetName="Pod" Property="Lifted" Value="True" /></Trigger>
+    <Trigger Property="IsSelected" Value="True"><Setter TargetName="Pod" Property="Concave" Value="True" /><Setter TargetName="Pod" Property="Lifted" Value="False" /><Setter Property="Foreground" Value="{DynamicResource AccentPrimary}" /></Trigger>
     <Trigger Property="IsEnabled" Value="False"><Setter Property="Foreground" Value="{DynamicResource DisabledText}" /></Trigger>
    </ControlTemplate.Triggers>
   </ControlTemplate></Setter.Value></Setter>

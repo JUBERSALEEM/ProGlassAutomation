@@ -53,8 +53,8 @@
     <ContentPresenter ContentSource="Header" RecognizesAccessKey="True" />
    </neu:NeumorphSurface>
    <ControlTemplate.Triggers>
-    <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Pod" Property="Background" Value="{DynamicResource StateHover}" /></Trigger>
-    <Trigger Property="IsSelected" Value="True"><Setter TargetName="Pod" Property="Background" Value="{DynamicResource SurfacePrimary}" /><Setter TargetName="Pod" Property="Concave" Value="False" /><Setter TargetName="Pod" Property="Rank" Value="Control" /><Setter Property="Foreground" Value="{DynamicResource AccentPrimary}" /></Trigger>
+    <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Pod" Property="Lifted" Value="True" /></Trigger>
+    <Trigger Property="IsSelected" Value="True"><Setter TargetName="Pod" Property="Background" Value="{DynamicResource SurfacePrimary}" /><Setter TargetName="Pod" Property="Concave" Value="False" /><Setter TargetName="Pod" Property="Lifted" Value="False" /><Setter TargetName="Pod" Property="Rank" Value="Control" /><Setter Property="Foreground" Value="{DynamicResource AccentPrimary}" /></Trigger>
     <Trigger Property="IsEnabled" Value="False"><Setter Property="Foreground" Value="{DynamicResource DisabledText}" /><Setter TargetName="Pod" Property="Background" Value="{DynamicResource DisabledSurface}" /></Trigger>
    </ControlTemplate.Triggers>
   </ControlTemplate></Setter.Value></Setter>
