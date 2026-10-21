@@ -15,7 +15,7 @@
   <Setter Property="Padding" Value="{DynamicResource PaddingPlate}" />
   <Setter Property="Focusable" Value="False" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
-   <neu:NeumorphSurface Rank="Control" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ControlCornerRadius}">
+   <neu:NeumorphSurface Rank="Card" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}">
     <ContentPresenter />
    </neu:NeumorphSurface>
   </ControlTemplate></Setter.Value></Setter>
