@@ -45,35 +45,33 @@ public partial class AnalyticsOverview : UserControl
         if (AnalyticsGrid is null) return;
         AnalyticsGrid.FillAvailable = false;
         AnalyticsGrid.Columns = 4;
-        // Right-side board: equal 1×1 tiles (4 columns), then a compact table on Home.
         Show(KpiRevenue, 0, 0, 1, 1);
         Show(KpiOrders, 1, 0, 1, 1);
         Show(KpiConversion, 2, 0, 1, 1);
-        Show(StatusCard, 3, 0, 1, 1);
-        Show(RevenueCard, 0, 1, 1, 1);
-        Show(MixCard, 1, 1, 1, 1);
-        Show(TargetCard, 2, 1, 1, 1);
-        Show(TrendCard, 3, 1, 1, 1);
+        Show(KpiOnTime, 3, 0, 1, 1);
+        Show(TrendsCard, 0, 1, 3, 2);
+        Show(MixCard, 3, 1, 1, 1);
+        Show(ChannelsCard, 3, 2, 1, 1);
+        Show(ActivityCard, 0, 3, 1, 1);
+        Show(RevenueCard, 1, 3, 1, 1);
+        Show(StatusCard, 2, 3, 1, 1);
+        Show(TargetCard, 3, 3, 1, 1);
+        Hide(TrendCard);
         if (Compact)
         {
-            Hide(ActivityCard); Hide(TableCard);
+            Hide(TableCard);
             return;
         }
-        Show(ActivityCard, 0, 2, 1, 1);
-        Show(TableCard, 1, 2, 3, 2);
+        Show(TableCard, 0, 4, 4, 2);
         if (vm is null) return;
         switch (vm.SelectedLayoutPreset)
         {
             case BentoLayoutPreset.Executive:
-                Hide(ActivityCard);
-                Show(TableCard, 0, 2, 4, 2);
-                break;
             case BentoLayoutPreset.AnalyticsFocus:
-                Hide(ActivityCard);
-                Show(TableCard, 0, 2, 4, 2);
+                Show(TableCard, 0, 4, 4, 2);
                 break;
             case BentoLayoutPreset.CompactDense:
-                Hide(TableCard); Hide(ActivityCard);
+                Hide(TableCard);
                 break;
         }
     }

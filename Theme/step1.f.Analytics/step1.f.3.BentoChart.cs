@@ -80,7 +80,7 @@ public sealed partial class BentoChart
     protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
     {
         base.OnPropertyChanged(e);
-        if (e.Property == FontSizeProperty || e.Property == FontFamilyProperty) Schedule(false);
+        if (e.Property == FontSizeProperty || e.Property == FontFamilyProperty || e.Property == ShowLegendProperty) Schedule(false);
         if (e.Property == PlotHeightProperty) CapPlot();
     }
 
@@ -121,7 +121,8 @@ public sealed partial class BentoChart
             dataDirty = true; inspectToggle.Visibility = Visibility.Collapsed; values.Text = "";
             return;
         }
-        inspectToggle.Visibility = ready ? Visibility.Visible : Visibility.Collapsed;
+        inspectToggle.Visibility = ready && ShowLegend ? Visibility.Visible : Visibility.Collapsed;
+        legend.Visibility = ready && ShowLegend ? Visibility.Visible : Visibility.Collapsed;
         if (dataDirty)
         {
             values.Text = string.Join("\n", Data!.Series.Select(s => s.Name + ": " + string.Join(" / ", s.Values.Select((v, i) => $"{(i < Data.Categories.Count ? Data.Categories[i] : s.Name)} {(v.HasValue ? v.Value.ToString("N1") : "missing")} {Data.Unit}"))));

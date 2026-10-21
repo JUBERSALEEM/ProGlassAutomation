@@ -67,7 +67,8 @@
    <clay:ClaySurface x:Name="Pod" Rank="Card" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource CardCornerRadius}" DropBrush="{DynamicResource ClayDropBrush}" ShadeBrush="{DynamicResource ClayInsetShadeBrush}" LightBrush="{DynamicResource ClayInsetLightBrush}">
     <DockPanel>
      <Border x:Name="Rail" DockPanel.Dock="Left" Width="{DynamicResource SpacingSmall}" Visibility="Collapsed" Background="{DynamicResource AccentPrimary}" CornerRadius="{DynamicResource ChipCornerRadius}" Margin="{DynamicResource PaddingCompact}" />
-     <StackPanel Margin="{TemplateBinding Padding}">
+     <analytics:BentoChart x:Name="SparkPlot" DockPanel.Dock="Right" Width="{DynamicResource BentoRowHeight}" Data="{TemplateBinding Spark}" ShowAxis="False" ShowGrid="False" ShowLegend="False" VerticalAlignment="Stretch" Margin="{DynamicResource PaddingCompact}" />
+     <StackPanel Margin="{TemplateBinding Padding}" VerticalAlignment="Center">
       <TextBlock Text="{TemplateBinding Label}" Foreground="{DynamicResource TextMuted}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="Wrap" />
       <TextBlock x:Name="ValueText" Text="{TemplateBinding Value}" FontSize="{DynamicResource FontSizeDisplay}" FontWeight="{DynamicResource FontWeightHeading}" TextWrapping="Wrap" />
       <TextBlock Text="{TemplateBinding Detail}" Foreground="{DynamicResource TextSecondary}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="Wrap" />
@@ -79,6 +80,7 @@
     <Trigger Property="Tag" Value="Feature"><Setter TargetName="Pod" Property="Background" Value="{DynamicResource SurfaceFeature}" /><Setter TargetName="Pod" Property="DropBrush" Value="{DynamicResource ClayDropFeature}" /><Setter TargetName="Pod" Property="ShadeBrush" Value="{DynamicResource ClayShadeFeature}" /><Setter TargetName="Rail" Property="Visibility" Value="Collapsed" /></Trigger>
     <Trigger Property="Tag" Value="Information"><Setter TargetName="Pod" Property="Background" Value="{DynamicResource SurfaceInformation}" /><Setter TargetName="Pod" Property="DropBrush" Value="{DynamicResource ClayDropInformation}" /><Setter TargetName="Pod" Property="ShadeBrush" Value="{DynamicResource ClayShadeInformation}" /><Setter TargetName="Rail" Property="Visibility" Value="Collapsed" /></Trigger>
     <Trigger Property="Tag" Value="Attention"><Setter TargetName="Pod" Property="Background" Value="{DynamicResource SurfaceAttention}" /><Setter TargetName="Pod" Property="DropBrush" Value="{DynamicResource ClayDropAttention}" /><Setter TargetName="Pod" Property="ShadeBrush" Value="{DynamicResource ClayShadeAttention}" /><Setter TargetName="Rail" Property="Visibility" Value="Collapsed" /><Setter TargetName="ValueText" Property="Foreground" Value="{DynamicResource StatusWarning}" /></Trigger>
+    <DataTrigger Binding="{Binding Spark, RelativeSource={RelativeSource TemplatedParent}}" Value="{x:Null}"><Setter TargetName="SparkPlot" Property="Visibility" Value="Collapsed" /></DataTrigger>
    </ControlTemplate.Triggers>
   </ControlTemplate></Setter.Value></Setter>
  </Style>

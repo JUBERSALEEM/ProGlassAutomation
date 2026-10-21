@@ -7,11 +7,11 @@
   <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" CanContentScroll="False" PanningMode="VerticalOnly">
    <bento:BentoGrid x:Name="Modules" Columns="3" FillAvailable="False"
                     RowHeight="{DynamicResource BentoRowHeight}" Gutter="{DynamicResource BentoGutter}" CompactWidth="{DynamicResource BentoCompactWidth}">
-    <local:AnalyticsOverview x:Name="Preview" Compact="True" bento:BentoGrid.Column="0" bento:BentoGrid.Row="0" bento:BentoGrid.ColumnSpan="3" bento:BentoGrid.RowSpan="2"/>
-    <local:ChartGallery x:Name="Gallery" bento:BentoGrid.Column="0" bento:BentoGrid.Row="2" bento:BentoGrid.ColumnSpan="3" bento:BentoGrid.RowSpan="2"/>
-    <local:TypeAndStatusPanel x:Name="Signals" bento:BentoGrid.Column="0" bento:BentoGrid.Row="4" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="2"/>
-    <local:ControlsPanel x:Name="Controls" bento:BentoGrid.Column="1" bento:BentoGrid.Row="4" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="2"/>
-    <local:TokensPanel x:Name="Tokens" bento:BentoGrid.Column="2" bento:BentoGrid.Row="4" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="2"/>
+    <local:AnalyticsOverview x:Name="Preview" Compact="True" bento:BentoGrid.Column="0" bento:BentoGrid.Row="0" bento:BentoGrid.ColumnSpan="3" bento:BentoGrid.RowSpan="4"/>
+    <local:ChartGallery x:Name="Gallery" bento:BentoGrid.Column="0" bento:BentoGrid.Row="4" bento:BentoGrid.ColumnSpan="3" bento:BentoGrid.RowSpan="2"/>
+    <local:TypeAndStatusPanel x:Name="Signals" bento:BentoGrid.Column="0" bento:BentoGrid.Row="6" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="2"/>
+    <local:ControlsPanel x:Name="Controls" bento:BentoGrid.Column="1" bento:BentoGrid.Row="6" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="2"/>
+    <local:TokensPanel x:Name="Tokens" bento:BentoGrid.Column="2" bento:BentoGrid.Row="6" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="2"/>
    </bento:BentoGrid>
   </ScrollViewer>
   <local:CustomizationPanel x:Name="Settings" Grid.Column="1" Width="{DynamicResource StudioSidebarWidth}" VerticalAlignment="Stretch"/>

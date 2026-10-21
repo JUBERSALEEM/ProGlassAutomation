@@ -26,6 +26,7 @@ public sealed partial class BentoChart : UserControl
     public double CenterFontSize { get => (double)GetValue(CenterFontSizeProperty); set => SetValue(CenterFontSizeProperty, value); }
     public static readonly DependencyProperty ShowGridProperty = DependencyProperty.Register(nameof(ShowGrid), typeof(bool), typeof(BentoChart), new PropertyMetadata(true, PaintChanged));
     public static readonly DependencyProperty ShowAxisProperty = DependencyProperty.Register(nameof(ShowAxis), typeof(bool), typeof(BentoChart), new PropertyMetadata(true, PaintChanged));
+    public static readonly DependencyProperty ShowLegendProperty = DependencyProperty.Register(nameof(ShowLegend), typeof(bool), typeof(BentoChart), new PropertyMetadata(true, PaintChanged));
     public static readonly DependencyProperty BarCornerProperty = DependencyProperty.Register(nameof(BarCorner), typeof(double), typeof(BentoChart), new PropertyMetadata(6d, PaintChanged));
     public static readonly DependencyProperty AreaOpacityProperty = SizeProperty(nameof(AreaOpacity));
     public Brush Series1 { get => (Brush)GetValue(Series1Property); set => SetValue(Series1Property, value); }
@@ -43,6 +44,7 @@ public sealed partial class BentoChart : UserControl
     public double AreaOpacity { get => (double)GetValue(AreaOpacityProperty); set => SetValue(AreaOpacityProperty, value); }
     public bool ShowGrid { get => (bool)GetValue(ShowGridProperty); set => SetValue(ShowGridProperty, value); }
     public bool ShowAxis { get => (bool)GetValue(ShowAxisProperty); set => SetValue(ShowAxisProperty, value); }
+    public bool ShowLegend { get => (bool)GetValue(ShowLegendProperty); set => SetValue(ShowLegendProperty, value); }
     public double BarCorner { get => (double)GetValue(BarCornerProperty); set => SetValue(BarCornerProperty, value); }
     private static void PaintChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => ((BentoChart)sender).Schedule(false);
     private static void DataChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => ((BentoChart)sender).Schedule(true);

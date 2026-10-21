@@ -56,6 +56,12 @@ public sealed class AnalyticsSamples : INotifyPropertyChanged
         "Demo: confirmed workload 58 jobs in October; forecast 64. Shaded areas are not stacked.");
     public ChartDataset Spark { get; } = new("Conversion trend", ChartKind.Sparkline, Months,
         [S("Conversion", 56, 58, 54, 64, 69, 72)], "percent", "Demo: conversion improved from 56% to 72%.");
+    public ChartDataset KpiRevenueSpark { get; } = new("Revenue spark", ChartKind.Sparkline, Months,
+        [S("Revenue", 186, 214, 198, 252, 267, 284)], "AED thousands", "Demo: October revenue AED 284k.");
+    public ChartDataset KpiOrdersBars { get; } = new("Orders bars", ChartKind.Columns, Months,
+        [S("Orders", 68, 74, 70, 91, 108, 128)], "orders", "Demo: orders reached 128 in October.");
+    public ChartDataset KpiOnTimeSpark { get; } = new("On-time spark", ChartKind.Sparkline, Months,
+        [S("On-time", 91, 93, 92, 95, 96, 98)], "percent", "Demo: on-time delivery 98%.");
     public IReadOnlyList<AnalyticsRow> Rows { get; } = [
         new("PG-1042", "Trade / North", "Ready", "AED 18,400", "Today"),
         new("PG-1041", "Direct / Central", "In review", "AED 12,800", "Tomorrow"),
