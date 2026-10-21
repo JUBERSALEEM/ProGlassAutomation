@@ -118,23 +118,9 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Border Grid.Column="0" Background="{DynamicResource SurfacePrimary}" Padding="{DynamicResource PaddingCompact}">
-            <Border.Style>
-                <Style TargetType="Border">
-                    <Setter Property="Visibility" Value="Collapsed" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsMenuOpen}" Value="False">
-                            <Setter Property="Visibility" Value="Visible" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Border.Style>
-            <Button Content="☰" Command="{Binding ToggleMenu}" Style="{StaticResource ShellIconButton}" ToolTip="Open menu" AutomationProperties.Name="Toggle menu" />
-        </Border>
-        <Border Grid.Column="1" Style="{StaticResource ShellSidebar}">
+        <Border Grid.Column="0" Style="{StaticResource ShellSidebar}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -155,6 +141,19 @@
                 </DockPanel>
                 <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Focusable="False">
                     <StackPanel>
+                        <Button Command="{Binding ShowBusiness}" AutomationProperties.Name="Home page" Margin="{DynamicResource MarginItem}">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource ShellNavButton}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsBusiness}" Value="True">
+                                            <Setter Property="Background" Value="{DynamicResource AccentPrimary}" />
+                                            <Setter Property="Foreground" Value="{DynamicResource TextOnAccent}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            <TextBlock Text="Home" />
+                        </Button>
                         <Expander x:Name="SettingsGroup" Style="{StaticResource ShellExpanderCard}" IsExpanded="True" AutomationProperties.Name="Settings">
                             <Expander.Header>
                                 <TextBlock Text="Settings" FontWeight="{DynamicResource FontWeightHeading}" />
@@ -178,15 +177,28 @@
                 <TextBlock Grid.Row="2" Text="Phase 01 · Theme engine" Style="{StaticResource ShellSectionLabel}" />
             </Grid>
         </Border>
-        <Grid Grid.Column="2">
+        <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Border Grid.Row="0" Style="{StaticResource ShellModuleBanner}">
                 <DockPanel>
+                    <Border DockPanel.Dock="Left" Width="{DynamicResource ControlMinHeight}" Margin="{DynamicResource MarginInline}">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsMenuOpen}" Value="False">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
                     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
                         <TextBlock Text="{Binding ShellClock}" Foreground="{DynamicResource TextOnAccent}" Style="{DynamicResource Caption}" VerticalAlignment="Center" Margin="{DynamicResource MarginInline}" />
+                        <Button Content="Home" Command="{Binding ShowBusiness}" Style="{StaticResource ShellIconButton}" Foreground="{DynamicResource TextOnAccent}" ToolTip="Home" AutomationProperties.Name="Go home" />
                         <Button Content="Dark" Command="{Binding ToggleAppearance}" Style="{StaticResource ShellIconButton}" Foreground="{DynamicResource TextOnAccent}" AutomationProperties.Name="Toggle appearance" />
                     </StackPanel>
                     <StackPanel VerticalAlignment="Center">
@@ -210,5 +222,18 @@
                 <TabItem Header="_Home"><studio:BusinessReferenceView /></TabItem>
             </TabControl>
         </Grid>
+        <Button Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" Content="☰" Command="{Binding ToggleMenu}" ToolTip="Open menu" AutomationProperties.Name="Toggle menu" Panel.ZIndex="2" Margin="{DynamicResource PaddingPage}">
+            <Button.Style>
+                <Style TargetType="Button" BasedOn="{StaticResource ShellIconButton}">
+                    <Setter Property="Foreground" Value="{DynamicResource TextOnAccent}" />
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsMenuOpen}" Value="False">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
     </Grid>
 </Window>

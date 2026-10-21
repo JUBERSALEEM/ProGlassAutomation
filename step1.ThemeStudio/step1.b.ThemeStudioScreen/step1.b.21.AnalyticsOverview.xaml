@@ -12,32 +12,33 @@
      <Border Style="{DynamicResource StatusBadge}" Tag="Success" DockPanel.Dock="Right"><TextBlock Text="Above target" Style="{DynamicResource StatusText}" Tag="Success" /></Border>
      <StackPanel><TextBlock Text="Revenue performance" Style="{DynamicResource SectionHeading}" /><TextBlock Text="MAY–OCTOBER / DEMO SNAPSHOT" Style="{DynamicResource Caption}" /></StackPanel>
     </DockPanel>
-    <analytics:BentoChart Grid.Row="1" Data="{Binding Revenue}" />
+    <local:OverflowPopup Grid.Row="1"><analytics:BentoChart Data="{Binding Revenue}" /></local:OverflowPopup>
    </Grid>
   </ContentControl>
   <ContentControl x:Name="MixCard" Style="{DynamicResource FeaturePlate}" bento:BentoGrid.Column="2" bento:BentoGrid.Row="1" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="2">
    <Grid>
     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
     <TextBlock Text="Order composition" Style="{DynamicResource SectionHeading}" />
-    <analytics:BentoChart Grid.Row="1" Data="{Binding Mix}" />
+    <local:OverflowPopup Grid.Row="1"><analytics:BentoChart Data="{Binding Mix}" /></local:OverflowPopup>
    </Grid>
   </ContentControl>
   <ContentControl x:Name="TargetCard" Style="{DynamicResource PositivePlate}" bento:BentoGrid.Column="3" bento:BentoGrid.Row="1" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="2">
-   <StackPanel>
-    <TextBlock Text="Monthly target" Style="{DynamicResource SectionHeading}" />
-    <TextBlock Text="98% on-time delivery" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" />
-    <TextBlock Text="Target 95% · Demo snapshot" Style="{DynamicResource Caption}" />
-    <ContentControl Style="{DynamicResource Plate}"><StackPanel>
+   <Grid>
+    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+    <StackPanel>
+     <TextBlock Text="Monthly target" Style="{DynamicResource SectionHeading}" />
+     <TextBlock Text="98% on-time delivery" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" />
+     <TextBlock Text="Target 95% · Demo snapshot" Style="{DynamicResource Caption}" />
      <TextBlock Text="Conversion momentum" Style="{DynamicResource SectionHeading}" />
-     <analytics:BentoChart Data="{Binding Spark}" PlotHeight="90" />
-    </StackPanel></ContentControl>
-   </StackPanel>
+    </StackPanel>
+    <local:OverflowPopup Grid.Row="1"><analytics:BentoChart Data="{Binding Spark}" PlotHeight="90" /></local:OverflowPopup>
+   </Grid>
   </ContentControl>
   <ContentControl x:Name="TrendCard" Style="{DynamicResource ChartCard}" bento:BentoGrid.Column="0" bento:BentoGrid.Row="3" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="1">
    <Grid>
     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
     <TextBlock Text="Order momentum" Style="{DynamicResource SectionHeading}" />
-    <analytics:BentoChart Grid.Row="1" Data="{Binding Trend}" />
+    <local:OverflowPopup Grid.Row="1"><analytics:BentoChart Data="{Binding Trend}" /></local:OverflowPopup>
    </Grid>
   </ContentControl>
   <ContentControl x:Name="ActivityCard" Style="{DynamicResource InformationPlate}" bento:BentoGrid.Column="2" bento:BentoGrid.Row="3" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="1">

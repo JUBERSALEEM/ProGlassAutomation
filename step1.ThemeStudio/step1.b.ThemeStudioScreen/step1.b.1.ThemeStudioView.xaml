@@ -4,10 +4,14 @@
                    RowHeight="{DynamicResource BentoRowHeight}" Gutter="{DynamicResource BentoGutter}" CompactWidth="{DynamicResource BentoCompactWidth}">
    <local:AnalyticsOverview x:Name="Preview" Compact="True" bento:BentoGrid.Column="0" bento:BentoGrid.Row="0" bento:BentoGrid.ColumnSpan="3" bento:BentoGrid.RowSpan="2"/>
    <local:ChartGallery x:Name="Gallery" bento:BentoGrid.Column="0" bento:BentoGrid.Row="2" bento:BentoGrid.ColumnSpan="3" bento:BentoGrid.RowSpan="2"/>
-   <local:TypeAndStatusPanel x:Name="Signals" bento:BentoGrid.Column="0" bento:BentoGrid.Row="4" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="1"/>
-   <local:ControlsPanel x:Name="Controls" bento:BentoGrid.Column="1" bento:BentoGrid.Row="4" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="1"/>
+   <local:OverflowPopup bento:BentoGrid.Column="0" bento:BentoGrid.Row="4" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="1">
+    <local:TypeAndStatusPanel x:Name="Signals"/>
+   </local:OverflowPopup>
+   <local:OverflowPopup bento:BentoGrid.Column="1" bento:BentoGrid.Row="4" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="1">
+    <local:ControlsPanel x:Name="Controls"/>
+   </local:OverflowPopup>
    <ContentControl x:Name="DiagnosticsToggle" Style="{DynamicResource Card}" bento:BentoGrid.Column="2" bento:BentoGrid.Row="4" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="1">
-    <ScrollViewer VerticalScrollBarVisibility="Auto"><local:TokensPanel x:Name="Tokens"/></ScrollViewer>
+    <local:OverflowPopup><local:TokensPanel x:Name="Tokens"/></local:OverflowPopup>
    </ContentControl>
    <local:CustomizationPanel x:Name="Settings" bento:BentoGrid.Column="3" bento:BentoGrid.Row="0" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="5"/>
   </bento:BentoGrid>
