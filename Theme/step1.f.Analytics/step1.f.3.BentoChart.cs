@@ -2,8 +2,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Automation;
 using System.Windows.Data;
-using System.Windows.Interop;
-using System.Windows.Media;
 using System.Windows.Threading;
 using LiveChartsCore;
 using LiveChartsCore.Measure;
@@ -31,14 +29,13 @@ public sealed partial class BentoChart
     public string DisplayMessage => message.Text;
     static BentoChart()
     {
-        bool software = RenderOptions.ProcessRenderMode == RenderMode.SoftwareOnly
-            || !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("GITHUB_ACTIONS"));
-        LiveCharts.RenderingSettings.UseGPU = !software;
-        LiveCharts.RenderingSettings.TryUseVSync = !software;
+        // Skia GPU surfaces clear to black and BitmapCache cannot keep a transparent plot.
+        // CPU + vsync-off is the path that preserves the card behind the donut hole.
+        LiveCharts.RenderingSettings.UseGPU = false;
+        LiveCharts.RenderingSettings.TryUseVSync = false;
     }
     public BentoChart()
     {
-        CacheMode = new BitmapCache { EnableClearType = false, RenderAtScale = 1, SnapsToDevicePixels = true };
         var root = new StackPanel();
         // Ensure no white surfaces — chart must be transparent and reveal the dark card behind, including the donut hole.
         cartesian.Background = System.Windows.Media.Brushes.Transparent;
