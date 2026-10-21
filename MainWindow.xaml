@@ -94,11 +94,6 @@
             <Setter Property="Margin" Value="{DynamicResource MarginItem}" />
             <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
             <Setter Property="FocusVisualStyle" Value="{DynamicResource KeyboardFocus}" />
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding IsLiquid}" Value="True">
-                    <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
-                </DataTrigger>
-            </Style.Triggers>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Expander">
@@ -137,6 +132,11 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsLiquid}" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
         <Style x:Key="ShellSectionLabel" TargetType="TextBlock" BasedOn="{StaticResource Caption}">
             <Setter Property="Margin" Value="{DynamicResource PaddingCompact}" />
