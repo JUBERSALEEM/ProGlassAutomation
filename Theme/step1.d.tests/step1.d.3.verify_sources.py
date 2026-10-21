@@ -75,6 +75,7 @@ for package, stem, accents in (('ThemeBento', 'ThemeBento', True), ('ThemeClaymo
 
 clay_custom = (ROOT/'Theme/ThemeClaymorphism/step1.e.8.ClayCustomization.cs').read_text()
 assert 'public static class ClayCustomization' in clay_custom and 'BentoCustomization' not in clay_custom
+assert 'SetOwned' in clay_custom and 'ReplaceOwn' in clay_custom
 assert 'public static IReadOnlyList<ClayNamedPreset> BuiltIn' in clay_custom
 assert all(token in clay_custom for token in ('ClayType', 'ClaySpacing', 'ClayTextContrast', 'ClaySheen', 'ClayWeight', 'ClayDropPositive', 'ClayInsetLightBrush'))
 for mode in ('Light', 'Dark'):

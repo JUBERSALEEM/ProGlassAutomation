@@ -160,14 +160,37 @@ public static class ClayCustomization
             Tint(package, "ClayShadeHero", darkShade, "4A3A80");
         }
 
-        package["ClayInsetLightBrush"] = Brush(mode == Appearance.Light
+        SetOwned(package, "ClayInsetLightBrush", Brush(mode == Appearance.Light
             ? state.Sheen switch { ClaySheen.Quiet => "#66FFFFFF", ClaySheen.Gloss => "#FFFFFFFF", _ => "#E6FFFFFF" }
-            : state.Sheen switch { ClaySheen.Quiet => "#22FFFFFF", ClaySheen.Gloss => "#88FFFFFF", _ => "#55FFFFFF" });
+            : state.Sheen switch { ClaySheen.Quiet => "#22FFFFFF", ClaySheen.Gloss => "#88FFFFFF", _ => "#55FFFFFF" }));
     }
 
     private static SolidColorBrush Brush(string color) =>
         new((Color)ColorConverter.ConvertFromString(color));
 
     private static void Tint(ResourceDictionary package, string key, string alpha, string rgb) =>
-        package[key] = Brush($"#{alpha}{rgb}");
+        SetOwned(package, key, Brush($"#{alpha}{rgb}"));
+
+    /// <summary>
+    /// Replace a key in the dictionary that already owns it. Assigning extras onto the
+    /// package root duplicates merged keys and Clay fails validation on switch.
+    /// </summary>
+    private static void SetOwned(ResourceDictionary package, string key, object value)
+    {
+        if (ReplaceOwn(package, key, value)) return;
+        package[key] = value;
+    }
+
+    private static bool ReplaceOwn(ResourceDictionary dictionary, string key, object value)
+    {
+        foreach (object existing in dictionary.Keys)
+        {
+            if (!Equals(existing, key)) continue;
+            dictionary[key] = value;
+            return true;
+        }
+        foreach (ResourceDictionary child in dictionary.MergedDictionaries)
+            if (ReplaceOwn(child, key, value)) return true;
+        return false;
+    }
 }

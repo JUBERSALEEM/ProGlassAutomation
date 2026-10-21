@@ -72,6 +72,9 @@ internal static class CustomizationChecks
         if (((CornerRadius)clayPackage["CardCornerRadius"]).TopLeft != 40) throw new Exception("Clay puffy radius");
         if ((double)clayPackage["ControlMinHeight"] != 36) throw new Exception("Clay compact height");
         if ((double)clayPackage["SpacingMedium"] != 12) throw new Exception("Clay spacious spacing");
+        foreach (object key in clayPackage.Keys)
+            if (Equals(key, "ClayDropBrush") || Equals(key, "ClayInsetLightBrush"))
+                throw new Exception("Clay extras must stay in the extras dictionary, not the package root.");
         if (((SolidColorBrush)clayPackage["ApplicationBackground"]).Color != (Color)ColorConverter.ConvertFromString("#E8EEF9")) throw new Exception("Clay cool canvas");
         if (((SolidColorBrush)clayPackage["TextPrimary"]).Color != (Color)ColorConverter.ConvertFromString("#10143A")) throw new Exception("Clay high text");
         ContractChecks.Contrast(clayPackage, "TextPrimary", "ApplicationBackground", 4.5);
