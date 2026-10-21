@@ -45,42 +45,42 @@
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="neu:NeumorphSurface">
    <Grid ClipToBounds="False">
     <Grid x:Name="Volume" Margin="{DynamicResource NeumorphGutter}" ClipToBounds="False">
-     <Border x:Name="DarkGlow" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+     <Border x:Name="DarkGlow" Margin="{DynamicResource NeumorphSpreadMargin}" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
       <Border.Effect>
        <DropShadowEffect Color="{DynamicResource NeumorphDarkColor}" BlurRadius="{DynamicResource NeumorphBlur}" ShadowDepth="{DynamicResource NeumorphDistance}" Direction="305" Opacity="{DynamicResource NeumorphDarkOpacity}" RenderingBias="Quality" />
       </Border.Effect>
      </Border>
-     <Border x:Name="LightGlow" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+     <Border x:Name="LightGlow" Margin="{DynamicResource NeumorphSpreadMargin}" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
       <Border.Effect>
        <DropShadowEffect Color="{DynamicResource NeumorphLightColor}" BlurRadius="{DynamicResource NeumorphBlur}" ShadowDepth="{DynamicResource NeumorphDistance}" Direction="125" Opacity="{DynamicResource NeumorphLightOpacity}" RenderingBias="Quality" />
       </Border.Effect>
      </Border>
-     <Border x:Name="DarkGlowControl" Visibility="Collapsed" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+     <Border x:Name="DarkGlowControl" Visibility="Collapsed" Margin="{DynamicResource NeumorphSpreadMargin}" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
       <Border.Effect>
        <DropShadowEffect Color="{DynamicResource NeumorphDarkColor}" BlurRadius="10" ShadowDepth="4" Direction="305" Opacity="{DynamicResource NeumorphDarkOpacity}" RenderingBias="Quality" />
       </Border.Effect>
      </Border>
-     <Border x:Name="LightGlowControl" Visibility="Collapsed" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+     <Border x:Name="LightGlowControl" Visibility="Collapsed" Margin="{DynamicResource NeumorphSpreadMargin}" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
       <Border.Effect>
        <DropShadowEffect Color="{DynamicResource NeumorphLightColor}" BlurRadius="10" ShadowDepth="4" Direction="125" Opacity="{DynamicResource NeumorphLightOpacity}" RenderingBias="Quality" />
       </Border.Effect>
      </Border>
-     <Border x:Name="DarkGlowChip" Visibility="Collapsed" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+     <Border x:Name="DarkGlowChip" Visibility="Collapsed" Margin="{DynamicResource NeumorphSpreadMargin}" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
       <Border.Effect>
        <DropShadowEffect Color="{DynamicResource NeumorphDarkColor}" BlurRadius="6" ShadowDepth="2" Direction="305" Opacity="{DynamicResource NeumorphDarkOpacity}" RenderingBias="Quality" />
       </Border.Effect>
      </Border>
-     <Border x:Name="LightGlowChip" Visibility="Collapsed" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+     <Border x:Name="LightGlowChip" Visibility="Collapsed" Margin="{DynamicResource NeumorphSpreadMargin}" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
       <Border.Effect>
        <DropShadowEffect Color="{DynamicResource NeumorphLightColor}" BlurRadius="6" ShadowDepth="2" Direction="125" Opacity="{DynamicResource NeumorphLightOpacity}" RenderingBias="Quality" />
       </Border.Effect>
      </Border>
-     <Border x:Name="DarkGlowLift" Visibility="Collapsed" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+     <Border x:Name="DarkGlowLift" Visibility="Collapsed" Margin="{DynamicResource NeumorphSpreadMargin}" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
       <Border.Effect>
        <DropShadowEffect Color="{DynamicResource NeumorphDarkColor}" BlurRadius="{DynamicResource NeumorphBlur}" ShadowDepth="{DynamicResource NeumorphLiftDistance}" Direction="305" Opacity="{DynamicResource NeumorphDarkOpacity}" RenderingBias="Quality" />
       </Border.Effect>
      </Border>
-     <Border x:Name="LightGlowLift" Visibility="Collapsed" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+     <Border x:Name="LightGlowLift" Visibility="Collapsed" Margin="{DynamicResource NeumorphSpreadMargin}" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
       <Border.Effect>
        <DropShadowEffect Color="{DynamicResource NeumorphLightColor}" BlurRadius="{DynamicResource NeumorphBlur}" ShadowDepth="{DynamicResource NeumorphLiftDistance}" Direction="125" Opacity="{DynamicResource NeumorphLightOpacity}" RenderingBias="Quality" />
       </Border.Effect>
