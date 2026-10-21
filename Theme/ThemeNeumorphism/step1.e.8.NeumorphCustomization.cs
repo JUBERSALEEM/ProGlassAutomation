@@ -52,9 +52,7 @@ public static class NeumorphCustomization
         SetOwned(package, "NeumorphLiftDistance", distance + 3d);
         SetOwned(package, "NeumorphDarkOpacity", darkOpacity);
         SetOwned(package, "NeumorphLightOpacity", lightOpacity);
-        Color surface = mode == Appearance.Light
-            ? (Color)ColorConverter.ConvertFromString("#E6EBEF")
-            : (Color)ColorConverter.ConvertFromString("#2A2F38");
+        Color surface = SurfaceColor(package, mode);
         Color dark = Mix(surface, Colors.Black, mode == Appearance.Light ? 0.18 : 0.28);
         Color light = Mix(surface, Colors.White, mode == Appearance.Light ? 0.85 : 0.14);
         SetOwned(package, "NeumorphDarkColor", dark);
@@ -63,6 +61,30 @@ public static class NeumorphCustomization
         SetOwned(package, "NeumorphLightBrush", new SolidColorBrush(light));
         SetOwned(package, "NeumorphRimShadeBrush", new SolidColorBrush(Mix(surface, Colors.Black, mode == Appearance.Light ? 0.10 : 0.22)));
         SetOwned(package, "NeumorphRimLightBrush", new SolidColorBrush(Mix(surface, Colors.White, mode == Appearance.Light ? 0.55 : 0.08)));
+    }
+
+    private static Color SurfaceColor(ResourceDictionary package, Appearance mode)
+    {
+        if (FindBrush(package, "SurfacePrimary") is SolidColorBrush brush)
+            return brush.Color;
+        return mode == Appearance.Light
+            ? (Color)ColorConverter.ConvertFromString("#E6EBEF")
+            : (Color)ColorConverter.ConvertFromString("#2A2F38");
+    }
+
+    private static SolidColorBrush? FindBrush(ResourceDictionary dictionary, string key)
+    {
+        foreach (object existing in dictionary.Keys)
+        {
+            if (!Equals(existing, key)) continue;
+            return dictionary[key] as SolidColorBrush;
+        }
+        foreach (ResourceDictionary child in dictionary.MergedDictionaries)
+        {
+            SolidColorBrush? found = FindBrush(child, key);
+            if (found is not null) return found;
+        }
+        return null;
     }
 
     private static Color Mix(Color from, Color toward, double amount)
