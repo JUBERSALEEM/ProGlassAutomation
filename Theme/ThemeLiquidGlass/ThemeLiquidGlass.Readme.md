@@ -4,7 +4,7 @@ Native WPF reading of Apple Liquid Glass (iOS 26 / macOS Tahoe Control Center). 
 
 ## Showcase canvas
 
-`LiquidWallpaper.Create` paints pale sky, a cream sun path and deep water. `LiquidResources.Load` installs it as `LiquidCanvasBrush`. `ThemedWindow` uses that brush so the scene sits behind sidebar and banner.
+`LiquidWallpaper.Create` paints a smooth Light sky in the `#62B4E8` family (one small in-bounds sun) or a smooth night (one small moon). Blooms never clip the drawing — clipped ellipses read as glass slabs. `ThemedWindow` uses that brush. Mosaic rows are 120px with a 10px gutter so the same viewport holds more tiles. Clay plumpness is unchanged.
 
 ## Standard
 

@@ -5,8 +5,8 @@ using ProGlassAutomation.Theming;
 namespace ProGlassAutomation.ThemeLiquidGlass;
 
 /// <summary>
-/// One Liquid-owned iOS / macOS Tahoe scene: sky, water, sun/moon bloom.
-/// Drawn in code (no PNG, no wallpaper picker, no scene catalog).
+/// One Liquid-owned Light/Dark sky. Smooth wash plus a small in-bounds sun/moon.
+/// No PNG, no catalog, no ellipse larger than the drawing (clipped blooms read as slabs).
 /// </summary>
 public static class LiquidWallpaper
 {
@@ -26,28 +26,26 @@ public static class LiquidWallpaper
         var group = new DrawingGroup();
         if (appearance == Appearance.Dark) PaintNight(group);
         else PaintDay(group);
+        group.Freeze();
         return new DrawingBrush(group)
         {
             Stretch = Stretch.UniformToFill,
             AlignmentX = AlignmentX.Center,
-            AlignmentY = AlignmentY.Center
+            AlignmentY = AlignmentY.Center,
+            TileMode = TileMode.None
         };
     }
 
     private static void PaintDay(DrawingGroup group)
     {
-        // Light.xaml ApplicationBackground #62B4E8 — day sky, not the Dark night ocean.
+        // Light.xaml ApplicationBackground #62B4E8 — continuous day sky, not clipped orbs.
         Fill(group, Sky(
             Color.FromRgb(232, 244, 252),
             Color.FromRgb(181, 216, 240),
             Color.FromRgb(98, 180, 232),
-            Color.FromRgb(58, 142, 200),
-            Color.FromRgb(42, 106, 170)));
-        Bloom(group, 680, 50, 520, 360, Color.FromArgb(230, 255, 250, 232), Color.FromArgb(0, 181, 216, 240));
-        Bloom(group, 540, 240, 520, 140, Color.FromArgb(160, 242, 220, 176), Color.FromArgb(0, 98, 180, 232));
-        Bloom(group, 60, 160, 260, 200, Color.FromArgb(70, 186, 216, 236), Color.FromArgb(0, 58, 142, 200));
-        Bloom(group, 400, 300, 640, 70, Color.FromArgb(80, 255, 255, 255), Color.FromArgb(0, 181, 216, 240));
-        Bloom(group, 400, 530, 560, 180, Color.FromArgb(180, 42, 106, 170), Color.FromArgb(0, 42, 106, 170));
+            Color.FromRgb(74, 156, 212),
+            Color.FromRgb(58, 142, 200)));
+        Bloom(group, 620, 88, 88, 88, Color.FromArgb(200, 255, 248, 230), Color.FromArgb(0, 181, 216, 240));
     }
 
     private static void PaintNight(DrawingGroup group)
@@ -58,15 +56,12 @@ public static class LiquidWallpaper
             Color.FromRgb(18, 52, 96),
             Color.FromRgb(12, 40, 80),
             Color.FromRgb(4, 12, 28)));
-        Bloom(group, 640, 70, 440, 300, Color.FromArgb(170, 198, 220, 240), Color.FromArgb(0, 14, 40, 78));
-        Bloom(group, 500, 250, 480, 120, Color.FromArgb(100, 140, 176, 214), Color.FromArgb(0, 18, 52, 96));
-        Bloom(group, 80, 180, 240, 200, Color.FromArgb(80, 36, 72, 120), Color.FromArgb(0, 10, 24, 48));
-        Bloom(group, 400, 530, 560, 180, Color.FromArgb(230, 2, 8, 22), Color.FromArgb(0, 4, 12, 28));
+        Bloom(group, 600, 90, 70, 70, Color.FromArgb(160, 198, 220, 240), Color.FromArgb(0, 14, 40, 78));
     }
 
     private static LinearGradientBrush Sky(Color top, Color high, Color mid, Color water, Color deep)
     {
-        var brush = new LinearGradientBrush { StartPoint = new Point(0.18, 0), EndPoint = new Point(0.82, 1) };
+        var brush = new LinearGradientBrush { StartPoint = new Point(0.2, 0), EndPoint = new Point(0.8, 1) };
         brush.GradientStops.Add(new GradientStop(top, 0));
         brush.GradientStops.Add(new GradientStop(high, 0.28));
         brush.GradientStops.Add(new GradientStop(mid, 0.52));
@@ -83,6 +78,8 @@ public static class LiquidWallpaper
 
     private static void Bloom(DrawingGroup group, double x, double y, double radiusX, double radiusY, Color inner, Color outer)
     {
+        if (x - radiusX < 0 || y - radiusY < 0 || x + radiusX > Width || y + radiusY > Height)
+            throw new InvalidOperationException("Wallpaper bloom must sit fully inside the drawing.");
         var center = new Point(x, y);
         var radial = new RadialGradientBrush
         {

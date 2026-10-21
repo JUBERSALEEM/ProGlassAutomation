@@ -95,12 +95,12 @@
   <SolidColorBrush x:Key="ChartGrid" Color="#2A445C" />
   <SolidColorBrush x:Key="ChartTooltipSurface" Color="#22364C" />
   <SolidColorBrush x:Key="ChartTooltipText" Color="#F2F7FC" />
-  <sys:Double x:Key="ChartPlotHeight">168</sys:Double>
+  <sys:Double x:Key="ChartPlotHeight">120</sys:Double>
   <sys:Double x:Key="ChartLineWidth">2.5</sys:Double>
   <sys:Double x:Key="ChartPointSize">5</sys:Double>
   <sys:Double x:Key="ChartDonutRadius">56</sys:Double>
   <sys:Double x:Key="ChartAreaOpacity">0.16</sys:Double>
-  <sys:Double x:Key="BentoRowHeight">168</sys:Double>
-  <sys:Double x:Key="BentoGutter">16</sys:Double>
+  <sys:Double x:Key="BentoRowHeight">120</sys:Double>
+  <sys:Double x:Key="BentoGutter">10</sys:Double>
   <sys:Double x:Key="BentoCompactWidth">1100</sys:Double>
 </ResourceDictionary>

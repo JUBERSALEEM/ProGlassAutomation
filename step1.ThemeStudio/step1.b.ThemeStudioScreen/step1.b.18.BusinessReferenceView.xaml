@@ -4,10 +4,10 @@
                    RowHeight="{DynamicResource BentoRowHeight}" Gutter="{DynamicResource BentoGutter}" CompactWidth="{DynamicResource BentoCompactWidth}">
    <local:OverviewPanel x:Name="Hero" bento:BentoGrid.Column="0" bento:BentoGrid.Row="0" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="2" />
    <local:AppearancePanel x:Name="Health" bento:BentoGrid.Column="2" bento:BentoGrid.Row="0" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="2" />
-   <local:AnalyticsOverview x:Name="Analytics" bento:BentoGrid.Column="0" bento:BentoGrid.Row="2" bento:BentoGrid.ColumnSpan="4" bento:BentoGrid.RowSpan="10" />
-   <local:WorklistPanel x:Name="Work" bento:BentoGrid.Column="0" bento:BentoGrid.Row="12" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="5" />
-   <local:ControlsPanel x:Name="Details" bento:BentoGrid.Column="2" bento:BentoGrid.Row="12" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="5" />
-   <local:SurfacesPanel x:Name="Layers" bento:BentoGrid.Column="0" bento:BentoGrid.Row="17" bento:BentoGrid.ColumnSpan="4" bento:BentoGrid.RowSpan="3" />
+   <local:AnalyticsOverview x:Name="Analytics" bento:BentoGrid.Column="0" bento:BentoGrid.Row="2" bento:BentoGrid.ColumnSpan="4" bento:BentoGrid.RowSpan="7" />
+   <local:WorklistPanel x:Name="Work" bento:BentoGrid.Column="0" bento:BentoGrid.Row="9" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="3" />
+   <local:ControlsPanel x:Name="Details" bento:BentoGrid.Column="2" bento:BentoGrid.Row="9" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="3" />
+   <local:SurfacesPanel x:Name="Layers" bento:BentoGrid.Column="0" bento:BentoGrid.Row="12" bento:BentoGrid.ColumnSpan="4" bento:BentoGrid.RowSpan="2" />
   </bento:BentoGrid>
  </ScrollViewer>
 </UserControl>

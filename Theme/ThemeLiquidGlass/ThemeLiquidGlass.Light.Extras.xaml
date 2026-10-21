@@ -63,11 +63,11 @@
   <Thickness x:Key="LiquidSpecularThickness">2,2,0,0</Thickness>
   <Thickness x:Key="LiquidRimThickness">1</Thickness>
   <sys:Boolean x:Key="LiquidReduceTransparency">False</sys:Boolean>
-  <LinearGradientBrush x:Key="LiquidCanvasBrush" StartPoint="0.18,0" EndPoint="0.82,1">
+  <LinearGradientBrush x:Key="LiquidCanvasBrush" StartPoint="0.2,0" EndPoint="0.8,1">
     <GradientStop Color="#E8F4FC" Offset="0" />
     <GradientStop Color="#B5D8F0" Offset="0.28" />
     <GradientStop Color="#62B4E8" Offset="0.52" />
-    <GradientStop Color="#3A8EC8" Offset="0.76" />
-    <GradientStop Color="#2A6AAA" Offset="1" />
+    <GradientStop Color="#4A9CD4" Offset="0.76" />
+    <GradientStop Color="#3A8EC8" Offset="1" />
   </LinearGradientBrush>
 </ResourceDictionary>
