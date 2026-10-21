@@ -7,6 +7,7 @@ using Microsoft.Win32;
 using ProGlassAutomation.Customization;
 using ProGlassAutomation.ThemeBento;
 using ProGlassAutomation.ThemeClaymorphism;
+using ProGlassAutomation.ThemeLiquidGlass;
 using ProGlassAutomation.ThemeNeumorphism;
 using ProGlassAutomation.Theming;
 
@@ -18,6 +19,7 @@ public sealed partial class ThemeStudioViewModel
     private BentoCustomizationState extended = new();
     private ClayCustomizationState clay = new();
     private NeumorphCustomizationState neumorph = new();
+    private LiquidCustomizationState liquid = new();
     private SharedGeometryState geometry = new();
     private FontCustomizationState font = new();
     private ColorPlateState colors = new();
@@ -34,6 +36,7 @@ public sealed partial class ThemeStudioViewModel
     private string? lastSavedSnapshot;
     private string? lastSavedClaySnapshot;
     private string? lastSavedNeumorphSnapshot;
+    private string? lastSavedLiquidSnapshot;
     public ProGlassAutomation.Customization.ChartCustomizationViewModel ChartEditor { get; } = new();
     public IReadOnlyList<BentoAccent> AccentChoices { get; } = Enum.GetValues<BentoAccent>();
     public IReadOnlyList<BentoDensity> DensityChoices { get; } = Enum.GetValues<BentoDensity>();
@@ -142,6 +145,27 @@ public sealed partial class ThemeStudioViewModel
     public NeumorphDepth SelectedNeumorphDepth { get => neumorph.Depth; set => UpdateNeumorph(neumorph with { Depth = value }); }
     public NeumorphBlur SelectedNeumorphBlur { get => neumorph.Blur; set => UpdateNeumorph(neumorph with { Blur = value }); }
     public NeumorphIntensity SelectedNeumorphIntensity { get => neumorph.Intensity; set => UpdateNeumorph(neumorph with { Intensity = value }); }
+    public IReadOnlyList<LiquidFrost> LiquidFrostChoices { get; } = Enum.GetValues<LiquidFrost>();
+    public IReadOnlyList<LiquidSpecular> LiquidSpecularChoices { get; } = Enum.GetValues<LiquidSpecular>();
+    public IReadOnlyList<LiquidTint> LiquidTintChoices { get; } = Enum.GetValues<LiquidTint>();
+    public IReadOnlyList<LiquidNamedPreset> LiquidBuiltInPresets => LiquidCustomization.BuiltIn;
+    public IReadOnlyList<LiquidNamedPreset> LiquidCustomPresets => lastSaved.LiquidPresets ?? [];
+    public IReadOnlyList<string> LiquidPresetNames => LiquidCustomization.BuiltIn.Select(p => p.Name).Concat((lastSaved.LiquidPresets ?? []).Select(p => p.Name)).ToList();
+    private string selectedLiquidPresetName = LiquidCustomization.BuiltIn[0].Name;
+    public string SelectedLiquidPresetName
+    {
+        get => selectedLiquidPresetName;
+        set
+        {
+            if (string.IsNullOrWhiteSpace(value) || value == selectedLiquidPresetName) return;
+            selectedLiquidPresetName = value;
+            Changed(nameof(SelectedLiquidPresetName));
+            ApplyPreset.Execute(value);
+        }
+    }
+    public LiquidFrost SelectedLiquidFrost { get => liquid.Frost; set => UpdateLiquid(liquid with { Frost = value }); }
+    public LiquidSpecular SelectedLiquidSpecular { get => liquid.Specular; set => UpdateLiquid(liquid with { Specular = value }); }
+    public LiquidTint SelectedLiquidTint { get => liquid.Tint; set => UpdateLiquid(liquid with { Tint = value }); }
     public IReadOnlyList<ClayNamedPreset> ClayBuiltInPresets => ClayCustomization.BuiltIn;
     public IReadOnlyList<ClayNamedPreset> ClayCustomPresets => lastSaved.ClayPresets ?? [];
     public IReadOnlyList<string> ClayPresetNames => ClayCustomization.BuiltIn.Select(p => p.Name).Concat((lastSaved.ClayPresets ?? []).Select(p => p.Name)).ToList();
@@ -220,16 +244,19 @@ public sealed partial class ThemeStudioViewModel
     public bool IsClay => SelectedTheme == ThemeService.Clay;
     public bool IsFluent => SelectedTheme == ThemeService.Fluent;
     public bool IsNeumorph => SelectedTheme == ThemeService.Neumorphism;
+    public bool IsLiquid => SelectedTheme == ThemeCatalog.LiquidGlassName;
     public bool CanCustomizeBento => SelectedTheme == ThemeService.Bento;
     public bool CanCustomizeClay => IsClay;
     public bool CanCustomizeNeumorph => IsNeumorph;
+    public bool CanCustomizeLiquid => IsLiquid;
     public bool CanCustomizeGeometry => ThemeCatalog.Find(SelectedTheme).Geometry == ThemeGeometry.SharedTokens;
-    public bool CanCustomize => CanCustomizeBento || CanCustomizeClay || CanCustomizeNeumorph;
+    public bool CanCustomize => CanCustomizeBento || CanCustomizeClay || CanCustomizeNeumorph || CanCustomizeLiquid;
     public string DesignSummary => CanCustomizeClay
         ? $"{SelectedClayAccent} / {SelectedClayVolume} / {SelectedClayPlumpness} / {SelectedClayTypography}"
         : CanCustomizeBento ? $"{SelectedAccent} / {SelectedDensity} / {SelectedShape} / {SelectedTypography} · {SelectedLayoutPreset}"
         : IsFluent ? $"Fluent / {SelectedRounding}"
         : IsNeumorph ? $"Neumorphism / {SelectedRounding} / {SelectedNeumorphDepth} / {SelectedNeumorphBlur}"
+        : IsLiquid ? $"Liquid Glass / {SelectedRounding} / {SelectedLiquidFrost} / {SelectedLiquidSpecular}"
         : "Theme-default settings";
     public bool IsDirty =>
         themes.ActiveTheme != lastSaved.Theme
@@ -237,6 +264,7 @@ public sealed partial class ThemeStudioViewModel
         || geometry != (lastSaved.Geometry ?? new SharedGeometryState())
         || (CanCustomizeClay && clay != (lastSaved.Clay ?? new ClayCustomizationState()))
         || (CanCustomizeNeumorph && neumorph != (lastSaved.Neumorph ?? new NeumorphCustomizationState()))
+        || (CanCustomizeLiquid && liquid != (lastSaved.Liquid ?? new LiquidCustomizationState()))
         || (CanCustomizeBento && extended != lastSaved.Preferences)
         || font != (lastSaved.Font ?? new FontCustomizationState())
         || !SameColors(colors, lastSaved.Colors ?? new ColorPlateState());
@@ -309,6 +337,7 @@ public sealed partial class ThemeStudioViewModel
         extended = lastSaved.Preferences ?? new BentoCustomizationState();
         clay = lastSaved.Clay ?? new ClayCustomizationState();
         neumorph = lastSaved.Neumorph ?? new NeumorphCustomizationState();
+        liquid = lastSaved.Liquid ?? new LiquidCustomizationState();
         geometry = lastSaved.Geometry ?? new SharedGeometryState(SharedGeometry.FromShape(extended.Shape));
         font = lastSaved.Font ?? new FontCustomizationState();
         colors = lastSaved.Colors ?? new ColorPlateState();
@@ -318,7 +347,7 @@ public sealed partial class ThemeStudioViewModel
         var restored = ThemeService.InstalledThemes.Contains(lastSaved.Theme) ? lastSaved.Theme : ThemeService.Bento;
         try
         {
-            themes.Apply(restored, lastSaved.Appearance, SharedGeometry.Compose(restored, extended, clay, geometry, neumorph, font, colors));
+            themes.Apply(restored, lastSaved.Appearance, SharedGeometry.Compose(restored, extended, clay, geometry, neumorph, font, colors, liquid));
         }
         catch { }
         ResetDesign = new DelegateCommand(() =>
@@ -326,6 +355,7 @@ public sealed partial class ThemeStudioViewModel
             geometry = new SharedGeometryState();
             if (IsClay) ApplyClayState(new ClayCustomizationState());
             else if (IsNeumorph) ApplyNeumorphState(new NeumorphCustomizationState());
+            else if (IsLiquid) ApplyLiquidState(new LiquidCustomizationState());
             else if (CanCustomizeBento) ApplyState(new BentoCustomizationState());
             else ApplySharedOnly();
             Changed(nameof(SelectedRounding));
@@ -340,7 +370,7 @@ public sealed partial class ThemeStudioViewModel
         ApplyPreview = new DelegateCommand(() => { try { themes.Apply(SelectedTheme, themes.ActiveAppearance, LiveConfigure()); ThemeError=""; Feedback="Preview applied — unsaved changes present."; } catch(Exception ex){ ThemeError=ex.Message; } Changed(nameof(ThemeError)); }, () => CanCustomize || CanCustomizeGeometry);
         SaveCustomization = new DelegateCommand(() =>
         {
-            if (extended.Validate() is not null || (clay ?? new ClayCustomizationState()).Validate() is not null || (neumorph ?? new NeumorphCustomizationState()).Validate() is not null || font.Validate() is not null || colors.Validate() is not null)
+            if (extended.Validate() is not null || (clay ?? new ClayCustomizationState()).Validate() is not null || (neumorph ?? new NeumorphCustomizationState()).Validate() is not null || (liquid ?? new LiquidCustomizationState()).Validate() is not null || font.Validate() is not null || colors.Validate() is not null)
             {
                 ThemeError = "Cannot save invalid customization.";
                 Changed(nameof(ThemeError));
@@ -360,7 +390,7 @@ public sealed partial class ThemeStudioViewModel
             }
             Changed(nameof(ThemeError));
             Changed(nameof(IsDirty));
-        }, () => extended.Validate() is null && (clay ?? new ClayCustomizationState()).Validate() is null && (neumorph ?? new NeumorphCustomizationState()).Validate() is null && font.Validate() is null && colors.Validate() is null);
+        }, () => extended.Validate() is null && (clay ?? new ClayCustomizationState()).Validate() is null && (neumorph ?? new NeumorphCustomizationState()).Validate() is null && (liquid ?? new LiquidCustomizationState()).Validate() is null && font.Validate() is null && colors.Validate() is null);
         DiscardChanges = new DelegateCommand(() =>
         {
             RestoreSaved(lastSaved);
@@ -457,6 +487,12 @@ public sealed partial class ThemeStudioViewModel
                 Feedback = $"Reset {customizationCategory} to neumorph defaults.";
                 return;
             }
+            if (IsLiquid)
+            {
+                ApplyLiquidState(new LiquidCustomizationState());
+                Feedback = $"Reset {customizationCategory} to liquid glass defaults.";
+                return;
+            }
             var bentoDefaults = new BentoCustomizationState();
             var bentoNext = customizationCategory switch
             {
@@ -486,6 +522,14 @@ public sealed partial class ThemeStudioViewModel
                 lastSaved = lastSaved with { Neumorph = new NeumorphCustomizationState(), Theme = ThemeService.Neumorphism, Appearance = themes.ActiveAppearance, Geometry = geometry };
                 CustomizationStore.Save(lastSaved);
                 Feedback = "Neumorphism restored to defaults.";
+                return;
+            }
+            if (IsLiquid)
+            {
+                ApplyLiquidState(new LiquidCustomizationState());
+                lastSaved = lastSaved with { Liquid = new LiquidCustomizationState(), Theme = ThemeCatalog.LiquidGlassName, Appearance = themes.ActiveAppearance, Geometry = geometry };
+                CustomizationStore.Save(lastSaved);
+                Feedback = "Liquid Glass restored to defaults.";
                 return;
             }
             ApplyState(new BentoCustomizationState());
@@ -529,6 +573,23 @@ public sealed partial class ThemeStudioViewModel
                 }
                 return;
             }
+            if (IsLiquid)
+            {
+                if (lastSavedLiquidSnapshot == null)
+                {
+                    lastSavedLiquidSnapshot = System.Text.Json.JsonSerializer.Serialize(liquid);
+                    ApplyLiquidState(new LiquidCustomizationState());
+                    Feedback = "Previewing liquid glass defaults — toggle again to restore.";
+                }
+                else
+                {
+                    var prev = System.Text.Json.JsonSerializer.Deserialize<LiquidCustomizationState>(lastSavedLiquidSnapshot);
+                    lastSavedLiquidSnapshot = null;
+                    if (prev != null) ApplyLiquidState(prev);
+                    Feedback = "Restored your liquid glass preview.";
+                }
+                return;
+            }
             if (lastSavedSnapshot == null)
             {
                 lastSavedSnapshot = System.Text.Json.JsonSerializer.Serialize(extended);
@@ -561,6 +622,15 @@ public sealed partial class ThemeStudioViewModel
                 if (neuPreset.Appearance != themes.ActiveAppearance) SelectAppearance(ThemeService.Neumorphism, neuPreset.Appearance);
                 ApplyNeumorphState(neuPreset.State);
                 Feedback = $"Neumorph preset applied: {neuPreset.Name}";
+                return;
+            }
+            if (IsLiquid)
+            {
+                var glassPreset = LiquidCustomization.BuiltIn.Concat(lastSaved.LiquidPresets ?? []).FirstOrDefault(p => p.Name == name);
+                if (glassPreset == null) return;
+                if (glassPreset.Appearance != themes.ActiveAppearance) SelectAppearance(ThemeCatalog.LiquidGlassName, glassPreset.Appearance);
+                ApplyLiquidState(glassPreset.State);
+                Feedback = $"Liquid Glass preset applied: {glassPreset.Name}";
                 return;
             }
             var preset = BuiltInPresets.Concat(CustomPresets).FirstOrDefault(p => p.Name == name);
@@ -620,6 +690,26 @@ public sealed partial class ThemeStudioViewModel
                 Changed(nameof(NeumorphPresetNames));
                 return;
             }
+            if (IsLiquid)
+            {
+                if (LiquidCustomization.IsBuiltIn(n))
+                {
+                    ThemeError = "Enter unique name not conflicting with built-in presets.";
+                    Changed(nameof(ThemeError));
+                    return;
+                }
+                var glassList = (lastSaved.LiquidPresets ?? []).ToList();
+                glassList.RemoveAll(p => p.Name == n);
+                glassList.Add(new LiquidNamedPreset(n, liquid, themes.ActiveAppearance));
+                lastSaved = lastSaved with { LiquidPresets = glassList, Liquid = liquid, Theme = themes.ActiveTheme, Appearance = themes.ActiveAppearance };
+                CustomizationStore.Save(lastSaved);
+                PresetNameInput = "";
+                Feedback = $"Liquid Glass preset saved: {n}";
+                Changed(nameof(ThemeError));
+                Changed(nameof(LiquidCustomPresets));
+                Changed(nameof(LiquidPresetNames));
+                return;
+            }
             if (PresetCatalog.IsBuiltIn(n))
             {
                 ThemeError = "Enter unique name not conflicting with built-in presets.";
@@ -659,6 +749,18 @@ public sealed partial class ThemeStudioViewModel
                 Feedback = $"Deleted neumorph preset: {name}";
                 Changed(nameof(NeumorphCustomPresets));
                 Changed(nameof(NeumorphPresetNames));
+                return;
+            }
+            if (IsLiquid)
+            {
+                if (LiquidCustomization.IsBuiltIn(name)) return;
+                var glassList = (lastSaved.LiquidPresets ?? []).ToList();
+                glassList.RemoveAll(p => p.Name == name);
+                lastSaved = lastSaved with { LiquidPresets = glassList };
+                CustomizationStore.Save(lastSaved);
+                Feedback = $"Deleted liquid glass preset: {name}";
+                Changed(nameof(LiquidCustomPresets));
+                Changed(nameof(LiquidPresetNames));
                 return;
             }
             if (PresetCatalog.IsBuiltIn(name)) return;
@@ -704,6 +806,22 @@ public sealed partial class ThemeStudioViewModel
                 }
                 return;
             }
+            if (IsLiquid)
+            {
+                if (LiquidCustomization.IsBuiltIn(n)) return;
+                var glassList = (lastSaved.LiquidPresets ?? []).ToList();
+                var glassIdx = glassList.FindIndex(p => p.Name == pair.oldName);
+                if (glassIdx >= 0)
+                {
+                    glassList[glassIdx] = glassList[glassIdx] with { Name = n };
+                    lastSaved = lastSaved with { LiquidPresets = glassList };
+                    CustomizationStore.Save(lastSaved);
+                    Feedback = $"Renamed to {n}";
+                    Changed(nameof(LiquidCustomPresets));
+                    Changed(nameof(LiquidPresetNames));
+                }
+                return;
+            }
             if (PresetCatalog.IsBuiltIn(n)) return;
             var list = (lastSaved.CustomPresets ?? []).ToList();
             var idx = list.FindIndex(p => p.Name == pair.oldName);
@@ -717,7 +835,7 @@ public sealed partial class ThemeStudioViewModel
         });
     }
     private Action<ResourceDictionary, Appearance> LiveConfigure() =>
-        SharedGeometry.Compose(SelectedTheme, extended, clay, geometry, neumorph, font, colors);
+        SharedGeometry.Compose(SelectedTheme, extended, clay, geometry, neumorph, font, colors, liquid);
     private void Customize(BentoPreferences candidate)
     {
         if (!CanCustomizeBento || candidate == preferences) return;
@@ -765,12 +883,29 @@ public sealed partial class ThemeStudioViewModel
     {
         try
         {
-            themes.Apply(ThemeService.Neumorphism, themes.ActiveAppearance, SharedGeometry.Compose(ThemeService.Neumorphism, extended, clay, geometry, next, font, colors));
+            themes.Apply(ThemeService.Neumorphism, themes.ActiveAppearance, SharedGeometry.Compose(ThemeService.Neumorphism, extended, clay, geometry, next, font, colors, liquid));
             neumorph = next; ThemeError = ""; Feedback = "Live neumorph preview updated — use Save to persist.";
         }
         catch (ThemeNotificationException error) { neumorph = next; ThemeError = error.Message; }
         catch (Exception error) when (error is InvalidOperationException or ArgumentException or IOException or System.Windows.Markup.XamlParseException) { ThemeError = $"Design unchanged: {error.Message}"; }
         foreach (var n in new[] { nameof(SelectedNeumorphDepth), nameof(SelectedNeumorphBlur), nameof(SelectedNeumorphIntensity), nameof(DesignSummary), nameof(ThemeError), nameof(IsDirty) }) Changed(n);
+    }
+
+    private void UpdateLiquid(LiquidCustomizationState next)
+    {
+        if (!CanCustomizeLiquid || next == liquid) return;
+        ApplyLiquidState(next);
+    }
+    private void ApplyLiquidState(LiquidCustomizationState next)
+    {
+        try
+        {
+            themes.Apply(ThemeCatalog.LiquidGlassName, themes.ActiveAppearance, SharedGeometry.Compose(ThemeCatalog.LiquidGlassName, extended, clay, geometry, neumorph, font, colors, next));
+            liquid = next; ThemeError = ""; Feedback = "Live liquid glass preview updated — use Save to persist.";
+        }
+        catch (ThemeNotificationException error) { liquid = next; ThemeError = error.Message; }
+        catch (Exception error) when (error is InvalidOperationException or ArgumentException or IOException or System.Windows.Markup.XamlParseException) { ThemeError = $"Design unchanged: {error.Message}"; }
+        foreach (var n in new[] { nameof(SelectedLiquidFrost), nameof(SelectedLiquidSpecular), nameof(SelectedLiquidTint), nameof(DesignSummary), nameof(ThemeError), nameof(IsDirty) }) Changed(n);
     }
 
     private SavedCustomization CaptureLive() => new(
@@ -787,7 +922,9 @@ public sealed partial class ThemeStudioViewModel
         neumorph,
         lastSaved.NeumorphPresets,
         font,
-        colors with { RoleHex = colors.RoleHex is null ? null : new Dictionary<string, string>(colors.RoleHex) });
+        colors with { RoleHex = colors.RoleHex is null ? null : new Dictionary<string, string>(colors.RoleHex) },
+        liquid,
+        lastSaved.LiquidPresets);
 
     private void ApplySharedOnly()
     {
@@ -820,6 +957,7 @@ public sealed partial class ThemeStudioViewModel
         var nextBento = package.Preferences ?? new BentoCustomizationState();
         var nextClay = package.Clay ?? new ClayCustomizationState();
         var nextNeumorph = package.Neumorph ?? new NeumorphCustomizationState();
+        var nextLiquid = package.Liquid ?? new LiquidCustomizationState();
         var nextGeometry = package.Geometry ?? new SharedGeometryState(SharedGeometry.FromShape(nextBento.Shape));
         var nextFont = package.Font ?? new FontCustomizationState();
         var nextColors = package.Colors ?? new ColorPlateState();
@@ -827,6 +965,7 @@ public sealed partial class ThemeStudioViewModel
         var previousBento = extended;
         var previousClay = clay;
         var previousNeumorph = neumorph;
+        var previousLiquid = liquid;
         var previousGeometry = geometry;
         var previousFont = font;
         var previousColors = colors;
@@ -835,12 +974,13 @@ public sealed partial class ThemeStudioViewModel
             extended = nextBento;
             clay = nextClay;
             neumorph = nextNeumorph;
+            liquid = nextLiquid;
             geometry = nextGeometry;
             font = nextFont;
             colors = nextColors;
             colorRoleHexDraft = ColorPlateService.ResolvedHex(colors, package.Appearance, selectedColorRole);
             preferences = nextBento.ToLegacy();
-            themes.Apply(theme, package.Appearance, SharedGeometry.Compose(theme, nextBento, nextClay, nextGeometry, nextNeumorph, nextFont, nextColors));
+            themes.Apply(theme, package.Appearance, SharedGeometry.Compose(theme, nextBento, nextClay, nextGeometry, nextNeumorph, nextFont, nextColors, nextLiquid));
             ThemeError = "";
             if (persist)
             {
@@ -857,6 +997,7 @@ public sealed partial class ThemeStudioViewModel
             extended = previousBento;
             clay = previousClay;
             neumorph = previousNeumorph;
+            liquid = previousLiquid;
             geometry = previousGeometry;
             font = previousFont;
             colors = previousColors;
@@ -864,7 +1005,7 @@ public sealed partial class ThemeStudioViewModel
             preferences = previousBento.ToLegacy();
             ThemeError = error.Message;
         }
-        foreach (var n in new[] { nameof(SelectedAccent), nameof(SelectedDensity), nameof(SelectedShape), nameof(SelectedTypography), nameof(SelectedCanvas), nameof(SelectedSurface), nameof(SelectedTextContrast), nameof(SelectedBorder), nameof(SelectedShadow), nameof(SelectedSpacing), nameof(SelectedPadding), nameof(SelectedWeight), nameof(SelectedLayoutPreset), nameof(HeroCompact), nameof(ShowKpiTrend), nameof(SelectedRounding), nameof(SelectedClayAccent), nameof(SelectedClayVolume), nameof(SelectedClayPlumpness), nameof(SelectedClayDensity), nameof(SelectedClayCanvas), nameof(SelectedClayTypography), nameof(SelectedClaySpacing), nameof(SelectedClayTextContrast), nameof(SelectedClaySheen), nameof(SelectedClayWeight), nameof(SelectedClayLighting), nameof(SelectedClayRelief), nameof(SelectedClayEffects), nameof(SelectedNeumorphDepth), nameof(SelectedNeumorphBlur), nameof(SelectedNeumorphIntensity), nameof(SelectedFontFamily), nameof(HeadingBold), nameof(BodyItalic), nameof(BodyUnderline), nameof(SelectedColorPlate), nameof(ColorStopSummary), nameof(ColorRoleSummary), nameof(ColorRoleHex), nameof(FontFamilyChoices), nameof(DesignSummary), nameof(ThemeError), nameof(IsDirty) }) Changed(n);
+        foreach (var n in new[] { nameof(SelectedAccent), nameof(SelectedDensity), nameof(SelectedShape), nameof(SelectedTypography), nameof(SelectedCanvas), nameof(SelectedSurface), nameof(SelectedTextContrast), nameof(SelectedBorder), nameof(SelectedShadow), nameof(SelectedSpacing), nameof(SelectedPadding), nameof(SelectedWeight), nameof(SelectedLayoutPreset), nameof(HeroCompact), nameof(ShowKpiTrend), nameof(SelectedRounding), nameof(SelectedClayAccent), nameof(SelectedClayVolume), nameof(SelectedClayPlumpness), nameof(SelectedClayDensity), nameof(SelectedClayCanvas), nameof(SelectedClayTypography), nameof(SelectedClaySpacing), nameof(SelectedClayTextContrast), nameof(SelectedClaySheen), nameof(SelectedClayWeight), nameof(SelectedClayLighting), nameof(SelectedClayRelief), nameof(SelectedClayEffects), nameof(SelectedNeumorphDepth), nameof(SelectedNeumorphBlur), nameof(SelectedNeumorphIntensity), nameof(SelectedLiquidFrost), nameof(SelectedLiquidSpecular), nameof(SelectedLiquidTint), nameof(SelectedFontFamily), nameof(HeadingBold), nameof(BodyItalic), nameof(BodyUnderline), nameof(SelectedColorPlate), nameof(ColorStopSummary), nameof(ColorRoleSummary), nameof(ColorRoleHex), nameof(FontFamilyChoices), nameof(DesignSummary), nameof(ThemeError), nameof(IsDirty) }) Changed(n);
         CommandManager.InvalidateRequerySuggested();
     }
 

@@ -3,6 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using ProGlassAutomation.Theming;
 using ProGlassAutomation.ThemeClaymorphism;
+using ProGlassAutomation.ThemeLiquidGlass;
 using ProGlassAutomation.ThemeNeumorphism;
 
 namespace ProGlassAutomation.Customization;
@@ -46,6 +47,7 @@ public static class CustomizationStore
         if (loaded.Preferences is null || loaded.Preferences.Validate() is not null) throw new ArgumentException("Theme file contains invalid Bento preferences.");
         if (loaded.Clay?.Validate() is not null) throw new ArgumentException("Theme file contains invalid Clay preferences.");
         if (loaded.Neumorph?.Validate() is not null) throw new ArgumentException("Theme file contains invalid Neumorph preferences.");
+        if (loaded.Liquid?.Validate() is not null) throw new ArgumentException("Theme file contains invalid Liquid Glass preferences.");
         if (!Enum.IsDefined(loaded.Appearance)) throw new ArgumentException("Theme file appearance is not supported.");
         if (string.IsNullOrWhiteSpace(loaded.Theme) || !ThemeService.InstalledThemes.Contains(loaded.Theme))
             loaded = loaded with { Theme = ThemeCatalog.BentoName };
@@ -55,7 +57,8 @@ public static class CustomizationStore
             Geometry = loaded.Geometry ?? new SharedGeometryState(),
             Neumorph = loaded.Neumorph ?? new NeumorphCustomizationState(),
             Font = loaded.Font ?? new FontCustomizationState(),
-            Colors = loaded.Colors ?? new ColorPlateState()
+            Colors = loaded.Colors ?? new ColorPlateState(),
+            Liquid = loaded.Liquid ?? new LiquidCustomizationState()
         };
         if (loaded.Geometry.Validate() is not null) throw new ArgumentException("Theme file contains invalid card rounding.");
         if (loaded.Font?.Validate() is not null) throw new ArgumentException("Theme file contains invalid font preferences.");
@@ -69,6 +72,9 @@ public static class CustomizationStore
         foreach (var preset in loaded.NeumorphPresets ?? [])
             if (string.IsNullOrWhiteSpace(preset.Name) || preset.State.Validate() is not null)
                 throw new ArgumentException("Theme file contains an invalid Neumorph preset.");
+        foreach (var preset in loaded.LiquidPresets ?? [])
+            if (string.IsNullOrWhiteSpace(preset.Name) || preset.State.Validate() is not null)
+                throw new ArgumentException("Theme file contains an invalid Liquid Glass preset.");
         return loaded;
     }
 

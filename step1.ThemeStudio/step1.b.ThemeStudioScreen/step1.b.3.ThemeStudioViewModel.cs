@@ -71,7 +71,7 @@ public sealed partial class ThemeStudioViewModel : INotifyPropertyChanged, IData
         var current = extended;
         try
         {
-            themes.Apply(theme, appearance, SharedGeometry.Compose(theme, current, clay, geometry, neumorph, font, colors));
+            themes.Apply(theme, appearance, SharedGeometry.Compose(theme, current, clay, geometry, neumorph, font, colors, liquid));
             ThemeError = "";
             lastSaved = lastSaved with { Theme = theme, Appearance = appearance };
             try { CustomizationStore.Save(lastSaved); } catch (Exception ex) when (ex is IOException or ArgumentException or InvalidOperationException) { }
@@ -90,7 +90,7 @@ public sealed partial class ThemeStudioViewModel : INotifyPropertyChanged, IData
         if (e.PropertyName != nameof(ThemeService.ActiveAppearance) && e.PropertyName != nameof(ThemeService.ActiveTheme)) return;
         RefreshTokens();
         colorRoleHexDraft = ColorPlateService.ResolvedHex(colors, themes.ActiveAppearance, selectedColorRole);
-        foreach (string property in new[] { nameof(IsLight), nameof(IsDark), nameof(AppearanceLabel), nameof(SelectedTheme), nameof(IsClay), nameof(IsFluent), nameof(IsNeumorph), nameof(CanCustomizeBento), nameof(CanCustomizeClay), nameof(CanCustomizeNeumorph), nameof(CanCustomizeGeometry), nameof(CanCustomize), nameof(DesignSummary), nameof(SelectedRounding), nameof(SelectedFontFamily), nameof(HeadingBold), nameof(BodyItalic), nameof(BodyUnderline), nameof(SelectedColorPlate), nameof(ColorStopSummary), nameof(ColorRoleSummary), nameof(ColorRoleHex), nameof(FontFamilyChoices), nameof(IsDirty) }) Changed(property);
+        foreach (string property in new[] { nameof(IsLight), nameof(IsDark), nameof(AppearanceLabel), nameof(SelectedTheme), nameof(IsClay), nameof(IsFluent), nameof(IsNeumorph), nameof(IsLiquid), nameof(CanCustomizeBento), nameof(CanCustomizeClay), nameof(CanCustomizeNeumorph), nameof(CanCustomizeLiquid), nameof(CanCustomizeGeometry), nameof(CanCustomize), nameof(DesignSummary), nameof(SelectedRounding), nameof(SelectedFontFamily), nameof(HeadingBold), nameof(BodyItalic), nameof(BodyUnderline), nameof(SelectedColorPlate), nameof(ColorStopSummary), nameof(ColorRoleSummary), nameof(ColorRoleHex), nameof(FontFamilyChoices), nameof(IsDirty) }) Changed(property);
         CommandManager.InvalidateRequerySuggested();
     }
 

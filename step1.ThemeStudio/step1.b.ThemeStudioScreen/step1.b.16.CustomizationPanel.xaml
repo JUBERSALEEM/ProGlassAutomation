@@ -7,7 +7,7 @@
    <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
     <StackPanel>
      <DockPanel Margin="{DynamicResource MarginItem}"><TextBlock Text="Design settings" Style="{DynamicResource SectionHeading}"/><Border Tag="Success" Style="{DynamicResource StatusBadge}" HorizontalAlignment="Right"><TextBlock Text="LIVE" Foreground="{DynamicResource StatusSuccess}" Style="{DynamicResource Caption}"/></Border></DockPanel>
-     <TextBlock Text="Pick a theme to open its own studio. Engines stay separate — Bento, Clay, Fluent and Neumorphism never share knobs. Texts Studio and Colors Studio are separate Settings pages — they overlay every theme." Style="{DynamicResource Caption}"/>
+     <TextBlock Text="Pick a theme to open its own studio. Engines stay separate — Bento, Clay, Fluent, Neumorphism and Liquid Glass never share knobs. Texts Studio and Colors Studio are separate Settings pages — they overlay every theme." Style="{DynamicResource Caption}"/>
     </StackPanel>
    </ContentControl>
    <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
@@ -202,6 +202,45 @@
        <Button Content="Preview default" Command="{Binding PreviewDefault}" Margin="{DynamicResource MarginInline}" AutomationProperties.Name="Preview neumorph default comparison"/>
        <Button Content="Reset section" Command="{Binding ResetSection}" Margin="{DynamicResource MarginInline}" AutomationProperties.Name="Reset neumorph section"/>
        <Button Content="Reset theme" Command="{Binding ResetTheme}" Style="{DynamicResource DestructiveButton}" Margin="{DynamicResource MarginInline}" AutomationProperties.Name="Reset neumorph to defaults"/>
+      </WrapPanel>
+      <WrapPanel Margin="{DynamicResource MarginItem}"><Button Content="Open reference" Command="{Binding ShowBusiness}" Style="{DynamicResource PrimaryButton}"/></WrapPanel>
+     </StackPanel>
+    </ContentControl>
+   </StackPanel>
+   <StackPanel Visibility="{Binding IsLiquid, Converter={StaticResource BoolVis}}">
+    <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
+     <StackPanel>
+      <TextBlock Text="Liquid Glass studio" Style="{DynamicResource Caption}"/>
+      <TextBlock Text="Liquid Glass uses shared rounding. Frost, specular and tint are owned. Not Fluent acrylic, not Clay plumpness, not Glassmorphism frost-only." Style="{DynamicResource Caption}"/>
+      <Label Content="Liquid preset" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding LiquidPresetNames}" SelectedItem="{Binding SelectedLiquidPresetName}" AutomationProperties.Name="Liquid Glass preset" Margin="{DynamicResource MarginItem}"/>
+      <TextBlock Text="Liquid built-in presets" Style="{DynamicResource Caption}"/>
+      <ListBox ItemsSource="{Binding LiquidBuiltInPresets}" DisplayMemberPath="Name" AutomationProperties.Name="Liquid Glass built-in presets" Margin="{DynamicResource MarginItem}"/>
+      <TextBlock Text="Your liquid presets" Style="{DynamicResource Caption}"/>
+      <ListBox ItemsSource="{Binding LiquidCustomPresets}" DisplayMemberPath="Name" AutomationProperties.Name="Your liquid glass presets" Margin="{DynamicResource MarginItem}"/>
+      <DockPanel Margin="{DynamicResource MarginItem}"><TextBox Width="120" Text="{Binding PresetNameInput, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="New liquid preset name" Margin="{DynamicResource MarginInline}"/><Button Content="Save liquid preset" Command="{Binding SavePreset}" AutomationProperties.Name="Save as liquid glass preset"/></DockPanel>
+     </StackPanel>
+    </ContentControl>
+    <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
+     <StackPanel>
+      <TextBlock Text="Glass engine" Style="{DynamicResource Caption}"/>
+      <Label Content="Frost" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding LiquidFrostChoices}" SelectedItem="{Binding SelectedLiquidFrost}" AutomationProperties.Name="Liquid frost" Margin="{DynamicResource MarginItem}"/>
+      <Label Content="Specular" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding LiquidSpecularChoices}" SelectedItem="{Binding SelectedLiquidSpecular}" AutomationProperties.Name="Liquid specular" Margin="{DynamicResource MarginItem}"/>
+      <Label Content="Tint" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding LiquidTintChoices}" SelectedItem="{Binding SelectedLiquidTint}" AutomationProperties.Name="Liquid tint" Margin="{DynamicResource MarginItem}"/>
+      <TextBlock Text="Frost is face opacity. Specular is the top highlight. Tint is cool, neutral or warm glass. Card rounding above stays shared geometry." Style="{DynamicResource Caption}"/>
+     </StackPanel>
+    </ContentControl>
+    <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
+     <StackPanel>
+      <TextBlock Text="Save and reset" Style="{DynamicResource Caption}"/>
+      <WrapPanel Margin="{DynamicResource MarginItem}">
+       <Button Content="Apply" Command="{Binding ApplyPreview}" Style="{DynamicResource PrimaryButton}" Margin="{DynamicResource MarginInline}" AutomationProperties.Name="Apply liquid glass preview"/>
+       <Button Content="Save" Command="{Binding SaveCustomization}" Margin="{DynamicResource MarginInline}" AutomationProperties.Name="Save liquid glass to disk"/>
+       <Button Content="Discard" Command="{Binding DiscardChanges}" Margin="{DynamicResource MarginInline}" AutomationProperties.Name="Discard liquid glass changes"/>
+      </WrapPanel>
+      <WrapPanel Margin="{DynamicResource MarginItem}">
+       <Button Content="Preview default" Command="{Binding PreviewDefault}" Margin="{DynamicResource MarginInline}" AutomationProperties.Name="Preview liquid glass default comparison"/>
+       <Button Content="Reset section" Command="{Binding ResetSection}" Margin="{DynamicResource MarginInline}" AutomationProperties.Name="Reset liquid glass section"/>
+       <Button Content="Reset theme" Command="{Binding ResetTheme}" Style="{DynamicResource DestructiveButton}" Margin="{DynamicResource MarginInline}" AutomationProperties.Name="Reset liquid glass to defaults"/>
       </WrapPanel>
       <WrapPanel Margin="{DynamicResource MarginItem}"><Button Content="Open reference" Command="{Binding ShowBusiness}" Style="{DynamicResource PrimaryButton}"/></WrapPanel>
      </StackPanel>

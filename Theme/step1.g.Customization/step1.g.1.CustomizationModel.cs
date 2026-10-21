@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using ProGlassAutomation.Theming;
 using ProGlassAutomation.ThemeBento;
 using ProGlassAutomation.ThemeClaymorphism;
+using ProGlassAutomation.ThemeLiquidGlass;
 using ProGlassAutomation.ThemeNeumorphism;
 
 namespace ProGlassAutomation.Customization;
@@ -83,7 +84,9 @@ public sealed record SavedCustomization(
     NeumorphCustomizationState? Neumorph = null,
     List<NeumorphNamedPreset>? NeumorphPresets = null,
     FontCustomizationState? Font = null,
-    ColorPlateState? Colors = null
+    ColorPlateState? Colors = null,
+    LiquidCustomizationState? Liquid = null,
+    List<LiquidNamedPreset>? LiquidPresets = null
 )
 {
     public SavedCustomization() : this(2, Appearance.Light, new BentoCustomizationState()) { }

@@ -1,6 +1,7 @@
 using System.Windows;
 using ProGlassAutomation.ThemeBento;
 using ProGlassAutomation.ThemeClaymorphism;
+using ProGlassAutomation.ThemeLiquidGlass;
 using ProGlassAutomation.ThemeNeumorphism;
 using ProGlassAutomation.Theming;
 
@@ -65,7 +66,8 @@ public static class SharedGeometry
         SharedGeometryState geometry,
         NeumorphCustomizationState? neumorph = null,
         FontCustomizationState? font = null,
-        ColorPlateState? colors = null)
+        ColorPlateState? colors = null,
+        LiquidCustomizationState? liquid = null)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(theme);
         ArgumentNullException.ThrowIfNull(bento);
@@ -74,6 +76,7 @@ public static class SharedGeometry
         var neu = neumorph ?? new NeumorphCustomizationState();
         var type = font ?? new FontCustomizationState();
         var plate = colors ?? new ColorPlateState();
+        var glass = liquid ?? new LiquidCustomizationState();
         return (package, mode) =>
         {
             if (theme == ThemeService.Bento)
@@ -82,6 +85,8 @@ public static class SharedGeometry
                 ClayCustomization.Apply(package, mode, clay);
             else if (theme == ThemeService.Neumorphism)
                 NeumorphCustomization.Apply(package, mode, neu);
+            else if (theme == ThemeCatalog.LiquidGlassName)
+                LiquidCustomization.Apply(package, mode, glass);
             FontService.Apply(package, type);
             ColorPlateService.Apply(package, mode, plate);
             if (ThemeCatalog.Find(theme).Geometry != ThemeGeometry.SharedTokens)
