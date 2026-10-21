@@ -14,22 +14,20 @@
   <Setter Property="HorizontalContentAlignment" Value="Center" />
   <Setter Property="VerticalContentAlignment" Value="Center" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button">
-   <neu:NeumorphSurface x:Name="Pod" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ControlCornerRadius}">
+   <neu:NeumorphSurface x:Name="Pod" Rank="Control" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ControlCornerRadius}">
     <ContentPresenter RecognizesAccessKey="True" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
    </neu:NeumorphSurface>
    <ControlTemplate.Triggers>
-    <Trigger Property="IsKeyboardFocused" Value="True">
-     <Setter TargetName="Pod" Property="LightBrush" Value="{DynamicResource FocusIndicator}" />
-     <Setter TargetName="Pod" Property="DarkBrush" Value="{DynamicResource FocusIndicator}" />
+    <Trigger Property="IsMouseOver" Value="True">
+     <Setter TargetName="Pod" Property="Lifted" Value="True" />
     </Trigger>
     <Trigger Property="IsPressed" Value="True">
      <Setter TargetName="Pod" Property="Concave" Value="True" />
+     <Setter TargetName="Pod" Property="Lifted" Value="False" />
     </Trigger>
    </ControlTemplate.Triggers>
   </ControlTemplate></Setter.Value></Setter>
   <Style.Triggers>
-   <Trigger Property="IsMouseOver" Value="True"><Setter Property="Background" Value="{DynamicResource StateHover}" /></Trigger>
-   <Trigger Property="IsPressed" Value="True"><Setter Property="Background" Value="{DynamicResource StatePressed}" /></Trigger>
    <Trigger Property="IsEnabled" Value="False"><Setter Property="Background" Value="{DynamicResource DisabledSurface}" /><Setter Property="Foreground" Value="{DynamicResource DisabledText}" /></Trigger>
   </Style.Triggers>
  </Style>
@@ -44,17 +42,16 @@
   </Style.Triggers>
  </Style>
  <Style x:Key="SubtleButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-  <Setter Property="Background" Value="{DynamicResource AccentSoft}" />
+  <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
   <Setter Property="BorderBrush" Value="{DynamicResource NeumorphDarkBrush}" />
-  <Style.Triggers><Trigger Property="IsKeyboardFocused" Value="True"><Setter Property="BorderBrush" Value="{DynamicResource FocusIndicator}" /></Trigger></Style.Triggers>
  </Style>
  <Style x:Key="DestructiveButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
   <Setter Property="Background" Value="{DynamicResource StatusErrorSurface}" />
   <Setter Property="Foreground" Value="{DynamicResource StatusError}" />
   <Setter Property="BorderBrush" Value="{DynamicResource StatusError}" />
   <Style.Triggers>
-   <Trigger Property="IsMouseOver" Value="True"><Setter Property="Background" Value="{DynamicResource StatusErrorSurface}" /><Setter Property="BorderThickness" Value="{DynamicResource FocusThickness}" /></Trigger>
-   <Trigger Property="IsPressed" Value="True"><Setter Property="Background" Value="{DynamicResource StatusErrorSurface}" /><Setter Property="BorderBrush" Value="{DynamicResource TextPrimary}" /></Trigger>
+   <Trigger Property="IsMouseOver" Value="True"><Setter Property="Background" Value="{DynamicResource StatusErrorSurface}" /></Trigger>
+   <Trigger Property="IsPressed" Value="True"><Setter Property="Background" Value="{DynamicResource StatusErrorSurface}" /></Trigger>
    <Trigger Property="IsEnabled" Value="False"><Setter Property="Background" Value="{DynamicResource DisabledSurface}" /><Setter Property="Foreground" Value="{DynamicResource DisabledText}" /><Setter Property="BorderBrush" Value="{DynamicResource BorderSubtle}" /></Trigger>
   </Style.Triggers>
  </Style>

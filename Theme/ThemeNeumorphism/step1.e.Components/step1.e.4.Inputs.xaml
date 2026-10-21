@@ -1,7 +1,7 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:neu="clr-namespace:ProGlassAutomation.ThemeNeumorphism">
  <Style TargetType="TextBox">
   <Setter Property="FocusVisualStyle" Value="{DynamicResource KeyboardFocus}" />
-  <Setter Property="Background" Value="{DynamicResource SurfaceSecondary}" />
+  <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
   <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
   <Setter Property="CaretBrush" Value="{DynamicResource TextPrimary}" />
   <Setter Property="SelectionTextBrush" Value="{DynamicResource TextOnAccent}" />
@@ -18,12 +18,11 @@
    <AdornedElementPlaceholder />
   </ControlTemplate></Setter.Value></Setter>
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="TextBox">
-   <neu:NeumorphSurface x:Name="Frame" Concave="True" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ControlCornerRadius}">
+   <neu:NeumorphSurface x:Name="Frame" Concave="True" Rank="Control" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ControlCornerRadius}">
     <ScrollViewer x:Name="PART_ContentHost" />
    </neu:NeumorphSurface>
    <ControlTemplate.Triggers>
-    <Trigger Property="IsKeyboardFocusWithin" Value="True"><Setter TargetName="Frame" Property="LightBrush" Value="{DynamicResource FocusIndicator}" /><Setter TargetName="Frame" Property="DarkBrush" Value="{DynamicResource FocusIndicator}" /></Trigger>
-    <Trigger Property="Validation.HasError" Value="True"><Setter TargetName="Frame" Property="LightBrush" Value="{DynamicResource StatusError}" /><Setter TargetName="Frame" Property="DarkBrush" Value="{DynamicResource StatusError}" /></Trigger>
+    <Trigger Property="Validation.HasError" Value="True"><Setter TargetName="Frame" Property="RimLightBrush" Value="{DynamicResource StatusError}" /><Setter TargetName="Frame" Property="RimShadeBrush" Value="{DynamicResource StatusError}" /></Trigger>
     <Trigger Property="IsEnabled" Value="False"><Setter Property="Background" Value="{DynamicResource DisabledSurface}" /><Setter Property="Foreground" Value="{DynamicResource DisabledText}" /></Trigger>
    </ControlTemplate.Triggers>
   </ControlTemplate></Setter.Value></Setter>
@@ -54,7 +53,7 @@
   <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ComboBox">
    <Grid>
-    <neu:NeumorphSurface x:Name="Frame" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
+    <neu:NeumorphSurface x:Name="Frame" Concave="True" Rank="Control" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
      <Grid>
       <ToggleButton Focusable="False" ClickMode="Press" IsChecked="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
        <ToggleButton.Template><ControlTemplate TargetType="ToggleButton">
@@ -65,14 +64,12 @@
      </Grid>
     </neu:NeumorphSurface>
     <Popup x:Name="PART_Popup" IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" AllowsTransparency="True" Focusable="False">
-     <neu:NeumorphSurface Background="{DynamicResource SurfaceElevated}" CornerRadius="{DynamicResource ControlCornerRadius}" MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}">
+     <neu:NeumorphSurface Rank="Card" Background="{DynamicResource SurfacePrimary}" CornerRadius="{DynamicResource ControlCornerRadius}" MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}">
       <ScrollViewer MaxHeight="{DynamicResource PopupMaxHeight}" CanContentScroll="True" HorizontalScrollBarVisibility="Disabled"><ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained" /></ScrollViewer>
      </neu:NeumorphSurface>
     </Popup>
    </Grid>
    <ControlTemplate.Triggers>
-    <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Frame" Property="Background" Value="{DynamicResource StateHover}" /></Trigger>
-    <Trigger Property="IsKeyboardFocusWithin" Value="True"><Setter TargetName="Frame" Property="LightBrush" Value="{DynamicResource FocusIndicator}" /><Setter TargetName="Frame" Property="DarkBrush" Value="{DynamicResource FocusIndicator}" /></Trigger>
     <Trigger Property="IsEnabled" Value="False"><Setter Property="Foreground" Value="{DynamicResource DisabledText}" /><Setter TargetName="Frame" Property="Background" Value="{DynamicResource DisabledSurface}" /></Trigger>
    </ControlTemplate.Triggers>
   </ControlTemplate></Setter.Value></Setter>

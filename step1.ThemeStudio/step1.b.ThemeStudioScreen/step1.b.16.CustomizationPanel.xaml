@@ -168,7 +168,7 @@
     <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
      <StackPanel>
       <TextBlock Text="Neumorphism studio" Style="{DynamicResource Caption}"/>
-      <TextBlock Text="Neumorphism keeps dual light/dark volume as its material. It has no neumorph knobs. Card rounding above is shared geometry — not a Neumorphism engine." Style="{DynamicResource Caption}"/>
+      <TextBlock Text="Neumorphism is a volume engine: stacked light/dark plates, inner rims, sheen, and inset wells. Cards rise, fields recess, buttons lift then press in. No neumorph knobs. Card rounding above is shared geometry." Style="{DynamicResource Caption}"/>
       <WrapPanel Margin="{DynamicResource MarginItem}"><Button Content="Open reference" Command="{Binding ShowBusiness}" Style="{DynamicResource PrimaryButton}"/></WrapPanel>
      </StackPanel>
     </ContentControl>

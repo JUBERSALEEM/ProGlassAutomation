@@ -2,7 +2,20 @@
 
 Separate package `Theme/ThemeNeumorphism`. Not Bento, Clay, or Fluent.
 
-- **Material:** dual offset plates (`NeumorphLightBrush` / `NeumorphDarkBrush`) on `NeumorphSurface`. Raised cards; concave inputs, list, pressed buttons.
-- **Canvas:** Light `#E6EBEF` / Dark `#2A2F38`. Card face matches canvas so volume comes from light/dark plates, not a candy fill.
-- **Studio:** no neumorph knobs. Shared card rounding only (`SharedTokens`).
-- **Light + Dark** 102-token contract. Extras stay in `ThemeNeumorphism.*.Extras.xaml`.
+## How complete
+
+First install was a hard 3px offset plate — roughly a third of the material (convex/concave flag only).
+
+This upgrade is the volume engine:
+
+- **Cascade:** three light plates (top-left) and three dark plates (bottom-right), ranked Chip / Control / Card.
+- **Rim:** convex highlight + shade on the face; concave inverts into a well.
+- **Sheen / well wash:** top-left light on raised faces, top-left shade in wells.
+- **Pattern:** raised cards/KPI/hero/menus; inset fields, lists, tabs, progress, scroll tracks, check/radio wells; buttons lift on hover and invert on press.
+- **Canvas melt:** face fill matches `SurfacePrimary` / `ApplicationBackground`. Accent is a rail or a filled primary button, not a candy card.
+
+Still not a full studio (no depth knobs). Gaussian `DropShadowEffect` is intentionally unused so volume stays in layout and does not clip. Windows pixels remain unproven.
+
+## Studio
+
+Shared card rounding only. No neumorph knobs.

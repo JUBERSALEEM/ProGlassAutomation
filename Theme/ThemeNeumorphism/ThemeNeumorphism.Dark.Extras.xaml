@@ -1,4 +1,18 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  <SolidColorBrush x:Key="NeumorphLightBrush" Color="#3A4250" />
-  <SolidColorBrush x:Key="NeumorphDarkBrush" Color="#1A1E26" />
+  <SolidColorBrush x:Key="NeumorphLightBrush" Color="#4A5362" />
+  <SolidColorBrush x:Key="NeumorphDarkBrush" Color="#161A20" />
+  <SolidColorBrush x:Key="NeumorphRimLightBrush" Color="#4E5868" />
+  <SolidColorBrush x:Key="NeumorphRimShadeBrush" Color="#12151A" />
+  <LinearGradientBrush x:Key="NeumorphSheenBrush" StartPoint="0,0" EndPoint="1,1">
+    <GradientStop Color="#28FFFFFF" Offset="0" />
+    <GradientStop Color="#00FFFFFF" Offset="0.55" />
+  </LinearGradientBrush>
+  <LinearGradientBrush x:Key="NeumorphWellSheenBrush" StartPoint="0,0" EndPoint="1,1">
+    <GradientStop Color="#33000000" Offset="0" />
+    <GradientStop Color="#00000000" Offset="0.6" />
+  </LinearGradientBrush>
+  <Thickness x:Key="NeumorphRimLightThickness">1.5,1.5,0,0</Thickness>
+  <Thickness x:Key="NeumorphRimShadeThickness">0,0,1.5,1.5</Thickness>
+  <Thickness x:Key="NeumorphInsetLightThickness">0,0,3,3</Thickness>
+  <Thickness x:Key="NeumorphInsetShadeThickness">3.5,3.5,0,0</Thickness>
 </ResourceDictionary>

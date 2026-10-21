@@ -8,17 +8,14 @@
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="CheckBox">
    <Border x:Name="Frame" Background="{DynamicResource TransparentBrush}" BorderBrush="{DynamicResource TransparentBrush}" BorderThickness="{DynamicResource BorderThicknessControl}" CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
     <DockPanel>
-     <Grid DockPanel.Dock="Left" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" VerticalAlignment="Center">
-      <Border x:Name="Indicator" Background="{DynamicResource SurfacePrimary}" BorderBrush="{DynamicResource NeumorphDarkBrush}" BorderThickness="{DynamicResource BorderThicknessControl}" CornerRadius="{DynamicResource ChipCornerRadius}">
-       <Path x:Name="Mark" Data="M 2,8 L 6,12 L 14,3" Stroke="{DynamicResource TextOnAccent}" StrokeThickness="{DynamicResource StrokeWidth}" Stretch="Uniform" Margin="{DynamicResource PaddingMark}" Visibility="Collapsed" />
-      </Border>
-     </Grid>
+     <neu:NeumorphSurface x:Name="Indicator" DockPanel.Dock="Left" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" VerticalAlignment="Center" Concave="True" Rank="Chip" Background="{DynamicResource SurfacePrimary}" CornerRadius="{DynamicResource ChipCornerRadius}">
+      <Path x:Name="Mark" Data="M 2,8 L 6,12 L 14,3" Stroke="{DynamicResource TextOnAccent}" StrokeThickness="{DynamicResource StrokeWidth}" Stretch="Uniform" Margin="{DynamicResource PaddingMark}" Visibility="Collapsed" />
+     </neu:NeumorphSurface>
      <ContentPresenter Margin="{DynamicResource PaddingChoice}" VerticalAlignment="Center" RecognizesAccessKey="True" />
     </DockPanel>
    </Border>
    <ControlTemplate.Triggers>
-    <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Frame" Property="Background" Value="{DynamicResource StateHover}" /></Trigger>
-    <Trigger Property="IsChecked" Value="True"><Setter TargetName="Mark" Property="Visibility" Value="Visible" /><Setter TargetName="Indicator" Property="Background" Value="{DynamicResource AccentPrimary}" /><Setter TargetName="Frame" Property="Background" Value="{DynamicResource StateSelected}" /></Trigger>
+    <Trigger Property="IsChecked" Value="True"><Setter TargetName="Mark" Property="Visibility" Value="Visible" /><Setter TargetName="Indicator" Property="Background" Value="{DynamicResource AccentPrimary}" /></Trigger>
     <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Frame" Property="BorderBrush" Value="{DynamicResource FocusIndicator}" /><Setter TargetName="Frame" Property="BorderThickness" Value="{DynamicResource FocusThickness}" /></Trigger>
     <Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="{DynamicResource DisabledOpacity}" /></Trigger>
    </ControlTemplate.Triggers>
@@ -33,17 +30,14 @@
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="RadioButton">
    <Border x:Name="Frame" Background="{DynamicResource TransparentBrush}" BorderBrush="{DynamicResource TransparentBrush}" BorderThickness="{DynamicResource BorderThicknessControl}" CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
     <DockPanel>
-     <Grid DockPanel.Dock="Left" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" VerticalAlignment="Center">
-      <Border x:Name="Indicator" Background="{DynamicResource SurfacePrimary}" BorderBrush="{DynamicResource NeumorphDarkBrush}" BorderThickness="{DynamicResource BorderThicknessControl}" CornerRadius="{DynamicResource ChoiceCornerRadius}">
-       <Ellipse x:Name="Mark" Fill="{DynamicResource TextOnAccent}" Margin="{DynamicResource PaddingMark}" Visibility="Collapsed" />
-      </Border>
-     </Grid>
+     <neu:NeumorphSurface x:Name="Indicator" DockPanel.Dock="Left" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" VerticalAlignment="Center" Concave="True" Rank="Chip" Background="{DynamicResource SurfacePrimary}" CornerRadius="{DynamicResource ChoiceCornerRadius}">
+      <Ellipse x:Name="Mark" Fill="{DynamicResource TextOnAccent}" Margin="{DynamicResource PaddingMark}" Visibility="Collapsed" />
+     </neu:NeumorphSurface>
      <ContentPresenter Margin="{DynamicResource PaddingChoice}" VerticalAlignment="Center" RecognizesAccessKey="True" />
     </DockPanel>
    </Border>
    <ControlTemplate.Triggers>
-    <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Frame" Property="Background" Value="{DynamicResource StateHover}" /></Trigger>
-    <Trigger Property="IsChecked" Value="True"><Setter TargetName="Mark" Property="Visibility" Value="Visible" /><Setter TargetName="Indicator" Property="Background" Value="{DynamicResource AccentPrimary}" /><Setter TargetName="Frame" Property="Background" Value="{DynamicResource StateSelected}" /></Trigger>
+    <Trigger Property="IsChecked" Value="True"><Setter TargetName="Mark" Property="Visibility" Value="Visible" /><Setter TargetName="Indicator" Property="Background" Value="{DynamicResource AccentPrimary}" /></Trigger>
     <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Frame" Property="BorderBrush" Value="{DynamicResource FocusIndicator}" /><Setter TargetName="Frame" Property="BorderThickness" Value="{DynamicResource FocusThickness}" /></Trigger>
     <Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="{DynamicResource DisabledOpacity}" /></Trigger>
    </ControlTemplate.Triggers>
@@ -56,7 +50,7 @@
   <Setter Property="BorderThickness" Value="{DynamicResource BorderThicknessControl}" />
   <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListBox">
-   <neu:NeumorphSurface Concave="True" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource CardCornerRadius}">
+   <neu:NeumorphSurface Concave="True" Rank="Card" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource CardCornerRadius}">
     <ScrollViewer Focusable="False"><ItemsPresenter /></ScrollViewer>
    </neu:NeumorphSurface>
   </ControlTemplate></Setter.Value></Setter>

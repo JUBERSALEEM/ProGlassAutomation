@@ -5,23 +5,23 @@
   <Setter Property="HorizontalAlignment" Value="Stretch" /><Setter Property="VerticalAlignment" Value="Stretch" />
   <Setter Property="Focusable" Value="False" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
-   <neu:NeumorphSurface Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}">
+   <neu:NeumorphSurface Rank="Card" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}">
     <ContentPresenter />
    </neu:NeumorphSurface>
   </ControlTemplate></Setter.Value></Setter>
  </Style>
  <Style x:Key="MetricCard" TargetType="ContentControl">
-  <Setter Property="Background" Value="{DynamicResource SurfaceElevated}" />
+  <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
   <Setter Property="Padding" Value="{DynamicResource PaddingPlate}" />
   <Setter Property="Focusable" Value="False" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
-   <neu:NeumorphSurface Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ControlCornerRadius}">
+   <neu:NeumorphSurface Rank="Control" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ControlCornerRadius}">
     <ContentPresenter />
    </neu:NeumorphSurface>
   </ControlTemplate></Setter.Value></Setter>
  </Style>
  <Style x:Key="StatusBadge" TargetType="Border">
-  <Setter Property="Background" Value="{DynamicResource SurfaceSecondary}" /><Setter Property="CornerRadius" Value="{DynamicResource ChipCornerRadius}" /><Setter Property="Padding" Value="{DynamicResource PaddingCompact}" />
+  <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" /><Setter Property="CornerRadius" Value="{DynamicResource ChipCornerRadius}" /><Setter Property="Padding" Value="{DynamicResource PaddingCompact}" />
   <Setter Property="BorderBrush" Value="{DynamicResource NeumorphDarkBrush}" /><Setter Property="BorderThickness" Value="{DynamicResource BorderThicknessControl}" />
   <Style.Triggers>
    <Trigger Property="Tag" Value="Success"><Setter Property="Background" Value="{DynamicResource StatusSuccessSurface}" /></Trigger>
@@ -42,7 +42,7 @@
  <Style TargetType="TabControl">
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="TabControl">
    <Grid><Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition /></Grid.RowDefinitions>
-    <neu:NeumorphSurface Concave="True" Background="{DynamicResource SurfaceSecondary}" Padding="{DynamicResource PaddingCompact}" CornerRadius="{DynamicResource ControlCornerRadius}">
+    <neu:NeumorphSurface Concave="True" Rank="Control" Background="{DynamicResource SurfacePrimary}" Padding="{DynamicResource PaddingCompact}" CornerRadius="{DynamicResource ControlCornerRadius}">
      <TabPanel IsItemsHost="True" KeyboardNavigation.TabNavigation="Once" />
     </neu:NeumorphSurface>
     <ContentPresenter x:Name="PART_SelectedContentHost" Grid.Row="1" ContentSource="SelectedContent" />
@@ -52,12 +52,12 @@
  <Style TargetType="TabItem">
   <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" /><Setter Property="FocusVisualStyle" Value="{DynamicResource KeyboardFocus}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="TabItem">
-   <neu:NeumorphSurface x:Name="Pod" Concave="True" Background="{DynamicResource TransparentBrush}" Padding="{DynamicResource PaddingControl}" CornerRadius="{DynamicResource ChipCornerRadius}">
+   <neu:NeumorphSurface x:Name="Pod" Concave="True" Rank="Chip" Background="{DynamicResource TransparentBrush}" Padding="{DynamicResource PaddingControl}" CornerRadius="{DynamicResource ChipCornerRadius}">
     <ContentPresenter ContentSource="Header" RecognizesAccessKey="True" />
    </neu:NeumorphSurface>
    <ControlTemplate.Triggers>
     <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Pod" Property="Background" Value="{DynamicResource StateHover}" /></Trigger>
-    <Trigger Property="IsSelected" Value="True"><Setter TargetName="Pod" Property="Background" Value="{DynamicResource SurfacePrimary}" /><Setter TargetName="Pod" Property="Concave" Value="False" /><Setter Property="Foreground" Value="{DynamicResource AccentPrimary}" /></Trigger>
+    <Trigger Property="IsSelected" Value="True"><Setter TargetName="Pod" Property="Background" Value="{DynamicResource SurfacePrimary}" /><Setter TargetName="Pod" Property="Concave" Value="False" /><Setter TargetName="Pod" Property="Rank" Value="Control" /><Setter Property="Foreground" Value="{DynamicResource AccentPrimary}" /></Trigger>
     <Trigger Property="IsEnabled" Value="False"><Setter Property="Foreground" Value="{DynamicResource DisabledText}" /><Setter TargetName="Pod" Property="Background" Value="{DynamicResource DisabledSurface}" /></Trigger>
    </ControlTemplate.Triggers>
   </ControlTemplate></Setter.Value></Setter>
