@@ -48,7 +48,7 @@ public sealed class OverflowPopup : ContentControl
         frame.Content = chrome;
         popup.AllowsTransparency = true;
         popup.StaysOpen = true;
-        popup.Placement = PlacementMode.Bottom;
+        popup.Placement = PlacementMode.Center;
         popup.Child = frame;
         Loaded += OnLoaded;
         Unloaded += OnUnloaded;
@@ -132,14 +132,41 @@ public sealed class OverflowPopup : ContentControl
         }
         if (active is not null && !ReferenceEquals(active, this)) active.CloseFlyout();
         scroller.Content = copy;
-        scroller.Width = Math.Max(ActualWidth, 280);
-        scroller.MaxHeight = TryFindResource("PopupMaxHeight") is double cap && cap > 0 ? Math.Max(cap, 360) : 360;
-        popup.PlacementTarget = this;
+        SizeFlyout();
         popup.IsOpen = true;
         active = this;
         AttachEscape();
         OverflowSpotlight.Set(true);
         SyncExpand();
+    }
+
+    private void SizeFlyout()
+    {
+        var host = Window.GetWindow(this);
+        double width;
+        double height;
+        if (host is not null && host.ActualWidth > 0 && host.ActualHeight > 0)
+        {
+            width = Math.Max(host.ActualWidth - 48, 320);
+            height = Math.Max(host.ActualHeight - 48, 400);
+            popup.PlacementTarget = host;
+            popup.Placement = PlacementMode.Center;
+            popup.HorizontalOffset = 0;
+            popup.VerticalOffset = 0;
+        }
+        else
+        {
+            width = Math.Max(ActualWidth, 280);
+            height = Math.Max(ActualHeight, 400);
+            popup.PlacementTarget = this;
+            popup.Placement = PlacementMode.Bottom;
+        }
+        scroller.Width = width;
+        scroller.Height = Math.Max(height - 56, 320);
+        scroller.MaxHeight = scroller.Height;
+        frame.Width = width;
+        frame.MinHeight = height;
+        frame.MaxHeight = height;
     }
 
     private void CloseFlyout()
@@ -165,12 +192,18 @@ public sealed class OverflowPopup : ContentControl
     {
         DetachEscape();
         hostWindow = Window.GetWindow(this);
-        if (hostWindow is not null) hostWindow.PreviewKeyDown += OnHostKey;
+        if (hostWindow is null) return;
+        hostWindow.PreviewKeyDown += OnHostKey;
+        hostWindow.SizeChanged += OnHostSize;
     }
 
     private void DetachEscape()
     {
-        if (hostWindow is not null) hostWindow.PreviewKeyDown -= OnHostKey;
+        if (hostWindow is not null)
+        {
+            hostWindow.PreviewKeyDown -= OnHostKey;
+            hostWindow.SizeChanged -= OnHostSize;
+        }
         hostWindow = null;
     }
 
@@ -179,6 +212,11 @@ public sealed class OverflowPopup : ContentControl
         if (e.Key != Key.Escape || !popup.IsOpen) return;
         CloseFlyout();
         e.Handled = true;
+    }
+
+    private void OnHostSize(object sender, SizeChangedEventArgs e)
+    {
+        if (popup.IsOpen) SizeFlyout();
     }
 
     private static ControlTemplate BuildTemplate()

@@ -59,11 +59,19 @@ for component in ('OverviewPanel', 'AnalyticsOverview', 'WorklistPanel', 'Contro
 grid = ROOT / 'Theme/ThemeBento/step1.e.11.BentoGrid.cs'
 assert grid.is_file() and 'class BentoGrid : Panel' in grid.read_text() and 'PlacePacked' in grid.read_text()
 settings = (screen/'step1.b.16.CustomizationPanel.xaml').read_text()
-for name in ('ThemePicker', 'FontPicker', 'ColorPlatePicker', 'AccentPicker', 'DensityPicker', 'ShapePicker', 'TypePicker'):
+for name in ('ThemePicker', 'AccentPicker', 'DensityPicker', 'ShapePicker', 'TypePicker'):
     assert f'x:Name="{name}"' in settings
 for prop in ('SelectedAccent', 'SelectedDensity', 'SelectedShape', 'SelectedTypography'):
     assert f'Binding {prop}' in settings and f'public ' in (screen/'step1.b.17.Customization.cs').read_text()
 assert 'Binding IsDark' in settings and 'Binding ResetDesign' in settings
+texts = (screen/'step1.b.26.TextsStudioView.xaml').read_text()
+colors = (screen/'step1.b.27.ColorsStudioView.xaml').read_text()
+assert 'x:Name="FontPicker"' in texts and 'Binding SelectedFontFamily' in texts
+assert 'x:Name="ColorPlatePicker"' in colors and 'Binding SelectedColorPlate' in colors
+assert 'Binding ColorPlateCards' in colors
+shell_text = (ROOT/'MainWindow.xaml').read_text()
+assert 'Texts Studio' in shell_text and 'Colors Studio' in shell_text
+assert 'ShowTexts' in shell_text and 'ShowColors' in shell_text
 active = ROOT / '.github/workflows/windows-wpf.yml'
 parked = ROOT / 'cols/ci/windows-wpf.yml'
 workflow = active if active.is_file() else parked

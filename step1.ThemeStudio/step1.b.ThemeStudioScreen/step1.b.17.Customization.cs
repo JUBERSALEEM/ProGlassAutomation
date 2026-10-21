@@ -74,6 +74,7 @@ public sealed partial class ThemeStudioViewModel
         }
     }
     public IReadOnlyList<string> ColorPlateChoices => ColorPlateService.BuiltIn.Select(plate => plate.Name).ToList();
+    public IReadOnlyList<ColorPlateCard> ColorPlateCards => ColorPlateService.Cards;
     public IReadOnlyList<string> ColorRoleChoices => ColorPlateService.Roles;
     public string SelectedFontFamily
     {
@@ -246,12 +247,14 @@ public sealed partial class ThemeStudioViewModel
         get => selectedWorkspace;
         set
         {
-            if (value is 0 or 1)
+            if (value is >= 0 and <= 3)
             {
                 selectedWorkspace = value;
                 Changed(nameof(SelectedWorkspace));
                 Changed(nameof(IsStudio));
                 Changed(nameof(IsBusiness));
+                Changed(nameof(IsTexts));
+                Changed(nameof(IsColors));
                 Changed(nameof(WorkspaceTitle));
                 Changed(nameof(WorkspaceSubtitle));
             }
@@ -259,8 +262,22 @@ public sealed partial class ThemeStudioViewModel
     }
     public bool IsStudio { get => selectedWorkspace == 0; set { if (value) SelectedWorkspace = 0; } }
     public bool IsBusiness { get => selectedWorkspace == 1; set { if (value) SelectedWorkspace = 1; } }
-    public string WorkspaceTitle => IsStudio ? "Theme Studio" : "Home";
-    public string WorkspaceSubtitle => IsStudio ? "Settings · Theme engine" : "Home";
+    public bool IsTexts { get => selectedWorkspace == 2; set { if (value) SelectedWorkspace = 2; } }
+    public bool IsColors { get => selectedWorkspace == 3; set { if (value) SelectedWorkspace = 3; } }
+    public string WorkspaceTitle => selectedWorkspace switch
+    {
+        0 => "Theme Studio",
+        2 => "Texts Studio",
+        3 => "Colors Studio",
+        _ => "Home"
+    };
+    public string WorkspaceSubtitle => selectedWorkspace switch
+    {
+        0 => "Settings · Theme engine",
+        2 => "Settings · Type overlay",
+        3 => "Settings · Color plates",
+        _ => "Home"
+    };
     public bool IsMenuOpen { get => isMenuOpen; set { isMenuOpen = value; Changed(nameof(IsMenuOpen)); } }
     public string ShellClock => DateTime.Now.ToString("dd MMM yyyy / HH:mm", System.Globalization.CultureInfo.GetCultureInfo("en-GB"));
     public ICommand ToggleMenu { get; private set; } = null!;
@@ -268,6 +285,9 @@ public sealed partial class ThemeStudioViewModel
     public ICommand ResetDesign { get; private set; } = null!;
     public ICommand ShowStudio { get; private set; } = null!;
     public ICommand ShowBusiness { get; private set; } = null!;
+    public ICommand ShowTexts { get; private set; } = null!;
+    public ICommand ShowColors { get; private set; } = null!;
+    public ICommand SelectColorPlate { get; private set; } = null!;
     public ICommand ApplyPreview { get; private set; } = null!;
     public ICommand SaveCustomization { get; private set; } = null!;
     public ICommand DiscardChanges { get; private set; } = null!;
@@ -316,6 +336,9 @@ public sealed partial class ThemeStudioViewModel
         ToggleAppearance = new DelegateCommand(() => { if (IsLight) IsDark = true; else IsLight = true; });
         ShowStudio = new DelegateCommand(() => SelectedWorkspace = 0);
         ShowBusiness = new DelegateCommand(() => SelectedWorkspace = 1);
+        ShowTexts = new DelegateCommand(() => SelectedWorkspace = 2);
+        ShowColors = new DelegateCommand(() => SelectedWorkspace = 3);
+        SelectColorPlate = new DelegateCommand<string>(name => { if (!string.IsNullOrWhiteSpace(name)) SelectedColorPlate = name; });
         ApplyPreview = new DelegateCommand(() => { try { themes.Apply(SelectedTheme, themes.ActiveAppearance, LiveConfigure()); ThemeError=""; Feedback="Preview applied — unsaved changes present."; } catch(Exception ex){ ThemeError=ex.Message; } Changed(nameof(ThemeError)); }, () => CanCustomize || CanCustomizeGeometry);
         SaveCustomization = new DelegateCommand(() =>
         {

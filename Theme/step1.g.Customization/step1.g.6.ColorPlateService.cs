@@ -16,6 +16,13 @@ public sealed record ColorPlateDefinition(
     IReadOnlyDictionary<string, string> LightRoles,
     IReadOnlyDictionary<string, string> DarkRoles);
 
+public sealed record ColorPlateCard(
+    string Name,
+    IReadOnlyList<ColorStop> Stops,
+    IReadOnlyList<Brush> Swatches,
+    Brush Sample,
+    string Summary);
+
 public sealed record ColorPlateState(
     string Plate = "Ocean",
     Dictionary<string, string>? RoleHex = null)
@@ -66,6 +73,8 @@ public static class ColorPlateService
             ("50", "#F8F1E8"), ("100", "#EAD9C3"), ("200", "#D4B48A"),
             ("400", "#C4954A"), ("600", "#A67C3A"), ("800", "#6E4F22")),
     ];
+
+    public static IReadOnlyList<ColorPlateCard> Cards { get; } = BuiltIn.Select(CardOf).ToArray();
 
     public static bool Exists(string name) =>
         BuiltIn.Any(plate => string.Equals(plate.Name, name, StringComparison.OrdinalIgnoreCase));
@@ -164,6 +173,26 @@ public static class ColorPlateService
                 ["ChartSeries3"] = "50",
                 ["ChartSeries4"] = "600",
             });
+    }
+
+    private static ColorPlateCard CardOf(ColorPlateDefinition plate)
+    {
+        var swatches = new List<Brush>(plate.Stops.Count);
+        foreach (var stop in plate.Stops)
+        {
+            var brush = new SolidColorBrush(ParseHex(stop.Hex) ?? Color.FromRgb(0x44, 0x50, 0x60));
+            brush.Freeze();
+            swatches.Add(brush);
+        }
+        string sampleHex = plate.Stops.FirstOrDefault(stop => stop.Name == "600")?.Hex ?? plate.Stops[0].Hex;
+        var sample = new SolidColorBrush(ParseHex(sampleHex) ?? Color.FromRgb(0x2F, 0x5A, 0xA8));
+        sample.Freeze();
+        return new ColorPlateCard(
+            plate.Name,
+            plate.Stops,
+            swatches,
+            sample,
+            string.Join("  ·  ", plate.Stops.Select(stop => stop.Name + " " + stop.Hex)));
     }
 
     private static void Set(ResourceDictionary package, string key, object value)

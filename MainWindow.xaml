@@ -211,6 +211,32 @@
                                 </Button.Style>
                                 <TextBlock Text="Theme Studio" />
                             </Button>
+                            <Button Command="{Binding ShowTexts}" AutomationProperties.Name="Texts Studio page">
+                                <Button.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource ShellNavButton}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsTexts}" Value="True">
+                                                <Setter Property="Background" Value="{DynamicResource AccentPrimary}" />
+                                                <Setter Property="Foreground" Value="{DynamicResource TextOnAccent}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                                <TextBlock Text="Texts Studio" />
+                            </Button>
+                            <Button Command="{Binding ShowColors}" AutomationProperties.Name="Colors Studio page">
+                                <Button.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource ShellNavButton}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsColors}" Value="True">
+                                                <Setter Property="Background" Value="{DynamicResource AccentPrimary}" />
+                                                <Setter Property="Foreground" Value="{DynamicResource TextOnAccent}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                                <TextBlock Text="Colors Studio" />
+                            </Button>
                         </Expander>
                     </StackPanel>
                 </ScrollViewer>
@@ -271,6 +297,8 @@
                 </TabControl.Resources>
                 <TabItem Header="_Theme Studio"><studio:ThemeStudioView /></TabItem>
                 <TabItem Header="_Home"><studio:BusinessReferenceView /></TabItem>
+                <TabItem Header="_Texts Studio"><studio:TextsStudioView /></TabItem>
+                <TabItem Header="_Colors Studio"><studio:ColorsStudioView /></TabItem>
             </TabControl>
         </Grid>
         <Button Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" Content="☰" Command="{Binding ToggleMenu}" ToolTip="Open menu" AutomationProperties.Name="Toggle menu" Panel.ZIndex="2" Margin="{DynamicResource PaddingPage}">
