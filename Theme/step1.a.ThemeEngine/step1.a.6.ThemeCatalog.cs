@@ -21,6 +21,7 @@ public static class ThemeCatalog
     public const string ClayName = "Claymorphism";
     public const string FluentName = "Fluent / Acrylic";
     public const string NeumorphismName = "Neumorphism";
+    public const string LiquidGlassName = "Liquid Glass";
     public static IReadOnlyList<ThemeDefinition> Installed { get; } =
         Array.AsReadOnly(new[]
         {
