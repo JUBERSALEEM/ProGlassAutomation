@@ -7,18 +7,19 @@ Native WPF. Engines stay separate: not Clay hue-matched plump, not Fluent acryli
 Soft UI extrusion from a **shared mid-tone canvas**:
 
 - page fill **and** surface fill are the same hex (`#E6EBEF` light, `#2A2F38` dark)
-- dual outer glow (light 135° / dark 315°), blur ≈ 2× distance
-- convex face gradient toward the light; wells invert it
-- press swaps to **inset** (`Concave`), hover **Lifted**
+- dual outer glow (light 145° / dark 325°), blur ≈ 2× distance
+- convex **face** is a 145° canvas pair; wells invert it
+- press is **inset only** (`Concave`); hover is a stronger shadow, not a fill
 - dark mode is a retune, not an invert (highlight is gray, not white)
-- radius stays on SharedTokens; depth / blur / intensity are Neumorph-owned
+- radius stays on SharedTokens; depth / blur / intensity are Neumorph-owned and do not rewrite the gutter
 - shadow alone is not a state: focus ring stays visible
+- shadow colors are mixed from the canvas (± toward white/black)
 
 ## Engine
 
-`NeumorphSurface` owns plates, rims, sheen, and layout-safe Gaussian glow. Triggers never name a `DropShadowEffect` (MC4111). **Card** keeps dual glow; **Control/Chip** have gutter 0 so nested plates are not a second frame. Rims wrap the corner radius.
+`NeumorphSurface` owns plates, rims, sheen, clipped inset wells, and layout-safe Gaussian glow. Triggers never name a `DropShadowEffect` (MC4111). Control/Chip keep dual glow with gutter 0. Card near plates stay off.
 
-N1 (3D rim, no nested gutters) is in. N2 is a 145° convex sheen; press is the inset well only.
+N1–N2 and M1–M13 are in. Studio copy matches press-is-inset.
 
 ## Completeness
 
