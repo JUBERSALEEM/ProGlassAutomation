@@ -44,27 +44,17 @@ public static class LiquidCustomization
         if (state.Validate() is not null) throw new ArgumentException(state.Validate());
 
         double frost = state.Frost switch { LiquidFrost.Clear => 0.22, LiquidFrost.Frosted => 0.62, _ => mode == Appearance.Light ? 0.40 : 0.28 };
-        double lift = state.Frost switch { LiquidFrost.Clear => 12d, LiquidFrost.Frosted => 6d, _ => mode == Appearance.Light ? 10d : 12d };
-        double blur = state.Frost switch { LiquidFrost.Clear => 32d, LiquidFrost.Frosted => 18d, _ => mode == Appearance.Light ? 28d : 32d };
-        double liftOpacity = state.Frost switch { LiquidFrost.Clear => 0.36, LiquidFrost.Frosted => 0.18, _ => mode == Appearance.Light ? 0.32 : 0.48 };
-        double strength = state.Frost switch { LiquidFrost.Clear => 1.15, LiquidFrost.Frosted => 0.55, _ => 1.0 };
-        double displacement = state.Frost switch { LiquidFrost.Clear => 48d, LiquidFrost.Frosted => 16d, _ => 40d };
-        double refractionWidth = state.Frost switch { LiquidFrost.Clear => 0.34, LiquidFrost.Frosted => 0.22, _ => 0.30 };
-        double chromatic = state.Frost switch { LiquidFrost.Clear => 1.25, LiquidFrost.Frosted => 0.35, _ => 1.0 };
-        double edge = state.Frost switch { LiquidFrost.Clear => 0.28, LiquidFrost.Frosted => 0.12, _ => mode == Appearance.Light ? 0.22 : 0.26 };
-        byte sheen = state.Specular switch { LiquidSpecular.Quiet => (byte)(mode == Appearance.Light ? 0x73 : 0x40), LiquidSpecular.Bright => 0xE6, _ => (byte)(mode == Appearance.Light ? 0xB3 : 0x73) };
-        byte hover = state.Specular switch { LiquidSpecular.Quiet => (byte)(mode == Appearance.Light ? 0x99 : 0x59), _ => 0xE6 };
+        double lift = state.Frost switch { LiquidFrost.Clear => 10d, LiquidFrost.Frosted => 6d, _ => 8d };
+        double blur = state.Frost switch { LiquidFrost.Clear => 32d, LiquidFrost.Frosted => 20d, _ => 32d };
+        double liftOpacity = state.Frost switch { LiquidFrost.Clear => 0.10, LiquidFrost.Frosted => 0.18, _ => mode == Appearance.Light ? 0.12 : 0.28 };
+        byte sheen = state.Specular switch { LiquidSpecular.Quiet => (byte)(mode == Appearance.Light ? 0x73 : 0x40), LiquidSpecular.Bright => 0xE6, _ => (byte)(mode == Appearance.Light ? 0xD9 : 0x73) };
+        byte hover = state.Specular switch { LiquidSpecular.Quiet => (byte)(mode == Appearance.Light ? 0x99 : 0x59), _ => 0xFF };
         Color rgb = TintRgb(mode, state.Tint);
 
         SetOwned(package, "LiquidFrostOpacity", frost);
         SetOwned(package, "LiquidLiftDepth", lift);
         SetOwned(package, "LiquidLiftBlur", blur);
         SetOwned(package, "LiquidLiftOpacity", liftOpacity);
-        SetOwned(package, "LiquidRefractionStrength", strength);
-        SetOwned(package, "LiquidLensDisplacement", displacement);
-        SetOwned(package, "LiquidRefractionWidth", refractionWidth);
-        SetOwned(package, "LiquidChromaticAberration", chromatic);
-        SetOwned(package, "LiquidEdgeHighlight", edge);
         SetOwned(package, "LiquidFaceBrush", FaceGradient(rgb, frost));
         SetOwned(package, "LiquidLensBrush", LensGradient(mode, frost));
         SetOwned(package, "LiquidSpecularSheenBrush", SheenGradient(sheen));
@@ -80,20 +70,20 @@ public static class LiquidCustomization
     private static LinearGradientBrush FaceGradient(Color rgb, double frost)
     {
         byte A(double amount) => (byte)Math.Clamp((int)Math.Round(amount * 255), 1, 255);
-        var brush = new LinearGradientBrush { StartPoint = new Point(0.18, 0), EndPoint = new Point(0.82, 1) };
-        brush.GradientStops.Add(new GradientStop(Color.FromArgb(A(frost * 0.35), rgb.R, rgb.G, rgb.B), 0));
-        brush.GradientStops.Add(new GradientStop(Color.FromArgb(A(frost * 0.18), rgb.R, rgb.G, rgb.B), 0.45));
-        brush.GradientStops.Add(new GradientStop(Color.FromArgb(A(frost * 0.12), rgb.R, rgb.G, rgb.B), 1));
+        var brush = new LinearGradientBrush { StartPoint = new Point(0.2, 0), EndPoint = new Point(0.8, 1) };
+        brush.GradientStops.Add(new GradientStop(Color.FromArgb(A(frost), rgb.R, rgb.G, rgb.B), 0));
+        brush.GradientStops.Add(new GradientStop(Color.FromArgb(A(frost * 0.75), rgb.R, rgb.G, rgb.B), 0.45));
+        brush.GradientStops.Add(new GradientStop(Color.FromArgb(A(frost * 0.55), rgb.R, rgb.G, rgb.B), 1));
         return brush;
     }
 
     private static LinearGradientBrush LensGradient(Appearance mode, double frost)
     {
-        byte top = (byte)Math.Clamp((int)Math.Round(frost * 0.20 * 255), 1, 255);
-        byte bottom = (byte)(mode == Appearance.Light ? 0x26 : 0x66);
+        byte top = (byte)Math.Clamp((int)Math.Round(frost * 0.35 * 255), 1, 255);
+        byte bottom = (byte)(mode == Appearance.Light ? 0x14 : 0x33);
         var brush = new LinearGradientBrush { StartPoint = new Point(0.15, 0), EndPoint = new Point(0.85, 1) };
         brush.GradientStops.Add(new GradientStop(Color.FromArgb(top, 255, 255, 255), 0));
-        brush.GradientStops.Add(new GradientStop(Color.FromArgb(0, 255, 255, 255), 0.42));
+        brush.GradientStops.Add(new GradientStop(Color.FromArgb(0, 255, 255, 255), 0.4));
         brush.GradientStops.Add(new GradientStop(Color.FromArgb(bottom, 10, 54, 88), 1));
         return brush;
     }

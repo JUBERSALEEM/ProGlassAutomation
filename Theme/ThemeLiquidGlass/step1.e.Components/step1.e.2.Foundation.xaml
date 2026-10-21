@@ -56,13 +56,10 @@
       <DropShadowEffect Color="{DynamicResource LiquidShadowColor}" BlurRadius="{DynamicResource LiquidLiftBlur}" ShadowDepth="{DynamicResource LiquidLiftDepth}" Direction="270" Opacity="{DynamicResource LiquidLiftOpacity}" RenderingBias="Quality" />
      </Border.Effect>
     </Border>
-    <Border x:Name="Face" Background="{DynamicResource TransparentBrush}" CornerRadius="{TemplateBinding CornerRadius}" ClipToBounds="True">
+    <Border x:Name="Face" Background="{TemplateBinding FaceBrush}" CornerRadius="{TemplateBinding CornerRadius}" ClipToBounds="True">
      <Grid>
-      <Border x:Name="Refraction" Background="{TemplateBinding RefractionBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False" />
-      <Border x:Name="Tint" Background="{TemplateBinding FaceBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False" />
       <Border x:Name="Lens" Background="{DynamicResource LiquidLensBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False" />
       <Border x:Name="Sheen" Height="{DynamicResource LiquidSheenHeight}" VerticalAlignment="Top" Background="{DynamicResource LiquidSpecularSheenBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False" />
-      <Border x:Name="Fringe" BorderBrush="{DynamicResource LiquidChromaticBrush}" BorderThickness="2" CornerRadius="{TemplateBinding CornerRadius}" Background="{DynamicResource TransparentBrush}" IsHitTestVisible="False" />
       <Border x:Name="Rim" BorderBrush="{TemplateBinding RimBrush}" BorderThickness="{DynamicResource LiquidRimThickness}" CornerRadius="{TemplateBinding CornerRadius}" Background="{DynamicResource TransparentBrush}">
        <Border x:Name="Stroke" BorderBrush="{TemplateBinding StrokeBrush}" BorderThickness="{DynamicResource BorderThicknessControl}" CornerRadius="{TemplateBinding CornerRadius}" Padding="{TemplateBinding Padding}">
         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
@@ -73,17 +70,13 @@
    </Grid>
    <ControlTemplate.Triggers>
     <Trigger Property="ShowFace" Value="False">
-     <Setter TargetName="Refraction" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="Tint" Property="Background" Value="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}" />
+     <Setter TargetName="Face" Property="Background" Value="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}" />
      <Setter TargetName="Lens" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="Fringe" Property="Visibility" Value="Collapsed" />
     </Trigger>
     <Trigger Property="ReduceTransparency" Value="True">
-     <Setter TargetName="Refraction" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="Tint" Property="Background" Value="{DynamicResource LiquidOpaqueBrush}" />
+     <Setter TargetName="Face" Property="Background" Value="{DynamicResource LiquidOpaqueBrush}" />
      <Setter TargetName="Lens" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="Sheen" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="Fringe" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="Caster" Property="Visibility" Value="Collapsed" />
     </Trigger>
     <Trigger Property="Concave" Value="True">
@@ -97,7 +90,6 @@
     <Trigger Property="Rank" Value="Chip">
      <Setter TargetName="Caster" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="Sheen" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="Refraction" Property="Visibility" Value="Collapsed" />
     </Trigger>
     <Trigger Property="Lifted" Value="True">
      <Setter TargetName="Caster" Property="Visibility" Value="Visible" />
