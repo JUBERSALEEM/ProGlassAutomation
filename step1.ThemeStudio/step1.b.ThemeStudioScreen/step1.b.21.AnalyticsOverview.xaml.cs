@@ -44,40 +44,33 @@ public partial class AnalyticsOverview : UserControl
     {
         if (AnalyticsGrid is null) return;
         AnalyticsGrid.FillAvailable = false;
+        AnalyticsGrid.Columns = 4;
+        // Right-side board: equal 1×1 tiles (4 columns), then a compact table on Home.
+        Show(KpiRevenue, 0, 0, 1, 1);
+        Show(KpiOrders, 1, 0, 1, 1);
+        Show(KpiConversion, 2, 0, 1, 1);
+        Show(StatusCard, 3, 0, 1, 1);
+        Show(RevenueCard, 0, 1, 1, 1);
+        Show(MixCard, 1, 1, 1, 1);
+        Show(TargetCard, 2, 1, 1, 1);
+        Show(TrendCard, 3, 1, 1, 1);
         if (Compact)
         {
-            // Theme Studio: many small tiles in the same slot — not two stretched charts.
-            AnalyticsGrid.Columns = 4;
-            Show(KpiRevenue, 0, 0, 1, 1);
-            Show(KpiOrders, 1, 0, 1, 1);
-            Show(KpiConversion, 2, 0, 1, 1);
-            Show(StatusCard, 3, 0, 1, 1);
-            Show(RevenueCard, 0, 1, 2, 2);
-            Show(MixCard, 2, 1, 1, 2);
-            Show(TargetCard, 3, 1, 1, 2);
-            Hide(TrendCard); Hide(ActivityCard); Hide(TableCard);
+            Hide(ActivityCard); Hide(TableCard);
             return;
         }
-        AnalyticsGrid.Columns = 4;
-        Show(KpiRevenue, 0, 0, 2, 1);
-        Show(KpiOrders, 2, 0, 1, 1);
-        Show(KpiConversion, 3, 0, 1, 1);
-        Show(RevenueCard, 0, 1, 2, 2);
-        Show(MixCard, 2, 1, 1, 2);
-        Show(TargetCard, 3, 1, 1, 2);
-        Show(TrendCard, 0, 3, 2, 2);
-        Show(ActivityCard, 2, 3, 1, 2);
-        Show(StatusCard, 3, 3, 1, 2);
-        Show(TableCard, 0, 5, 4, 2);
+        Show(ActivityCard, 0, 2, 1, 1);
+        Show(TableCard, 1, 2, 3, 2);
         if (vm is null) return;
         switch (vm.SelectedLayoutPreset)
         {
             case BentoLayoutPreset.Executive:
-                Hide(ActivityCard); Hide(TargetCard);
-                Show(MixCard, 2, 1, 2, 2);
+                Hide(ActivityCard);
+                Show(TableCard, 0, 2, 4, 2);
                 break;
             case BentoLayoutPreset.AnalyticsFocus:
-                Hide(ActivityCard); Hide(StatusCard);
+                Hide(ActivityCard);
+                Show(TableCard, 0, 2, 4, 2);
                 break;
             case BentoLayoutPreset.CompactDense:
                 Hide(TableCard); Hide(ActivityCard);

@@ -4,7 +4,7 @@ Native WPF reading of Apple Liquid Glass (iOS 26 / macOS Tahoe Control Center). 
 
 ## Showcase canvas
 
-`LiquidWallpaper.Create` paints a smooth Light sky in the `#62B4E8` family (one small in-bounds sun) or a smooth night (one small moon). Blooms never clip the drawing — clipped ellipses read as glass slabs. `ThemedWindow` uses that brush. Mosaic rows are 120px with a 10px gutter. PlotHeight caps the chart; it does not force a floor. Legend checkboxes do not inherit 32px control height, so Mix/Target keep every series visible in the smaller card. Clay plumpness is unchanged.
+`LiquidWallpaper.Create` paints a smooth Light sky in the `#62B4E8` family (one small in-bounds sun) or a smooth night (one small moon). Blooms never clip the drawing — clipped ellipses read as glass slabs. `ThemedWindow` uses that brush. Mosaic is a 4-column board of 1×1 tiles (course-catalog density), then a compact table. Liquid rows 100 / gutter 8. Clay plumpness is unchanged. PlotHeight caps the chart so Mix/Target keep every series on the tile.
 
 ## Standard
 
