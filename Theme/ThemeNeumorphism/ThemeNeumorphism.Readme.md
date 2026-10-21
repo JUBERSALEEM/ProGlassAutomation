@@ -16,7 +16,9 @@ Soft UI extrusion from a **shared mid-tone canvas**:
 
 ## Engine
 
-`NeumorphSurface` owns plates, rims, sheen, and layout-safe Gaussian glow. Triggers never name a `DropShadowEffect` (MC4111).
+`NeumorphSurface` owns plates, rims, sheen, and layout-safe Gaussian glow. Triggers never name a `DropShadowEffect` (MC4111). **Card** keeps dual glow; **Control/Chip** have gutter 0 so nested plates are not a second frame. Rims wrap the corner radius.
+
+N1 (3D rim, no nested gutters) is in. N2 convex/well sheen is not applied yet.
 
 ## Completeness
 

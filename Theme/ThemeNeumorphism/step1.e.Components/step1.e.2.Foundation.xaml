@@ -87,7 +87,7 @@
      </Border>
      <Border x:Name="DarkNear" Background="{TemplateBinding DarkBrush}" Opacity="0.55" CornerRadius="{TemplateBinding CornerRadius}" Margin="3,3,0,0" IsHitTestVisible="False" />
      <Border x:Name="LightNear" Background="{TemplateBinding LightBrush}" Opacity="0.85" CornerRadius="{TemplateBinding CornerRadius}" Margin="0,0,3,3" IsHitTestVisible="False" />
-     <Border x:Name="Face" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" Margin="3">
+     <Border x:Name="Face" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" Margin="1">
       <Grid>
        <Border x:Name="Sheen" Background="{DynamicResource NeumorphSheenBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False" />
        <Border x:Name="RimShade" BorderBrush="{TemplateBinding RimShadeBrush}" BorderThickness="{DynamicResource NeumorphRimShadeThickness}" CornerRadius="{TemplateBinding CornerRadius}">
@@ -101,33 +101,43 @@
    </Grid>
    <ControlTemplate.Triggers>
     <Trigger Property="Rank" Value="Control">
-     <Setter TargetName="Volume" Property="Margin" Value="8" />
-     <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="DarkGlowControl" Property="Visibility" Value="Visible" />
-     <Setter TargetName="LightGlowControl" Property="Visibility" Value="Visible" />
-    </Trigger>
-    <Trigger Property="Rank" Value="Chip">
-     <Setter TargetName="Volume" Property="Margin" Value="4" />
-     <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="DarkGlowChip" Property="Visibility" Value="Visible" />
-     <Setter TargetName="LightGlowChip" Property="Visibility" Value="Visible" />
-     <Setter TargetName="DarkNear" Property="Margin" Value="2,2,0,0" />
-     <Setter TargetName="LightNear" Property="Margin" Value="0,0,2,2" />
-     <Setter TargetName="Face" Property="Margin" Value="2" />
-    </Trigger>
-    <Trigger Property="Lifted" Value="True">
+     <Setter TargetName="Volume" Property="Margin" Value="0" />
+     <Setter TargetName="Face" Property="Margin" Value="0" />
+     <Setter TargetName="DarkNear" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightNear" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="DarkGlowControl" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightGlowControl" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="DarkGlowChip" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightGlowChip" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowLift" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlowLift" Property="Visibility" Value="Collapsed" />
+    </Trigger>
+    <Trigger Property="Rank" Value="Chip">
+     <Setter TargetName="Volume" Property="Margin" Value="0" />
+     <Setter TargetName="Face" Property="Margin" Value="0" />
+     <Setter TargetName="DarkNear" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightNear" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowControl" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlowControl" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowChip" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlowChip" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowLift" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlowLift" Property="Visibility" Value="Collapsed" />
+    </Trigger>
+    <MultiTrigger>
+     <MultiTrigger.Conditions>
+      <Condition Property="Lifted" Value="True" />
+      <Condition Property="Rank" Value="Card" />
+     </MultiTrigger.Conditions>
+     <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="DarkGlowLift" Property="Visibility" Value="Visible" />
      <Setter TargetName="LightGlowLift" Property="Visibility" Value="Visible" />
-     <Setter TargetName="Volume" Property="Margin" Value="{DynamicResource NeumorphGutter}" />
-    </Trigger>
+    </MultiTrigger>
     <Trigger Property="Concave" Value="True">
      <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
@@ -139,8 +149,8 @@
      <Setter TargetName="LightGlowLift" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="DarkNear" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightNear" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="Volume" Property="Margin" Value="2" />
-     <Setter TargetName="Face" Property="Margin" Value="1" />
+     <Setter TargetName="Volume" Property="Margin" Value="0" />
+     <Setter TargetName="Face" Property="Margin" Value="0" />
      <Setter TargetName="Sheen" Property="Background" Value="{DynamicResource NeumorphWellSheenBrush}" />
      <Setter TargetName="RimShade" Property="BorderThickness" Value="{DynamicResource NeumorphInsetShadeThickness}" />
      <Setter TargetName="RimLight" Property="BorderThickness" Value="{DynamicResource NeumorphInsetLightThickness}" />

@@ -7,7 +7,8 @@ namespace ProGlassAutomation.ThemeNeumorphism;
 public enum NeumorphRank { Chip, Control, Card }
 
 /// <summary>
-/// Soft dual-volume material: stacked light/dark plates, inner rim, optional inset well.
+/// Soft extrusion: dual glow, rim that wraps the corner radius, inset wells.
+/// Inner ranks have no gutter, so nested plates are not a card inside a card.
 /// Neumorph-owned. Not Fluent acrylic, not Clay hue-matched plump extras.
 /// </summary>
 public sealed class NeumorphSurface : ContentControl

@@ -10,7 +10,7 @@
   <sys:Double x:Key="NeumorphLiftDistance">9</sys:Double>
   <sys:Double x:Key="NeumorphDarkOpacity">0.4</sys:Double>
   <sys:Double x:Key="NeumorphLightOpacity">0.8</sys:Double>
-  <Thickness x:Key="NeumorphGutter">12</Thickness>
+  <Thickness x:Key="NeumorphGutter">8</Thickness>
   <LinearGradientBrush x:Key="NeumorphSheenBrush" StartPoint="0,0" EndPoint="1,1">
     <GradientStop Color="#73FFFFFF" Offset="0" />
     <GradientStop Color="#14FFFFFF" Offset="0.45" />
@@ -21,8 +21,8 @@
     <GradientStop Color="#00000000" Offset="0.48" />
     <GradientStop Color="#40FFFFFF" Offset="1" />
   </LinearGradientBrush>
-  <Thickness x:Key="NeumorphRimLightThickness">1.5,1.5,0,0</Thickness>
-  <Thickness x:Key="NeumorphRimShadeThickness">0,0,1.5,1.5</Thickness>
-  <Thickness x:Key="NeumorphInsetLightThickness">0,0,3,3</Thickness>
-  <Thickness x:Key="NeumorphInsetShadeThickness">3.5,3.5,0,0</Thickness>
+  <Thickness x:Key="NeumorphRimLightThickness">5,5,0,0</Thickness>
+  <Thickness x:Key="NeumorphRimShadeThickness">0,0,5,5</Thickness>
+  <Thickness x:Key="NeumorphInsetLightThickness">0,0,5,5</Thickness>
+  <Thickness x:Key="NeumorphInsetShadeThickness">6,6,0,0</Thickness>
 </ResourceDictionary>
