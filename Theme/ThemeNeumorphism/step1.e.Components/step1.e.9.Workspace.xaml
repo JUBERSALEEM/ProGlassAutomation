@@ -27,6 +27,7 @@
   <Setter Property="BorderBrush" Value="{DynamicResource TransparentBrush}" />
   <Setter Property="BorderThickness" Value="0" />
   <Setter Property="SnapsToDevicePixels" Value="True" />
+  <Setter Property="neu:NeumorphBadgeGlow.LightGlow" Value="True" />
   <Setter Property="Effect">
    <Setter.Value>
     <DropShadowEffect Color="{DynamicResource NeumorphDarkColor}" BlurRadius="12" ShadowDepth="6" Direction="305" Opacity="{DynamicResource NeumorphDarkOpacity}" RenderingBias="Quality" />
