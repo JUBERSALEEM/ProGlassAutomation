@@ -47,12 +47,42 @@
     <Grid x:Name="Volume" Margin="{DynamicResource NeumorphGutter}" ClipToBounds="False">
      <Border x:Name="DarkGlow" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
       <Border.Effect>
-       <DropShadowEffect x:Name="DarkFx" Color="{DynamicResource NeumorphDarkColor}" BlurRadius="{DynamicResource NeumorphBlur}" ShadowDepth="{DynamicResource NeumorphDistance}" Direction="315" Opacity="{DynamicResource NeumorphDarkOpacity}" RenderingBias="Quality" />
+       <DropShadowEffect Color="{DynamicResource NeumorphDarkColor}" BlurRadius="{DynamicResource NeumorphBlur}" ShadowDepth="{DynamicResource NeumorphDistance}" Direction="315" Opacity="{DynamicResource NeumorphDarkOpacity}" RenderingBias="Quality" />
       </Border.Effect>
      </Border>
      <Border x:Name="LightGlow" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
       <Border.Effect>
-       <DropShadowEffect x:Name="LightFx" Color="{DynamicResource NeumorphLightColor}" BlurRadius="{DynamicResource NeumorphBlur}" ShadowDepth="{DynamicResource NeumorphDistance}" Direction="135" Opacity="{DynamicResource NeumorphLightOpacity}" RenderingBias="Quality" />
+       <DropShadowEffect Color="{DynamicResource NeumorphLightColor}" BlurRadius="{DynamicResource NeumorphBlur}" ShadowDepth="{DynamicResource NeumorphDistance}" Direction="135" Opacity="{DynamicResource NeumorphLightOpacity}" RenderingBias="Quality" />
+      </Border.Effect>
+     </Border>
+     <Border x:Name="DarkGlowControl" Visibility="Collapsed" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+      <Border.Effect>
+       <DropShadowEffect Color="{DynamicResource NeumorphDarkColor}" BlurRadius="10" ShadowDepth="4" Direction="315" Opacity="{DynamicResource NeumorphDarkOpacity}" RenderingBias="Quality" />
+      </Border.Effect>
+     </Border>
+     <Border x:Name="LightGlowControl" Visibility="Collapsed" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+      <Border.Effect>
+       <DropShadowEffect Color="{DynamicResource NeumorphLightColor}" BlurRadius="10" ShadowDepth="4" Direction="135" Opacity="{DynamicResource NeumorphLightOpacity}" RenderingBias="Quality" />
+      </Border.Effect>
+     </Border>
+     <Border x:Name="DarkGlowChip" Visibility="Collapsed" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+      <Border.Effect>
+       <DropShadowEffect Color="{DynamicResource NeumorphDarkColor}" BlurRadius="6" ShadowDepth="2" Direction="315" Opacity="{DynamicResource NeumorphDarkOpacity}" RenderingBias="Quality" />
+      </Border.Effect>
+     </Border>
+     <Border x:Name="LightGlowChip" Visibility="Collapsed" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+      <Border.Effect>
+       <DropShadowEffect Color="{DynamicResource NeumorphLightColor}" BlurRadius="6" ShadowDepth="2" Direction="135" Opacity="{DynamicResource NeumorphLightOpacity}" RenderingBias="Quality" />
+      </Border.Effect>
+     </Border>
+     <Border x:Name="DarkGlowLift" Visibility="Collapsed" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+      <Border.Effect>
+       <DropShadowEffect Color="{DynamicResource NeumorphDarkColor}" BlurRadius="{DynamicResource NeumorphBlur}" ShadowDepth="{DynamicResource NeumorphLiftDistance}" Direction="315" Opacity="{DynamicResource NeumorphDarkOpacity}" RenderingBias="Quality" />
+      </Border.Effect>
+     </Border>
+     <Border x:Name="LightGlowLift" Visibility="Collapsed" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+      <Border.Effect>
+       <DropShadowEffect Color="{DynamicResource NeumorphLightColor}" BlurRadius="{DynamicResource NeumorphBlur}" ShadowDepth="{DynamicResource NeumorphLiftDistance}" Direction="135" Opacity="{DynamicResource NeumorphLightOpacity}" RenderingBias="Quality" />
       </Border.Effect>
      </Border>
      <Border x:Name="DarkNear" Background="{TemplateBinding DarkBrush}" Opacity="0.55" CornerRadius="{TemplateBinding CornerRadius}" Margin="3,3,0,0" IsHitTestVisible="False" />
@@ -72,29 +102,41 @@
    <ControlTemplate.Triggers>
     <Trigger Property="Rank" Value="Control">
      <Setter TargetName="Volume" Property="Margin" Value="8" />
-     <Setter TargetName="DarkFx" Property="BlurRadius" Value="10" />
-     <Setter TargetName="LightFx" Property="BlurRadius" Value="10" />
-     <Setter TargetName="DarkFx" Property="ShadowDepth" Value="4" />
-     <Setter TargetName="LightFx" Property="ShadowDepth" Value="4" />
+     <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowControl" Property="Visibility" Value="Visible" />
+     <Setter TargetName="LightGlowControl" Property="Visibility" Value="Visible" />
     </Trigger>
     <Trigger Property="Rank" Value="Chip">
      <Setter TargetName="Volume" Property="Margin" Value="4" />
-     <Setter TargetName="DarkFx" Property="BlurRadius" Value="6" />
-     <Setter TargetName="LightFx" Property="BlurRadius" Value="6" />
-     <Setter TargetName="DarkFx" Property="ShadowDepth" Value="2" />
-     <Setter TargetName="LightFx" Property="ShadowDepth" Value="2" />
+     <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowChip" Property="Visibility" Value="Visible" />
+     <Setter TargetName="LightGlowChip" Property="Visibility" Value="Visible" />
      <Setter TargetName="DarkNear" Property="Margin" Value="2,2,0,0" />
      <Setter TargetName="LightNear" Property="Margin" Value="0,0,2,2" />
      <Setter TargetName="Face" Property="Margin" Value="2" />
     </Trigger>
     <Trigger Property="Lifted" Value="True">
-     <Setter TargetName="DarkFx" Property="ShadowDepth" Value="{DynamicResource NeumorphLiftDistance}" />
-     <Setter TargetName="LightFx" Property="ShadowDepth" Value="{DynamicResource NeumorphLiftDistance}" />
+     <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowControl" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlowControl" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowChip" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlowChip" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowLift" Property="Visibility" Value="Visible" />
+     <Setter TargetName="LightGlowLift" Property="Visibility" Value="Visible" />
      <Setter TargetName="Volume" Property="Margin" Value="{DynamicResource NeumorphGutter}" />
     </Trigger>
     <Trigger Property="Concave" Value="True">
      <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowControl" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlowControl" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowChip" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlowChip" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowLift" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlowLift" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="DarkNear" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightNear" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="Volume" Property="Margin" Value="2" />

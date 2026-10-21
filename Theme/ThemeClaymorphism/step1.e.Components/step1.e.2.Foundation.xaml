@@ -47,16 +47,44 @@
     <Grid x:Name="Volume" Margin="{DynamicResource ClayGutter}" ClipToBounds="False">
      <Border x:Name="DarkGlow" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
       <Border.Effect>
-       <DropShadowEffect x:Name="DarkFx" Color="{DynamicResource ClayShadowColor}" BlurRadius="{DynamicResource ClayBlur}" ShadowDepth="{DynamicResource ClayDistance}" Direction="315" Opacity="{DynamicResource ClayDarkGlowOpacity}" RenderingBias="Quality" />
+       <DropShadowEffect Color="{DynamicResource ClayShadowColor}" BlurRadius="{DynamicResource ClayBlur}" ShadowDepth="{DynamicResource ClayDistance}" Direction="315" Opacity="{DynamicResource ClayDarkGlowOpacity}" RenderingBias="Quality" />
       </Border.Effect>
      </Border>
      <Border x:Name="LightGlow" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
       <Border.Effect>
-       <DropShadowEffect x:Name="LightFx" Color="{DynamicResource ClayHighlightColor}" BlurRadius="{DynamicResource ClayBlur}" ShadowDepth="{DynamicResource ClayDistance}" Direction="135" Opacity="{DynamicResource ClayLightGlowOpacity}" RenderingBias="Quality" />
+       <DropShadowEffect Color="{DynamicResource ClayHighlightColor}" BlurRadius="{DynamicResource ClayBlur}" ShadowDepth="{DynamicResource ClayDistance}" Direction="135" Opacity="{DynamicResource ClayLightGlowOpacity}" RenderingBias="Quality" />
       </Border.Effect>
      </Border>
-     <Border x:Name="Lift" Background="{DynamicResource ClayLiftBrush}" CornerRadius="{TemplateBinding CornerRadius}" Margin="{DynamicResource ClayLiftMargin}" Visibility="Collapsed" IsHitTestVisible="False" />
-     <Border x:Name="Drop" Background="{TemplateBinding DropBrush}" CornerRadius="{TemplateBinding CornerRadius}" Margin="{DynamicResource ClayDropMargin}" Visibility="Collapsed" IsHitTestVisible="False" />
+     <Border x:Name="DarkGlowControl" Visibility="Collapsed" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+      <Border.Effect>
+       <DropShadowEffect Color="{DynamicResource ClayShadowColor}" BlurRadius="10" ShadowDepth="{DynamicResource ClayDistance}" Direction="315" Opacity="{DynamicResource ClayDarkGlowOpacity}" RenderingBias="Quality" />
+      </Border.Effect>
+     </Border>
+     <Border x:Name="LightGlowControl" Visibility="Collapsed" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+      <Border.Effect>
+       <DropShadowEffect Color="{DynamicResource ClayHighlightColor}" BlurRadius="10" ShadowDepth="{DynamicResource ClayDistance}" Direction="135" Opacity="{DynamicResource ClayLightGlowOpacity}" RenderingBias="Quality" />
+      </Border.Effect>
+     </Border>
+     <Border x:Name="DarkGlowChip" Visibility="Collapsed" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+      <Border.Effect>
+       <DropShadowEffect Color="{DynamicResource ClayShadowColor}" BlurRadius="7" ShadowDepth="3" Direction="315" Opacity="{DynamicResource ClayDarkGlowOpacity}" RenderingBias="Quality" />
+      </Border.Effect>
+     </Border>
+     <Border x:Name="LightGlowChip" Visibility="Collapsed" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+      <Border.Effect>
+       <DropShadowEffect Color="{DynamicResource ClayHighlightColor}" BlurRadius="7" ShadowDepth="3" Direction="135" Opacity="{DynamicResource ClayLightGlowOpacity}" RenderingBias="Quality" />
+      </Border.Effect>
+     </Border>
+     <Border x:Name="DarkGlowLift" Visibility="Collapsed" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+      <Border.Effect>
+       <DropShadowEffect Color="{DynamicResource ClayShadowColor}" BlurRadius="{DynamicResource ClayBlur}" ShadowDepth="{DynamicResource ClayLiftDistance}" Direction="315" Opacity="{DynamicResource ClayDarkGlowOpacity}" RenderingBias="Quality" />
+      </Border.Effect>
+     </Border>
+     <Border x:Name="LightGlowLift" Visibility="Collapsed" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+      <Border.Effect>
+       <DropShadowEffect Color="{DynamicResource ClayHighlightColor}" BlurRadius="{DynamicResource ClayBlur}" ShadowDepth="{DynamicResource ClayLiftDistance}" Direction="135" Opacity="{DynamicResource ClayLightGlowOpacity}" RenderingBias="Quality" />
+      </Border.Effect>
+     </Border>
      <Border x:Name="Face" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" Margin="{DynamicResource ClayFaceMargin}">
       <Grid>
        <Border x:Name="Curve" Background="{DynamicResource ClayCurveBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False" />
@@ -72,33 +100,49 @@
    <ControlTemplate.Triggers>
     <Trigger Property="Rank" Value="Control">
      <Setter TargetName="Volume" Property="Margin" Value="8" />
-     <Setter TargetName="DarkFx" Property="BlurRadius" Value="10" />
-     <Setter TargetName="LightFx" Property="BlurRadius" Value="10" />
+     <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowControl" Property="Visibility" Value="Visible" />
+     <Setter TargetName="LightGlowControl" Property="Visibility" Value="Visible" />
     </Trigger>
     <Trigger Property="Rank" Value="Chip">
      <Setter TargetName="Volume" Property="Margin" Value="4" />
-     <Setter TargetName="DarkFx" Property="BlurRadius" Value="7" />
-     <Setter TargetName="LightFx" Property="BlurRadius" Value="7" />
-     <Setter TargetName="DarkFx" Property="ShadowDepth" Value="3" />
-     <Setter TargetName="LightFx" Property="ShadowDepth" Value="3" />
+     <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowChip" Property="Visibility" Value="Visible" />
+     <Setter TargetName="LightGlowChip" Property="Visibility" Value="Visible" />
     </Trigger>
     <Trigger Property="Lifted" Value="True">
-     <Setter TargetName="DarkFx" Property="ShadowDepth" Value="{DynamicResource ClayLiftDistance}" />
-     <Setter TargetName="LightFx" Property="ShadowDepth" Value="{DynamicResource ClayLiftDistance}" />
+     <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowControl" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlowControl" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowChip" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlowChip" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowLift" Property="Visibility" Value="Visible" />
+     <Setter TargetName="LightGlowLift" Property="Visibility" Value="Visible" />
     </Trigger>
     <Trigger Property="ShowDrop" Value="False">
      <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="Lift" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="Drop" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowControl" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlowControl" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowChip" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlowChip" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowLift" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlowLift" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="Volume" Property="Margin" Value="0" />
      <Setter TargetName="Face" Property="Margin" Value="0" />
     </Trigger>
     <Trigger Property="Concave" Value="True">
      <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="Lift" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="Drop" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowControl" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlowControl" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowChip" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlowChip" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowLift" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlowLift" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="Volume" Property="Margin" Value="2" />
      <Setter TargetName="Face" Property="Margin" Value="1" />
      <Setter TargetName="Curve" Property="Background" Value="{DynamicResource ClayWellCurveBrush}" />
