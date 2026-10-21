@@ -90,7 +90,7 @@
      <Border x:Name="Face" Background="{DynamicResource NeumorphSheenBrush}" CornerRadius="{TemplateBinding CornerRadius}" Margin="0">
       <Grid>
        <Border x:Name="Sheen" Visibility="Collapsed" Background="{DynamicResource NeumorphSheenBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False" />
-       <Border x:Name="InsetHost" Visibility="Collapsed" ClipToBounds="True" Background="{DynamicResource TransparentBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+       <Border x:Name="InsetHost" Visibility="Collapsed" ClipToBounds="False" Background="{DynamicResource TransparentBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
         <Grid>
          <Border Margin="6" Background="{DynamicResource NeumorphWellSheenBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
           <Border.Effect>
@@ -165,6 +165,7 @@
      <Setter TargetName="LightNear" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="Volume" Property="Margin" Value="0" />
      <Setter TargetName="Face" Property="Margin" Value="0" />
+     <Setter TargetName="Face" Property="ClipToBounds" Value="True" />
      <Setter TargetName="InsetHost" Property="Visibility" Value="Visible" />
      <Setter TargetName="Face" Property="Background" Value="{DynamicResource NeumorphWellSheenBrush}" />
      <Setter TargetName="Sheen" Property="Background" Value="{DynamicResource NeumorphWellSheenBrush}" />
