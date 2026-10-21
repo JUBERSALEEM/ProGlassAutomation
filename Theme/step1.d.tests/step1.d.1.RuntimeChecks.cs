@@ -220,7 +220,16 @@ internal static class RuntimeChecks
                 else if (extra == ThemeService.Fluent)
                     Check(model.CanCustomizeGeometry && model.DesignSummary.StartsWith("Fluent"), extra + " uses shared card rounding without a Fluent material engine");
                 else if (extra == ThemeService.Neumorphism)
-                    Check(model.CanCustomizeGeometry && model.DesignSummary.StartsWith("Neumorphism"), extra + " uses shared card rounding without a neumorph engine");
+                {
+                    Check(model.CanCustomizeGeometry && model.CanCustomizeNeumorph && model.DesignSummary.StartsWith("Neumorphism"), extra + " uses shared rounding and a neumorph depth engine");
+                    Check(model.ResetTheme.CanExecute(null) && model.PreviewDefault.CanExecute(null), "neumorph studio reset commands");
+                    model.SelectedNeumorphDepth = ProGlassAutomation.ThemeNeumorphism.NeumorphDepth.Deep;
+                    Pump();
+                    Check((double)themes.GetToken("NeumorphDistance") == 10d, "live neumorph depth");
+                    model.ResetDesign.Execute(null);
+                    Pump();
+                    Check(model.SelectedNeumorphDepth == ProGlassAutomation.ThemeNeumorphism.NeumorphDepth.Standard && (double)themes.GetToken("NeumorphDistance") == 6d, "neumorph reset restores defaults");
+                }
                 else
                     throw new Exception("Unhandled extra theme: " + extra);
                 model.IsDark = true;

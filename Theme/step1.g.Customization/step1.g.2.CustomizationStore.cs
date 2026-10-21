@@ -3,6 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using ProGlassAutomation.Theming;
 using ProGlassAutomation.ThemeClaymorphism;
+using ProGlassAutomation.ThemeNeumorphism;
 
 namespace ProGlassAutomation.Customization;
 
@@ -44,13 +45,15 @@ public static class CustomizationStore
         if (loaded is null || loaded.Version != 2) throw new ArgumentException("Unsupported or empty ProGlass theme file.");
         if (loaded.Preferences is null || loaded.Preferences.Validate() is not null) throw new ArgumentException("Theme file contains invalid Bento preferences.");
         if (loaded.Clay?.Validate() is not null) throw new ArgumentException("Theme file contains invalid Clay preferences.");
+        if (loaded.Neumorph?.Validate() is not null) throw new ArgumentException("Theme file contains invalid Neumorph preferences.");
         if (!Enum.IsDefined(loaded.Appearance)) throw new ArgumentException("Theme file appearance is not supported.");
         if (string.IsNullOrWhiteSpace(loaded.Theme) || !ThemeService.InstalledThemes.Contains(loaded.Theme))
             loaded = loaded with { Theme = ThemeCatalog.BentoName };
         loaded = loaded with
         {
             Clay = loaded.Clay ?? new ClayCustomizationState(),
-            Geometry = loaded.Geometry ?? new SharedGeometryState()
+            Geometry = loaded.Geometry ?? new SharedGeometryState(),
+            Neumorph = loaded.Neumorph ?? new NeumorphCustomizationState()
         };
         if (loaded.Geometry.Validate() is not null) throw new ArgumentException("Theme file contains invalid card rounding.");
         foreach (var preset in loaded.CustomPresets ?? [])
@@ -59,6 +62,9 @@ public static class CustomizationStore
         foreach (var preset in loaded.ClayPresets ?? [])
             if (string.IsNullOrWhiteSpace(preset.Name) || preset.State.Validate() is not null)
                 throw new ArgumentException("Theme file contains an invalid Clay preset.");
+        foreach (var preset in loaded.NeumorphPresets ?? [])
+            if (string.IsNullOrWhiteSpace(preset.Name) || preset.State.Validate() is not null)
+                throw new ArgumentException("Theme file contains an invalid Neumorph preset.");
         return loaded;
     }
 
@@ -70,6 +76,7 @@ public static class CustomizationStore
         ArgumentException.ThrowIfNullOrWhiteSpace(path);
         if (state.Preferences.Validate() is not null) throw new ArgumentException("Cannot persist invalid preferences.");
         if (state.Clay?.Validate() is not null) throw new ArgumentException("Cannot persist invalid clay preferences.");
+        if (state.Neumorph?.Validate() is not null) throw new ArgumentException("Cannot persist invalid neumorph preferences.");
         if ((state.Geometry ?? new SharedGeometryState()).Validate() is not null) throw new ArgumentException("Cannot persist invalid card rounding.");
         var dir = Path.GetDirectoryName(Path.GetFullPath(path))!;
         Directory.CreateDirectory(dir);

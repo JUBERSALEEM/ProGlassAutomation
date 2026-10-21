@@ -181,10 +181,13 @@ assert 'CanCustomizeGeometry' in panel and 'SelectedRounding' in panel
 assert 'Visibility="{Binding CanCustomizeBento' in panel and 'Visibility="{Binding CanCustomizeClay' in panel and 'Visibility="{Binding IsFluent' in panel and 'Visibility="{Binding IsNeumorph' in panel
 assert 'SelectedClayAccent' in panel and 'SelectedClayTypography' in panel and 'SelectedClaySheen' in panel
 assert 'SelectedClaySpacing' in panel and 'SelectedClayTextContrast' in panel and 'SelectedClayPresetName' in panel
+assert 'SelectedNeumorphDepth' in panel and 'SelectedNeumorphBlur' in panel and 'SelectedNeumorphIntensity' in panel
 assert 'Bento studio' in panel and 'Clay studio' in panel and 'Fluent studio' in panel and 'Neumorphism studio' in panel
 custom_vm = (ROOT/'step1.ThemeStudio/step1.b.ThemeStudioScreen/step1.b.17.Customization.cs').read_text()
 assert 'using ProGlassAutomation.ThemeClaymorphism;' in custom_vm
+assert 'using ProGlassAutomation.ThemeNeumorphism;' in custom_vm
 assert 'ApplyClayState' in custom_vm and 'lastSavedClaySnapshot' in custom_vm
+assert 'ApplyNeumorphState' in custom_vm and 'lastSavedNeumorphSnapshot' in custom_vm
 assert 'SharedGeometry.Compose' in custom_vm and 'SelectedRounding' in custom_vm
 assert 'IsClay)' in custom_vm and 'ResetTheme' in custom_vm
 contracts = (ROOT / 'Theme/step1.d.tests/step1.d.2.ContractChecks.cs').read_text()

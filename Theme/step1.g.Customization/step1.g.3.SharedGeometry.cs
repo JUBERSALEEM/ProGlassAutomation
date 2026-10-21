@@ -1,6 +1,7 @@
 using System.Windows;
 using ProGlassAutomation.ThemeBento;
 using ProGlassAutomation.ThemeClaymorphism;
+using ProGlassAutomation.ThemeNeumorphism;
 using ProGlassAutomation.Theming;
 
 namespace ProGlassAutomation.Customization;
@@ -59,18 +60,22 @@ public static class SharedGeometry
         string theme,
         BentoCustomizationState bento,
         ClayCustomizationState clay,
-        SharedGeometryState geometry)
+        SharedGeometryState geometry,
+        NeumorphCustomizationState? neumorph = null)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(theme);
         ArgumentNullException.ThrowIfNull(bento);
         ArgumentNullException.ThrowIfNull(clay);
         ArgumentNullException.ThrowIfNull(geometry);
+        var neu = neumorph ?? new NeumorphCustomizationState();
         return (package, mode) =>
         {
             if (theme == ThemeService.Bento)
                 BentoCustomization.ApplyExtended(package, mode, bento);
             else if (theme == ThemeService.Clay)
                 ClayCustomization.Apply(package, mode, clay);
+            else if (theme == ThemeService.Neumorphism)
+                NeumorphCustomization.Apply(package, mode, neu);
             if (ThemeCatalog.Find(theme).Geometry != ThemeGeometry.SharedTokens)
                 return;
             Apply(package, geometry);

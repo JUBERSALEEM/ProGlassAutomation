@@ -6,6 +6,7 @@ using Microsoft.Win32;
 using ProGlassAutomation.Customization;
 using ProGlassAutomation.ThemeBento;
 using ProGlassAutomation.ThemeClaymorphism;
+using ProGlassAutomation.ThemeNeumorphism;
 using ProGlassAutomation.Theming;
 
 namespace ProGlassAutomation.ThemeStudio;
@@ -15,6 +16,7 @@ public sealed partial class ThemeStudioViewModel
     private BentoPreferences preferences = new();
     private BentoCustomizationState extended = new();
     private ClayCustomizationState clay = new();
+    private NeumorphCustomizationState neumorph = new();
     private SharedGeometryState geometry = new();
     private SavedCustomization lastSaved = CustomizationStore.Load();
     private BentoCustomizationState draft => extended;
@@ -26,6 +28,7 @@ public sealed partial class ThemeStudioViewModel
     private string presetNameInput = "";
     private string? lastSavedSnapshot;
     private string? lastSavedClaySnapshot;
+    private string? lastSavedNeumorphSnapshot;
     public ProGlassAutomation.Customization.ChartCustomizationViewModel ChartEditor { get; } = new();
     public IReadOnlyList<BentoAccent> AccentChoices { get; } = Enum.GetValues<BentoAccent>();
     public IReadOnlyList<BentoDensity> DensityChoices { get; } = Enum.GetValues<BentoDensity>();
@@ -55,6 +58,27 @@ public sealed partial class ThemeStudioViewModel
     public IReadOnlyList<ClayLighting> ClayLightingChoices { get; } = Enum.GetValues<ClayLighting>();
     public IReadOnlyList<ClayRelief> ClayReliefChoices { get; } = Enum.GetValues<ClayRelief>();
     public IReadOnlyList<ClayEffects> ClayEffectsChoices { get; } = Enum.GetValues<ClayEffects>();
+    public IReadOnlyList<NeumorphDepth> NeumorphDepthChoices { get; } = Enum.GetValues<NeumorphDepth>();
+    public IReadOnlyList<NeumorphBlur> NeumorphBlurChoices { get; } = Enum.GetValues<NeumorphBlur>();
+    public IReadOnlyList<NeumorphIntensity> NeumorphIntensityChoices { get; } = Enum.GetValues<NeumorphIntensity>();
+    public IReadOnlyList<NeumorphNamedPreset> NeumorphBuiltInPresets => NeumorphCustomization.BuiltIn;
+    public IReadOnlyList<NeumorphNamedPreset> NeumorphCustomPresets => lastSaved.NeumorphPresets ?? [];
+    public IReadOnlyList<string> NeumorphPresetNames => NeumorphCustomization.BuiltIn.Select(p => p.Name).Concat((lastSaved.NeumorphPresets ?? []).Select(p => p.Name)).ToList();
+    private string selectedNeumorphPresetName = NeumorphCustomization.BuiltIn[0].Name;
+    public string SelectedNeumorphPresetName
+    {
+        get => selectedNeumorphPresetName;
+        set
+        {
+            if (string.IsNullOrWhiteSpace(value) || value == selectedNeumorphPresetName) return;
+            selectedNeumorphPresetName = value;
+            Changed(nameof(SelectedNeumorphPresetName));
+            ApplyPreset.Execute(value);
+        }
+    }
+    public NeumorphDepth SelectedNeumorphDepth { get => neumorph.Depth; set => UpdateNeumorph(neumorph with { Depth = value }); }
+    public NeumorphBlur SelectedNeumorphBlur { get => neumorph.Blur; set => UpdateNeumorph(neumorph with { Blur = value }); }
+    public NeumorphIntensity SelectedNeumorphIntensity { get => neumorph.Intensity; set => UpdateNeumorph(neumorph with { Intensity = value }); }
     public IReadOnlyList<ClayNamedPreset> ClayBuiltInPresets => ClayCustomization.BuiltIn;
     public IReadOnlyList<ClayNamedPreset> ClayCustomPresets => lastSaved.ClayPresets ?? [];
     public IReadOnlyList<string> ClayPresetNames => ClayCustomization.BuiltIn.Select(p => p.Name).Concat((lastSaved.ClayPresets ?? []).Select(p => p.Name)).ToList();
@@ -135,19 +159,21 @@ public sealed partial class ThemeStudioViewModel
     public bool IsNeumorph => SelectedTheme == ThemeService.Neumorphism;
     public bool CanCustomizeBento => SelectedTheme == ThemeService.Bento;
     public bool CanCustomizeClay => IsClay;
+    public bool CanCustomizeNeumorph => IsNeumorph;
     public bool CanCustomizeGeometry => ThemeCatalog.Find(SelectedTheme).Geometry == ThemeGeometry.SharedTokens;
-    public bool CanCustomize => CanCustomizeBento || CanCustomizeClay;
+    public bool CanCustomize => CanCustomizeBento || CanCustomizeClay || CanCustomizeNeumorph;
     public string DesignSummary => CanCustomizeClay
         ? $"{SelectedClayAccent} / {SelectedClayVolume} / {SelectedClayPlumpness} / {SelectedClayTypography}"
         : CanCustomizeBento ? $"{SelectedAccent} / {SelectedDensity} / {SelectedShape} / {SelectedTypography} · {SelectedLayoutPreset}"
         : IsFluent ? $"Fluent / {SelectedRounding}"
-        : IsNeumorph ? $"Neumorphism / {SelectedRounding}"
+        : IsNeumorph ? $"Neumorphism / {SelectedRounding} / {SelectedNeumorphDepth} / {SelectedNeumorphBlur}"
         : "Theme-default settings";
     public bool IsDirty =>
         themes.ActiveTheme != lastSaved.Theme
         || themes.ActiveAppearance != lastSaved.Appearance
         || geometry != (lastSaved.Geometry ?? new SharedGeometryState())
         || (CanCustomizeClay && clay != (lastSaved.Clay ?? new ClayCustomizationState()))
+        || (CanCustomizeNeumorph && neumorph != (lastSaved.Neumorph ?? new NeumorphCustomizationState()))
         || (CanCustomizeBento && extended != lastSaved.Preferences);
     public int SelectedWorkspace
     {
@@ -194,19 +220,21 @@ public sealed partial class ThemeStudioViewModel
         // Restore last saved; if none, defaults
         extended = lastSaved.Preferences ?? new BentoCustomizationState();
         clay = lastSaved.Clay ?? new ClayCustomizationState();
+        neumorph = lastSaved.Neumorph ?? new NeumorphCustomizationState();
         geometry = lastSaved.Geometry ?? new SharedGeometryState(SharedGeometry.FromShape(extended.Shape));
         if (lastSaved.Geometry is null) lastSaved = lastSaved with { Geometry = geometry };
         preferences = extended.ToLegacy();
         var restored = ThemeService.InstalledThemes.Contains(lastSaved.Theme) ? lastSaved.Theme : ThemeService.Bento;
         try
         {
-            themes.Apply(restored, lastSaved.Appearance, SharedGeometry.Compose(restored, extended, clay, geometry));
+            themes.Apply(restored, lastSaved.Appearance, SharedGeometry.Compose(restored, extended, clay, geometry, neumorph));
         }
         catch { }
         ResetDesign = new DelegateCommand(() =>
         {
             geometry = new SharedGeometryState();
             if (IsClay) ApplyClayState(new ClayCustomizationState());
+            else if (IsNeumorph) ApplyNeumorphState(new NeumorphCustomizationState());
             else if (CanCustomizeBento) ApplyState(new BentoCustomizationState());
             else ApplySharedOnly();
             Changed(nameof(SelectedRounding));
@@ -218,7 +246,7 @@ public sealed partial class ThemeStudioViewModel
         ApplyPreview = new DelegateCommand(() => { try { themes.Apply(SelectedTheme, themes.ActiveAppearance, LiveConfigure()); ThemeError=""; Feedback="Preview applied — unsaved changes present."; } catch(Exception ex){ ThemeError=ex.Message; } Changed(nameof(ThemeError)); }, () => CanCustomize || CanCustomizeGeometry);
         SaveCustomization = new DelegateCommand(() =>
         {
-            if (extended.Validate() is not null || (clay ?? new ClayCustomizationState()).Validate() is not null)
+            if (extended.Validate() is not null || (clay ?? new ClayCustomizationState()).Validate() is not null || (neumorph ?? new NeumorphCustomizationState()).Validate() is not null)
             {
                 ThemeError = "Cannot save invalid customization.";
                 Changed(nameof(ThemeError));
@@ -238,7 +266,7 @@ public sealed partial class ThemeStudioViewModel
             }
             Changed(nameof(ThemeError));
             Changed(nameof(IsDirty));
-        }, () => extended.Validate() is null && (clay ?? new ClayCustomizationState()).Validate() is null);
+        }, () => extended.Validate() is null && (clay ?? new ClayCustomizationState()).Validate() is null && (neumorph ?? new NeumorphCustomizationState()).Validate() is null);
         DiscardChanges = new DelegateCommand(() =>
         {
             RestoreSaved(lastSaved);
@@ -290,6 +318,12 @@ public sealed partial class ThemeStudioViewModel
                 Feedback = $"Reset {customizationCategory} to clay defaults.";
                 return;
             }
+            if (IsNeumorph)
+            {
+                ApplyNeumorphState(new NeumorphCustomizationState());
+                Feedback = $"Reset {customizationCategory} to neumorph defaults.";
+                return;
+            }
             var bentoDefaults = new BentoCustomizationState();
             var bentoNext = customizationCategory switch
             {
@@ -311,6 +345,14 @@ public sealed partial class ThemeStudioViewModel
                 lastSaved = lastSaved with { Clay = new ClayCustomizationState(), Theme = ThemeService.Clay, Appearance = themes.ActiveAppearance, Geometry = geometry };
                 CustomizationStore.Save(lastSaved);
                 Feedback = "Clay restored to defaults.";
+                return;
+            }
+            if (IsNeumorph)
+            {
+                ApplyNeumorphState(new NeumorphCustomizationState());
+                lastSaved = lastSaved with { Neumorph = new NeumorphCustomizationState(), Theme = ThemeService.Neumorphism, Appearance = themes.ActiveAppearance, Geometry = geometry };
+                CustomizationStore.Save(lastSaved);
+                Feedback = "Neumorphism restored to defaults.";
                 return;
             }
             ApplyState(new BentoCustomizationState());
@@ -337,6 +379,23 @@ public sealed partial class ThemeStudioViewModel
                 }
                 return;
             }
+            if (IsNeumorph)
+            {
+                if (lastSavedNeumorphSnapshot == null)
+                {
+                    lastSavedNeumorphSnapshot = System.Text.Json.JsonSerializer.Serialize(neumorph);
+                    ApplyNeumorphState(new NeumorphCustomizationState());
+                    Feedback = "Previewing neumorph defaults — toggle again to restore.";
+                }
+                else
+                {
+                    var prev = System.Text.Json.JsonSerializer.Deserialize<NeumorphCustomizationState>(lastSavedNeumorphSnapshot);
+                    lastSavedNeumorphSnapshot = null;
+                    if (prev != null) ApplyNeumorphState(prev);
+                    Feedback = "Restored your neumorph preview.";
+                }
+                return;
+            }
             if (lastSavedSnapshot == null)
             {
                 lastSavedSnapshot = System.Text.Json.JsonSerializer.Serialize(extended);
@@ -360,6 +419,15 @@ public sealed partial class ThemeStudioViewModel
                 if (clayPreset.Appearance != themes.ActiveAppearance) SelectAppearance(ThemeService.Clay, clayPreset.Appearance);
                 ApplyClayState(clayPreset.State);
                 Feedback = $"Clay preset applied: {clayPreset.Name}";
+                return;
+            }
+            if (IsNeumorph)
+            {
+                var neuPreset = NeumorphCustomization.BuiltIn.Concat(lastSaved.NeumorphPresets ?? []).FirstOrDefault(p => p.Name == name);
+                if (neuPreset == null) return;
+                if (neuPreset.Appearance != themes.ActiveAppearance) SelectAppearance(ThemeService.Neumorphism, neuPreset.Appearance);
+                ApplyNeumorphState(neuPreset.State);
+                Feedback = $"Neumorph preset applied: {neuPreset.Name}";
                 return;
             }
             var preset = BuiltInPresets.Concat(CustomPresets).FirstOrDefault(p => p.Name == name);
@@ -399,6 +467,26 @@ public sealed partial class ThemeStudioViewModel
                 Changed(nameof(ClayPresetNames));
                 return;
             }
+            if (IsNeumorph)
+            {
+                if (NeumorphCustomization.IsBuiltIn(n))
+                {
+                    ThemeError = "Enter unique name not conflicting with built-in presets.";
+                    Changed(nameof(ThemeError));
+                    return;
+                }
+                var neuList = (lastSaved.NeumorphPresets ?? []).ToList();
+                neuList.RemoveAll(p => p.Name == n);
+                neuList.Add(new NeumorphNamedPreset(n, neumorph, themes.ActiveAppearance));
+                lastSaved = lastSaved with { NeumorphPresets = neuList, Neumorph = neumorph, Theme = themes.ActiveTheme, Appearance = themes.ActiveAppearance };
+                CustomizationStore.Save(lastSaved);
+                PresetNameInput = "";
+                Feedback = $"Neumorph preset saved: {n}";
+                Changed(nameof(ThemeError));
+                Changed(nameof(NeumorphCustomPresets));
+                Changed(nameof(NeumorphPresetNames));
+                return;
+            }
             if (PresetCatalog.IsBuiltIn(n))
             {
                 ThemeError = "Enter unique name not conflicting with built-in presets.";
@@ -428,6 +516,18 @@ public sealed partial class ThemeStudioViewModel
                 Changed(nameof(ClayPresetNames));
                 return;
             }
+            if (IsNeumorph)
+            {
+                if (NeumorphCustomization.IsBuiltIn(name)) return;
+                var neuList = (lastSaved.NeumorphPresets ?? []).ToList();
+                neuList.RemoveAll(p => p.Name == name);
+                lastSaved = lastSaved with { NeumorphPresets = neuList };
+                CustomizationStore.Save(lastSaved);
+                Feedback = $"Deleted neumorph preset: {name}";
+                Changed(nameof(NeumorphCustomPresets));
+                Changed(nameof(NeumorphPresetNames));
+                return;
+            }
             if (PresetCatalog.IsBuiltIn(name)) return;
             var list = (lastSaved.CustomPresets ?? []).ToList();
             list.RemoveAll(p => p.Name == name);
@@ -455,6 +555,22 @@ public sealed partial class ThemeStudioViewModel
                 }
                 return;
             }
+            if (IsNeumorph)
+            {
+                if (NeumorphCustomization.IsBuiltIn(n)) return;
+                var neuList = (lastSaved.NeumorphPresets ?? []).ToList();
+                var neuIdx = neuList.FindIndex(p => p.Name == pair.oldName);
+                if (neuIdx >= 0)
+                {
+                    neuList[neuIdx] = neuList[neuIdx] with { Name = n };
+                    lastSaved = lastSaved with { NeumorphPresets = neuList };
+                    CustomizationStore.Save(lastSaved);
+                    Feedback = $"Renamed to {n}";
+                    Changed(nameof(NeumorphCustomPresets));
+                    Changed(nameof(NeumorphPresetNames));
+                }
+                return;
+            }
             if (PresetCatalog.IsBuiltIn(n)) return;
             var list = (lastSaved.CustomPresets ?? []).ToList();
             var idx = list.FindIndex(p => p.Name == pair.oldName);
@@ -468,7 +584,7 @@ public sealed partial class ThemeStudioViewModel
         });
     }
     private Action<ResourceDictionary, Appearance> LiveConfigure() =>
-        SharedGeometry.Compose(SelectedTheme, extended, clay, geometry);
+        SharedGeometry.Compose(SelectedTheme, extended, clay, geometry, neumorph);
     private void Customize(BentoPreferences candidate)
     {
         if (!CanCustomizeBento || candidate == preferences) return;
@@ -488,7 +604,7 @@ public sealed partial class ThemeStudioViewModel
     {
         try
         {
-            themes.Apply(ThemeService.Bento, themes.ActiveAppearance, SharedGeometry.Compose(ThemeService.Bento, next, clay, geometry));
+            themes.Apply(ThemeService.Bento, themes.ActiveAppearance, SharedGeometry.Compose(ThemeService.Bento, next, clay, geometry, neumorph));
             extended = next; preferences = next.ToLegacy(); ThemeError=""; Feedback="Live preview updated — use Save to persist.";
         }
         catch (ThemeNotificationException error) { extended = next; preferences = next.ToLegacy(); ThemeError = error.Message; }
@@ -499,12 +615,29 @@ public sealed partial class ThemeStudioViewModel
     {
         try
         {
-            themes.Apply(ThemeService.Clay, themes.ActiveAppearance, SharedGeometry.Compose(ThemeService.Clay, extended, next, geometry));
+            themes.Apply(ThemeService.Clay, themes.ActiveAppearance, SharedGeometry.Compose(ThemeService.Clay, extended, next, geometry, neumorph));
             clay = next; ThemeError=""; Feedback="Live clay preview updated — use Save to persist.";
         }
         catch (ThemeNotificationException error) { clay = next; ThemeError = error.Message; }
         catch (Exception error) when (error is InvalidOperationException or ArgumentException or System.IO.IOException or System.Windows.Markup.XamlParseException) { ThemeError=$"Design unchanged: {error.Message}"; }
         foreach (var n in new[] { nameof(SelectedClayAccent), nameof(SelectedClayVolume), nameof(SelectedClayPlumpness), nameof(SelectedClayDensity), nameof(SelectedClayCanvas), nameof(SelectedClayTypography), nameof(SelectedClaySpacing), nameof(SelectedClayTextContrast), nameof(SelectedClaySheen), nameof(SelectedClayWeight), nameof(SelectedClayLighting), nameof(SelectedClayRelief), nameof(SelectedClayEffects), nameof(DesignSummary), nameof(ThemeError), nameof(IsDirty) }) Changed(n);
+    }
+
+    private void UpdateNeumorph(NeumorphCustomizationState next)
+    {
+        if (!CanCustomizeNeumorph || next == neumorph) return;
+        ApplyNeumorphState(next);
+    }
+    private void ApplyNeumorphState(NeumorphCustomizationState next)
+    {
+        try
+        {
+            themes.Apply(ThemeService.Neumorphism, themes.ActiveAppearance, SharedGeometry.Compose(ThemeService.Neumorphism, extended, clay, geometry, next));
+            neumorph = next; ThemeError = ""; Feedback = "Live neumorph preview updated — use Save to persist.";
+        }
+        catch (ThemeNotificationException error) { neumorph = next; ThemeError = error.Message; }
+        catch (Exception error) when (error is InvalidOperationException or ArgumentException or IOException or System.Windows.Markup.XamlParseException) { ThemeError = $"Design unchanged: {error.Message}"; }
+        foreach (var n in new[] { nameof(SelectedNeumorphDepth), nameof(SelectedNeumorphBlur), nameof(SelectedNeumorphIntensity), nameof(DesignSummary), nameof(ThemeError), nameof(IsDirty) }) Changed(n);
     }
 
     private SavedCustomization CaptureLive() => new(
@@ -517,7 +650,9 @@ public sealed partial class ThemeStudioViewModel
         themes.ActiveTheme,
         clay,
         lastSaved.ClayPresets,
-        geometry);
+        geometry,
+        neumorph,
+        lastSaved.NeumorphPresets);
 
     private void ApplySharedOnly()
     {
@@ -549,18 +684,21 @@ public sealed partial class ThemeStudioViewModel
     {
         var nextBento = package.Preferences ?? new BentoCustomizationState();
         var nextClay = package.Clay ?? new ClayCustomizationState();
+        var nextNeumorph = package.Neumorph ?? new NeumorphCustomizationState();
         var nextGeometry = package.Geometry ?? new SharedGeometryState(SharedGeometry.FromShape(nextBento.Shape));
         var theme = ThemeService.InstalledThemes.Contains(package.Theme) ? package.Theme : ThemeService.Bento;
         var previousBento = extended;
         var previousClay = clay;
+        var previousNeumorph = neumorph;
         var previousGeometry = geometry;
         try
         {
             extended = nextBento;
             clay = nextClay;
+            neumorph = nextNeumorph;
             geometry = nextGeometry;
             preferences = nextBento.ToLegacy();
-            themes.Apply(theme, package.Appearance, SharedGeometry.Compose(theme, nextBento, nextClay, nextGeometry));
+            themes.Apply(theme, package.Appearance, SharedGeometry.Compose(theme, nextBento, nextClay, nextGeometry, nextNeumorph));
             ThemeError = "";
             if (persist)
             {
@@ -576,11 +714,12 @@ public sealed partial class ThemeStudioViewModel
         {
             extended = previousBento;
             clay = previousClay;
+            neumorph = previousNeumorph;
             geometry = previousGeometry;
             preferences = previousBento.ToLegacy();
             ThemeError = error.Message;
         }
-        foreach (var n in new[] { nameof(SelectedAccent), nameof(SelectedDensity), nameof(SelectedShape), nameof(SelectedTypography), nameof(SelectedCanvas), nameof(SelectedSurface), nameof(SelectedTextContrast), nameof(SelectedBorder), nameof(SelectedShadow), nameof(SelectedSpacing), nameof(SelectedPadding), nameof(SelectedWeight), nameof(SelectedLayoutPreset), nameof(HeroCompact), nameof(ShowKpiTrend), nameof(SelectedRounding), nameof(SelectedClayAccent), nameof(SelectedClayVolume), nameof(SelectedClayPlumpness), nameof(SelectedClayDensity), nameof(SelectedClayCanvas), nameof(SelectedClayTypography), nameof(SelectedClaySpacing), nameof(SelectedClayTextContrast), nameof(SelectedClaySheen), nameof(SelectedClayWeight), nameof(SelectedClayLighting), nameof(SelectedClayRelief), nameof(SelectedClayEffects), nameof(DesignSummary), nameof(ThemeError), nameof(IsDirty) }) Changed(n);
+        foreach (var n in new[] { nameof(SelectedAccent), nameof(SelectedDensity), nameof(SelectedShape), nameof(SelectedTypography), nameof(SelectedCanvas), nameof(SelectedSurface), nameof(SelectedTextContrast), nameof(SelectedBorder), nameof(SelectedShadow), nameof(SelectedSpacing), nameof(SelectedPadding), nameof(SelectedWeight), nameof(SelectedLayoutPreset), nameof(HeroCompact), nameof(ShowKpiTrend), nameof(SelectedRounding), nameof(SelectedClayAccent), nameof(SelectedClayVolume), nameof(SelectedClayPlumpness), nameof(SelectedClayDensity), nameof(SelectedClayCanvas), nameof(SelectedClayTypography), nameof(SelectedClaySpacing), nameof(SelectedClayTextContrast), nameof(SelectedClaySheen), nameof(SelectedClayWeight), nameof(SelectedClayLighting), nameof(SelectedClayRelief), nameof(SelectedClayEffects), nameof(SelectedNeumorphDepth), nameof(SelectedNeumorphBlur), nameof(SelectedNeumorphIntensity), nameof(DesignSummary), nameof(ThemeError), nameof(IsDirty) }) Changed(n);
         CommandManager.InvalidateRequerySuggested();
     }
 }

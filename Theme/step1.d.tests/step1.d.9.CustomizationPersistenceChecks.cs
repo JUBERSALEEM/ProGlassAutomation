@@ -3,6 +3,7 @@ using ProGlassAutomation.Customization;
 using ProGlassAutomation.Theming;
 using ProGlassAutomation.ThemeBento;
 using ProGlassAutomation.ThemeClaymorphism;
+using ProGlassAutomation.ThemeNeumorphism;
 
 namespace ProGlassAutomation.ThemeTests;
 internal static class CustomizationPersistenceChecks
@@ -21,13 +22,15 @@ internal static class CustomizationPersistenceChecks
         if (((System.Windows.Media.SolidColorBrush)light["ApplicationBackground"]).Color.ToString() != "#FFF5EFE6") throw new Exception("Warm canvas not applied");
         // Save/load roundtrip
         var clayState = new ClayCustomizationState(ClayAccent.Berry, ClayVolume.Deep, ClayPlumpness.Puffy, ClayDensity.Compact, ClayCanvas.Cool, ClayType.Large, ClaySpacing.Spacious, ClayTextContrast.High, ClaySheen.Gloss, ClayWeight.Semibold);
-        var saved = new SavedCustomization(2, Appearance.Dark, state, null, null, [new NamedPreset("My Test", state, Appearance.Dark)], ThemeCatalog.FluentName, clayState, [new ClayNamedPreset("Berry Night", clayState, Appearance.Dark)], new SharedGeometryState(CardRounding.Pill));
+        var neuState = new NeumorphCustomizationState(NeumorphDepth.Deep, NeumorphBlur.Diffuse, NeumorphIntensity.Strong);
+        var saved = new SavedCustomization(2, Appearance.Dark, state, null, null, [new NamedPreset("My Test", state, Appearance.Dark)], ThemeCatalog.FluentName, clayState, [new ClayNamedPreset("Berry Night", clayState, Appearance.Dark)], new SharedGeometryState(CardRounding.Pill), neuState, [new NeumorphNamedPreset("Deep Night", neuState, Appearance.Dark)]);
         var tmp = Path.Combine(Path.GetTempPath(), "proglass-test-" + Guid.NewGuid() + ".json");
         CustomizationStore.WriteFile(saved, tmp);
         var fromFile = CustomizationStore.ReadFile(tmp);
         if (fromFile.Preferences.Accent != BentoAccent.Indigo || fromFile.Theme != ThemeCatalog.FluentName) throw new Exception("Store write/read roundtrip");
         if (fromFile.Clay?.Accent != ClayAccent.Berry) throw new Exception("Store clay roundtrip");
         if (fromFile.Geometry?.Rounding != CardRounding.Pill) throw new Exception("Store geometry roundtrip");
+        if (fromFile.Neumorph?.Depth != NeumorphDepth.Deep) throw new Exception("Store neumorph roundtrip");
         File.WriteAllText(tmp, "{\"Version\":1}");
         try { CustomizationStore.ReadFile(tmp); throw new Exception("Version 1 import must fail"); }
         catch (ArgumentException) { }
@@ -45,6 +48,7 @@ internal static class CustomizationPersistenceChecks
         if (reloaded.Clay?.Accent != ClayAccent.Berry) throw new Exception("Roundtrip clay accent");
         if (reloaded.Clay?.Typography != ClayType.Large || reloaded.Clay?.Sheen != ClaySheen.Gloss) throw new Exception("Roundtrip clay extras");
         if (reloaded.ClayPresets is not { Count: 1 } || reloaded.ClayPresets[0].Name != "Berry Night") throw new Exception("Clay preset roundtrip");
+        if (reloaded.Neumorph?.Blur != NeumorphBlur.Diffuse || reloaded.NeumorphPresets is not { Count: 1 } || reloaded.NeumorphPresets[0].Name != "Deep Night") throw new Exception("Neumorph preset roundtrip");
         if (reloaded.CustomPresets!.Count != 1 || reloaded.CustomPresets[0].Name != "My Test") throw new Exception("Custom preset roundtrip");
         // Built-in protected
         if (!PresetCatalog.IsBuiltIn("Balanced Bento")) throw new Exception("Built-in recognition");

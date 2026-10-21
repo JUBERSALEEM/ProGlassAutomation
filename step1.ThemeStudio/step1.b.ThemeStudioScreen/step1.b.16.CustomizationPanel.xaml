@@ -168,7 +168,37 @@
     <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
      <StackPanel>
       <TextBlock Text="Neumorphism studio" Style="{DynamicResource Caption}"/>
-      <TextBlock Text="Neumorphism is a volume engine: stacked light/dark plates, inner rims, sheen, and inset wells. Cards rise, fields recess, buttons lift then press in. No neumorph knobs. Card rounding above is shared geometry." Style="{DynamicResource Caption}"/>
+      <TextBlock Text="Depth, blur and intensity are Neumorph-owned. Card rounding above stays shared geometry. Gaussian dual shadows render inside a layout gutter so they do not clip." Style="{DynamicResource Caption}"/>
+      <Label Content="Neumorph preset" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding NeumorphPresetNames}" SelectedItem="{Binding SelectedNeumorphPresetName}" AutomationProperties.Name="Neumorph preset" Margin="{DynamicResource MarginItem}"/>
+      <TextBlock Text="Neumorph built-in presets" Style="{DynamicResource Caption}"/>
+      <ListBox ItemsSource="{Binding NeumorphBuiltInPresets}" DisplayMemberPath="Name" AutomationProperties.Name="Neumorph built-in presets" Margin="{DynamicResource MarginItem}"/>
+      <TextBlock Text="Your neumorph presets" Style="{DynamicResource Caption}"/>
+      <ListBox ItemsSource="{Binding NeumorphCustomPresets}" DisplayMemberPath="Name" AutomationProperties.Name="Your neumorph presets" Margin="{DynamicResource MarginItem}"/>
+      <DockPanel Margin="{DynamicResource MarginItem}"><TextBox Width="120" Text="{Binding PresetNameInput, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="New neumorph preset name" Margin="{DynamicResource MarginInline}"/><Button Content="Save neumorph preset" Command="{Binding SavePreset}" AutomationProperties.Name="Save as neumorph preset"/></DockPanel>
+     </StackPanel>
+    </ContentControl>
+    <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
+     <StackPanel>
+      <TextBlock Text="Volume engine" Style="{DynamicResource Caption}"/>
+      <Label Content="Depth" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding NeumorphDepthChoices}" SelectedItem="{Binding SelectedNeumorphDepth}" AutomationProperties.Name="Neumorph depth" Margin="{DynamicResource MarginItem}"/>
+      <Label Content="Blur" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding NeumorphBlurChoices}" SelectedItem="{Binding SelectedNeumorphBlur}" AutomationProperties.Name="Neumorph blur" Margin="{DynamicResource MarginItem}"/>
+      <Label Content="Intensity" Foreground="{DynamicResource TextSecondary}"/><ComboBox ItemsSource="{Binding NeumorphIntensityChoices}" SelectedItem="{Binding SelectedNeumorphIntensity}" AutomationProperties.Name="Neumorph intensity" Margin="{DynamicResource MarginItem}"/>
+      <TextBlock Text="Depth is shadow distance. Blur is Gaussian radius. Intensity is light/dark opacity. Soft/Quiet stays tactile; Deep/Diffuse is plush." Style="{DynamicResource Caption}"/>
+     </StackPanel>
+    </ContentControl>
+    <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
+     <StackPanel>
+      <TextBlock Text="Save and reset" Style="{DynamicResource Caption}"/>
+      <WrapPanel Margin="{DynamicResource MarginItem}">
+       <Button Content="Apply" Command="{Binding ApplyPreview}" Style="{DynamicResource PrimaryButton}" Margin="{DynamicResource MarginInline}" AutomationProperties.Name="Apply neumorph preview"/>
+       <Button Content="Save" Command="{Binding SaveCustomization}" Margin="{DynamicResource MarginInline}" AutomationProperties.Name="Save neumorph to disk"/>
+       <Button Content="Discard" Command="{Binding DiscardChanges}" Margin="{DynamicResource MarginInline}" AutomationProperties.Name="Discard neumorph changes"/>
+      </WrapPanel>
+      <WrapPanel Margin="{DynamicResource MarginItem}">
+       <Button Content="Preview default" Command="{Binding PreviewDefault}" Margin="{DynamicResource MarginInline}" AutomationProperties.Name="Preview neumorph default comparison"/>
+       <Button Content="Reset section" Command="{Binding ResetSection}" Margin="{DynamicResource MarginInline}" AutomationProperties.Name="Reset neumorph section"/>
+       <Button Content="Reset theme" Command="{Binding ResetTheme}" Style="{DynamicResource DestructiveButton}" Margin="{DynamicResource MarginInline}" AutomationProperties.Name="Reset neumorph to defaults"/>
+      </WrapPanel>
       <WrapPanel Margin="{DynamicResource MarginItem}"><Button Content="Open reference" Command="{Binding ShowBusiness}" Style="{DynamicResource PrimaryButton}"/></WrapPanel>
      </StackPanel>
     </ContentControl>

@@ -44,52 +44,60 @@
   <Setter Property="RimShadeBrush" Value="{DynamicResource NeumorphRimShadeBrush}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="neu:NeumorphSurface">
    <Grid ClipToBounds="False">
-    <Border x:Name="DarkFar" Background="{TemplateBinding DarkBrush}" Opacity="0.28" CornerRadius="{TemplateBinding CornerRadius}" Margin="8,8,0,0" IsHitTestVisible="False" />
-    <Border x:Name="DarkMid" Background="{TemplateBinding DarkBrush}" Opacity="0.42" CornerRadius="{TemplateBinding CornerRadius}" Margin="5,5,1,1" IsHitTestVisible="False" />
-    <Border x:Name="DarkNear" Background="{TemplateBinding DarkBrush}" Opacity="0.62" CornerRadius="{TemplateBinding CornerRadius}" Margin="3,3,2,2" IsHitTestVisible="False" />
-    <Border x:Name="LightFar" Background="{TemplateBinding LightBrush}" Opacity="0.32" CornerRadius="{TemplateBinding CornerRadius}" Margin="0,0,8,8" IsHitTestVisible="False" />
-    <Border x:Name="LightMid" Background="{TemplateBinding LightBrush}" Opacity="0.55" CornerRadius="{TemplateBinding CornerRadius}" Margin="1,1,5,5" IsHitTestVisible="False" />
-    <Border x:Name="LightNear" Background="{TemplateBinding LightBrush}" Opacity="0.9" CornerRadius="{TemplateBinding CornerRadius}" Margin="2,2,3,3" IsHitTestVisible="False" />
-    <Border x:Name="Face" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" Margin="5">
-     <Grid>
-      <Border x:Name="Sheen" Background="{DynamicResource NeumorphSheenBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False" />
-      <Border x:Name="RimShade" BorderBrush="{TemplateBinding RimShadeBrush}" BorderThickness="{DynamicResource NeumorphRimShadeThickness}" CornerRadius="{TemplateBinding CornerRadius}">
-       <Border x:Name="RimLight" BorderBrush="{TemplateBinding RimLightBrush}" BorderThickness="{DynamicResource NeumorphRimLightThickness}" CornerRadius="{TemplateBinding CornerRadius}" Padding="{TemplateBinding Padding}">
-        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+    <Grid x:Name="Volume" Margin="{DynamicResource NeumorphGutter}" ClipToBounds="False">
+     <Border x:Name="DarkGlow" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+      <Border.Effect>
+       <DropShadowEffect x:Name="DarkFx" Color="{DynamicResource NeumorphDarkColor}" BlurRadius="{DynamicResource NeumorphBlur}" ShadowDepth="{DynamicResource NeumorphDistance}" Direction="315" Opacity="{DynamicResource NeumorphDarkOpacity}" RenderingBias="Quality" />
+      </Border.Effect>
+     </Border>
+     <Border x:Name="LightGlow" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+      <Border.Effect>
+       <DropShadowEffect x:Name="LightFx" Color="{DynamicResource NeumorphLightColor}" BlurRadius="{DynamicResource NeumorphBlur}" ShadowDepth="{DynamicResource NeumorphDistance}" Direction="135" Opacity="{DynamicResource NeumorphLightOpacity}" RenderingBias="Quality" />
+      </Border.Effect>
+     </Border>
+     <Border x:Name="DarkNear" Background="{TemplateBinding DarkBrush}" Opacity="0.55" CornerRadius="{TemplateBinding CornerRadius}" Margin="3,3,0,0" IsHitTestVisible="False" />
+     <Border x:Name="LightNear" Background="{TemplateBinding LightBrush}" Opacity="0.85" CornerRadius="{TemplateBinding CornerRadius}" Margin="0,0,3,3" IsHitTestVisible="False" />
+     <Border x:Name="Face" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" Margin="3">
+      <Grid>
+       <Border x:Name="Sheen" Background="{DynamicResource NeumorphSheenBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False" />
+       <Border x:Name="RimShade" BorderBrush="{TemplateBinding RimShadeBrush}" BorderThickness="{DynamicResource NeumorphRimShadeThickness}" CornerRadius="{TemplateBinding CornerRadius}">
+        <Border x:Name="RimLight" BorderBrush="{TemplateBinding RimLightBrush}" BorderThickness="{DynamicResource NeumorphRimLightThickness}" CornerRadius="{TemplateBinding CornerRadius}" Padding="{TemplateBinding Padding}">
+         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+        </Border>
        </Border>
-      </Border>
-     </Grid>
-    </Border>
+      </Grid>
+     </Border>
+    </Grid>
    </Grid>
    <ControlTemplate.Triggers>
     <Trigger Property="Rank" Value="Control">
-     <Setter TargetName="DarkFar" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="LightFar" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="Face" Property="Margin" Value="3.5" />
+     <Setter TargetName="Volume" Property="Margin" Value="8" />
+     <Setter TargetName="DarkFx" Property="BlurRadius" Value="10" />
+     <Setter TargetName="LightFx" Property="BlurRadius" Value="10" />
+     <Setter TargetName="DarkFx" Property="ShadowDepth" Value="4" />
+     <Setter TargetName="LightFx" Property="ShadowDepth" Value="4" />
     </Trigger>
     <Trigger Property="Rank" Value="Chip">
-     <Setter TargetName="DarkFar" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="LightFar" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="DarkMid" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="LightMid" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="Volume" Property="Margin" Value="4" />
+     <Setter TargetName="DarkFx" Property="BlurRadius" Value="6" />
+     <Setter TargetName="LightFx" Property="BlurRadius" Value="6" />
+     <Setter TargetName="DarkFx" Property="ShadowDepth" Value="2" />
+     <Setter TargetName="LightFx" Property="ShadowDepth" Value="2" />
      <Setter TargetName="DarkNear" Property="Margin" Value="2,2,0,0" />
      <Setter TargetName="LightNear" Property="Margin" Value="0,0,2,2" />
      <Setter TargetName="Face" Property="Margin" Value="2" />
     </Trigger>
     <Trigger Property="Lifted" Value="True">
-     <Setter TargetName="DarkFar" Property="Visibility" Value="Visible" />
-     <Setter TargetName="LightFar" Property="Visibility" Value="Visible" />
-     <Setter TargetName="DarkMid" Property="Visibility" Value="Visible" />
-     <Setter TargetName="LightMid" Property="Visibility" Value="Visible" />
-     <Setter TargetName="Face" Property="Margin" Value="6" />
+     <Setter TargetName="DarkFx" Property="ShadowDepth" Value="{DynamicResource NeumorphLiftDistance}" />
+     <Setter TargetName="LightFx" Property="ShadowDepth" Value="{DynamicResource NeumorphLiftDistance}" />
+     <Setter TargetName="Volume" Property="Margin" Value="{DynamicResource NeumorphGutter}" />
     </Trigger>
     <Trigger Property="Concave" Value="True">
-     <Setter TargetName="DarkFar" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="DarkMid" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="DarkNear" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="LightFar" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="LightMid" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightNear" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="Volume" Property="Margin" Value="2" />
      <Setter TargetName="Face" Property="Margin" Value="1" />
      <Setter TargetName="Sheen" Property="Background" Value="{DynamicResource NeumorphWellSheenBrush}" />
      <Setter TargetName="RimShade" Property="BorderThickness" Value="{DynamicResource NeumorphInsetShadeThickness}" />

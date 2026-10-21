@@ -1,6 +1,7 @@
 using System.Windows;
 using ProGlassAutomation.Customization;
 using ProGlassAutomation.ThemeClaymorphism;
+using ProGlassAutomation.ThemeNeumorphism;
 using ProGlassAutomation.Theming;
 
 namespace ProGlassAutomation;
@@ -24,7 +25,8 @@ public partial class App : Application
                     theme,
                     saved.Preferences ?? new BentoCustomizationState(),
                     saved.Clay ?? new ClayCustomizationState(),
-                    saved.Geometry ?? new SharedGeometryState()));
+                    saved.Geometry ?? new SharedGeometryState(),
+                    saved.Neumorph ?? new NeumorphCustomizationState()));
             }
             catch { /* safe fallback already handled in store */ }
             MainWindow = new MainWindow(Themes);

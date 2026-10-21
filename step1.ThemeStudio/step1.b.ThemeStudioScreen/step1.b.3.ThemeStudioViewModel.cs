@@ -71,7 +71,7 @@ public sealed partial class ThemeStudioViewModel : INotifyPropertyChanged, IData
         var current = extended;
         try
         {
-            themes.Apply(theme, appearance, SharedGeometry.Compose(theme, current, clay, geometry));
+            themes.Apply(theme, appearance, SharedGeometry.Compose(theme, current, clay, geometry, neumorph));
             ThemeError = "";
             lastSaved = lastSaved with { Theme = theme, Appearance = appearance };
             try { CustomizationStore.Save(lastSaved); } catch (Exception ex) when (ex is IOException or ArgumentException or InvalidOperationException) { }
@@ -89,7 +89,7 @@ public sealed partial class ThemeStudioViewModel : INotifyPropertyChanged, IData
     {
         if (e.PropertyName != nameof(ThemeService.ActiveAppearance) && e.PropertyName != nameof(ThemeService.ActiveTheme)) return;
         RefreshTokens();
-        foreach (string property in new[] { nameof(IsLight), nameof(IsDark), nameof(AppearanceLabel), nameof(SelectedTheme), nameof(IsClay), nameof(IsFluent), nameof(IsNeumorph), nameof(CanCustomizeBento), nameof(CanCustomizeClay), nameof(CanCustomizeGeometry), nameof(CanCustomize), nameof(DesignSummary), nameof(SelectedRounding) }) Changed(property);
+        foreach (string property in new[] { nameof(IsLight), nameof(IsDark), nameof(AppearanceLabel), nameof(SelectedTheme), nameof(IsClay), nameof(IsFluent), nameof(IsNeumorph), nameof(CanCustomizeBento), nameof(CanCustomizeClay), nameof(CanCustomizeNeumorph), nameof(CanCustomizeGeometry), nameof(CanCustomize), nameof(DesignSummary), nameof(SelectedRounding) }) Changed(property);
         CommandManager.InvalidateRequerySuggested();
     }
 

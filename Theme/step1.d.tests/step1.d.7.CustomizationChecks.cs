@@ -4,6 +4,7 @@ using System.ComponentModel;
 using ProGlassAutomation.Theming;
 using ProGlassAutomation.ThemeBento;
 using ProGlassAutomation.ThemeClaymorphism;
+using ProGlassAutomation.ThemeNeumorphism;
 using ProGlassAutomation.Customization;
 
 namespace ProGlassAutomation.ThemeTests;
@@ -91,6 +92,16 @@ internal static class CustomizationChecks
         var neuRounded = ThemeService.Load(Appearance.Light, ThemeService.Neumorphism, SharedGeometry.Compose(ThemeService.Neumorphism, new BentoCustomizationState(), new ClayCustomizationState(), new SharedGeometryState(CardRounding.Pill)));
         ResourceValidation.Validate(neuRounded);
         if (((CornerRadius)neuRounded["CardCornerRadius"]).TopLeft != 26) throw new Exception("Neumorphism shared pill rounding");
+        var neuDeep = ThemeService.Load(Appearance.Light, ThemeService.Neumorphism, SharedGeometry.Compose(ThemeService.Neumorphism, new BentoCustomizationState(), new ClayCustomizationState(), new SharedGeometryState(), new NeumorphCustomizationState(NeumorphDepth.Deep, NeumorphBlur.Diffuse, NeumorphIntensity.Strong)));
+        ResourceValidation.Validate(neuDeep);
+        if ((double)neuDeep["NeumorphDistance"] != 10d) throw new Exception("Neumorph deep distance");
+        if ((double)neuDeep["NeumorphBlur"] != 24d) throw new Exception("Neumorph diffuse blur");
+        foreach (object key in neuDeep.Keys)
+            if (Equals(key, "NeumorphDistance") || Equals(key, "NeumorphBlur"))
+                throw new Exception("Neumorph extras must stay in the extras dictionary, not the package root.");
+        if (NeumorphCustomization.BuiltIn.Count != 4) throw new Exception("Four neumorph built-in presets required");
+        ContractChecks.ExpectFailure(() => ThemeService.Load(Appearance.Light, ThemeService.Neumorphism, (candidate, appearance) =>
+            NeumorphCustomization.Apply(candidate, appearance, new NeumorphCustomizationState((NeumorphDepth)999))), "invalid neumorph preset");
         Console.WriteLine($"PASS: {combinations} customization/mode combinations, {clayCombinations} clay combinations, immutable helpers, preference retention, rejected candidates and notification-failure semantics.");
     }
 }
