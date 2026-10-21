@@ -92,14 +92,14 @@
        <Border x:Name="Sheen" Background="{DynamicResource NeumorphSheenBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False" />
        <Border x:Name="InsetHost" Visibility="Collapsed" ClipToBounds="True" Background="{DynamicResource TransparentBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
         <Grid>
-         <Border Margin="-1" BorderBrush="{TemplateBinding DarkBrush}" BorderThickness="6,6,0,0" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+         <Border Margin="6" Background="{DynamicResource NeumorphWellSheenBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
           <Border.Effect>
-           <BlurEffect Radius="12" KernelType="Gaussian" />
+           <DropShadowEffect Color="{DynamicResource NeumorphDarkColor}" BlurRadius="12" ShadowDepth="6" Direction="145" Opacity="{DynamicResource NeumorphDarkOpacity}" RenderingBias="Quality" />
           </Border.Effect>
          </Border>
-         <Border Margin="-1" BorderBrush="{TemplateBinding LightBrush}" BorderThickness="0,0,6,6" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+         <Border Margin="6" Background="{DynamicResource NeumorphWellSheenBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
           <Border.Effect>
-           <BlurEffect Radius="12" KernelType="Gaussian" />
+           <DropShadowEffect Color="{DynamicResource NeumorphLightColor}" BlurRadius="12" ShadowDepth="6" Direction="325" Opacity="{DynamicResource NeumorphLightOpacity}" RenderingBias="Quality" />
           </Border.Effect>
          </Border>
         </Grid>
