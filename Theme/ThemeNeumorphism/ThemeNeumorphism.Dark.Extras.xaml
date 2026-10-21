@@ -13,7 +13,7 @@
   <Thickness x:Key="NeumorphGutter">8</Thickness>
   <sys:Double x:Key="NeumorphSpread">0</sys:Double>
   <Thickness x:Key="NeumorphSpreadMargin">0</Thickness>
-  <Duration x:Key="NeumorphMotionDuration">0:0:0</Duration>
+  <Duration x:Key="NeumorphMotionDuration">0:0:0.160</Duration>
   <LinearGradientBrush x:Key="NeumorphSheenBrush" StartPoint="0.21,0.09" EndPoint="0.79,0.91">
     <GradientStop Color="#3A4250" Offset="0" />
     <GradientStop Color="#2A2F38" Offset="0.5" />

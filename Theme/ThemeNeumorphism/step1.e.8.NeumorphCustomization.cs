@@ -55,6 +55,10 @@ public static class NeumorphCustomization
         double spread = 0d;
         SetOwned(package, "NeumorphSpread", spread);
         SetOwned(package, "NeumorphSpreadMargin", new Thickness(-spread));
+        Duration motion = SystemParameters.ClientAreaAnimation
+            ? new Duration(TimeSpan.FromMilliseconds(160))
+            : new Duration(TimeSpan.Zero);
+        SetOwned(package, "NeumorphMotionDuration", motion);
         Color surface = SurfaceColor(package, mode);
         Color dark = Mix(surface, Colors.Black, mode == Appearance.Light ? 0.18 : 0.28);
         Color light = Mix(surface, Colors.White, mode == Appearance.Light ? 0.85 : 0.14);
