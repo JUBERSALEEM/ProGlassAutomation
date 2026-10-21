@@ -46,11 +46,9 @@ public partial class AnalyticsOverview : UserControl
         if (Compact)
         {
             AnalyticsGrid.Columns = 2;
-            Show(KpiRevenue, 0, 0, 1, 1);
-            Show(KpiOrders, 1, 0, 1, 1);
-            Hide(KpiConversion);
-            Show(RevenueCard, 0, 1, 1, 1);
-            Show(MixCard, 1, 1, 1, 1);
+            Hide(KpiRevenue); Hide(KpiOrders); Hide(KpiConversion);
+            Show(RevenueCard, 0, 0, 1, 2);
+            Show(MixCard, 1, 0, 1, 2);
             Hide(TargetCard); Hide(TrendCard); Hide(ActivityCard); Hide(StatusCard); Hide(TableCard);
             return;
         }

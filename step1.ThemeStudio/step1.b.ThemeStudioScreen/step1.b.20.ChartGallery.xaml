@@ -17,13 +17,13 @@
     <Grid Margin="{DynamicResource PaddingCompact}">
      <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
      <TextBlock Text="Interactive preview" Style="{DynamicResource SectionHeading}" />
-     <local:OverflowPopup Grid.Row="1"><analytics:BentoChart Data="{Binding Preview}" /></local:OverflowPopup>
+     <analytics:BentoChart Grid.Row="1" Data="{Binding Preview}" />
     </Grid>
     <Border Grid.Column="1" Width="{DynamicResource StrokeWidth}" Background="{DynamicResource BorderSubtle}" Margin="{DynamicResource PaddingCompact}" />
     <Grid Grid.Column="2" Margin="{DynamicResource PaddingCompact}">
      <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
      <TextBlock Text="Multi-series / area" Style="{DynamicResource SectionHeading}" />
-     <local:OverflowPopup Grid.Row="1"><analytics:BentoChart x:Name="AreaCard" Data="{Binding Area}" /></local:OverflowPopup>
+     <analytics:BentoChart x:Name="AreaCard" Grid.Row="1" Data="{Binding Area}" />
     </Grid>
    </Grid>
   </Grid>
