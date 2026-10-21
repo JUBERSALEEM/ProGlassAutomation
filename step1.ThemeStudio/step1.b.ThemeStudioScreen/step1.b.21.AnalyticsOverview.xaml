@@ -28,10 +28,9 @@
     <StackPanel>
      <TextBlock Text="Monthly target" Style="{DynamicResource SectionHeading}" />
      <TextBlock Text="98% on-time delivery" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" />
-     <TextBlock Text="Target 95% · Demo snapshot" Style="{DynamicResource Caption}" />
-     <TextBlock Text="Conversion momentum" Style="{DynamicResource SectionHeading}" />
+     <TextBlock Text="Target 95% · conversion momentum" Style="{DynamicResource Caption}" />
     </StackPanel>
-    <analytics:BentoChart Grid.Row="1" Data="{Binding Spark}" PlotHeight="90" />
+    <analytics:BentoChart Grid.Row="1" Data="{Binding Spark}" />
    </Grid>
   </ContentControl>
   <ContentControl x:Name="TrendCard" Style="{DynamicResource ChartCard}" bento:BentoGrid.Column="0" bento:BentoGrid.Row="4" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="3">

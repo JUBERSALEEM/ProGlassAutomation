@@ -22,6 +22,7 @@ public sealed partial class BentoChart
     private readonly TextBlock values = new() { TextWrapping = TextWrapping.Wrap, Visibility = Visibility.Collapsed };
     private readonly TextBlock summary = new() { TextWrapping = TextWrapping.Wrap };
     private readonly Dictionary<string, bool> visibility = new();
+    private readonly RowDefinition plotRow = new() { Height = new GridLength(1, GridUnitType.Star), MinHeight = 0 };
     private ISeries[] rendered = [];
     private bool dataDirty = true;
     private bool queued;
@@ -38,8 +39,9 @@ public sealed partial class BentoChart
     {
         VerticalContentAlignment = VerticalAlignment.Stretch;
         HorizontalContentAlignment = HorizontalAlignment.Stretch;
-        var plotRow = new RowDefinition { Height = new GridLength(1, GridUnitType.Star) };
-        plotRow.SetBinding(RowDefinition.MinHeightProperty, new Binding(nameof(PlotHeight)) { Source = this });
+        // PlotHeight is a cap, not a floor. A MinHeight plot plus 32px legend checkboxes
+        // clipped Mix/Target in compact slots (data vanished instead of scaling).
+        CapPlot();
         var root = new Grid { HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Stretch };
         root.RowDefinitions.Add(plotRow);
         root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
@@ -59,6 +61,8 @@ public sealed partial class BentoChart
         plot.Children.Add(cartesian); plot.Children.Add(pie); plot.Children.Add(center);
         var footer = new DockPanel { LastChildFill = true };
         inspectToggle.VerticalAlignment = VerticalAlignment.Center;
+        inspectToggle.MinHeight = 0;
+        inspectToggle.Padding = new Thickness(4, 0, 0, 0);
         DockPanel.SetDock(inspectToggle, Dock.Right);
         footer.Children.Add(inspectToggle);
         footer.Children.Add(legend);
@@ -77,6 +81,13 @@ public sealed partial class BentoChart
     {
         base.OnPropertyChanged(e);
         if (e.Property == FontSizeProperty || e.Property == FontFamilyProperty) Schedule(false);
+        if (e.Property == PlotHeightProperty) CapPlot();
+    }
+
+    private void CapPlot()
+    {
+        plotRow.MinHeight = 0;
+        plotRow.MaxHeight = PlotHeight > 1 ? PlotHeight : double.PositiveInfinity;
     }
     private void Schedule(bool rebuild)
     {
@@ -120,6 +131,7 @@ public sealed partial class BentoChart
             BuildLegend(Data!);
             dataDirty = false;
         }
+        summary.Visibility = legend.Children.Count > 0 ? Visibility.Collapsed : Visibility.Visible;
         ApplyPaints(Data!);
     }
     private void BuildLegend(ChartDataset data)
@@ -135,7 +147,15 @@ public sealed partial class BentoChart
             swatch.SetBinding(HeightProperty, new Binding(nameof(FontSize)) { Source = this });
             var label = new StackPanel { Orientation = Orientation.Horizontal };
             label.Children.Add(swatch); label.Children.Add(new TextBlock { Text = "  " + data.Series[i].Name });
-            var item = new CheckBox { Content = label, IsChecked = visibility.GetValueOrDefault(data.Series[i].Name, true) };
+            var item = new CheckBox
+            {
+                Content = label,
+                IsChecked = visibility.GetValueOrDefault(data.Series[i].Name, true),
+                MinHeight = 0,
+                FontSize = FontSize,
+                Padding = new Thickness(2, 0, 8, 0),
+                VerticalContentAlignment = VerticalAlignment.Center
+            };
             series.IsVisible = item.IsChecked == true;
             AutomationProperties.SetName(item, $"Show series {data.Series[i].Name}");
             item.Checked += (_, _) => { series.IsVisible = true; visibility[series.Name!] = true; };
