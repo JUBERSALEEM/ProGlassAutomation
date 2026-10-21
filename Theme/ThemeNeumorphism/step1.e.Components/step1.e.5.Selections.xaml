@@ -61,12 +61,14 @@
   <Setter Property="Padding" Value="{DynamicResource PaddingControl}" />
   <Setter Property="HorizontalContentAlignment" Value="Stretch" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListBoxItem">
-   <neu:NeumorphSurface x:Name="Pod" Rank="Chip" Background="{DynamicResource SurfacePrimary}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ChipCornerRadius}">
-    <ContentPresenter />
-   </neu:NeumorphSurface>
+   <Grid>
+    <neu:NeumorphSurface x:Name="Lift" Rank="Chip" Lifted="True" Background="{DynamicResource SurfacePrimary}" CornerRadius="{DynamicResource ChipCornerRadius}" Visibility="Collapsed" IsHitTestVisible="False" />
+    <neu:NeumorphSurface x:Name="Well" Rank="Chip" Concave="True" Background="{DynamicResource SurfacePrimary}" CornerRadius="{DynamicResource ChipCornerRadius}" Visibility="Collapsed" IsHitTestVisible="False" />
+    <Border Padding="{TemplateBinding Padding}"><ContentPresenter /></Border>
+   </Grid>
    <ControlTemplate.Triggers>
-    <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Pod" Property="Lifted" Value="True" /></Trigger>
-    <Trigger Property="IsSelected" Value="True"><Setter TargetName="Pod" Property="Concave" Value="True" /><Setter TargetName="Pod" Property="Lifted" Value="False" /><Setter Property="Foreground" Value="{DynamicResource AccentPrimary}" /></Trigger>
+    <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Lift" Property="Visibility" Value="Visible" /></Trigger>
+    <Trigger Property="IsSelected" Value="True"><Setter TargetName="Well" Property="Visibility" Value="Visible" /><Setter TargetName="Lift" Property="Visibility" Value="Collapsed" /><Setter Property="Foreground" Value="{DynamicResource AccentPrimary}" /></Trigger>
     <Trigger Property="IsEnabled" Value="False"><Setter Property="Foreground" Value="{DynamicResource DisabledText}" /></Trigger>
    </ControlTemplate.Triggers>
   </ControlTemplate></Setter.Value></Setter>
