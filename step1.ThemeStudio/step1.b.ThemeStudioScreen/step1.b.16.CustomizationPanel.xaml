@@ -2,7 +2,7 @@
  <UserControl.Resources>
   <BooleanToVisibilityConverter x:Key="BoolVis"/>
  </UserControl.Resources>
- <ScrollViewer VerticalScrollBarVisibility="Auto">
+ <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" CanContentScroll="False" PanningMode="VerticalOnly">
   <StackPanel>
    <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
     <StackPanel>

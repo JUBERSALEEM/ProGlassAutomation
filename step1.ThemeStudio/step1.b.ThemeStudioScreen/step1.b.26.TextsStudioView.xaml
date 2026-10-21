@@ -1,5 +1,5 @@
 <UserControl x:Class="ProGlassAutomation.ThemeStudio.TextsStudioView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
- <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+ <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" CanContentScroll="False" PanningMode="VerticalOnly">
   <Grid Margin="{DynamicResource PaddingPage}">
    <Grid.ColumnDefinitions>
     <ColumnDefinition Width="2*"/>

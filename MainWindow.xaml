@@ -61,12 +61,17 @@
         </Style>
         <Style x:Key="ShellNavButton" TargetType="Button">
             <Setter Property="FocusVisualStyle" Value="{DynamicResource KeyboardFocus}" />
-            <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
+            <Setter Property="Background" Value="{DynamicResource SurfaceSecondary}" />
             <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderSubtle}" />
+            <Setter Property="BorderThickness" Value="{DynamicResource BorderThicknessControl}" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="HorizontalContentAlignment" Value="Left" />
             <Setter Property="Padding" Value="{DynamicResource PaddingControl}" />
+            <Setter Property="Margin" Value="{DynamicResource MarginItem}" />
+            <Setter Property="MinHeight" Value="{DynamicResource ControlMinHeight}" />
             <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button">
-                <Border x:Name="Row" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ChipCornerRadius}">
+                <Border x:Name="Row" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ControlCornerRadius}">
                     <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" RecognizesAccessKey="True" />
                 </Border>
                 <ControlTemplate.Triggers>
@@ -179,9 +184,9 @@
                         </StackPanel>
                     </StackPanel>
                 </DockPanel>
-                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Focusable="False">
-                    <StackPanel>
-                        <Button Command="{Binding ShowBusiness}" AutomationProperties.Name="Home page" Margin="{DynamicResource MarginItem}">
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Focusable="False" CanContentScroll="False" PanningMode="VerticalOnly">
+                    <StackPanel Margin="{DynamicResource PaddingCompact}">
+                        <Button Command="{Binding ShowBusiness}" AutomationProperties.Name="Home page">
                             <Button.Style>
                                 <Style TargetType="Button" BasedOn="{StaticResource ShellNavButton}">
                                     <Style.Triggers>
@@ -194,52 +199,46 @@
                             </Button.Style>
                             <TextBlock Text="Home" />
                         </Button>
-                        <Expander x:Name="SettingsGroup" Style="{StaticResource ShellExpanderCard}" IsExpanded="True" AutomationProperties.Name="Settings">
-                            <Expander.Header>
-                                <TextBlock Text="Settings" FontWeight="{DynamicResource FontWeightHeading}" />
-                            </Expander.Header>
-                            <StackPanel>
-                                <Button Command="{Binding ShowStudio}" AutomationProperties.Name="Theme Studio page">
-                                    <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource ShellNavButton}">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsStudio}" Value="True">
-                                                    <Setter Property="Background" Value="{DynamicResource AccentPrimary}" />
-                                                    <Setter Property="Foreground" Value="{DynamicResource TextOnAccent}" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
-                                    <TextBlock Text="Theme Studio" />
-                                </Button>
-                                <Button Command="{Binding ShowTexts}" AutomationProperties.Name="Texts Studio page">
-                                    <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource ShellNavButton}">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsTexts}" Value="True">
-                                                    <Setter Property="Background" Value="{DynamicResource AccentPrimary}" />
-                                                    <Setter Property="Foreground" Value="{DynamicResource TextOnAccent}" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
-                                    <TextBlock Text="Texts Studio" />
-                                </Button>
-                                <Button Command="{Binding ShowColors}" AutomationProperties.Name="Colors Studio page">
-                                    <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource ShellNavButton}">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsColors}" Value="True">
-                                                    <Setter Property="Background" Value="{DynamicResource AccentPrimary}" />
-                                                    <Setter Property="Foreground" Value="{DynamicResource TextOnAccent}" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
-                                    <TextBlock Text="Colors Studio" />
-                                </Button>
-                            </StackPanel>
-                        </Expander>
+                        <TextBlock Text="Settings" Style="{StaticResource ShellSectionLabel}" FontWeight="{DynamicResource FontWeightHeading}" />
+                        <Button Command="{Binding ShowStudio}" AutomationProperties.Name="Theme Studio page">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource ShellNavButton}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsStudio}" Value="True">
+                                            <Setter Property="Background" Value="{DynamicResource AccentPrimary}" />
+                                            <Setter Property="Foreground" Value="{DynamicResource TextOnAccent}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            <TextBlock Text="Theme Studio" />
+                        </Button>
+                        <Button Command="{Binding ShowTexts}" AutomationProperties.Name="Texts Studio page">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource ShellNavButton}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsTexts}" Value="True">
+                                            <Setter Property="Background" Value="{DynamicResource AccentPrimary}" />
+                                            <Setter Property="Foreground" Value="{DynamicResource TextOnAccent}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            <TextBlock Text="Texts Studio" />
+                        </Button>
+                        <Button Command="{Binding ShowColors}" AutomationProperties.Name="Colors Studio page">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource ShellNavButton}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsColors}" Value="True">
+                                            <Setter Property="Background" Value="{DynamicResource AccentPrimary}" />
+                                            <Setter Property="Foreground" Value="{DynamicResource TextOnAccent}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            <TextBlock Text="Colors Studio" />
+                        </Button>
                     </StackPanel>
                 </ScrollViewer>
                 <TextBlock Grid.Row="2" Text="ProGlass Automation · Version 3.0" Style="{StaticResource ShellSectionLabel}" />
