@@ -1,5 +1,6 @@
 using System.Windows;
 using ProGlassAutomation.Customization;
+using ProGlassAutomation.ThemeClaymorphism;
 using ProGlassAutomation.Theming;
 
 namespace ProGlassAutomation;
