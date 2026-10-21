@@ -108,10 +108,10 @@ public static class ClayCustomization
         package["SpacingMedium"] = 10 * spacing;
         package["SpacingLarge"] = 18 * spacing;
         package["SpacingSection"] = 28 * spacing;
-        package["PaddingCard"] = new Thickness(state.Spacing == ClaySpacing.Compact ? 14 : state.Spacing == ClaySpacing.Spacious ? 22 : 18);
-        package["PaddingPlate"] = new Thickness(state.Spacing == ClaySpacing.Compact ? 10 : state.Spacing == ClaySpacing.Spacious ? 16 : 14);
-        package["BentoGutter"] = 14 * spacing;
-        package["BentoRowHeight"] = (state.Density == ClayDensity.Compact ? 172d : 184d) * spacing;
+        package["PaddingCard"] = new Thickness(state.Spacing == ClaySpacing.Compact ? 10 : state.Spacing == ClaySpacing.Spacious ? 16 : 12);
+        package["PaddingPlate"] = new Thickness(state.Spacing == ClaySpacing.Compact ? 8 : state.Spacing == ClaySpacing.Spacious ? 14 : 10);
+        package["BentoGutter"] = 20 * spacing;
+        package["BentoRowHeight"] = (state.Density == ClayDensity.Compact ? 128d : 140d) * spacing;
 
         double size = state.Typography switch { ClayType.Small => 12d, ClayType.Large => 14d, _ => 13d };
         package["FontSizeBody"] = size;

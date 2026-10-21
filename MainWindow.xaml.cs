@@ -1,4 +1,5 @@
 using System.Windows;
+using System.Windows.Media.Effects;
 using ProGlassAutomation.Theming;
 using ProGlassAutomation.ThemeStudio;
 
@@ -8,13 +9,26 @@ public partial class MainWindow : Window
 {
     private readonly ThemeStudioViewModel viewModel;
     private PreviewWindow? preview;
+    private readonly BlurEffect spotlightBlur = new() { Radius = 16 };
 
     public MainWindow(ThemeService themes)
     {
         InitializeComponent();
         DataContext = viewModel = new ThemeStudioViewModel(themes);
         viewModel.DialogRequested += OpenPreview;
-        Closed += (_, _) => { viewModel.DialogRequested -= OpenPreview; viewModel.Dispose(); };
+        OverflowSpotlight.Changed += OnSpotlight;
+        Closed += (_, _) =>
+        {
+            OverflowSpotlight.Changed -= OnSpotlight;
+            viewModel.DialogRequested -= OpenPreview;
+            viewModel.Dispose();
+        };
+    }
+
+    private void OnSpotlight(bool on)
+    {
+        ShellBody.Effect = on ? spotlightBlur : null;
+        SpotlightScrim.Visibility = on ? Visibility.Visible : Visibility.Collapsed;
     }
 
     private void OpenPreview(object? sender, EventArgs e)

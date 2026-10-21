@@ -116,6 +116,7 @@
         </Style>
     </Window.Resources>
     <Grid>
+        <Grid x:Name="ShellBody">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
@@ -196,11 +197,13 @@
                             </Style>
                         </Border.Style>
                     </Border>
-                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock Text="{Binding ShellClock}" Foreground="{DynamicResource TextOnAccent}" Style="{DynamicResource Caption}" VerticalAlignment="Center" Margin="{DynamicResource MarginInline}" />
-                        <Button Content="Home" Command="{Binding ShowBusiness}" Style="{StaticResource ShellIconButton}" Foreground="{DynamicResource TextOnAccent}" ToolTip="Home" AutomationProperties.Name="Go home" />
-                        <Button Content="Dark" Command="{Binding ToggleAppearance}" Style="{StaticResource ShellIconButton}" Foreground="{DynamicResource TextOnAccent}" AutomationProperties.Name="Toggle appearance" />
-                    </StackPanel>
+                    <ContentControl DockPanel.Dock="Right" Style="{DynamicResource Card}" Margin="{DynamicResource MarginInline}">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding ShellClock}" Style="{DynamicResource Caption}" VerticalAlignment="Center" Margin="{DynamicResource MarginInline}" />
+                            <Button Content="Home" Command="{Binding ShowBusiness}" Style="{StaticResource ShellIconButton}" ToolTip="Home" AutomationProperties.Name="Go home" />
+                            <Button Content="Dark" Command="{Binding ToggleAppearance}" Style="{StaticResource ShellIconButton}" AutomationProperties.Name="Toggle appearance" />
+                        </StackPanel>
+                    </ContentControl>
                     <StackPanel VerticalAlignment="Center">
                         <TextBlock Text="{Binding WorkspaceTitle}" Foreground="{DynamicResource TextOnAccent}" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" />
                         <TextBlock Text="{Binding WorkspaceSubtitle}" Foreground="{DynamicResource TextOnAccent}" Style="{DynamicResource Caption}" />
@@ -235,5 +238,7 @@
                 </Style>
             </Button.Style>
         </Button>
+        </Grid>
+        <Border x:Name="SpotlightScrim" Background="{DynamicResource ApplicationBackground}" Opacity="0.45" Visibility="Collapsed" IsHitTestVisible="True" />
     </Grid>
 </Window>

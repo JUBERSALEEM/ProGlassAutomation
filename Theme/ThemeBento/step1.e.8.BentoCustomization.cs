@@ -105,7 +105,7 @@ public static class BentoCustomization
         if (state.LayoutPreset == BentoLayoutPreset.CompactDense) radius = Math.Max(6, radius - 2);
         package["CardCornerRadius"] = new CornerRadius(radius);
         package["ControlCornerRadius"] = new CornerRadius(radius / 2);
-        package["BentoGutter"] = 8 * spacingFactor;
-        package["BentoRowHeight"] = (state.Density == BentoDensity.Compact ? 160d : 176d) * spacingFactor;
+        package["BentoGutter"] = 16 * spacingFactor;
+        package["BentoRowHeight"] = (state.Density == BentoDensity.Compact ? 124d : 136d) * spacingFactor;
     }
 }

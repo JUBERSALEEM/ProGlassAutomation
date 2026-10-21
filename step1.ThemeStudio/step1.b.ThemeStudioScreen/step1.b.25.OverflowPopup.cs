@@ -7,6 +7,13 @@ using ProGlassAutomation.Analytics;
 
 namespace ProGlassAutomation.ThemeStudio;
 
+/// <summary>Raises a full-window spotlight while an overflow flyout is open.</summary>
+public static class OverflowSpotlight
+{
+    public static event Action<bool>? Changed;
+    public static void Set(bool on) => Changed?.Invoke(on);
+}
+
 /// <summary>
 /// Compact mosaic host. When the child needs more height than the slot,
 /// hovering opens a connected popup with a full, scrollable copy.
@@ -72,11 +79,13 @@ public sealed class OverflowPopup : ContentControl
         scroller.MaxHeight = TryFindResource("PopupMaxHeight") is double cap && cap > 0 ? Math.Max(cap, 360) : 360;
         popup.PlacementTarget = this;
         popup.IsOpen = true;
+        OverflowSpotlight.Set(true);
     }
 
     private void CloseFlyout()
     {
         hide.Stop();
+        if (popup.IsOpen) OverflowSpotlight.Set(false);
         popup.IsOpen = false;
         scroller.Content = null;
     }
