@@ -18,7 +18,7 @@
    <AdornedElementPlaceholder />
   </ControlTemplate></Setter.Value></Setter>
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="TextBox">
-   <liquid:LiquidGlassSurface x:Name="Frame" Rank="Control" Concave="True" ShowFace="False" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ControlCornerRadius}">
+   <liquid:LiquidGlassSurface x:Name="Frame" Rank="Control" Concave="True" ShowFace="False" Background="{DynamicResource LiquidWellBrush}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ControlCornerRadius}">
     <ScrollViewer x:Name="PART_ContentHost" />
    </liquid:LiquidGlassSurface>
    <ControlTemplate.Triggers>
@@ -54,7 +54,7 @@
   <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ComboBox">
    <Grid>
-    <liquid:LiquidGlassSurface x:Name="Frame" Rank="Control" ShowFace="False" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
+    <liquid:LiquidGlassSurface x:Name="Frame" Rank="Control" ShowFace="False" Background="{DynamicResource LiquidWellBrush}" CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
      <Grid>
       <ToggleButton Focusable="False" ClickMode="Press" IsChecked="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
        <ToggleButton.Template><ControlTemplate TargetType="ToggleButton">
@@ -65,7 +65,7 @@
      </Grid>
     </liquid:LiquidGlassSurface>
     <Popup x:Name="PART_Popup" IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" AllowsTransparency="True" Focusable="False">
-     <liquid:LiquidGlassSurface Rank="Card" Lifted="True" Background="{DynamicResource SurfaceElevated}" CornerRadius="{DynamicResource ControlCornerRadius}" MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}">
+     <liquid:LiquidGlassSurface Rank="Card" Lifted="True" Background="{DynamicResource TransparentBrush}" CornerRadius="{DynamicResource ControlCornerRadius}" MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}">
       <ScrollViewer MaxHeight="{DynamicResource PopupMaxHeight}" CanContentScroll="True" HorizontalScrollBarVisibility="Disabled"><ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained" /></ScrollViewer>
      </liquid:LiquidGlassSurface>
     </Popup>

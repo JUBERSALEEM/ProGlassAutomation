@@ -109,7 +109,7 @@ internal static class CustomizationChecks
         if (((CornerRadius)liquidRounded["CardCornerRadius"]).TopLeft != 26) throw new Exception("Liquid Glass shared pill rounding");
         var liquidClear = ThemeService.Load(Appearance.Light, ThemeService.LiquidGlass, SharedGeometry.Compose(ThemeService.LiquidGlass, new BentoCustomizationState(), new ClayCustomizationState(), new SharedGeometryState(), null, null, null, new LiquidCustomizationState(LiquidFrost.Clear, LiquidSpecular.Bright, LiquidTint.Cool)));
         ResourceValidation.Validate(liquidClear);
-        if ((double)liquidClear["LiquidFrostOpacity"] != 0.45d) throw new Exception("Liquid clear frost");
+        if ((double)liquidClear["LiquidFrostOpacity"] != 0.22d) throw new Exception("Liquid clear frost");
         foreach (object key in liquidClear.Keys)
             if (Equals(key, "LiquidFrostOpacity") || Equals(key, "LiquidFaceBrush"))
                 throw new Exception("Liquid extras must stay in the extras dictionary, not the package root.");

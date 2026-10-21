@@ -4,13 +4,13 @@
   <Setter Property="Background" Value="{DynamicResource SurfaceElevated}" />
   <Setter Property="FontSize" Value="{DynamicResource FontSizeCaption}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ToolTip">
-   <liquid:LiquidGlassSurface Rank="Card" Lifted="True" Background="{TemplateBinding Background}" Padding="{DynamicResource PaddingPlate}" CornerRadius="{DynamicResource ControlCornerRadius}"><ContentPresenter /></liquid:LiquidGlassSurface>
+   <liquid:LiquidGlassSurface Rank="Card" Lifted="True" Background="{DynamicResource TransparentBrush}" Padding="{DynamicResource PaddingPlate}" CornerRadius="{DynamicResource ControlCornerRadius}"><ContentPresenter /></liquid:LiquidGlassSurface>
   </ControlTemplate></Setter.Value></Setter>
  </Style>
  <Style TargetType="ContextMenu">
   <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContextMenu">
-   <liquid:LiquidGlassSurface Rank="Card" Lifted="True" Background="{DynamicResource SurfaceElevated}" Padding="{DynamicResource PaddingCompact}" CornerRadius="{DynamicResource ControlCornerRadius}"><StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" /></liquid:LiquidGlassSurface>
+   <liquid:LiquidGlassSurface Rank="Card" Lifted="True" Background="{DynamicResource TransparentBrush}" Padding="{DynamicResource PaddingCompact}" CornerRadius="{DynamicResource ControlCornerRadius}"><StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" /></liquid:LiquidGlassSurface>
   </ControlTemplate></Setter.Value></Setter>
  </Style>
  <Style TargetType="MenuItem">

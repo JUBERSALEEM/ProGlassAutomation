@@ -237,7 +237,7 @@ internal static class RuntimeChecks
                     Check(model.ResetTheme.CanExecute(null) && model.PreviewDefault.CanExecute(null), "liquid studio reset commands");
                     model.SelectedLiquidFrost = ProGlassAutomation.ThemeLiquidGlass.LiquidFrost.Clear;
                     Pump();
-                    Check((double)themes.GetToken("LiquidFrostOpacity") == 0.45d, "live liquid frost");
+                    Check((double)themes.GetToken("LiquidFrostOpacity") == 0.22d, "live liquid frost");
                     model.ResetDesign.Execute(null);
                     Pump();
                     Check(model.SelectedLiquidFrost == ProGlassAutomation.ThemeLiquidGlass.LiquidFrost.Standard, "liquid reset restores defaults");

@@ -5,7 +5,7 @@
   <Setter Property="Margin" Value="{DynamicResource MarginPanel}" />
   <Setter Property="Focusable" Value="False" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
-   <liquid:LiquidGlassSurface Rank="Card" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}">
+   <liquid:LiquidGlassSurface Rank="Card" Background="{DynamicResource TransparentBrush}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}">
     <ContentPresenter />
    </liquid:LiquidGlassSurface>
   </ControlTemplate></Setter.Value></Setter>
@@ -36,7 +36,7 @@
   <Setter Property="Padding" Value="{DynamicResource PaddingCard}" />
   <Setter Property="HorizontalAlignment" Value="Stretch" /><Setter Property="VerticalAlignment" Value="Stretch" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="analytics:BentoKpi">
-   <liquid:LiquidGlassSurface x:Name="Pod" Rank="Card" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource CardCornerRadius}">
+   <liquid:LiquidGlassSurface x:Name="Pod" Rank="Card" Background="{DynamicResource TransparentBrush}" CornerRadius="{DynamicResource CardCornerRadius}">
     <DockPanel>
      <Border x:Name="Rail" DockPanel.Dock="Left" Width="{DynamicResource SpacingSmall}" Background="{DynamicResource AccentPrimary}" CornerRadius="{DynamicResource ChipCornerRadius}" Margin="{DynamicResource PaddingCompact}" />
      <StackPanel Margin="{TemplateBinding Padding}">

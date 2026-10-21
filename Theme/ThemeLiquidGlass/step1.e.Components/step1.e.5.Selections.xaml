@@ -56,7 +56,7 @@
   <Setter Property="BorderThickness" Value="{DynamicResource BorderThicknessControl}" />
   <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListBox">
-   <liquid:LiquidGlassSurface Rank="Card" Concave="True" ShowFace="False" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource CardCornerRadius}">
+   <liquid:LiquidGlassSurface Rank="Card" Concave="True" ShowFace="False" Background="{DynamicResource LiquidWellBrush}" CornerRadius="{DynamicResource CardCornerRadius}">
     <ScrollViewer Focusable="False"><ItemsPresenter /></ScrollViewer>
    </liquid:LiquidGlassSurface>
   </ControlTemplate></Setter.Value></Setter>

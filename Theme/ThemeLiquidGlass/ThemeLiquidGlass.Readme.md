@@ -4,14 +4,14 @@ Native WPF approximation of Apple Liquid Glass (WWDC 2025 / iOS 26, retuned 2026
 
 ## Standard (v1)
 
-- **Canvas** is saturated and opaque (`ApplicationBackground`) so text and charts do not fall through the window.
-- **Glass face** is a translucent fill (`LiquidFaceBrush`) over that canvas — cool white in Light, dark navy glass in Dark.
-- **Specular inset** is the tell: a bright top edge, brighter on hover. Concave wells invert it.
-- **Darkened rim** (iOS 27 separation) is a 1 px inner shade, not a Clay hue glow.
-- **Lift** is an unnamed outer `DropShadowEffect` on Card rank only. Never `x:Name` a `DropShadowEffect`.
-- **Capsule chrome** uses `ControlCornerRadius` / `ChipCornerRadius`. Cards bind `CardCornerRadius` (SharedTokens).
-- **Inputs** stay opaque enough for 4.5:1. Charts stay CPU; do not Blur LiveCharts or enable BitmapCache.
-- **Reduced transparency** collapses face, specular and lift to opaque `SurfacePrimary`.
+- **Canvas** is a saturated opaque sky (`#62B4E8` light, `#0A3A58` dark). Glass is meaningless on a white page.
+- **Glass face** is a lens gradient (`LiquidFaceBrush`) with no opaque sheet behind it. The canvas must show through the card.
+- **Lens wash** (`LiquidLensBrush`) darkens the bottom edge (iOS 27) and keeps the top brighter.
+- **Specular sheen** is a real top band, not a 1 px border. Hover brightens it.
+- **Rim + lip** separate the lens from the canvas. Not Clay hue glow.
+- **Lift** is an unnamed `DropShadowEffect` on a near-transparent caster — never on the content tree, never `x:Name`.
+- **Inputs** use `LiquidWellBrush` (opaque wells). Charts stay CPU; no Blur, no BitmapCache.
+- **Reduced transparency** swaps in `LiquidOpaqueBrush` and drops sheen/lift.
 
 True Metal refraction, per-card desktop capture, device-tilt specular, Win2D and extra NuGet are **not** in v1.
 
