@@ -22,7 +22,7 @@
  </Style>
  <Style x:Key="StatusBadge" TargetType="Border">
   <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" /><Setter Property="CornerRadius" Value="{DynamicResource ChipCornerRadius}" /><Setter Property="Padding" Value="{DynamicResource PaddingCompact}" />
-  <Setter Property="BorderBrush" Value="{DynamicResource ClayInsetLightBrush}" /><Setter Property="BorderThickness" Value="1.5,1.5,0,0" />
+  <Setter Property="BorderBrush" Value="{DynamicResource ClayInsetLightBrush}" /><Setter Property="BorderThickness" Value="4,4,0,0" />
   <Style.Triggers>
    <Trigger Property="Tag" Value="Success"><Setter Property="Background" Value="{DynamicResource StatusSuccessSurface}" /></Trigger>
    <Trigger Property="Tag" Value="Warning"><Setter Property="Background" Value="{DynamicResource StatusWarningSurface}" /></Trigger>
