@@ -90,6 +90,20 @@
      <Border x:Name="Face" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" Margin="1">
       <Grid>
        <Border x:Name="Sheen" Background="{DynamicResource NeumorphSheenBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False" />
+       <Border x:Name="InsetHost" Visibility="Collapsed" ClipToBounds="True" Background="{DynamicResource TransparentBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+        <Grid>
+         <Border Margin="-1" BorderBrush="{TemplateBinding DarkBrush}" BorderThickness="6,6,0,0" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+          <Border.Effect>
+           <BlurEffect Radius="12" KernelType="Gaussian" />
+          </Border.Effect>
+         </Border>
+         <Border Margin="-1" BorderBrush="{TemplateBinding LightBrush}" BorderThickness="0,0,6,6" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+          <Border.Effect>
+           <BlurEffect Radius="12" KernelType="Gaussian" />
+          </Border.Effect>
+         </Border>
+        </Grid>
+       </Border>
        <Border x:Name="RimShade" BorderBrush="{TemplateBinding RimShadeBrush}" BorderThickness="{DynamicResource NeumorphRimShadeThickness}" CornerRadius="{TemplateBinding CornerRadius}">
         <Border x:Name="RimLight" BorderBrush="{TemplateBinding RimLightBrush}" BorderThickness="{DynamicResource NeumorphRimLightThickness}" CornerRadius="{TemplateBinding CornerRadius}" Padding="{TemplateBinding Padding}">
          <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
@@ -151,6 +165,7 @@
      <Setter TargetName="LightNear" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="Volume" Property="Margin" Value="0" />
      <Setter TargetName="Face" Property="Margin" Value="0" />
+     <Setter TargetName="InsetHost" Property="Visibility" Value="Visible" />
      <Setter TargetName="Sheen" Property="Background" Value="{DynamicResource NeumorphWellSheenBrush}" />
      <Setter TargetName="RimShade" Property="BorderThickness" Value="{DynamicResource NeumorphInsetShadeThickness}" />
      <Setter TargetName="RimLight" Property="BorderThickness" Value="{DynamicResource NeumorphInsetLightThickness}" />
