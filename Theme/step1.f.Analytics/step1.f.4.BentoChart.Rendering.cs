@@ -59,12 +59,20 @@ public sealed partial class BentoChart
         bool horizontal = data.Kind == ChartKind.HorizontalBars;
         bool spark = data.Kind == ChartKind.Sparkline;
         // Clamp numeric inputs — never crash on extreme values; validation already ensures finite
-        var category = new Axis { Labels = data.Categories.ToArray(), LabelsPaint = spark ? null : TextPaint(AxisBrush), SeparatorsPaint = null, TextSize = FontSize, MinStep = 1, TicksPaint = null, SubseparatorsPaint = null, SubticksPaint = null, ZeroPaint = null };
+        var category = new Axis
+        {
+            Labels = data.Categories.ToArray(), LabelsPaint = spark ? null : TextPaint(AxisBrush), SeparatorsPaint = null, TextSize = FontSize, MinStep = 1,
+            TicksPaint = null, SubseparatorsPaint = null, SubticksPaint = null, ZeroPaint = null,
+            Padding = new LiveChartsCore.Drawing.Padding(4, 0, 4, 8)
+        };
         var numeric = new Axis
         {
-            Name = data.Unit, NameTextSize = FontSize, TicksPaint = null, SubseparatorsPaint = null, SubticksPaint = null, ZeroPaint = null, NamePaint = spark ? null : TextPaint(AxisBrush), LabelsPaint = spark ? null : TextPaint(AxisBrush),
+            Name = data.Unit, NameTextSize = FontSize, TicksPaint = null, SubseparatorsPaint = null, SubticksPaint = null, ZeroPaint = null,
+            NamePaint = spark ? null : TextPaint(AxisBrush), LabelsPaint = spark ? null : TextPaint(AxisBrush),
             SeparatorsPaint = spark ? null : Paint(GridBrush), TextSize = FontSize,
-            MinLimit = !spark && data.Series.SelectMany(s => s.Values).Where(v => v.HasValue).All(v => v >= 0) ? 0 : null
+            MinLimit = !spark && data.Series.SelectMany(s => s.Values).Where(v => v.HasValue).All(v => v >= 0) ? 0 : null,
+            Padding = new LiveChartsCore.Drawing.Padding(8, 8, 4, 8),
+            NamePadding = new LiveChartsCore.Drawing.Padding(0, 12)
         };
         if (!ShowGrid) { numeric.SeparatorsPaint = null; category.SeparatorsPaint = null; }
         if (!ShowAxis) { numeric.LabelsPaint = null; numeric.NamePaint = null; category.LabelsPaint = null; }

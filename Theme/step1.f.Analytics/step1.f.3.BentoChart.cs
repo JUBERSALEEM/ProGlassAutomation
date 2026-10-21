@@ -36,13 +36,20 @@ public sealed partial class BentoChart
     }
     public BentoChart()
     {
-        var root = new Grid();
-        root.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+        VerticalContentAlignment = VerticalAlignment.Stretch;
+        HorizontalContentAlignment = HorizontalAlignment.Stretch;
+        var plotRow = new RowDefinition { Height = new GridLength(1, GridUnitType.Star) };
+        plotRow.SetBinding(RowDefinition.MinHeightProperty, new Binding(nameof(PlotHeight)) { Source = this });
+        var root = new Grid { HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Stretch };
+        root.RowDefinitions.Add(plotRow);
         root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
         root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
         root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
         root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-        root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+        cartesian.HorizontalAlignment = HorizontalAlignment.Stretch;
+        cartesian.VerticalAlignment = VerticalAlignment.Stretch;
+        pie.HorizontalAlignment = HorizontalAlignment.Stretch;
+        pie.VerticalAlignment = VerticalAlignment.Stretch;
         // Ensure no white surfaces — chart must be transparent and reveal the dark card behind, including the donut hole.
         cartesian.Background = System.Windows.Media.Brushes.Transparent;
         pie.Background = System.Windows.Media.Brushes.Transparent;
@@ -50,13 +57,17 @@ public sealed partial class BentoChart
         Background = System.Windows.Media.Brushes.Transparent;
         BorderBrush = System.Windows.Media.Brushes.Transparent;
         plot.Children.Add(cartesian); plot.Children.Add(pie); plot.Children.Add(center);
-        Grid.SetRow(plot, 0); Grid.SetRow(legend, 1); Grid.SetRow(message, 2);
-        Grid.SetRow(summary, 3); Grid.SetRow(inspectToggle, 4); Grid.SetRow(values, 5);
-        root.Children.Add(plot); root.Children.Add(legend); root.Children.Add(message);
-        root.Children.Add(summary); root.Children.Add(inspectToggle); root.Children.Add(values);
+        var footer = new DockPanel { LastChildFill = true };
+        inspectToggle.VerticalAlignment = VerticalAlignment.Center;
+        DockPanel.SetDock(inspectToggle, Dock.Right);
+        footer.Children.Add(inspectToggle);
+        footer.Children.Add(legend);
+        Grid.SetRow(plot, 0); Grid.SetRow(footer, 1); Grid.SetRow(message, 2);
+        Grid.SetRow(summary, 3); Grid.SetRow(values, 4);
+        root.Children.Add(plot); root.Children.Add(footer); root.Children.Add(message);
+        root.Children.Add(summary); root.Children.Add(values);
         inspectToggle.Checked += (_, _) => values.Visibility = Visibility.Visible;
         inspectToggle.Unchecked += (_, _) => values.Visibility = Visibility.Collapsed;
-        plot.SetBinding(MinHeightProperty, new Binding(nameof(PlotHeight)) { Source = this });
         Content = root;
         center.SetBinding(TextBlock.FontSizeProperty, new Binding(nameof(CenterFontSize)) { Source = this });
         Loaded += (_, _) => Schedule(true);

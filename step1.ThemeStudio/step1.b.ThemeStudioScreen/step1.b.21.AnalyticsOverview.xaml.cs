@@ -57,19 +57,19 @@ public partial class AnalyticsOverview : UserControl
         Show(KpiRevenue, 0, 0, 2, 1);
         Show(KpiOrders, 2, 0, 1, 1);
         Show(KpiConversion, 3, 0, 1, 1);
-        Show(RevenueCard, 0, 1, 2, 2);
-        Show(MixCard, 2, 1, 1, 2);
-        Show(TargetCard, 3, 1, 1, 2);
-        Show(TrendCard, 0, 3, 2, 2);
-        Show(ActivityCard, 2, 3, 1, 2);
-        Show(StatusCard, 3, 3, 1, 2);
-        Show(TableCard, 0, 5, 4, 3);
+        Show(RevenueCard, 0, 1, 2, 3);
+        Show(MixCard, 2, 1, 1, 3);
+        Show(TargetCard, 3, 1, 1, 3);
+        Show(TrendCard, 0, 4, 2, 3);
+        Show(ActivityCard, 2, 4, 1, 3);
+        Show(StatusCard, 3, 4, 1, 3);
+        Show(TableCard, 0, 7, 4, 3);
         if (vm is null) return;
         switch (vm.SelectedLayoutPreset)
         {
             case BentoLayoutPreset.Executive:
                 Hide(ActivityCard); Hide(TargetCard);
-                Show(MixCard, 2, 1, 2, 2);
+                Show(MixCard, 2, 1, 2, 3);
                 break;
             case BentoLayoutPreset.AnalyticsFocus:
                 Hide(ActivityCard); Hide(StatusCard);
