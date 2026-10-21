@@ -92,16 +92,17 @@
        <Border x:Name="Sheen" Visibility="Collapsed" Background="{DynamicResource NeumorphSheenBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False" />
        <Border x:Name="InsetHost" Visibility="Collapsed" ClipToBounds="False" Background="{DynamicResource TransparentBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
         <Grid>
-         <Border Margin="6" Background="{DynamicResource NeumorphWellSheenBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+         <Border Margin="6" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
           <Border.Effect>
            <DropShadowEffect Color="{DynamicResource NeumorphDarkColor}" BlurRadius="12" ShadowDepth="6" Direction="125" Opacity="{DynamicResource NeumorphDarkOpacity}" RenderingBias="Quality" />
           </Border.Effect>
          </Border>
-         <Border Margin="6" Background="{DynamicResource NeumorphWellSheenBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+         <Border Margin="6" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
           <Border.Effect>
            <DropShadowEffect Color="{DynamicResource NeumorphLightColor}" BlurRadius="12" ShadowDepth="6" Direction="305" Opacity="{DynamicResource NeumorphLightOpacity}" RenderingBias="Quality" />
           </Border.Effect>
          </Border>
+         <Border Margin="6" Background="{DynamicResource NeumorphWellSheenBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False" />
         </Grid>
        </Border>
        <Border x:Name="RimShade" BorderBrush="{TemplateBinding RimShadeBrush}" BorderThickness="{DynamicResource NeumorphRimShadeThickness}" CornerRadius="{TemplateBinding CornerRadius}">
