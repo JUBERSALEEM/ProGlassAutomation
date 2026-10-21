@@ -8,7 +8,7 @@ Native WPF reading of Apple Liquid Glass / iOS 26 widgets: a translucent veil ov
 
 ## Standard
 
-- **Glass face** is a translucent white veil. Clear = 22%. Wallpaper must show through.
+- **Glass face** is an iOS-like veil (~8–16% white). The frost token stays 0.22/0.40/0.62; the painted alpha is `frost × 0.40`. Wallpaper must show through. A 1px inset specular is the lip.
 - **Edge** is a visible white hairline, plus a short top specular.
 - **Lift** is an unnamed `DropShadowEffect` on a near-transparent caster — never on the content tree, never `x:Name`.
 - **Inputs** stay `LiquidWellBrush`. Charts stay CPU; no Blur, no BitmapCache.

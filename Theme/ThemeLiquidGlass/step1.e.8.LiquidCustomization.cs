@@ -69,18 +69,20 @@ public static class LiquidCustomization
 
     private static LinearGradientBrush FaceGradient(Color rgb, double frost)
     {
+        // Frost token stays 0.22/0.40/0.62. Visual veil is iOS-like (~8–25%), not a plate.
         byte A(double amount) => (byte)Math.Clamp((int)Math.Round(amount * 255), 1, 255);
+        double veil = frost * 0.40;
         var brush = new LinearGradientBrush { StartPoint = new Point(0.2, 0), EndPoint = new Point(0.8, 1) };
-        brush.GradientStops.Add(new GradientStop(Color.FromArgb(A(frost), rgb.R, rgb.G, rgb.B), 0));
-        brush.GradientStops.Add(new GradientStop(Color.FromArgb(A(frost * 0.75), rgb.R, rgb.G, rgb.B), 0.45));
-        brush.GradientStops.Add(new GradientStop(Color.FromArgb(A(frost * 0.55), rgb.R, rgb.G, rgb.B), 1));
+        brush.GradientStops.Add(new GradientStop(Color.FromArgb(A(veil), rgb.R, rgb.G, rgb.B), 0));
+        brush.GradientStops.Add(new GradientStop(Color.FromArgb(A(veil * 0.70), rgb.R, rgb.G, rgb.B), 0.45));
+        brush.GradientStops.Add(new GradientStop(Color.FromArgb(A(veil * 0.45), rgb.R, rgb.G, rgb.B), 1));
         return brush;
     }
 
     private static LinearGradientBrush LensGradient(Appearance mode, double frost)
     {
-        byte top = (byte)Math.Clamp((int)Math.Round(frost * 0.35 * 255), 1, 255);
-        byte bottom = (byte)(mode == Appearance.Light ? 0x14 : 0x33);
+        byte top = (byte)Math.Clamp((int)Math.Round(frost * 0.18 * 255), 1, 255);
+        byte bottom = (byte)(mode == Appearance.Light ? 0x10 : 0x22);
         var brush = new LinearGradientBrush { StartPoint = new Point(0.15, 0), EndPoint = new Point(0.85, 1) };
         brush.GradientStops.Add(new GradientStop(Color.FromArgb(top, 255, 255, 255), 0));
         brush.GradientStops.Add(new GradientStop(Color.FromArgb(0, 255, 255, 255), 0.4));

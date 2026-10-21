@@ -60,6 +60,7 @@
      <Grid>
       <Border x:Name="Lens" Background="{DynamicResource LiquidLensBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False" />
       <Border x:Name="Sheen" Height="{DynamicResource LiquidSheenHeight}" VerticalAlignment="Top" Background="{DynamicResource LiquidSpecularSheenBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False" />
+      <Border x:Name="Inset" BorderBrush="{DynamicResource LiquidSpecularBrush}" BorderThickness="{DynamicResource LiquidSpecularThickness}" CornerRadius="{TemplateBinding CornerRadius}" Background="{DynamicResource TransparentBrush}" IsHitTestVisible="False" />
       <Border x:Name="Rim" BorderBrush="{TemplateBinding RimBrush}" BorderThickness="{DynamicResource LiquidRimThickness}" CornerRadius="{TemplateBinding CornerRadius}" Background="{DynamicResource TransparentBrush}">
        <Border x:Name="Stroke" BorderBrush="{TemplateBinding StrokeBrush}" BorderThickness="{DynamicResource BorderThicknessControl}" CornerRadius="{TemplateBinding CornerRadius}" Padding="{TemplateBinding Padding}">
         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
@@ -72,15 +73,18 @@
     <Trigger Property="ShowFace" Value="False">
      <Setter TargetName="Face" Property="Background" Value="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}" />
      <Setter TargetName="Lens" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="Inset" Property="Visibility" Value="Collapsed" />
     </Trigger>
     <Trigger Property="ReduceTransparency" Value="True">
      <Setter TargetName="Face" Property="Background" Value="{DynamicResource LiquidOpaqueBrush}" />
      <Setter TargetName="Lens" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="Sheen" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="Inset" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="Caster" Property="Visibility" Value="Collapsed" />
     </Trigger>
     <Trigger Property="Concave" Value="True">
      <Setter TargetName="Sheen" Property="VerticalAlignment" Value="Bottom" />
+     <Setter TargetName="Inset" Property="BorderThickness" Value="0,0,2,2" />
      <Setter TargetName="Caster" Property="Visibility" Value="Collapsed" />
     </Trigger>
     <Trigger Property="Rank" Value="Control">
