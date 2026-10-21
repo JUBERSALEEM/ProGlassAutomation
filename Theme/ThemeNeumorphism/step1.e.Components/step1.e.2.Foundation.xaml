@@ -107,8 +107,8 @@
      <Setter TargetName="LightNear" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="DarkGlowControl" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="LightGlowControl" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowControl" Property="Visibility" Value="Visible" />
+     <Setter TargetName="LightGlowControl" Property="Visibility" Value="Visible" />
      <Setter TargetName="DarkGlowChip" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightGlowChip" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="DarkGlowLift" Property="Visibility" Value="Collapsed" />
@@ -123,8 +123,8 @@
      <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="DarkGlowControl" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightGlowControl" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="DarkGlowChip" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="LightGlowChip" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowChip" Property="Visibility" Value="Visible" />
+     <Setter TargetName="LightGlowChip" Property="Visibility" Value="Visible" />
      <Setter TargetName="DarkGlowLift" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightGlowLift" Property="Visibility" Value="Collapsed" />
     </Trigger>
