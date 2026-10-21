@@ -1,0 +1,27 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+  <SolidColorBrush x:Key="LiquidFaceBrush" Color="#B31A2C40" />
+  <SolidColorBrush x:Key="LiquidSpecularBrush" Color="#73FFFFFF" />
+  <SolidColorBrush x:Key="LiquidRimBrush" Color="#66000000" />
+  <SolidColorBrush x:Key="LiquidStrokeBrush" Color="#668AA8C0" />
+  <SolidColorBrush x:Key="LiquidSpecularHoverBrush" Color="#99FFFFFF" />
+  <SolidColorBrush x:Key="LiquidTintPositive" Color="#665EE0A8" />
+  <SolidColorBrush x:Key="LiquidStrokePositive" Color="#4D5EE0A8" />
+  <SolidColorBrush x:Key="LiquidTintFeature" Color="#66B8A8FF" />
+  <SolidColorBrush x:Key="LiquidStrokeFeature" Color="#4DB8A8FF" />
+  <SolidColorBrush x:Key="LiquidTintInformation" Color="#665EC8E8" />
+  <SolidColorBrush x:Key="LiquidStrokeInformation" Color="#4D5EC8E8" />
+  <SolidColorBrush x:Key="LiquidTintAttention" Color="#66F0C060" />
+  <SolidColorBrush x:Key="LiquidStrokeAttention" Color="#4DF0C060" />
+  <SolidColorBrush x:Key="LiquidTintAccent" Color="#995EC8E8" />
+  <SolidColorBrush x:Key="LiquidStrokeAccent" Color="#665EC8E8" />
+  <SolidColorBrush x:Key="LiquidTintHero" Color="#66163044" />
+  <SolidColorBrush x:Key="LiquidStrokeHero" Color="#665EC8E8" />
+  <Color x:Key="LiquidShadowColor">#000000</Color>
+  <sys:Double x:Key="LiquidFrostOpacity">0.70</sys:Double>
+  <sys:Double x:Key="LiquidLiftBlur">28</sys:Double>
+  <sys:Double x:Key="LiquidLiftDepth">10</sys:Double>
+  <sys:Double x:Key="LiquidLiftOpacity">0.36</sys:Double>
+  <Thickness x:Key="LiquidSpecularThickness">1,1,0,0</Thickness>
+  <Thickness x:Key="LiquidRimThickness">1</Thickness>
+  <sys:Boolean x:Key="LiquidReduceTransparency">False</sys:Boolean>
+</ResourceDictionary>

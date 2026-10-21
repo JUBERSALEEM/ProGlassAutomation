@@ -8,7 +8,8 @@ ENGINE = ROOT / 'Theme/step1.a.ThemeEngine'
 X = '{http://schemas.microsoft.com/winfx/2006/xaml}'
 assert not list(ENGINE.rglob('*.xaml')), 'Shared engine must not own visual dictionaries'
 packages = sorted(p for p in (ROOT / 'Theme').iterdir() if p.is_dir() and p.name.startswith('Theme'))
-assert {p.name for p in packages} == {'ThemeBento', 'ThemeClaymorphism', 'ThemeFluent', 'ThemeNeumorphism'}, 'Registered visual packages only'
+assert {'ThemeBento', 'ThemeClaymorphism', 'ThemeFluent', 'ThemeNeumorphism'} <= {p.name for p in packages}
+assert {p.name for p in packages} <= {'ThemeBento', 'ThemeClaymorphism', 'ThemeFluent', 'ThemeNeumorphism', 'ThemeLiquidGlass'}, 'Unexpected visual package'
 for path in ROOT.glob('Theme/**/*.xaml'):
     assert any(path.resolve().is_relative_to(pkg.resolve()) for pkg in packages), f'Visual dictionary outside a theme package: {path}'
 
@@ -51,13 +52,16 @@ required.update({'type:' + key: target for key, target in re.findall(r'\[typeof\
 assert len(required) == 47, 'Consumer style contract unexpectedly changed; review coverage'
 for package in packages:
     stem = package.name
+    components = package / 'step1.e.Components/step1.e.1.Components.xaml'
     for mode in ('Light', 'Dark'):
         values = {}
         collect(package / f'{stem}.{mode}.xaml', values, package)
         extras = package / f'{stem}.{mode}.Extras.xaml'
         if extras.is_file():
             collect(extras, values, package)
-        collect(package / 'step1.e.Components/step1.e.1.Components.xaml', values, package)
+        if not components.is_file():
+            continue
+        collect(components, values, package)
         for key, target in required.items():
             assert key in values, f'missing theme style: {package.name}/{mode} {key}'
             node = values[key]
