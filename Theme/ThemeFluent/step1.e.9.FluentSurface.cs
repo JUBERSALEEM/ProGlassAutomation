@@ -5,7 +5,7 @@ using System.Windows.Media;
 namespace ProGlassAutomation.ThemeFluent;
 
 /// <summary>
-/// Native Fluent acrylic volume: tint wash, top luminosity, thin stroke.
+/// Native Fluent material: mica content layer, acrylic tint, luminosity, reveal hover.
 /// Fluent-owned. Not ClaySurface, not a Bento border, not CSS backdrop-filter.
 /// </summary>
 public sealed class FluentSurface : ContentControl

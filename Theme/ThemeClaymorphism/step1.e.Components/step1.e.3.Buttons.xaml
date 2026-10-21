@@ -14,7 +14,7 @@
   <Setter Property="HorizontalContentAlignment" Value="Center" />
   <Setter Property="VerticalContentAlignment" Value="Center" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button">
-   <clay:ClaySurface x:Name="Pod" Rank="Control" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ControlCornerRadius}">
+   <clay:ClaySurface x:Name="Pod" Rank="Control" RenderTransformOrigin="0.5,0.5" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ControlCornerRadius}">
     <ContentPresenter RecognizesAccessKey="True" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
    </clay:ClaySurface>
    <ControlTemplate.Triggers>
@@ -24,6 +24,9 @@
     <Trigger Property="IsPressed" Value="True">
      <Setter TargetName="Pod" Property="Concave" Value="True" />
      <Setter TargetName="Pod" Property="Lifted" Value="False" />
+     <Setter TargetName="Pod" Property="RenderTransform">
+      <Setter.Value><ScaleTransform ScaleX="0.97" ScaleY="0.97" /></Setter.Value>
+     </Setter>
     </Trigger>
    </ControlTemplate.Triggers>
   </ControlTemplate></Setter.Value></Setter>

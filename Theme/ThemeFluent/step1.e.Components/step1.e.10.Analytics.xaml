@@ -5,7 +5,7 @@
   <Setter Property="Margin" Value="{DynamicResource MarginPanel}" />
   <Setter Property="Focusable" Value="False" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
-   <fluent:FluentSurface Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}" TintBrush="{DynamicResource FluentTintBrush}" StrokeBrush="{DynamicResource FluentStrokeBrush}" LuminosityBrush="{DynamicResource FluentLuminosityBrush}">
+   <fluent:FluentSurface ShowTint="False" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}" TintBrush="{DynamicResource FluentTintBrush}" StrokeBrush="{DynamicResource FluentStrokeBrush}" LuminosityBrush="{DynamicResource FluentLuminosityBrush}">
     <ContentPresenter />
    </fluent:FluentSurface>
   </ControlTemplate></Setter.Value></Setter>

@@ -23,9 +23,9 @@
   <SolidColorBrush x:Key="ClayInsetLightBrush" Color="#66FFFFFF" />
   <SolidColorBrush x:Key="ClayInsetShadeBrush" Color="#88000000" />
   <LinearGradientBrush x:Key="ClayCurveBrush" StartPoint="0,0" EndPoint="1,1">
-    <GradientStop Color="#40FFFFFF" Offset="0" />
-    <GradientStop Color="#12FFFFFF" Offset="0.4" />
-    <GradientStop Color="#44000000" Offset="1" />
+    <GradientStop Color="#59FFFFFF" Offset="0" />
+    <GradientStop Color="#18FFFFFF" Offset="0.38" />
+    <GradientStop Color="#66000000" Offset="1" />
   </LinearGradientBrush>
   <LinearGradientBrush x:Key="ClayWellCurveBrush" StartPoint="0,0" EndPoint="1,1">
     <GradientStop Color="#66000000" Offset="0" />

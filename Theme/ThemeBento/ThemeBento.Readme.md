@@ -1,6 +1,6 @@
 # Bento — rich business design system and customization specification
 
-Current implementation: 2026-10-20. **Bento is the only registered theme.** This revision follows the approved richness audit and explicit implementation request. It replaces the previous combined minimalist gallery/masonry composition. Native Windows appearance/build acceptance remains unverified.
+Current implementation: 2026-10-21. Bento is the **layout** language: uneven mosaic tiles, one gutter, shared radius, hairline layered cards on a tinted canvas. It is not clay, not neumorph, not acrylic. Four themes are registered; Bento stays a flat `Border`. Native Windows appearance/build acceptance remains unverified.
 
 ## Research and cross-check
 

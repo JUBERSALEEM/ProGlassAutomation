@@ -22,6 +22,7 @@
  </Style>
  <Style x:Key="StatusBadge" TargetType="Border">
   <Setter Property="Background" Value="{DynamicResource SurfaceSecondary}" /><Setter Property="CornerRadius" Value="{DynamicResource ChipCornerRadius}" /><Setter Property="Padding" Value="{DynamicResource PaddingCompact}" />
+  <Setter Property="BorderBrush" Value="{DynamicResource BorderSubtle}" /><Setter Property="BorderThickness" Value="{DynamicResource BorderThicknessControl}" />
   <Style.Triggers>
    <Trigger Property="Tag" Value="Success"><Setter Property="Background" Value="{DynamicResource StatusSuccessSurface}" /></Trigger>
    <Trigger Property="Tag" Value="Warning"><Setter Property="Background" Value="{DynamicResource StatusWarningSurface}" /></Trigger>

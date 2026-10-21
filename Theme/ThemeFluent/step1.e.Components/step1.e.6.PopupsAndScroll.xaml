@@ -4,13 +4,23 @@
   <Setter Property="Background" Value="{DynamicResource SurfaceElevated}" />
   <Setter Property="FontSize" Value="{DynamicResource FontSizeCaption}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ToolTip">
-   <fluent:FluentSurface Background="{TemplateBinding Background}" Padding="{DynamicResource PaddingPlate}" CornerRadius="{DynamicResource ControlCornerRadius}"><ContentPresenter /></fluent:FluentSurface>
+   <Border>
+    <Border.Effect>
+     <DropShadowEffect Color="{DynamicResource FluentShadowColor}" BlurRadius="24" ShadowDepth="8" Direction="270" Opacity="0.22" RenderingBias="Quality" />
+    </Border.Effect>
+    <fluent:FluentSurface Background="{TemplateBinding Background}" Padding="{DynamicResource PaddingPlate}" CornerRadius="{DynamicResource ControlCornerRadius}"><ContentPresenter /></fluent:FluentSurface>
+   </Border>
   </ControlTemplate></Setter.Value></Setter>
  </Style>
  <Style TargetType="ContextMenu">
   <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContextMenu">
-   <fluent:FluentSurface Background="{DynamicResource SurfaceElevated}" Padding="{DynamicResource PaddingCompact}" CornerRadius="{DynamicResource ControlCornerRadius}"><StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" /></fluent:FluentSurface>
+   <Border>
+    <Border.Effect>
+     <DropShadowEffect Color="{DynamicResource FluentShadowColor}" BlurRadius="24" ShadowDepth="8" Direction="270" Opacity="0.22" RenderingBias="Quality" />
+    </Border.Effect>
+    <fluent:FluentSurface Background="{DynamicResource SurfaceElevated}" Padding="{DynamicResource PaddingCompact}" CornerRadius="{DynamicResource ControlCornerRadius}"><StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" /></fluent:FluentSurface>
+   </Border>
   </ControlTemplate></Setter.Value></Setter>
  </Style>
  <Style TargetType="MenuItem">

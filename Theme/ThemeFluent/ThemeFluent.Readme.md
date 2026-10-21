@@ -1,17 +1,19 @@
 # Fluent / Acrylic — third registered theme (Phase 01 / step1)
 
-Date: **2026-10-20**. Native WPF. Engines stay separate: Bento stays a flat `Border`, Clay stays `ClaySurface`. No Win2D, no extra NuGet, no CSS `backdrop-filter`.
+Native WPF. Engines stay separate: Bento stays a flat `Border`, Clay stays `ClaySurface`. No Win2D, no extra NuGet, no CSS `backdrop-filter`. No Fluent customization studio.
+
+## Standard (Fluent 2)
+
+- **Mica-like content layer**: opaque cards on the window canvas (`ShowTint=False`)
+- **In-app acrylic**: tint + luminosity + stroke on transient chrome (menus, tooltips, plates)
+- **Reveal**: hover brightens the top edge and stroke
+- **Smoke**: `OverlayBrush` for modal dim
+- Flyouts carry an unnamed drop shadow (never a named `DropShadowEffect` trigger target)
 
 ## Engine
 
-`FluentSurface` is the acrylic volume (native layers, not desktop blur):
-
-- **tint** wash over the face
-- **luminosity** highlight on the top edge (bottom when concave)
-- **thin stroke**
-
-Hue extras (`FluentTint*` / `FluentStroke*`) tint cards, plates, and KPIs. `ShowTint` stays false on unselected tabs.
+`FluentSurface` paints those layers. Shared studio card rounding only. Hue extras stay in `ThemeFluent.*.Extras.xaml`.
 
 ## Completeness
 
-Source chrome for the 47 contract roles is filled. Mica/acrylic Light and Dark palettes are Fluent-owned (not Bento copies). Catalog registers Fluent; last theme restores on launch. Bento customization stays off. Windows pixels **0%** (workflow stays in `cols/ci`; no PC).
+47 contract roles. Windows pixels **0%**.

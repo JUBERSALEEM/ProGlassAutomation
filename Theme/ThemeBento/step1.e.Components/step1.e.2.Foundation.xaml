@@ -62,7 +62,7 @@
  <Style x:Key="ElevatedPlate" TargetType="ContentControl" BasedOn="{StaticResource Plate}">
   <Setter Property="Background" Value="{DynamicResource SurfaceElevated}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
-   <Border Background="{TemplateBinding Background}" BorderBrush="{DynamicResource BorderStrong}" BorderThickness="{DynamicResource BorderThicknessControl}" CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
+   <Border Background="{TemplateBinding Background}" BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="{DynamicResource BorderThicknessControl}" CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
     <ContentPresenter />
    </Border>
   </ControlTemplate></Setter.Value></Setter>
@@ -73,7 +73,7 @@
  <Style TargetType="Separator">
   <Setter Property="Margin" Value="{DynamicResource MarginItem}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Separator">
-   <Border BorderBrush="{DynamicResource BorderSubtle}" BorderThickness="{DynamicResource BorderThicknessControl}" />
+   <Border Height="1" Background="{DynamicResource BorderSubtle}" />
   </ControlTemplate></Setter.Value></Setter>
  </Style>
  <Style TargetType="ProgressBar">

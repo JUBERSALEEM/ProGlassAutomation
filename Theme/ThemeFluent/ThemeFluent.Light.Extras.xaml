@@ -14,4 +14,7 @@
   <SolidColorBrush x:Key="FluentStrokeAccent" Color="#3D0A5CA8" />
   <SolidColorBrush x:Key="FluentTintHero" Color="#33125A8C" />
   <SolidColorBrush x:Key="FluentStrokeHero" Color="#66125A8C" />
+  <SolidColorBrush x:Key="FluentRevealBrush" Color="#B3FFFFFF" />
+  <SolidColorBrush x:Key="FluentRevealStroke" Color="#99FFFFFF" />
+  <Color x:Key="FluentShadowColor">#5B6B7C</Color>
 </ResourceDictionary>

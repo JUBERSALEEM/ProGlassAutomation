@@ -2,19 +2,21 @@
 
 Native WPF. Engines stay separate: not Bento plates, not Neumorph gray volume, not Fluent acrylic.
 
+## Standard (2026)
+
+Clay is a **floating inflated object**, not an extrusion:
+
+- stadium / pill corners (radius scales with height)
+- faces can melt into a tinted canvas; they are never sharp white sheets
+- **three-shadow recipe**: outer hue-matched glow + inset light (top-left) + inset shade (bottom-right)
+- 3-stop face curve (highlight → mid → shade)
+- press **squish** (scale ~0.97) into a well; hover lifts the glow
+- wells invert the curve and hide outer glow
+
 ## Engine
 
-`ClaySurface` is canvas-melted clay:
-
-- **stadium / pill** corners (`Control`/`Chip` radius = half control height; cards stay plump)
-- faces match the canvas (`SurfacePrimary` = `ApplicationBackground`) so cards are not white sheets
-- **3D curve** on the face: top-left highlight → bottom-right shade (`ClayCurveBrush`)
-- hue-matched Gaussian glow inside a layout gutter (dark 315°, light 135°) — not a second filled card, not a purple offset blob
-- concave wells invert the curve and hide outer glow
-- **Rank** Chip / Control / Card; **Lifted** deepens glow; press inverts to a well
-
-Concave fields, lists, tabs, progress, scroll tracks, and check/radio wells use extras thicknesses (`ClayWellShadeThickness`) so studio lighting/relief still apply. Volume scales glow blur and distance.
+`ClaySurface` owns that recipe. Rank Chip / Control / Card. Volume scales glow blur and distance. Plumpness owns radii. `ClayCustomization` stays Clay-owned.
 
 ## Completeness
 
-47 contract roles. `ClayCustomization` stays Clay-owned. Windows pixels **0%**.
+47 contract roles. Windows pixels **0%**.
