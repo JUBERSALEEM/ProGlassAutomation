@@ -21,8 +21,8 @@
     <GradientStop Color="#2A2F38" Offset="0.5" />
     <GradientStop Color="#3A4250" Offset="1" />
   </LinearGradientBrush>
-  <Thickness x:Key="NeumorphRimLightThickness">5,5,0,0</Thickness>
-  <Thickness x:Key="NeumorphRimShadeThickness">0,0,5,5</Thickness>
-  <Thickness x:Key="NeumorphInsetLightThickness">0,0,5,5</Thickness>
-  <Thickness x:Key="NeumorphInsetShadeThickness">6,6,0,0</Thickness>
+  <Thickness x:Key="NeumorphRimLightThickness">0</Thickness>
+  <Thickness x:Key="NeumorphRimShadeThickness">0</Thickness>
+  <Thickness x:Key="NeumorphInsetLightThickness">0</Thickness>
+  <Thickness x:Key="NeumorphInsetShadeThickness">0</Thickness>
 </ResourceDictionary>
