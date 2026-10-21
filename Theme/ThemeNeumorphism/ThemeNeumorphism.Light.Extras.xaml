@@ -1,10 +1,10 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
-  <SolidColorBrush x:Key="NeumorphLightBrush" Color="#FFFFFF" />
-  <SolidColorBrush x:Key="NeumorphDarkBrush" Color="#B0BAC6" />
-  <SolidColorBrush x:Key="NeumorphRimLightBrush" Color="#F8FBFF" />
-  <SolidColorBrush x:Key="NeumorphRimShadeBrush" Color="#C5CED8" />
-  <Color x:Key="NeumorphLightColor">#FFFFFF</Color>
-  <Color x:Key="NeumorphDarkColor">#B0BAC6</Color>
+  <SolidColorBrush x:Key="NeumorphLightBrush" Color="#FBFCFD" />
+  <SolidColorBrush x:Key="NeumorphDarkBrush" Color="#BDC1C4" />
+  <SolidColorBrush x:Key="NeumorphRimLightBrush" Color="#F5F7FA" />
+  <SolidColorBrush x:Key="NeumorphRimShadeBrush" Color="#D0D5DB" />
+  <Color x:Key="NeumorphLightColor">#FBFCFD</Color>
+  <Color x:Key="NeumorphDarkColor">#BDC1C4</Color>
   <sys:Double x:Key="NeumorphBlur">16</sys:Double>
   <sys:Double x:Key="NeumorphDistance">6</sys:Double>
   <sys:Double x:Key="NeumorphLiftDistance">9</sys:Double>

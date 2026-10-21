@@ -54,16 +54,23 @@ public static class NeumorphCustomization
         SetOwned(package, "NeumorphDarkOpacity", darkOpacity);
         SetOwned(package, "NeumorphLightOpacity", lightOpacity);
         SetOwned(package, "NeumorphGutter", new Thickness(gutter));
-        if (mode == Appearance.Light)
-        {
-            SetOwned(package, "NeumorphDarkColor", (Color)ColorConverter.ConvertFromString("#B0BAC6"));
-            SetOwned(package, "NeumorphLightColor", (Color)ColorConverter.ConvertFromString("#FFFFFF"));
-        }
-        else
-        {
-            SetOwned(package, "NeumorphDarkColor", (Color)ColorConverter.ConvertFromString("#161A20"));
-            SetOwned(package, "NeumorphLightColor", (Color)ColorConverter.ConvertFromString("#4A5362"));
-        }
+        Color surface = mode == Appearance.Light
+            ? (Color)ColorConverter.ConvertFromString("#E6EBEF")
+            : (Color)ColorConverter.ConvertFromString("#2A2F38");
+        Color dark = Mix(surface, Colors.Black, mode == Appearance.Light ? 0.18 : 0.28);
+        Color light = Mix(surface, Colors.White, mode == Appearance.Light ? 0.85 : 0.14);
+        SetOwned(package, "NeumorphDarkColor", dark);
+        SetOwned(package, "NeumorphLightColor", light);
+        SetOwned(package, "NeumorphDarkBrush", new SolidColorBrush(dark));
+        SetOwned(package, "NeumorphLightBrush", new SolidColorBrush(light));
+        SetOwned(package, "NeumorphRimShadeBrush", new SolidColorBrush(Mix(surface, Colors.Black, mode == Appearance.Light ? 0.10 : 0.22)));
+        SetOwned(package, "NeumorphRimLightBrush", new SolidColorBrush(Mix(surface, Colors.White, mode == Appearance.Light ? 0.55 : 0.08)));
+    }
+
+    private static Color Mix(Color from, Color toward, double amount)
+    {
+        byte Channel(byte a, byte b) => (byte)Math.Clamp((int)Math.Round(a + (b - a) * amount), 0, 255);
+        return Color.FromRgb(Channel(from.R, toward.R), Channel(from.G, toward.G), Channel(from.B, toward.B));
     }
 
     private static void SetOwned(ResourceDictionary package, string key, object value)
