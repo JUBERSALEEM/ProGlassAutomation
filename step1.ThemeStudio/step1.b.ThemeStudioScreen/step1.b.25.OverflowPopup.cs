@@ -1,8 +1,8 @@
 using System.Windows;
+using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using System.Windows.Threading;
 using ProGlassAutomation.Analytics;
 
 namespace ProGlassAutomation.ThemeStudio;
@@ -16,7 +16,8 @@ public static class OverflowSpotlight
 
 /// <summary>
 /// Compact mosaic host. When the child needs more height than the slot,
-/// hovering opens a connected popup with a full, scrollable copy.
+/// an Expand button opens a connected popup with a full, scrollable copy.
+/// Hover never opens or blurs — that is accidental and unprofessional.
 /// </summary>
 public sealed class OverflowPopup : ContentControl
 {
@@ -24,36 +25,48 @@ public sealed class OverflowPopup : ContentControl
     private readonly Popup popup = new();
     private readonly ScrollViewer scroller = new();
     private readonly ContentControl frame = new();
-    private readonly DispatcherTimer hide = new() { Interval = TimeSpan.FromMilliseconds(250) };
+    private readonly Button close = new();
+    private Button? expand;
     private bool overflowing;
+    private Window? hostWindow;
 
     public OverflowPopup()
     {
         Focusable = false;
         ClipToBounds = true;
+        Template = BuildTemplate();
         scroller.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
         scroller.HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled;
-        frame.Content = scroller;
+        close.Content = "Close";
+        close.HorizontalAlignment = HorizontalAlignment.Right;
+        close.Click += (_, _) => CloseFlyout();
+        AutomationProperties.SetName(close, "Close expanded card");
+        var chrome = new DockPanel();
+        DockPanel.SetDock(close, Dock.Top);
+        chrome.Children.Add(close);
+        chrome.Children.Add(scroller);
+        frame.Content = chrome;
         popup.AllowsTransparency = true;
         popup.StaysOpen = true;
         popup.Placement = PlacementMode.Bottom;
         popup.Child = frame;
-        hide.Tick += (_, _) => CloseFlyout();
-        MouseEnter += (_, _) => ShowFlyout();
-        MouseLeave += (_, _) => { if (!popup.IsOpen) hide.Start(); };
-        popup.MouseEnter += (_, _) => hide.Stop();
-        popup.MouseLeave += (_, _) => hide.Start();
-        OverflowSpotlight.Changed += OnSpotlight;
-        Loaded += (_, _) =>
-        {
-            if (TryFindResource("Card") is Style card) frame.Style = card;
-            popup.PlacementTarget = this;
-        };
-        Unloaded += (_, _) =>
-        {
-            OverflowSpotlight.Changed -= OnSpotlight;
-            CloseFlyout();
-        };
+        Loaded += OnLoaded;
+        Unloaded += OnUnloaded;
+    }
+
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+        if (expand is not null) expand.Click -= OnExpand;
+        expand = GetTemplateChild("PART_Expand") as Button;
+        if (expand is null) return;
+        expand.Click += OnExpand;
+        expand.SetResourceReference(PaddingProperty, "PaddingCompact");
+        expand.SetResourceReference(FontSizeProperty, "FontSizeCaption");
+        if (TryFindResource("SubtleButton") is Style subtle) expand.Style = subtle;
+        expand.MinWidth = 0;
+        expand.MinHeight = 0;
+        SyncExpand();
     }
 
     protected override Size MeasureOverride(Size available)
@@ -64,9 +77,34 @@ public sealed class OverflowPopup : ContentControl
             double width = double.IsInfinity(available.Width) ? 240 : Math.Max(0, available.Width);
             child.Measure(new Size(width, double.PositiveInfinity));
             overflowing = !double.IsInfinity(available.Height) && child.DesiredSize.Height > available.Height + 1;
-            Cursor = overflowing ? Cursors.Hand : Cursors.Arrow;
+            SyncExpand();
         }
         return base.MeasureOverride(available);
+    }
+
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        OverflowSpotlight.Changed -= OnSpotlight;
+        OverflowSpotlight.Changed += OnSpotlight;
+        if (TryFindResource("Card") is Style card) frame.Style = card;
+        if (TryFindResource("SubtleButton") is Style subtle)
+        {
+            close.Style = subtle;
+            if (expand is not null) expand.Style = subtle;
+        }
+        close.SetResourceReference(PaddingProperty, "PaddingCompact");
+        close.SetResourceReference(FontSizeProperty, "FontSizeCaption");
+        close.MinWidth = 0;
+        close.MinHeight = 0;
+        popup.PlacementTarget = this;
+        ApplyTemplate();
+    }
+
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        OverflowSpotlight.Changed -= OnSpotlight;
+        DetachEscape();
+        CloseFlyout();
     }
 
     private void OnSpotlight(bool on)
@@ -74,9 +112,15 @@ public sealed class OverflowPopup : ContentControl
         if (!on && popup.IsOpen) CloseFlyout();
     }
 
+    private void OnExpand(object sender, RoutedEventArgs e)
+    {
+        e.Handled = true;
+        if (popup.IsOpen) CloseFlyout();
+        else ShowFlyout();
+    }
+
     private void ShowFlyout()
     {
-        hide.Stop();
         if (!overflowing || popup.IsOpen || ActualWidth <= 0 || Content is not FrameworkElement source) return;
         if (source.GetType().GetConstructor(Type.EmptyTypes) is null) return;
         if (Activator.CreateInstance(source.GetType()) is not FrameworkElement copy) return;
@@ -93,17 +137,68 @@ public sealed class OverflowPopup : ContentControl
         popup.PlacementTarget = this;
         popup.IsOpen = true;
         active = this;
+        AttachEscape();
         OverflowSpotlight.Set(true);
+        SyncExpand();
     }
 
     private void CloseFlyout()
     {
-        hide.Stop();
         if (!popup.IsOpen) return;
         popup.IsOpen = false;
         scroller.Content = null;
+        DetachEscape();
         if (!ReferenceEquals(active, this)) return;
         active = null;
         OverflowSpotlight.Set(false);
+        SyncExpand();
+    }
+
+    private void SyncExpand()
+    {
+        if (expand is null) return;
+        expand.Visibility = overflowing ? Visibility.Visible : Visibility.Collapsed;
+        expand.IsEnabled = overflowing;
+    }
+
+    private void AttachEscape()
+    {
+        DetachEscape();
+        hostWindow = Window.GetWindow(this);
+        if (hostWindow is not null) hostWindow.PreviewKeyDown += OnHostKey;
+    }
+
+    private void DetachEscape()
+    {
+        if (hostWindow is not null) hostWindow.PreviewKeyDown -= OnHostKey;
+        hostWindow = null;
+    }
+
+    private void OnHostKey(object sender, KeyEventArgs e)
+    {
+        if (e.Key != Key.Escape || !popup.IsOpen) return;
+        CloseFlyout();
+        e.Handled = true;
+    }
+
+    private static ControlTemplate BuildTemplate()
+    {
+        var grid = new FrameworkElementFactory(typeof(Grid));
+        var presenter = new FrameworkElementFactory(typeof(ContentPresenter));
+        presenter.SetValue(ContentPresenter.ContentSourceProperty, "Content");
+        presenter.SetValue(ClipToBoundsProperty, true);
+        var button = new FrameworkElementFactory(typeof(Button));
+        button.Name = "PART_Expand";
+        button.SetValue(ContentProperty, "Expand");
+        button.SetValue(HorizontalAlignmentProperty, HorizontalAlignment.Right);
+        button.SetValue(VerticalAlignmentProperty, VerticalAlignment.Top);
+        button.SetValue(MinWidthProperty, 0d);
+        button.SetValue(MinHeightProperty, 0d);
+        button.SetValue(MarginProperty, new Thickness(4));
+        button.SetValue(Panel.ZIndexProperty, 1);
+        button.SetValue(AutomationProperties.NameProperty, "Expand card");
+        grid.AppendChild(presenter);
+        grid.AppendChild(button);
+        return new ControlTemplate(typeof(OverflowPopup)) { VisualTree = grid };
     }
 }
