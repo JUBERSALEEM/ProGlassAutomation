@@ -15,6 +15,7 @@ public sealed partial class ThemeStudioViewModel
     private BentoPreferences preferences = new();
     private BentoCustomizationState extended = new();
     private ClayCustomizationState clay = new();
+    private SharedGeometryState geometry = new();
     private SavedCustomization lastSaved = CustomizationStore.Load();
     private BentoCustomizationState draft => extended;
     private int selectedWorkspace = 1;
@@ -29,6 +30,7 @@ public sealed partial class ThemeStudioViewModel
     public IReadOnlyList<BentoAccent> AccentChoices { get; } = Enum.GetValues<BentoAccent>();
     public IReadOnlyList<BentoDensity> DensityChoices { get; } = Enum.GetValues<BentoDensity>();
     public IReadOnlyList<BentoShape> ShapeChoices { get; } = Enum.GetValues<BentoShape>();
+    public IReadOnlyList<CardRounding> RoundingChoices { get; } = Enum.GetValues<CardRounding>();
     public IReadOnlyList<BentoType> TypeChoices { get; } = Enum.GetValues<BentoType>();
     public IReadOnlyList<BentoCanvas> CanvasChoices { get; } = Enum.GetValues<BentoCanvas>();
     public IReadOnlyList<BentoSurfaceStyle> SurfaceChoices { get; } = Enum.GetValues<BentoSurfaceStyle>();
@@ -85,7 +87,33 @@ public sealed partial class ThemeStudioViewModel
     public IReadOnlyList<NamedPreset> CustomPresets => lastSaved.CustomPresets ?? [];
     public BentoAccent SelectedAccent { get => extended.Accent; set => UpdateExtended(extended with { Accent = value }); }
     public BentoDensity SelectedDensity { get => extended.Density; set => UpdateExtended(extended with { Density = value }); }
-    public BentoShape SelectedShape { get => extended.Shape; set => UpdateExtended(extended with { Shape = value }); }
+    public BentoShape SelectedShape
+    {
+        get => extended.Shape;
+        set
+        {
+            if (!CanCustomizeBento || value == extended.Shape) return;
+            geometry = geometry with { Rounding = SharedGeometry.FromShape(value) };
+            UpdateExtended(extended with { Shape = value });
+            Changed(nameof(SelectedRounding));
+        }
+    }
+    public CardRounding SelectedRounding
+    {
+        get => geometry.Rounding;
+        set
+        {
+            if (!CanCustomizeGeometry || value == geometry.Rounding) return;
+            geometry = geometry with { Rounding = value };
+            if (CanCustomizeBento)
+                UpdateExtended(extended with { Shape = SharedGeometry.ToShape(value) });
+            else
+                ApplySharedOnly();
+            Changed(nameof(SelectedRounding));
+            Changed(nameof(DesignSummary));
+            Changed(nameof(IsDirty));
+        }
+    }
     public BentoType SelectedTypography { get => extended.Typography; set => UpdateExtended(extended with { Typography = value }); }
     public BentoCanvas SelectedCanvas { get => extended.Canvas; set => UpdateExtended(extended with { Canvas = value }); }
     public BentoSurfaceStyle SelectedSurface { get => extended.SurfaceStyle; set => UpdateExtended(extended with { SurfaceStyle = value }); }
@@ -106,14 +134,17 @@ public sealed partial class ThemeStudioViewModel
     public bool IsFluent => SelectedTheme == ThemeService.Fluent;
     public bool CanCustomizeBento => SelectedTheme == ThemeService.Bento;
     public bool CanCustomizeClay => IsClay;
+    public bool CanCustomizeGeometry => ThemeCatalog.Find(SelectedTheme).Geometry == ThemeGeometry.SharedTokens;
     public bool CanCustomize => CanCustomizeBento || CanCustomizeClay;
     public string DesignSummary => CanCustomizeClay
         ? $"{SelectedClayAccent} / {SelectedClayVolume} / {SelectedClayPlumpness} / {SelectedClayTypography}"
         : CanCustomizeBento ? $"{SelectedAccent} / {SelectedDensity} / {SelectedShape} / {SelectedTypography} · {SelectedLayoutPreset}"
+        : IsFluent ? $"Fluent / {SelectedRounding}"
         : "Theme-default settings";
     public bool IsDirty =>
         themes.ActiveTheme != lastSaved.Theme
         || themes.ActiveAppearance != lastSaved.Appearance
+        || geometry != (lastSaved.Geometry ?? new SharedGeometryState())
         || (CanCustomizeClay && clay != (lastSaved.Clay ?? new ClayCustomizationState()))
         || (CanCustomizeBento && extended != lastSaved.Preferences);
     public int SelectedWorkspace
@@ -161,22 +192,28 @@ public sealed partial class ThemeStudioViewModel
         // Restore last saved; if none, defaults
         extended = lastSaved.Preferences ?? new BentoCustomizationState();
         clay = lastSaved.Clay ?? new ClayCustomizationState();
+        geometry = lastSaved.Geometry ?? new SharedGeometryState(SharedGeometry.FromShape(extended.Shape));
+        if (lastSaved.Geometry is null) lastSaved = lastSaved with { Geometry = geometry };
         preferences = extended.ToLegacy();
         var restored = ThemeService.InstalledThemes.Contains(lastSaved.Theme) ? lastSaved.Theme : ThemeService.Bento;
         try
         {
-            themes.Apply(restored, lastSaved.Appearance,
-                restored == ThemeService.Bento ? (p,m)=>BentoCustomization.ApplyExtended(p,m,extended)
-                : restored == ThemeService.Clay ? (p,m)=>ClayCustomization.Apply(p,m,clay)
-                : null);
+            themes.Apply(restored, lastSaved.Appearance, SharedGeometry.Compose(restored, extended, clay, geometry));
         }
         catch { }
-        ResetDesign = new DelegateCommand(() => { if (IsClay) ApplyClayState(new ClayCustomizationState()); else ApplyState(new BentoCustomizationState()); }, () => CanCustomize);
+        ResetDesign = new DelegateCommand(() =>
+        {
+            geometry = new SharedGeometryState();
+            if (IsClay) ApplyClayState(new ClayCustomizationState());
+            else if (CanCustomizeBento) ApplyState(new BentoCustomizationState());
+            else ApplySharedOnly();
+            Changed(nameof(SelectedRounding));
+        }, () => CanCustomize || CanCustomizeGeometry);
         ToggleMenu = new DelegateCommand(() => IsMenuOpen = !IsMenuOpen);
         ToggleAppearance = new DelegateCommand(() => { if (IsLight) IsDark = true; else IsLight = true; });
         ShowStudio = new DelegateCommand(() => SelectedWorkspace = 0);
         ShowBusiness = new DelegateCommand(() => SelectedWorkspace = 1);
-        ApplyPreview = new DelegateCommand(() => { try { themes.Apply(SelectedTheme, themes.ActiveAppearance, LiveConfigure()); ThemeError=""; Feedback="Preview applied — unsaved changes present."; } catch(Exception ex){ ThemeError=ex.Message; } Changed(nameof(ThemeError)); }, () => CanCustomize);
+        ApplyPreview = new DelegateCommand(() => { try { themes.Apply(SelectedTheme, themes.ActiveAppearance, LiveConfigure()); ThemeError=""; Feedback="Preview applied — unsaved changes present."; } catch(Exception ex){ ThemeError=ex.Message; } Changed(nameof(ThemeError)); }, () => CanCustomize || CanCustomizeGeometry);
         SaveCustomization = new DelegateCommand(() =>
         {
             if (extended.Validate() is not null || (clay ?? new ClayCustomizationState()).Validate() is not null)
@@ -264,10 +301,12 @@ public sealed partial class ThemeStudioViewModel
         }, () => CanCustomize);
         ResetTheme = new DelegateCommand(() =>
         {
+            geometry = new SharedGeometryState();
+            Changed(nameof(SelectedRounding));
             if (IsClay)
             {
                 ApplyClayState(new ClayCustomizationState());
-                lastSaved = lastSaved with { Clay = new ClayCustomizationState(), Theme = ThemeService.Clay, Appearance = themes.ActiveAppearance };
+                lastSaved = lastSaved with { Clay = new ClayCustomizationState(), Theme = ThemeService.Clay, Appearance = themes.ActiveAppearance, Geometry = geometry };
                 CustomizationStore.Save(lastSaved);
                 Feedback = "Clay restored to defaults.";
                 return;
@@ -426,11 +465,8 @@ public sealed partial class ThemeStudioViewModel
             }
         });
     }
-    private Action<ResourceDictionary, Appearance>? LiveConfigure() => ConfigureFor(SelectedTheme);
-    private Action<ResourceDictionary, Appearance>? ConfigureFor(string theme) =>
-        theme == ThemeService.Bento ? (package, mode) => BentoCustomization.ApplyExtended(package, mode, extended)
-        : theme == ThemeService.Clay ? (package, mode) => ClayCustomization.Apply(package, mode, clay)
-        : null;
+    private Action<ResourceDictionary, Appearance> LiveConfigure() =>
+        SharedGeometry.Compose(SelectedTheme, extended, clay, geometry);
     private void Customize(BentoPreferences candidate)
     {
         if (!CanCustomizeBento || candidate == preferences) return;
@@ -450,7 +486,7 @@ public sealed partial class ThemeStudioViewModel
     {
         try
         {
-            themes.Apply(ThemeService.Bento, themes.ActiveAppearance, (pkg,mode)=>BentoCustomization.ApplyExtended(pkg,mode,next));
+            themes.Apply(ThemeService.Bento, themes.ActiveAppearance, SharedGeometry.Compose(ThemeService.Bento, next, clay, geometry));
             extended = next; preferences = next.ToLegacy(); ThemeError=""; Feedback="Live preview updated — use Save to persist.";
         }
         catch (ThemeNotificationException error) { extended = next; preferences = next.ToLegacy(); ThemeError = error.Message; }
@@ -461,7 +497,7 @@ public sealed partial class ThemeStudioViewModel
     {
         try
         {
-            themes.Apply(ThemeService.Clay, themes.ActiveAppearance, (pkg,mode)=>ClayCustomization.Apply(pkg,mode,next));
+            themes.Apply(ThemeService.Clay, themes.ActiveAppearance, SharedGeometry.Compose(ThemeService.Clay, extended, next, geometry));
             clay = next; ThemeError=""; Feedback="Live clay preview updated — use Save to persist.";
         }
         catch (ThemeNotificationException error) { clay = next; ThemeError = error.Message; }
@@ -478,7 +514,26 @@ public sealed partial class ThemeStudioViewModel
         lastSaved.CustomPresets,
         themes.ActiveTheme,
         clay,
-        lastSaved.ClayPresets);
+        lastSaved.ClayPresets,
+        geometry);
+
+    private void ApplySharedOnly()
+    {
+        try
+        {
+            themes.Apply(SelectedTheme, themes.ActiveAppearance, LiveConfigure());
+            ThemeError = "";
+            Feedback = "Live card rounding updated — use Save to persist.";
+        }
+        catch (ThemeNotificationException error) { ThemeError = error.Message; }
+        catch (Exception error) when (error is InvalidOperationException or ArgumentException or IOException or System.Windows.Markup.XamlParseException)
+        {
+            ThemeError = $"Design unchanged: {error.Message}";
+        }
+        Changed(nameof(ThemeError));
+        Changed(nameof(IsDirty));
+        Changed(nameof(DesignSummary));
+    }
 
     private void ApplyImported(SavedCustomization loaded)
     {
@@ -492,15 +547,18 @@ public sealed partial class ThemeStudioViewModel
     {
         var nextBento = package.Preferences ?? new BentoCustomizationState();
         var nextClay = package.Clay ?? new ClayCustomizationState();
+        var nextGeometry = package.Geometry ?? new SharedGeometryState(SharedGeometry.FromShape(nextBento.Shape));
         var theme = ThemeService.InstalledThemes.Contains(package.Theme) ? package.Theme : ThemeService.Bento;
         var previousBento = extended;
         var previousClay = clay;
+        var previousGeometry = geometry;
         try
         {
             extended = nextBento;
             clay = nextClay;
+            geometry = nextGeometry;
             preferences = nextBento.ToLegacy();
-            themes.Apply(theme, package.Appearance, ConfigureFor(theme));
+            themes.Apply(theme, package.Appearance, SharedGeometry.Compose(theme, nextBento, nextClay, nextGeometry));
             ThemeError = "";
             if (persist)
             {
@@ -516,10 +574,11 @@ public sealed partial class ThemeStudioViewModel
         {
             extended = previousBento;
             clay = previousClay;
+            geometry = previousGeometry;
             preferences = previousBento.ToLegacy();
             ThemeError = error.Message;
         }
-        foreach (var n in new[] { nameof(SelectedAccent), nameof(SelectedDensity), nameof(SelectedShape), nameof(SelectedTypography), nameof(SelectedCanvas), nameof(SelectedSurface), nameof(SelectedTextContrast), nameof(SelectedBorder), nameof(SelectedShadow), nameof(SelectedSpacing), nameof(SelectedPadding), nameof(SelectedWeight), nameof(SelectedLayoutPreset), nameof(HeroCompact), nameof(ShowKpiTrend), nameof(SelectedClayAccent), nameof(SelectedClayVolume), nameof(SelectedClayPlumpness), nameof(SelectedClayDensity), nameof(SelectedClayCanvas), nameof(SelectedClayTypography), nameof(SelectedClaySpacing), nameof(SelectedClayTextContrast), nameof(SelectedClaySheen), nameof(SelectedClayWeight), nameof(SelectedClayLighting), nameof(SelectedClayRelief), nameof(SelectedClayEffects), nameof(DesignSummary), nameof(ThemeError), nameof(IsDirty) }) Changed(n);
+        foreach (var n in new[] { nameof(SelectedAccent), nameof(SelectedDensity), nameof(SelectedShape), nameof(SelectedTypography), nameof(SelectedCanvas), nameof(SelectedSurface), nameof(SelectedTextContrast), nameof(SelectedBorder), nameof(SelectedShadow), nameof(SelectedSpacing), nameof(SelectedPadding), nameof(SelectedWeight), nameof(SelectedLayoutPreset), nameof(HeroCompact), nameof(ShowKpiTrend), nameof(SelectedRounding), nameof(SelectedClayAccent), nameof(SelectedClayVolume), nameof(SelectedClayPlumpness), nameof(SelectedClayDensity), nameof(SelectedClayCanvas), nameof(SelectedClayTypography), nameof(SelectedClaySpacing), nameof(SelectedClayTextContrast), nameof(SelectedClaySheen), nameof(SelectedClayWeight), nameof(SelectedClayLighting), nameof(SelectedClayRelief), nameof(SelectedClayEffects), nameof(DesignSummary), nameof(ThemeError), nameof(IsDirty) }) Changed(n);
         CommandManager.InvalidateRequerySuggested();
     }
 }

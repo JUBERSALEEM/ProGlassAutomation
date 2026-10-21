@@ -15,6 +15,11 @@
      <Label Content="Theme" Target="{Binding ElementName=ThemePicker}" Foreground="{DynamicResource TextSecondary}"/><ComboBox x:Name="ThemePicker" ItemsSource="{Binding InstalledThemes}" SelectedItem="{Binding SelectedTheme}" AutomationProperties.Name="Installed theme" Margin="{DynamicResource MarginItem}"/>
      <TextBlock Text="Appearance" Style="{DynamicResource Caption}"/><WrapPanel Margin="{DynamicResource MarginItem}"><RadioButton Content="_Light" GroupName="Appearance" IsChecked="{Binding IsLight}" AutomationProperties.Name="Light appearance"/><RadioButton Content="_Dark" GroupName="Appearance" IsChecked="{Binding IsDark}" AutomationProperties.Name="Dark appearance"/></WrapPanel>
      <TextBlock Text="{Binding DesignSummary}" Style="{DynamicResource Caption}" Margin="{DynamicResource MarginItem}"/>
+     <StackPanel Visibility="{Binding CanCustomizeGeometry, Converter={StaticResource BoolVis}}">
+      <Label Content="Card rounding" Foreground="{DynamicResource TextSecondary}"/>
+      <ComboBox ItemsSource="{Binding RoundingChoices}" SelectedItem="{Binding SelectedRounding}" AutomationProperties.Name="Card rounding" Margin="{DynamicResource MarginItem}"/>
+      <TextBlock Text="Crisp, Soft, Rounded or Pill writes CardCornerRadius into application resources. Every Card, KPI, chart tile and future module that binds the token follows it." Style="{DynamicResource Caption}"/>
+     </StackPanel>
      <WrapPanel Margin="{DynamicResource MarginItem}">
       <Button Content="Import JSON" Command="{Binding ImportCustomization}" Margin="{DynamicResource MarginInline}" AutomationProperties.Name="Import customization JSON"/>
       <Button Content="Export JSON" Command="{Binding ExportCustomization}" Margin="{DynamicResource MarginInline}" AutomationProperties.Name="Export customization JSON"/>
@@ -154,7 +159,7 @@
     <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
      <StackPanel>
       <TextBlock Text="Fluent studio" Style="{DynamicResource Caption}"/>
-      <TextBlock Text="Fluent / Acrylic uses mica and acrylic defaults. It has no customization engine — Bento and Clay knobs stay out of this studio. Import/Export JSON is the shared file lifecycle only." Style="{DynamicResource Caption}"/>
+      <TextBlock Text="Fluent / Acrylic keeps mica and acrylic as its material. It has no Fluent knobs. Card rounding above is shared geometry — not a Fluent engine — so future modules stay in sync." Style="{DynamicResource Caption}"/>
       <WrapPanel Margin="{DynamicResource MarginItem}"><Button Content="Open reference" Command="{Binding ShowBusiness}" Style="{DynamicResource PrimaryButton}"/></WrapPanel>
      </StackPanel>
     </ContentControl>

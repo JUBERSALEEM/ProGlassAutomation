@@ -167,13 +167,15 @@ assert (ROOT / 'Theme/ThemeFluent/ThemeFluent.Light.xaml').is_file()
 catalog = (ENGINE / 'step1.a.6.ThemeCatalog.cs').read_text()
 assert 'ClayName = "Claymorphism"' in catalog and 'ClayResources.Load' in catalog
 assert 'FluentName = "Fluent / Acrylic"' in catalog and 'FluentResources.Load' in catalog
+assert 'ThemeGeometry.ThemeOwned' in catalog and 'SharedTokens' in catalog
 runtime = (ROOT / 'Theme/step1.d.tests/step1.d.1.RuntimeChecks.cs').read_text()
 assert 'ThemeService.InstalledThemes' in runtime and 'Apply("NotInstalled"' in runtime
 assert 'Apply("Claymorphism"' not in runtime, 'Clay is installed; do not treat it as missing'
 vm = (ROOT/'step1.ThemeStudio/step1.b.ThemeStudioScreen/step1.b.3.ThemeStudioViewModel.cs').read_text()
-assert 'theme == ThemeService.Bento' in vm and 'ClayCustomization.Apply' in vm
+assert 'SharedGeometry.Compose' in vm
 panel = (ROOT/'step1.ThemeStudio/step1.b.ThemeStudioScreen/step1.b.16.CustomizationPanel.xaml').read_text()
 assert 'CanCustomizeBento' in panel and 'CanCustomizeClay' in panel and 'IsFluent' in panel
+assert 'CanCustomizeGeometry' in panel and 'SelectedRounding' in panel
 assert 'Visibility="{Binding CanCustomizeBento' in panel and 'Visibility="{Binding CanCustomizeClay' in panel and 'Visibility="{Binding IsFluent' in panel
 assert 'SelectedClayAccent' in panel and 'SelectedClayTypography' in panel and 'SelectedClaySheen' in panel
 assert 'SelectedClaySpacing' in panel and 'SelectedClayTextContrast' in panel and 'SelectedClayPresetName' in panel
@@ -181,6 +183,7 @@ assert 'Bento studio' in panel and 'Clay studio' in panel and 'Fluent studio' in
 custom_vm = (ROOT/'step1.ThemeStudio/step1.b.ThemeStudioScreen/step1.b.17.Customization.cs').read_text()
 assert 'using ProGlassAutomation.ThemeClaymorphism;' in custom_vm
 assert 'ApplyClayState' in custom_vm and 'lastSavedClaySnapshot' in custom_vm
+assert 'SharedGeometry.Compose' in custom_vm and 'SelectedRounding' in custom_vm
 assert 'IsClay)' in custom_vm and 'ResetTheme' in custom_vm
 contracts = (ROOT / 'Theme/step1.d.tests/step1.d.2.ContractChecks.cs').read_text()
 assert 'ThemeService.InstalledThemes' in contracts

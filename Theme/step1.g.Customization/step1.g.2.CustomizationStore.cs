@@ -47,7 +47,12 @@ public static class CustomizationStore
         if (!Enum.IsDefined(loaded.Appearance)) throw new ArgumentException("Theme file appearance is not supported.");
         if (string.IsNullOrWhiteSpace(loaded.Theme) || !ThemeService.InstalledThemes.Contains(loaded.Theme))
             loaded = loaded with { Theme = ThemeCatalog.BentoName };
-        loaded = loaded with { Clay = loaded.Clay ?? new ClayCustomizationState() };
+        loaded = loaded with
+        {
+            Clay = loaded.Clay ?? new ClayCustomizationState(),
+            Geometry = loaded.Geometry ?? new SharedGeometryState()
+        };
+        if (loaded.Geometry.Validate() is not null) throw new ArgumentException("Theme file contains invalid card rounding.");
         foreach (var preset in loaded.CustomPresets ?? [])
             if (string.IsNullOrWhiteSpace(preset.Name) || preset.State.Validate() is not null)
                 throw new ArgumentException("Theme file contains an invalid Bento preset.");
@@ -65,12 +70,13 @@ public static class CustomizationStore
         ArgumentException.ThrowIfNullOrWhiteSpace(path);
         if (state.Preferences.Validate() is not null) throw new ArgumentException("Cannot persist invalid preferences.");
         if (state.Clay?.Validate() is not null) throw new ArgumentException("Cannot persist invalid clay preferences.");
+        if ((state.Geometry ?? new SharedGeometryState()).Validate() is not null) throw new ArgumentException("Cannot persist invalid card rounding.");
         var dir = Path.GetDirectoryName(Path.GetFullPath(path))!;
         Directory.CreateDirectory(dir);
         var tmp = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
         try
         {
-            File.WriteAllText(tmp, JsonSerializer.Serialize(state with { Version = 2 }, Options));
+            File.WriteAllText(tmp, JsonSerializer.Serialize(state with { Version = 2, Geometry = state.Geometry ?? new SharedGeometryState() }, Options));
             File.Move(tmp, path, overwrite: true);
         }
         finally

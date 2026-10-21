@@ -34,8 +34,8 @@
   <SolidColorBrush x:Key="HeroForeground" Color="#F5F8FF" />
   <SolidColorBrush x:Key="HeroSecondaryText" Color="#D5E2FF" />
   <SolidColorBrush x:Key="HeroAccent" Color="#7CEADB" />
-  <sys:Double x:Key="FontSizeDisplay">28</sys:Double>
-  <sys:Double x:Key="FontSizeTitle">20</sys:Double>
+  <sys:Double x:Key="FontSizeDisplay">30</sys:Double>
+  <sys:Double x:Key="FontSizeTitle">22</sys:Double>
   <sys:Double x:Key="FontSizeSection">16</sys:Double>
   <sys:Double x:Key="FontSizeBody">13</sys:Double>
   <sys:Double x:Key="FontSizeCaption">12</sys:Double>
@@ -68,16 +68,16 @@
   <Thickness x:Key="FocusThickness">2</Thickness>
   <Thickness x:Key="PaddingChoice">8</Thickness>
   <Thickness x:Key="PaddingCompact">8,4</Thickness>
-  <CornerRadius x:Key="CardCornerRadius">12</CornerRadius>
-  <CornerRadius x:Key="ControlCornerRadius">6</CornerRadius>
-  <CornerRadius x:Key="ChipCornerRadius">4</CornerRadius>
+  <CornerRadius x:Key="CardCornerRadius">18</CornerRadius>
+  <CornerRadius x:Key="ControlCornerRadius">9</CornerRadius>
+  <CornerRadius x:Key="ChipCornerRadius">6</CornerRadius>
   <FontFamily x:Key="FontFamilyBody">Segoe UI</FontFamily>
   <FontFamily x:Key="FontFamilyMono">Consolas</FontFamily>
-  <FontWeight x:Key="FontWeightHeading">Bold</FontWeight>
+  <FontWeight x:Key="FontWeightHeading">ExtraBold</FontWeight>
   <FontWeight x:Key="FontWeightBody">Normal</FontWeight>
   <Thickness x:Key="PaddingMark">4</Thickness>
   <Thickness x:Key="PaddingSelection">10,5,32,5</Thickness>
-  <CornerRadius x:Key="ChoiceCornerRadius">9</CornerRadius>
+  <CornerRadius x:Key="ChoiceCornerRadius">14</CornerRadius>
   <sys:Double x:Key="StrokeWidth">2</sys:Double>
   <sys:Double x:Key="SelectionOpacity">1</sys:Double>
   <Thickness x:Key="MarginFocus">-3</Thickness>

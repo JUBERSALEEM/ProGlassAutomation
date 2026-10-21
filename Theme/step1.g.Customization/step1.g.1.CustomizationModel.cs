@@ -21,7 +21,7 @@ public enum LegendPlacement { Auto, Top, Right, Bottom, Hidden }
 public sealed record BentoCustomizationState(
     BentoAccent Accent = BentoAccent.Ocean,
     BentoDensity Density = BentoDensity.Compact,
-    BentoShape Shape = BentoShape.Soft,
+    BentoShape Shape = BentoShape.Rounded,
     BentoType Typography = BentoType.Standard,
     BentoCanvas Canvas = BentoCanvas.Neutral,
     BentoSurfaceStyle SurfaceStyle = BentoSurfaceStyle.Clean,
@@ -77,7 +77,8 @@ public sealed record SavedCustomization(
     List<NamedPreset>? CustomPresets = null,
     string Theme = ThemeCatalog.BentoName,
     ClayCustomizationState? Clay = null,
-    List<ClayNamedPreset>? ClayPresets = null
+    List<ClayNamedPreset>? ClayPresets = null,
+    SharedGeometryState? Geometry = null
 )
 {
     public SavedCustomization() : this(2, Appearance.Light, new BentoCustomizationState()) { }

@@ -5,7 +5,13 @@ using ProGlassAutomation.ThemeFluent;
 
 namespace ProGlassAutomation.Theming;
 
-public sealed record ThemeDefinition(string Name, string Folder, Func<Appearance, ResourceDictionary> LoadResources);
+public enum ThemeGeometry { SharedTokens, ThemeOwned }
+
+public sealed record ThemeDefinition(
+    string Name,
+    string Folder,
+    Func<Appearance, ResourceDictionary> LoadResources,
+    ThemeGeometry Geometry = ThemeGeometry.SharedTokens);
 
 /// <summary>Register only complete, authorized themes. No placeholder entries.</summary>
 public static class ThemeCatalog
@@ -17,7 +23,7 @@ public static class ThemeCatalog
         Array.AsReadOnly(new[]
         {
             new ThemeDefinition(BentoName, "ThemeBento", BentoResources.Load),
-            new ThemeDefinition(ClayName, "ThemeClaymorphism", ClayResources.Load),
+            new ThemeDefinition(ClayName, "ThemeClaymorphism", ClayResources.Load, ThemeGeometry.ThemeOwned),
             new ThemeDefinition(FluentName, "ThemeFluent", FluentResources.Load),
         });
 

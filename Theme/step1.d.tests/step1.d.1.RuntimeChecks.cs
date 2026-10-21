@@ -217,7 +217,7 @@ internal static class RuntimeChecks
                     Check(model.SelectedClayAccent == ProGlassAutomation.ThemeClaymorphism.ClayAccent.Rose && (double)themes.GetToken("FontSizeBody") == 13d, "clay reset restores defaults");
                 }
                 else
-                    Check(model.DesignSummary == "Theme-default settings", extra + " uses theme-default settings");
+                    Check(model.CanCustomizeGeometry && model.DesignSummary.StartsWith("Fluent"), extra + " uses shared card rounding without a Fluent material engine");
                 model.IsDark = true;
                 Pump();
                 Check(themes.ActiveTheme == extra && themes.ActiveAppearance == Appearance.Dark, extra + " dark");

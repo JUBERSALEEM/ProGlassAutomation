@@ -16,17 +16,18 @@ internal static class CustomizationPersistenceChecks
         // Validate all appearance properties mutated
         if ((double)light["ControlMinHeight"] != 32) throw new Exception("Compact density height");
         if ((double)light["FontSizeBody"] != 14) throw new Exception("Large typography");
-        if (((System.Windows.CornerRadius)light["CardCornerRadius"]).TopLeft != 16) throw new Exception("Rounded minus compact dense adjustment");
+        if (((System.Windows.CornerRadius)light["CardCornerRadius"]).TopLeft != 18) throw new Exception("Rounded card radius");
         // Canvas tint applied
         if (((System.Windows.Media.SolidColorBrush)light["ApplicationBackground"]).Color.ToString() != "#FFF5EFE6") throw new Exception("Warm canvas not applied");
         // Save/load roundtrip
         var clayState = new ClayCustomizationState(ClayAccent.Berry, ClayVolume.Deep, ClayPlumpness.Puffy, ClayDensity.Compact, ClayCanvas.Cool, ClayType.Large, ClaySpacing.Spacious, ClayTextContrast.High, ClaySheen.Gloss, ClayWeight.Semibold);
-        var saved = new SavedCustomization(2, Appearance.Dark, state, null, null, [new NamedPreset("My Test", state, Appearance.Dark)], ThemeCatalog.FluentName, clayState, [new ClayNamedPreset("Berry Night", clayState, Appearance.Dark)]);
+        var saved = new SavedCustomization(2, Appearance.Dark, state, null, null, [new NamedPreset("My Test", state, Appearance.Dark)], ThemeCatalog.FluentName, clayState, [new ClayNamedPreset("Berry Night", clayState, Appearance.Dark)], new SharedGeometryState(CardRounding.Pill));
         var tmp = Path.Combine(Path.GetTempPath(), "proglass-test-" + Guid.NewGuid() + ".json");
         CustomizationStore.WriteFile(saved, tmp);
         var fromFile = CustomizationStore.ReadFile(tmp);
         if (fromFile.Preferences.Accent != BentoAccent.Indigo || fromFile.Theme != ThemeCatalog.FluentName) throw new Exception("Store write/read roundtrip");
         if (fromFile.Clay?.Accent != ClayAccent.Berry) throw new Exception("Store clay roundtrip");
+        if (fromFile.Geometry?.Rounding != CardRounding.Pill) throw new Exception("Store geometry roundtrip");
         File.WriteAllText(tmp, "{\"Version\":1}");
         try { CustomizationStore.ReadFile(tmp); throw new Exception("Version 1 import must fail"); }
         catch (ArgumentException) { }

@@ -9,13 +9,13 @@
   <SolidColorBrush x:Key="AccentPrimary" Color="#254EDA" />
   <SolidColorBrush x:Key="AccentSecondary" Color="#006E68" />
   <SolidColorBrush x:Key="TextOnAccent" Color="#FFFFFF" />
-  <SolidColorBrush x:Key="AccentSoft" Color="#E8EFFF" />
+  <SolidColorBrush x:Key="AccentSoft" Color="#DCE6FF" />
   <SolidColorBrush x:Key="BorderSubtle" Color="#D3DDEC" />
   <SolidColorBrush x:Key="BorderStrong" Color="#73839D" />
   <SolidColorBrush x:Key="FocusIndicator" Color="#254EDA" />
   <SolidColorBrush x:Key="StateHover" Color="#E7EDF8" />
   <SolidColorBrush x:Key="StatePressed" Color="#DCE5F4" />
-  <SolidColorBrush x:Key="StateSelected" Color="#E8EFFF" />
+  <SolidColorBrush x:Key="StateSelected" Color="#DCE6FF" />
   <SolidColorBrush x:Key="AccentHover" Color="#193EBC" />
   <SolidColorBrush x:Key="AccentPressed" Color="#16319B" />
   <SolidColorBrush x:Key="DisabledSurface" Color="#E7E9EF" />
@@ -34,8 +34,8 @@
   <SolidColorBrush x:Key="HeroForeground" Color="#F5F8FF" />
   <SolidColorBrush x:Key="HeroSecondaryText" Color="#D5E2FF" />
   <SolidColorBrush x:Key="HeroAccent" Color="#7CEADB" />
-  <sys:Double x:Key="FontSizeDisplay">28</sys:Double>
-  <sys:Double x:Key="FontSizeTitle">20</sys:Double>
+  <sys:Double x:Key="FontSizeDisplay">30</sys:Double>
+  <sys:Double x:Key="FontSizeTitle">22</sys:Double>
   <sys:Double x:Key="FontSizeSection">16</sys:Double>
   <sys:Double x:Key="FontSizeBody">13</sys:Double>
   <sys:Double x:Key="FontSizeCaption">12</sys:Double>
@@ -68,23 +68,23 @@
   <Thickness x:Key="FocusThickness">2</Thickness>
   <Thickness x:Key="PaddingChoice">8</Thickness>
   <Thickness x:Key="PaddingCompact">8,4</Thickness>
-  <CornerRadius x:Key="CardCornerRadius">12</CornerRadius>
-  <CornerRadius x:Key="ControlCornerRadius">6</CornerRadius>
-  <CornerRadius x:Key="ChipCornerRadius">4</CornerRadius>
+  <CornerRadius x:Key="CardCornerRadius">18</CornerRadius>
+  <CornerRadius x:Key="ControlCornerRadius">9</CornerRadius>
+  <CornerRadius x:Key="ChipCornerRadius">6</CornerRadius>
   <FontFamily x:Key="FontFamilyBody">Segoe UI</FontFamily>
   <FontFamily x:Key="FontFamilyMono">Consolas</FontFamily>
-  <FontWeight x:Key="FontWeightHeading">Bold</FontWeight>
+  <FontWeight x:Key="FontWeightHeading">ExtraBold</FontWeight>
   <FontWeight x:Key="FontWeightBody">Normal</FontWeight>
   <Thickness x:Key="PaddingMark">4</Thickness>
   <Thickness x:Key="PaddingSelection">10,5,32,5</Thickness>
-  <CornerRadius x:Key="ChoiceCornerRadius">9</CornerRadius>
+  <CornerRadius x:Key="ChoiceCornerRadius">14</CornerRadius>
   <sys:Double x:Key="StrokeWidth">2</sys:Double>
   <sys:Double x:Key="SelectionOpacity">1</sys:Double>
   <Thickness x:Key="MarginFocus">-3</Thickness>
-  <SolidColorBrush x:Key="SurfacePositive" Color="#DFF3E9" />
-  <SolidColorBrush x:Key="SurfaceFeature" Color="#ECE7FA" />
-  <SolidColorBrush x:Key="SurfaceInformation" Color="#E2EEFC" />
-  <SolidColorBrush x:Key="SurfaceAttention" Color="#FBECD9" />
+  <SolidColorBrush x:Key="SurfacePositive" Color="#D4F0E0" />
+  <SolidColorBrush x:Key="SurfaceFeature" Color="#E6DFFA" />
+  <SolidColorBrush x:Key="SurfaceInformation" Color="#D8E8FC" />
+  <SolidColorBrush x:Key="SurfaceAttention" Color="#F8E4C8" />
   <SolidColorBrush x:Key="ChartSeries1" Color="#254EDA" />
   <SolidColorBrush x:Key="ChartSeries2" Color="#00766B" />
   <SolidColorBrush x:Key="ChartSeries3" Color="#8755B5" />

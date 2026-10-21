@@ -7,10 +7,10 @@ namespace ProGlassAutomation.ThemeBento;
 
 public enum BentoAccent { Ocean, Indigo, Teal }
 public enum BentoDensity { Compact, Comfortable, Spacious }
-public enum BentoShape { Crisp, Soft, Rounded }
+public enum BentoShape { Crisp, Soft, Rounded, Pill }
 public enum BentoType { Small, Standard, Large }
 public sealed record BentoPreferences(BentoAccent Accent = BentoAccent.Ocean,
-    BentoDensity Density = BentoDensity.Compact, BentoShape Shape = BentoShape.Soft,
+    BentoDensity Density = BentoDensity.Compact, BentoShape Shape = BentoShape.Rounded,
     BentoType Typography = BentoType.Standard);
 
 /// <summary>Curated, theme-owned customization. Backward compat shim delegates to extended model.</summary>
@@ -95,12 +95,11 @@ public static class BentoCustomization
         package["FontSizeBody"] = size;
         package["FontSizeCaption"] = Math.Max(11d, size - 1);
         package["FontSizeSection"] = size + 4;
-        package["FontSizeTitle"] = size + 7;
-        package["FontSizeDisplay"] = size + 15;
-        package["FontWeightHeading"] = state.FontWeight switch { BentoFontWeight.Medium => FontWeights.Medium, BentoFontWeight.Semibold => FontWeights.SemiBold, _ => FontWeights.SemiBold };
+        package["FontSizeTitle"] = size + 9;
+        package["FontSizeDisplay"] = size + 17;
+        package["FontWeightHeading"] = state.FontWeight switch { BentoFontWeight.Medium => FontWeights.Bold, BentoFontWeight.Semibold => FontWeights.ExtraBold, _ => FontWeights.ExtraBold };
         package["FontWeightBody"] = state.FontWeight switch { BentoFontWeight.Medium => FontWeights.Medium, BentoFontWeight.Semibold => FontWeights.SemiBold, _ => FontWeights.Normal };
-        double radius = state.Shape switch { BentoShape.Crisp => 4d, BentoShape.Rounded => 18d, _ => 12d };
-        if (compact) radius = Math.Max(6, radius - 2);
+        double radius = SharedGeometry.CardRadius(SharedGeometry.FromShape(state.Shape));
         if (state.LayoutPreset == BentoLayoutPreset.CompactDense) radius = Math.Max(6, radius - 2);
         package["CardCornerRadius"] = new CornerRadius(radius);
         package["ControlCornerRadius"] = new CornerRadius(radius / 2);

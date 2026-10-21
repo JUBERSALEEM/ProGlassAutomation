@@ -4,6 +4,7 @@ using System.ComponentModel;
 using ProGlassAutomation.Theming;
 using ProGlassAutomation.ThemeBento;
 using ProGlassAutomation.ThemeClaymorphism;
+using ProGlassAutomation.Customization;
 
 namespace ProGlassAutomation.ThemeTests;
 
@@ -81,6 +82,11 @@ internal static class CustomizationChecks
         if (ClayCustomization.BuiltIn.Count != 4) throw new Exception("Four clay built-in presets required");
         ContractChecks.ExpectFailure(() => ThemeService.Load(Appearance.Light, ThemeService.Clay, (candidate, appearance) =>
             ClayCustomization.Apply(candidate, appearance, new ClayCustomizationState((ClayAccent)999))), "invalid clay preset");
+        if (ThemeCatalog.Find(ThemeService.Clay).Geometry != ThemeGeometry.ThemeOwned) throw new Exception("Clay owns radius");
+        if (ThemeCatalog.Find(ThemeService.Fluent).Geometry != ThemeGeometry.SharedTokens) throw new Exception("Fluent accepts shared geometry");
+        var fluentRounded = ThemeService.Load(Appearance.Light, ThemeService.Fluent, SharedGeometry.Compose(ThemeService.Fluent, new BentoCustomizationState(), new ClayCustomizationState(), new SharedGeometryState(CardRounding.Pill)));
+        ResourceValidation.Validate(fluentRounded);
+        if (((CornerRadius)fluentRounded["CardCornerRadius"]).TopLeft != 26) throw new Exception("Fluent shared pill rounding");
         Console.WriteLine($"PASS: {combinations} customization/mode combinations, {clayCombinations} clay combinations, immutable helpers, preference retention, rejected candidates and notification-failure semantics.");
     }
 }
