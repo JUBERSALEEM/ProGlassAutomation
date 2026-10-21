@@ -13,10 +13,20 @@
     </WrapPanel>
    </StackPanel>
    <bento:BentoGrid Grid.Row="1" Columns="2" FillAvailable="True" RowHeight="{DynamicResource BentoRowHeight}" Gutter="{DynamicResource BentoGutter}" CompactWidth="{DynamicResource BentoCompactWidth}">
-    <ContentControl Style="{DynamicResource ChartCard}" bento:BentoGrid.Column="0" bento:BentoGrid.Row="0"><StackPanel><TextBlock Text="Interactive preview" Style="{DynamicResource SectionHeading}" /><analytics:BentoChart Data="{Binding Preview}" /></StackPanel></ContentControl>
-    <ContentControl x:Name="AreaCard" Style="{DynamicResource ChartCard}" bento:BentoGrid.Column="1" bento:BentoGrid.Row="0"><StackPanel><TextBlock Text="Multi-series / area" Style="{DynamicResource SectionHeading}" /><analytics:BentoChart Data="{Binding Area}" /></StackPanel></ContentControl>
-    <ContentControl x:Name="StackCard" Style="{DynamicResource ChartCard}" bento:BentoGrid.Column="0" bento:BentoGrid.Row="1"><StackPanel><TextBlock Text="Stacked / capacity" Style="{DynamicResource SectionHeading}" /><analytics:BentoChart Data="{Binding Capacity}" /></StackPanel></ContentControl>
-    <ContentControl x:Name="ChannelCard" Style="{DynamicResource ChartCard}" bento:BentoGrid.Column="1" bento:BentoGrid.Row="1"><StackPanel><TextBlock Text="Horizontal / channels" Style="{DynamicResource SectionHeading}" /><analytics:BentoChart Data="{Binding Channels}" /></StackPanel></ContentControl>
+    <ContentControl Style="{DynamicResource ChartCard}" bento:BentoGrid.Column="0" bento:BentoGrid.Row="0">
+     <Grid>
+      <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+      <TextBlock Text="Interactive preview" Style="{DynamicResource SectionHeading}" />
+      <analytics:BentoChart Grid.Row="1" Data="{Binding Preview}" />
+     </Grid>
+    </ContentControl>
+    <ContentControl x:Name="AreaCard" Style="{DynamicResource ChartCard}" bento:BentoGrid.Column="1" bento:BentoGrid.Row="0">
+     <Grid>
+      <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+      <TextBlock Text="Multi-series / area" Style="{DynamicResource SectionHeading}" />
+      <analytics:BentoChart Grid.Row="1" Data="{Binding Area}" />
+     </Grid>
+    </ContentControl>
    </bento:BentoGrid>
   </Grid>
  </ContentControl>

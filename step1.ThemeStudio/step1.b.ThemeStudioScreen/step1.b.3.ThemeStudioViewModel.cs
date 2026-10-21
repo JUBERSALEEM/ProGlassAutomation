@@ -92,7 +92,7 @@ public sealed partial class ThemeStudioViewModel : INotifyPropertyChanged, IData
     {
         if (e.PropertyName != nameof(ThemeService.ActiveAppearance) && e.PropertyName != nameof(ThemeService.ActiveTheme)) return;
         RefreshTokens();
-        foreach (string property in new[] { nameof(IsLight), nameof(IsDark), nameof(AppearanceLabel), nameof(SelectedTheme), nameof(IsClay), nameof(CanCustomizeBento), nameof(CanCustomizeClay), nameof(CanCustomize), nameof(DesignSummary) }) Changed(property);
+        foreach (string property in new[] { nameof(IsLight), nameof(IsDark), nameof(AppearanceLabel), nameof(SelectedTheme), nameof(IsClay), nameof(IsFluent), nameof(CanCustomizeBento), nameof(CanCustomizeClay), nameof(CanCustomize), nameof(DesignSummary) }) Changed(property);
         CommandManager.InvalidateRequerySuggested();
     }
 

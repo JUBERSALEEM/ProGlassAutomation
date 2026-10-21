@@ -201,6 +201,7 @@ internal static class RuntimeChecks
                 Check(!ReferenceEquals(previous, window.Background), extra + " replaces window resources");
                 Check(Equals(window.Background, themes.GetToken("ApplicationBackground")), extra + " window background");
                 Check(!model.CanCustomizeBento, extra + " keeps the Bento customization engine off");
+                Check(model.IsFluent == (extra == ThemeService.Fluent), extra + " fluent studio flag");
                 if (extra == ThemeService.Clay)
                 {
                     Check(model.CanCustomizeClay && model.DesignSummary.Contains("Rose"), "clay customization is live");

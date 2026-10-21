@@ -173,9 +173,11 @@ assert 'Apply("Claymorphism"' not in runtime, 'Clay is installed; do not treat i
 vm = (ROOT/'step1.ThemeStudio/step1.b.ThemeStudioScreen/step1.b.3.ThemeStudioViewModel.cs').read_text()
 assert 'theme == ThemeService.Bento' in vm and 'ClayCustomization.Apply' in vm
 panel = (ROOT/'step1.ThemeStudio/step1.b.ThemeStudioScreen/step1.b.16.CustomizationPanel.xaml').read_text()
-assert 'CanCustomizeBento' in panel and 'CanCustomizeClay' in panel
+assert 'CanCustomizeBento' in panel and 'CanCustomizeClay' in panel and 'IsFluent' in panel
+assert 'Visibility="{Binding CanCustomizeBento' in panel and 'Visibility="{Binding CanCustomizeClay' in panel and 'Visibility="{Binding IsFluent' in panel
 assert 'SelectedClayAccent' in panel and 'SelectedClayTypography' in panel and 'SelectedClaySheen' in panel
 assert 'SelectedClaySpacing' in panel and 'SelectedClayTextContrast' in panel and 'SelectedClayPresetName' in panel
+assert 'Bento studio' in panel and 'Clay studio' in panel and 'Fluent studio' in panel
 custom_vm = (ROOT/'step1.ThemeStudio/step1.b.ThemeStudioScreen/step1.b.17.Customization.cs').read_text()
 assert 'using ProGlassAutomation.ThemeClaymorphism;' in custom_vm
 assert 'ApplyClayState' in custom_vm and 'lastSavedClaySnapshot' in custom_vm

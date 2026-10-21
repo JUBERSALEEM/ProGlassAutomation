@@ -94,6 +94,7 @@ public sealed partial class ThemeStudioViewModel
     public string ContextualTitle => string.IsNullOrEmpty(selectedComponentId) ? "Select a card in the preview" : $"Editing: {selectedComponentId}";
     public string PresetNameInput { get => presetNameInput; set { presetNameInput = value; Changed(nameof(PresetNameInput)); } }
     public bool IsClay => SelectedTheme == ThemeService.Clay;
+    public bool IsFluent => SelectedTheme == ThemeService.Fluent;
     public bool CanCustomizeBento => SelectedTheme == ThemeService.Bento;
     public bool CanCustomizeClay => IsClay;
     public bool CanCustomize => CanCustomizeBento || CanCustomizeClay;
