@@ -8,7 +8,7 @@ public enum NeumorphRank { Chip, Control, Card }
 
 /// <summary>
 /// Soft extrusion: dual glow, 145-degree face, clipped inset wells.
-/// Press and hover are discrete setters (duration 0) so reduced motion is honored.
+/// Well opacity uses NeumorphMotionDuration (0 when ClientAreaAnimation is off).
 /// Neumorph-owned. Not Fluent acrylic, not Clay hue-matched plump extras.
 /// </summary>
 public sealed class NeumorphSurface : ContentControl

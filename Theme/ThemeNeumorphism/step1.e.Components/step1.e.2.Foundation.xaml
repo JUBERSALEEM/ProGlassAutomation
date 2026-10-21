@@ -90,7 +90,7 @@
      <Border x:Name="Face" Background="{DynamicResource NeumorphSheenBrush}" CornerRadius="{TemplateBinding CornerRadius}" Margin="0">
       <Grid>
        <Border x:Name="Sheen" Visibility="Collapsed" Background="{DynamicResource NeumorphSheenBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False" />
-       <Border x:Name="InsetHost" Visibility="Collapsed" ClipToBounds="False" Background="{DynamicResource TransparentBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+       <Border x:Name="InsetHost" Visibility="Collapsed" Opacity="0" ClipToBounds="False" Background="{DynamicResource TransparentBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
         <Grid>
          <Border Margin="6" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
           <Border.Effect>
@@ -172,6 +172,20 @@
      <Setter TargetName="Sheen" Property="Background" Value="{DynamicResource NeumorphWellSheenBrush}" />
      <Setter TargetName="RimShade" Property="BorderThickness" Value="{DynamicResource NeumorphInsetShadeThickness}" />
      <Setter TargetName="RimLight" Property="BorderThickness" Value="{DynamicResource NeumorphInsetLightThickness}" />
+     <Trigger.EnterActions>
+      <BeginStoryboard>
+       <Storyboard>
+        <DoubleAnimation Storyboard.TargetName="InsetHost" Storyboard.TargetProperty="Opacity" To="1" Duration="{DynamicResource NeumorphMotionDuration}" />
+       </Storyboard>
+      </BeginStoryboard>
+     </Trigger.EnterActions>
+     <Trigger.ExitActions>
+      <BeginStoryboard>
+       <Storyboard>
+        <DoubleAnimation Storyboard.TargetName="InsetHost" Storyboard.TargetProperty="Opacity" To="0" Duration="{DynamicResource NeumorphMotionDuration}" />
+       </Storyboard>
+      </BeginStoryboard>
+     </Trigger.ExitActions>
     </Trigger>
    </ControlTemplate.Triggers>
   </ControlTemplate></Setter.Value></Setter>
