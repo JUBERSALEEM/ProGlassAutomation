@@ -239,7 +239,7 @@
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ProgressBar">
    <neu:NeumorphSurface Concave="True" Rank="Chip" Background="{DynamicResource SurfacePrimary}" CornerRadius="{DynamicResource ChipCornerRadius}">
     <Border x:Name="PART_Track">
-     <Border x:Name="PART_Indicator" HorizontalAlignment="Left" Background="{DynamicResource AccentPrimary}" CornerRadius="{DynamicResource ChipCornerRadius}" />
+     <neu:NeumorphSurface x:Name="PART_Indicator" Rank="Chip" Lifted="True" HorizontalAlignment="Left" Background="{DynamicResource SurfacePrimary}" CornerRadius="{DynamicResource ChipCornerRadius}" />
     </Border>
    </neu:NeumorphSurface>
   </ControlTemplate></Setter.Value></Setter>
