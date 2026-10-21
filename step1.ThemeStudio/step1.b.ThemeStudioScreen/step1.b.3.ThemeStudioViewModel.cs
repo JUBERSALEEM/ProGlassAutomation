@@ -41,7 +41,7 @@ public sealed partial class ThemeStudioViewModel : INotifyPropertyChanged, IData
     }
     public string NameError => sampleName.Trim().Length < 3 ? "Enter at least 3 characters to apply the preview." : "";
     public bool ShowHelpers { get => showHelpers; set { showHelpers = value; Changed(nameof(ShowHelpers)); } }
-    public string Feedback { get => feedback; private set { feedback = value; Changed(nameof(Feedback)); } }
+    public string Feedback { get => feedback; internal set { feedback = value; Changed(nameof(Feedback)); } }
     public int Progress { get => progress; private set { progress = value; Changed(nameof(Progress)); } }
     public string TokenFilter { get => tokenFilter; set { tokenFilter = value; TokenView.Refresh(); Changed(nameof(TokenFilter)); } }
     public ICommand QuickApplyPreview { get; }
