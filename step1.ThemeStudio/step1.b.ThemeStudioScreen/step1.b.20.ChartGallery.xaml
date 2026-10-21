@@ -2,7 +2,7 @@
  <UserControl.Resources><local:AnalyticsSamples x:Key="Samples" /></UserControl.Resources>
  <ContentControl Style="{DynamicResource Card}" DataContext="{StaticResource Samples}">
   <Grid>
-   <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*" MinHeight="{DynamicResource ChartPlotHeight}"/></Grid.RowDefinitions>
+   <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
    <StackPanel>
     <TextBlock Text="Chart laboratory" Style="{DynamicResource SectionHeading}" />
     <TextBlock Text="REAL WPF CHARTS / DETERMINISTIC DEMO DATA" Style="{DynamicResource Caption}" />
@@ -13,21 +13,18 @@
     </WrapPanel>
    </StackPanel>
    <Grid Grid.Row="1">
-    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
-    <ContentControl Style="{DynamicResource ChartCard}" Margin="{DynamicResource MarginInline}">
-     <Grid>
-      <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
-      <TextBlock Text="Interactive preview" Style="{DynamicResource SectionHeading}" />
-      <analytics:BentoChart Grid.Row="1" Data="{Binding Preview}" />
-     </Grid>
-    </ContentControl>
-    <ContentControl x:Name="AreaCard" Grid.Column="1" Style="{DynamicResource ChartCard}" Margin="{DynamicResource MarginInline}">
-     <Grid>
-      <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
-      <TextBlock Text="Multi-series / area" Style="{DynamicResource SectionHeading}" />
-      <analytics:BentoChart Grid.Row="1" Data="{Binding Area}" />
-     </Grid>
-    </ContentControl>
+    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+    <Grid Margin="{DynamicResource PaddingCompact}">
+     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+     <TextBlock Text="Interactive preview" Style="{DynamicResource SectionHeading}" />
+     <local:OverflowPopup Grid.Row="1"><analytics:BentoChart Data="{Binding Preview}" /></local:OverflowPopup>
+    </Grid>
+    <Border Grid.Column="1" Width="{DynamicResource StrokeWidth}" Background="{DynamicResource BorderSubtle}" Margin="{DynamicResource PaddingCompact}" />
+    <Grid Grid.Column="2" Margin="{DynamicResource PaddingCompact}">
+     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+     <TextBlock Text="Multi-series / area" Style="{DynamicResource SectionHeading}" />
+     <local:OverflowPopup Grid.Row="1"><analytics:BentoChart x:Name="AreaCard" Data="{Binding Area}" /></local:OverflowPopup>
+    </Grid>
    </Grid>
   </Grid>
  </ContentControl>

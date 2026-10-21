@@ -3,7 +3,9 @@
   <bento:BentoGrid x:Name="Modules" Columns="4" FillAvailable="True"
                    RowHeight="{DynamicResource BentoRowHeight}" Gutter="{DynamicResource BentoGutter}" CompactWidth="{DynamicResource BentoCompactWidth}">
    <local:AnalyticsOverview x:Name="Preview" Compact="True" bento:BentoGrid.Column="0" bento:BentoGrid.Row="0" bento:BentoGrid.ColumnSpan="3" bento:BentoGrid.RowSpan="2"/>
-   <local:ChartGallery x:Name="Gallery" bento:BentoGrid.Column="0" bento:BentoGrid.Row="2" bento:BentoGrid.ColumnSpan="3" bento:BentoGrid.RowSpan="2"/>
+   <local:OverflowPopup bento:BentoGrid.Column="0" bento:BentoGrid.Row="2" bento:BentoGrid.ColumnSpan="3" bento:BentoGrid.RowSpan="2">
+    <local:ChartGallery x:Name="Gallery"/>
+   </local:OverflowPopup>
    <local:OverflowPopup bento:BentoGrid.Column="0" bento:BentoGrid.Row="4" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="1">
     <local:TypeAndStatusPanel x:Name="Signals"/>
    </local:OverflowPopup>
