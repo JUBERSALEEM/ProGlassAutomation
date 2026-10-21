@@ -101,7 +101,7 @@ public static class ClayCustomization
         package["ChipCornerRadius"] = new CornerRadius(state.Plumpness switch { ClayPlumpness.Modest => 12d, ClayPlumpness.Puffy => 20d, _ => 16d });
         package["ChoiceCornerRadius"] = new CornerRadius(state.Plumpness switch { ClayPlumpness.Modest => 14d, ClayPlumpness.Puffy => 24d, _ => 20d });
         package["ControlMinHeight"] = state.Density == ClayDensity.Compact ? 36d : 40d;
-        package["PaddingControl"] = state.Density == ClayDensity.Compact ? new Thickness(12, 8) : new Thickness(16, 10);
+        package["PaddingControl"] = state.Density == ClayDensity.Compact ? new Thickness(12, 8, 12, 8) : new Thickness(16, 10, 16, 10);
 
         double spacing = state.Spacing switch { ClaySpacing.Compact => 0.85, ClaySpacing.Spacious => 1.2, _ => 1 };
         package["SpacingSmall"] = 6 * spacing;
