@@ -1,0 +1,107 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:neu="clr-namespace:ProGlassAutomation.ThemeNeumorphism">
+ <Style x:Key="KeyboardFocus" TargetType="Control">
+  <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Control">
+   <Border Margin="{DynamicResource MarginFocus}" BorderBrush="{DynamicResource FocusIndicator}" BorderThickness="{DynamicResource FocusThickness}" CornerRadius="{DynamicResource ControlCornerRadius}" />
+  </ControlTemplate></Setter.Value></Setter>
+ </Style>
+ <Style x:Key="ThemedWindow" TargetType="Window">
+  <Setter Property="Background" Value="{DynamicResource ApplicationBackground}" />
+  <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+  <Setter Property="FontWeight" Value="{DynamicResource FontWeightBody}" />
+  <Setter Property="FontFamily" Value="{DynamicResource FontFamilyBody}" />
+  <Setter Property="FontSize" Value="{DynamicResource FontSizeBody}" />
+  <Setter Property="UseLayoutRounding" Value="True" />
+  <Setter Property="SnapsToDevicePixels" Value="True" />
+ </Style>
+ <Style TargetType="TextBlock">
+  <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+  <Setter Property="FontWeight" Value="{DynamicResource FontWeightBody}" />
+  <Setter Property="FontFamily" Value="{DynamicResource FontFamilyBody}" />
+  <Setter Property="FontSize" Value="{DynamicResource FontSizeBody}" />
+  <Setter Property="TextWrapping" Value="Wrap" />
+ </Style>
+ <Style x:Key="Caption" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+  <Setter Property="FontSize" Value="{DynamicResource FontSizeCaption}" />
+  <Setter Property="Foreground" Value="{DynamicResource TextMuted}" />
+ </Style>
+ <Style x:Key="SectionHeading" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+  <Setter Property="FontSize" Value="{DynamicResource FontSizeSection}" />
+  <Setter Property="FontWeight" Value="{DynamicResource FontWeightHeading}" />
+  <Setter Property="Margin" Value="{DynamicResource MarginItem}" />
+ </Style>
+ <Style x:Key="PageHeading" TargetType="TextBlock" BasedOn="{StaticResource SectionHeading}">
+  <Setter Property="FontSize" Value="{DynamicResource FontSizeDisplay}" />
+ </Style>
+ <Style TargetType="neu:NeumorphSurface">
+  <Setter Property="Focusable" Value="False" />
+  <Setter Property="SnapsToDevicePixels" Value="True" />
+  <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+  <Setter Property="VerticalContentAlignment" Value="Stretch" />
+  <Setter Property="LightBrush" Value="{DynamicResource NeumorphLightBrush}" />
+  <Setter Property="DarkBrush" Value="{DynamicResource NeumorphDarkBrush}" />
+  <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="neu:NeumorphSurface">
+   <Grid>
+    <Border x:Name="Shade" Background="{TemplateBinding DarkBrush}" CornerRadius="{TemplateBinding CornerRadius}" Margin="3,3,0,0" />
+    <Border x:Name="Shine" Background="{TemplateBinding LightBrush}" CornerRadius="{TemplateBinding CornerRadius}" Margin="0,0,3,3" />
+    <Border x:Name="Face" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" Margin="2" Padding="{TemplateBinding Padding}">
+     <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+    </Border>
+   </Grid>
+   <ControlTemplate.Triggers>
+    <Trigger Property="Concave" Value="True">
+     <Setter TargetName="Shade" Property="Margin" Value="0,0,3,3" />
+     <Setter TargetName="Shine" Property="Margin" Value="3,3,0,0" />
+    </Trigger>
+   </ControlTemplate.Triggers>
+  </ControlTemplate></Setter.Value></Setter>
+ </Style>
+ <Style x:Key="Card" TargetType="ContentControl">
+  <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
+  <Setter Property="Padding" Value="{DynamicResource PaddingCard}" />
+  <Setter Property="HorizontalAlignment" Value="Stretch" />
+  <Setter Property="VerticalAlignment" Value="Stretch" />
+  <Setter Property="Focusable" Value="False" />
+  <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
+   <neu:NeumorphSurface Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}">
+    <ContentPresenter />
+   </neu:NeumorphSurface>
+  </ControlTemplate></Setter.Value></Setter>
+ </Style>
+ <Style x:Key="BentoTile" TargetType="ContentControl" BasedOn="{StaticResource Card}">
+  <Setter Property="Margin" Value="0" />
+ </Style>
+ <Style x:Key="Plate" TargetType="ContentControl" BasedOn="{StaticResource Card}">
+  <Setter Property="Background" Value="{DynamicResource SurfaceSecondary}" />
+  <Setter Property="Padding" Value="{DynamicResource PaddingPlate}" />
+  <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
+   <neu:NeumorphSurface Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ControlCornerRadius}">
+    <ContentPresenter />
+   </neu:NeumorphSurface>
+  </ControlTemplate></Setter.Value></Setter>
+ </Style>
+ <Style x:Key="AccentPlate" TargetType="ContentControl" BasedOn="{StaticResource Plate}">
+  <Setter Property="Background" Value="{DynamicResource AccentSoft}" />
+ </Style>
+ <Style x:Key="ElevatedPlate" TargetType="ContentControl" BasedOn="{StaticResource Plate}">
+  <Setter Property="Background" Value="{DynamicResource SurfaceElevated}" />
+ </Style>
+ <Style x:Key="TokenValue" TargetType="TextBlock" BasedOn="{StaticResource Caption}">
+  <Setter Property="FontFamily" Value="{DynamicResource FontFamilyMono}" />
+ </Style>
+ <Style TargetType="Separator">
+  <Setter Property="Margin" Value="{DynamicResource MarginItem}" />
+  <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Separator">
+   <Border Height="1" Background="{DynamicResource NeumorphDarkBrush}" />
+  </ControlTemplate></Setter.Value></Setter>
+ </Style>
+ <Style TargetType="ProgressBar">
+  <Setter Property="Height" Value="{DynamicResource SpacingMedium}" />
+  <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ProgressBar">
+   <neu:NeumorphSurface Concave="True" Background="{DynamicResource SurfaceSecondary}" CornerRadius="{DynamicResource ChipCornerRadius}">
+    <Border x:Name="PART_Track">
+     <Border x:Name="PART_Indicator" HorizontalAlignment="Left" Background="{DynamicResource AccentPrimary}" CornerRadius="{DynamicResource ChipCornerRadius}" />
+    </Border>
+   </neu:NeumorphSurface>
+  </ControlTemplate></Setter.Value></Setter>
+ </Style>
+</ResourceDictionary>

@@ -33,7 +33,7 @@ pairs += [(fg, 'SurfaceElevated', 4.5) for fg in ('AccentPrimary', 'StatusSucces
 pairs += [('AccentPrimary', 'AccentSoft', 4.5), ('AccentPrimary', 'StateSelected', 4.5)]
 pairs += [(fg, bg, 3) for fg in ('FocusIndicator', 'BorderStrong')
           for bg in ('SurfacePrimary', 'SurfaceSecondary')]
-for package, stem, accents in (('ThemeBento', 'ThemeBento', True), ('ThemeClaymorphism', 'ThemeClaymorphism', False), ('ThemeFluent', 'ThemeFluent', False)):
+for package, stem, accents in (('ThemeBento', 'ThemeBento', True), ('ThemeClaymorphism', 'ThemeClaymorphism', False), ('ThemeFluent', 'ThemeFluent', False), ('ThemeNeumorphism', 'ThemeNeumorphism', False)):
     for mode in ('Light', 'Dark'):
         path = ROOT / f'Theme/{package}/{stem}.{mode}.xaml'
         tree = ET.parse(path).getroot()
@@ -135,7 +135,7 @@ for path in xamls:
         if local(node.tag) == 'ResourceDictionary' and 'Source' in node.attrib:
             assert (path.parent / node.attrib['Source']).is_file(), (path, node.attrib['Source'])
     posix = path.as_posix()
-    if 'Theme/ThemeBento/' not in posix and 'Theme/ThemeClaymorphism/' not in posix and 'Theme/ThemeFluent/' not in posix and path.name != 'MainWindow.xaml':
+    if 'Theme/ThemeBento/' not in posix and 'Theme/ThemeClaymorphism/' not in posix and 'Theme/ThemeFluent/' not in posix and 'Theme/ThemeNeumorphism/' not in posix and path.name != 'MainWindow.xaml':
         assert not re.search(r'#[0-9A-Fa-f]{6,8}\b', text), f'{path}: scattered literal color'
     if path.name == 'MainWindow.xaml':
         assert 'WindowState="Maximized"' in text, 'Shell must remain maximized'
@@ -164,9 +164,11 @@ assert [(p.attrib['Include'], p.attrib['Version']) for p in project.findall('.//
 assert project.find('.//TargetFramework').text == 'net8.0-windows7.0'
 assert (ROOT / 'Theme/ThemeClaymorphism/ThemeClaymorphism.Light.xaml').is_file() and (ROOT / 'Theme/ThemeBento/ThemeBento.Light.xaml').is_file()
 assert (ROOT / 'Theme/ThemeFluent/ThemeFluent.Light.xaml').is_file()
+assert (ROOT / 'Theme/ThemeNeumorphism/ThemeNeumorphism.Light.xaml').is_file()
 catalog = (ENGINE / 'step1.a.6.ThemeCatalog.cs').read_text()
 assert 'ClayName = "Claymorphism"' in catalog and 'ClayResources.Load' in catalog
 assert 'FluentName = "Fluent / Acrylic"' in catalog and 'FluentResources.Load' in catalog
+assert 'NeumorphismName = "Neumorphism"' in catalog and 'NeumorphResources.Load' in catalog
 assert 'ThemeGeometry.ThemeOwned' in catalog and 'SharedTokens' in catalog
 runtime = (ROOT / 'Theme/step1.d.tests/step1.d.1.RuntimeChecks.cs').read_text()
 assert 'ThemeService.InstalledThemes' in runtime and 'Apply("NotInstalled"' in runtime
@@ -174,12 +176,12 @@ assert 'Apply("Claymorphism"' not in runtime, 'Clay is installed; do not treat i
 vm = (ROOT/'step1.ThemeStudio/step1.b.ThemeStudioScreen/step1.b.3.ThemeStudioViewModel.cs').read_text()
 assert 'SharedGeometry.Compose' in vm
 panel = (ROOT/'step1.ThemeStudio/step1.b.ThemeStudioScreen/step1.b.16.CustomizationPanel.xaml').read_text()
-assert 'CanCustomizeBento' in panel and 'CanCustomizeClay' in panel and 'IsFluent' in panel
+assert 'CanCustomizeBento' in panel and 'CanCustomizeClay' in panel and 'IsFluent' in panel and 'IsNeumorph' in panel
 assert 'CanCustomizeGeometry' in panel and 'SelectedRounding' in panel
-assert 'Visibility="{Binding CanCustomizeBento' in panel and 'Visibility="{Binding CanCustomizeClay' in panel and 'Visibility="{Binding IsFluent' in panel
+assert 'Visibility="{Binding CanCustomizeBento' in panel and 'Visibility="{Binding CanCustomizeClay' in panel and 'Visibility="{Binding IsFluent' in panel and 'Visibility="{Binding IsNeumorph' in panel
 assert 'SelectedClayAccent' in panel and 'SelectedClayTypography' in panel and 'SelectedClaySheen' in panel
 assert 'SelectedClaySpacing' in panel and 'SelectedClayTextContrast' in panel and 'SelectedClayPresetName' in panel
-assert 'Bento studio' in panel and 'Clay studio' in panel and 'Fluent studio' in panel
+assert 'Bento studio' in panel and 'Clay studio' in panel and 'Fluent studio' in panel and 'Neumorphism studio' in panel
 custom_vm = (ROOT/'step1.ThemeStudio/step1.b.ThemeStudioScreen/step1.b.17.Customization.cs').read_text()
 assert 'using ProGlassAutomation.ThemeClaymorphism;' in custom_vm
 assert 'ApplyClayState' in custom_vm and 'lastSavedClaySnapshot' in custom_vm

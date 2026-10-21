@@ -190,7 +190,7 @@ internal static class RuntimeChecks
             Pump();
             Check(model.SelectedAccent == ProGlassAutomation.ThemeBento.BentoAccent.Ocean &&
                 (double)themes.GetToken("ControlMinHeight") == 32d, "reset design restores defaults without resetting sample input");
-            Check(ThemeService.InstalledThemes.Contains(ThemeService.Clay) && ThemeService.InstalledThemes.Contains(ThemeService.Fluent), "Clay and Fluent are registered themes");
+            Check(ThemeService.InstalledThemes.Contains(ThemeService.Clay) && ThemeService.InstalledThemes.Contains(ThemeService.Fluent) && ThemeService.InstalledThemes.Contains(ThemeService.Neumorphism), "Clay, Fluent and Neumorphism are registered themes");
             foreach (string extra in ThemeService.InstalledThemes)
             {
                 if (extra == ThemeService.Bento) continue;
@@ -202,6 +202,7 @@ internal static class RuntimeChecks
                 Check(Equals(window.Background, themes.GetToken("ApplicationBackground")), extra + " window background");
                 Check(!model.CanCustomizeBento, extra + " keeps the Bento customization engine off");
                 Check(model.IsFluent == (extra == ThemeService.Fluent), extra + " fluent studio flag");
+                Check(model.IsNeumorph == (extra == ThemeService.Neumorphism), extra + " neumorph studio flag");
                 if (extra == ThemeService.Clay)
                 {
                     Check(model.CanCustomizeClay && model.DesignSummary.Contains("Rose"), "clay customization is live");
@@ -216,8 +217,12 @@ internal static class RuntimeChecks
                     Pump();
                     Check(model.SelectedClayAccent == ProGlassAutomation.ThemeClaymorphism.ClayAccent.Rose && (double)themes.GetToken("FontSizeBody") == 13d, "clay reset restores defaults");
                 }
-                else
+                else if (extra == ThemeService.Fluent)
                     Check(model.CanCustomizeGeometry && model.DesignSummary.StartsWith("Fluent"), extra + " uses shared card rounding without a Fluent material engine");
+                else if (extra == ThemeService.Neumorphism)
+                    Check(model.CanCustomizeGeometry && model.DesignSummary.StartsWith("Neumorphism"), extra + " uses shared card rounding without a neumorph engine");
+                else
+                    throw new Exception("Unhandled extra theme: " + extra);
                 model.IsDark = true;
                 Pump();
                 Check(themes.ActiveTheme == extra && themes.ActiveAppearance == Appearance.Dark, extra + " dark");

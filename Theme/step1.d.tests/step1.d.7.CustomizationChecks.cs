@@ -84,9 +84,13 @@ internal static class CustomizationChecks
             ClayCustomization.Apply(candidate, appearance, new ClayCustomizationState((ClayAccent)999))), "invalid clay preset");
         if (ThemeCatalog.Find(ThemeService.Clay).Geometry != ThemeGeometry.ThemeOwned) throw new Exception("Clay owns radius");
         if (ThemeCatalog.Find(ThemeService.Fluent).Geometry != ThemeGeometry.SharedTokens) throw new Exception("Fluent accepts shared geometry");
+        if (ThemeCatalog.Find(ThemeService.Neumorphism).Geometry != ThemeGeometry.SharedTokens) throw new Exception("Neumorphism accepts shared geometry");
         var fluentRounded = ThemeService.Load(Appearance.Light, ThemeService.Fluent, SharedGeometry.Compose(ThemeService.Fluent, new BentoCustomizationState(), new ClayCustomizationState(), new SharedGeometryState(CardRounding.Pill)));
         ResourceValidation.Validate(fluentRounded);
         if (((CornerRadius)fluentRounded["CardCornerRadius"]).TopLeft != 26) throw new Exception("Fluent shared pill rounding");
+        var neuRounded = ThemeService.Load(Appearance.Light, ThemeService.Neumorphism, SharedGeometry.Compose(ThemeService.Neumorphism, new BentoCustomizationState(), new ClayCustomizationState(), new SharedGeometryState(CardRounding.Pill)));
+        ResourceValidation.Validate(neuRounded);
+        if (((CornerRadius)neuRounded["CardCornerRadius"]).TopLeft != 26) throw new Exception("Neumorphism shared pill rounding");
         Console.WriteLine($"PASS: {combinations} customization/mode combinations, {clayCombinations} clay combinations, immutable helpers, preference retention, rejected candidates and notification-failure semantics.");
     }
 }

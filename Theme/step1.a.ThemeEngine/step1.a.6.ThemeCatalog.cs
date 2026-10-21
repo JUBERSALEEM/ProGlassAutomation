@@ -2,6 +2,7 @@ using System.Windows;
 using ProGlassAutomation.ThemeBento;
 using ProGlassAutomation.ThemeClaymorphism;
 using ProGlassAutomation.ThemeFluent;
+using ProGlassAutomation.ThemeNeumorphism;
 
 namespace ProGlassAutomation.Theming;
 
@@ -19,12 +20,14 @@ public static class ThemeCatalog
     public const string BentoName = "Bento Grid / Modular";
     public const string ClayName = "Claymorphism";
     public const string FluentName = "Fluent / Acrylic";
+    public const string NeumorphismName = "Neumorphism";
     public static IReadOnlyList<ThemeDefinition> Installed { get; } =
         Array.AsReadOnly(new[]
         {
             new ThemeDefinition(BentoName, "ThemeBento", BentoResources.Load),
             new ThemeDefinition(ClayName, "ThemeClaymorphism", ClayResources.Load, ThemeGeometry.ThemeOwned),
             new ThemeDefinition(FluentName, "ThemeFluent", FluentResources.Load),
+            new ThemeDefinition(NeumorphismName, "ThemeNeumorphism", NeumorphResources.Load),
         });
 
     public static ThemeDefinition Find(string name) =>

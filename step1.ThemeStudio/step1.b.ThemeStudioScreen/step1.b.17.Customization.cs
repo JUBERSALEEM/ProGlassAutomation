@@ -132,6 +132,7 @@ public sealed partial class ThemeStudioViewModel
     public string PresetNameInput { get => presetNameInput; set { presetNameInput = value; Changed(nameof(PresetNameInput)); } }
     public bool IsClay => SelectedTheme == ThemeService.Clay;
     public bool IsFluent => SelectedTheme == ThemeService.Fluent;
+    public bool IsNeumorph => SelectedTheme == ThemeService.Neumorphism;
     public bool CanCustomizeBento => SelectedTheme == ThemeService.Bento;
     public bool CanCustomizeClay => IsClay;
     public bool CanCustomizeGeometry => ThemeCatalog.Find(SelectedTheme).Geometry == ThemeGeometry.SharedTokens;
@@ -140,6 +141,7 @@ public sealed partial class ThemeStudioViewModel
         ? $"{SelectedClayAccent} / {SelectedClayVolume} / {SelectedClayPlumpness} / {SelectedClayTypography}"
         : CanCustomizeBento ? $"{SelectedAccent} / {SelectedDensity} / {SelectedShape} / {SelectedTypography} · {SelectedLayoutPreset}"
         : IsFluent ? $"Fluent / {SelectedRounding}"
+        : IsNeumorph ? $"Neumorphism / {SelectedRounding}"
         : "Theme-default settings";
     public bool IsDirty =>
         themes.ActiveTheme != lastSaved.Theme
