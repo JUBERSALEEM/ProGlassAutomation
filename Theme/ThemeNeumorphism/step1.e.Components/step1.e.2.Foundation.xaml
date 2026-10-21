@@ -87,9 +87,9 @@
      </Border>
      <Border x:Name="DarkNear" Visibility="Collapsed" Background="{TemplateBinding DarkBrush}" Opacity="0.55" CornerRadius="{TemplateBinding CornerRadius}" Margin="3,3,0,0" IsHitTestVisible="False" />
      <Border x:Name="LightNear" Visibility="Collapsed" Background="{TemplateBinding LightBrush}" Opacity="0.85" CornerRadius="{TemplateBinding CornerRadius}" Margin="0,0,3,3" IsHitTestVisible="False" />
-     <Border x:Name="Face" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" Margin="0">
+     <Border x:Name="Face" Background="{DynamicResource NeumorphSheenBrush}" CornerRadius="{TemplateBinding CornerRadius}" Margin="0">
       <Grid>
-       <Border x:Name="Sheen" Background="{DynamicResource NeumorphSheenBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False" />
+       <Border x:Name="Sheen" Visibility="Collapsed" Background="{DynamicResource NeumorphSheenBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False" />
        <Border x:Name="InsetHost" Visibility="Collapsed" ClipToBounds="True" Background="{DynamicResource TransparentBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
         <Grid>
          <Border Margin="6" Background="{DynamicResource NeumorphWellSheenBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
@@ -166,6 +166,7 @@
      <Setter TargetName="Volume" Property="Margin" Value="0" />
      <Setter TargetName="Face" Property="Margin" Value="0" />
      <Setter TargetName="InsetHost" Property="Visibility" Value="Visible" />
+     <Setter TargetName="Face" Property="Background" Value="{DynamicResource NeumorphWellSheenBrush}" />
      <Setter TargetName="Sheen" Property="Background" Value="{DynamicResource NeumorphWellSheenBrush}" />
      <Setter TargetName="RimShade" Property="BorderThickness" Value="{DynamicResource NeumorphInsetShadeThickness}" />
      <Setter TargetName="RimLight" Property="BorderThickness" Value="{DynamicResource NeumorphInsetLightThickness}" />
