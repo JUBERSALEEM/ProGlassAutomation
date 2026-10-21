@@ -52,9 +52,9 @@
  </Style>
  <Style TargetType="DataGrid">
   <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" /><Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
-  <Setter Property="BorderBrush" Value="{DynamicResource BorderSubtle}" /><Setter Property="BorderThickness" Value="{DynamicResource BorderThicknessControl}" />
+  <Setter Property="BorderBrush" Value="{DynamicResource TransparentBrush}" /><Setter Property="BorderThickness" Value="0" />
   <Setter Property="RowBackground" Value="{DynamicResource SurfacePrimary}" /><Setter Property="AlternatingRowBackground" Value="{DynamicResource SurfacePrimary}" />
-  <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource BorderSubtle}" /><Setter Property="GridLinesVisibility" Value="Horizontal" />
+  <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource TransparentBrush}" /><Setter Property="GridLinesVisibility" Value="None" />
   <Setter Property="IsReadOnly" Value="True" /><Setter Property="AutoGenerateColumns" Value="False" /><Setter Property="CanUserAddRows" Value="False" />
   <Setter Property="HeadersVisibility" Value="Column" /><Setter Property="SelectionMode" Value="Single" /><Setter Property="SelectionUnit" Value="FullRow" />
   <Setter Property="RowHeaderWidth" Value="0" /><Setter Property="EnableRowVirtualization" Value="True" /><Setter Property="EnableColumnVirtualization" Value="True" />
@@ -76,7 +76,7 @@
    </ControlTemplate.Triggers>
   </ControlTemplate></Setter.Value></Setter>
   <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" /><Setter Property="Foreground" Value="{DynamicResource TextPrimary}" /><Setter Property="Padding" Value="{DynamicResource PaddingCompact}" />
-  <Setter Property="BorderBrush" Value="{DynamicResource BorderSubtle}" /><Setter Property="BorderThickness" Value="{DynamicResource BorderThicknessControl}" /><Setter Property="FontWeight" Value="{DynamicResource FontWeightHeading}" />
+  <Setter Property="BorderBrush" Value="{DynamicResource TransparentBrush}" /><Setter Property="BorderThickness" Value="0" /><Setter Property="FontWeight" Value="{DynamicResource FontWeightHeading}" />
  </Style>
  <Style TargetType="DataGridRow">
   <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
