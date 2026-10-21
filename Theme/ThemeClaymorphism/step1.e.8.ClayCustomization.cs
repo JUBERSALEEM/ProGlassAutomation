@@ -85,16 +85,24 @@ public static class ClayCustomization
             package["ChartSeries1"] = package["AccentPrimary"];
         }
 
-        string? canvas = (state.Canvas, mode) switch
+        var canvas = (state.Canvas, mode) switch
         {
-            (ClayCanvas.Warm, Appearance.Light) => "#F7EFE6",
-            (ClayCanvas.Cool, Appearance.Light) => "#E8EEF9",
-            (ClayCanvas.Warm, Appearance.Dark) => "#241820",
-            (ClayCanvas.Cool, Appearance.Dark) => "#141A30",
-            _ => null
+            (ClayCanvas.Warm, Appearance.Light) => ("#F7EFE6", "#EDE3D6"),
+            (ClayCanvas.Cool, Appearance.Light) => ("#E8EEF9", "#DCE5F3"),
+            (ClayCanvas.Warm, Appearance.Dark) => ("#241820", "#1C1418"),
+            (ClayCanvas.Cool, Appearance.Dark) => ("#141A30", "#101428"),
+            _ => ((string?)null, (string?)null)
         };
-        if (canvas is not null)
-            package["ApplicationBackground"] = Brush(canvas);
+        if (canvas.Item1 is not null)
+        {
+            package["ApplicationBackground"] = Brush(canvas.Item1);
+            package["SurfaceSecondary"] = Brush(canvas.Item2!);
+        }
+        if (package["ApplicationBackground"] is SolidColorBrush canvasBrush)
+        {
+            package["SurfacePrimary"] = new SolidColorBrush(canvasBrush.Color);
+            package["SurfaceElevated"] = new SolidColorBrush(canvasBrush.Color);
+        }
 
         if (state.TextContrast == ClayTextContrast.High)
         {
@@ -102,12 +110,14 @@ public static class ClayCustomization
             package["TextMuted"] = Brush(mode == Appearance.Light ? "#3A4270" : "#D2CCEE");
         }
 
-        double radius = state.Plumpness switch { ClayPlumpness.Modest => 20d, ClayPlumpness.Puffy => 40d, _ => 32d };
-        package["CardCornerRadius"] = new CornerRadius(radius);
-        package["ControlCornerRadius"] = new CornerRadius(state.Plumpness switch { ClayPlumpness.Modest => 16d, ClayPlumpness.Puffy => 32d, _ => 24d });
-        package["ChipCornerRadius"] = new CornerRadius(state.Plumpness switch { ClayPlumpness.Modest => 12d, ClayPlumpness.Puffy => 20d, _ => 16d });
-        package["ChoiceCornerRadius"] = new CornerRadius(state.Plumpness switch { ClayPlumpness.Modest => 14d, ClayPlumpness.Puffy => 24d, _ => 20d });
-        package["ControlMinHeight"] = state.Density == ClayDensity.Compact ? 36d : 40d;
+        double height = state.Density == ClayDensity.Compact ? 36d : 40d;
+        double card = state.Plumpness switch { ClayPlumpness.Modest => 24d, ClayPlumpness.Puffy => 40d, _ => 36d };
+        double pill = height / 2d;
+        package["CardCornerRadius"] = new CornerRadius(card);
+        package["ControlCornerRadius"] = new CornerRadius(pill);
+        package["ChipCornerRadius"] = new CornerRadius(pill);
+        package["ChoiceCornerRadius"] = new CornerRadius(Math.Max(11d, pill));
+        package["ControlMinHeight"] = height;
         package["PaddingControl"] = state.Density == ClayDensity.Compact ? new Thickness(12, 8, 12, 8) : new Thickness(16, 10, 16, 10);
 
         double spacing = state.Spacing switch { ClaySpacing.Compact => 0.85, ClaySpacing.Spacious => 1.2, _ => 1 };
@@ -151,7 +161,7 @@ public static class ClayCustomization
         else
         {
             string darkShade = state.Volume switch { ClayVolume.Soft => "44", ClayVolume.Deep => "88", _ => "66" };
-            Tint(package, "ClayDropBrush", drop, "0A0818");
+            Tint(package, "ClayDropBrush", drop, "140E0C");
             Tint(package, "ClayInsetShadeBrush", darkShade, "000000");
             Tint(package, "ClayDropPositive", drop, "1A3A30");
             Tint(package, "ClayShadePositive", darkShade, "1A3A30");
@@ -163,8 +173,8 @@ public static class ClayCustomization
             Tint(package, "ClayShadeAttention", darkShade, "3A2A20");
             Tint(package, "ClayDropAccent", drop, "FF8A80");
             Tint(package, "ClayShadeAccent", darkShade, "FF8A80");
-            Tint(package, "ClayDropHero", drop, "4A3A80");
-            Tint(package, "ClayShadeHero", darkShade, "4A3A80");
+            Tint(package, "ClayDropHero", drop, "140E0C");
+            Tint(package, "ClayShadeHero", darkShade, "140E0C");
         }
 
         SetOwned(package, "ClayInsetLightBrush", Brush(mode == Appearance.Light
@@ -176,12 +186,32 @@ public static class ClayCustomization
         bool balanced = state.Lighting == ClayLighting.Balanced;
         double near = state.Volume switch { ClayVolume.Soft => 2d, ClayVolume.Deep => 5d, _ => 3d };
         double far = state.Volume switch { ClayVolume.Soft => 3d, ClayVolume.Deep => 7d, _ => 4d };
+        double blur = state.Volume switch { ClayVolume.Soft => 10d, ClayVolume.Deep => 20d, _ => 14d };
+        double distance = state.Volume switch { ClayVolume.Soft => 3d, ClayVolume.Deep => 7d, _ => 5d };
         SetOwned(package, "ClayShowDrop", !reduced && !inset);
         SetOwned(package, "ClayDropMargin", reduced || inset ? new Thickness(0) : new Thickness(near, far, 0, 0));
-        SetOwned(package, "ClayFaceMargin", reduced || inset ? new Thickness(0) : new Thickness(0, 0, near, far));
+        SetOwned(package, "ClayFaceMargin", reduced || inset ? new Thickness(0) : new Thickness(1));
+        SetOwned(package, "ClayLiftMargin", reduced || inset ? new Thickness(0) : new Thickness(0, 0, near, far));
         SetOwned(package, "ClayDropFarMargin", reduced || inset ? new Thickness(0) : new Thickness(near + 3, far + 4, 0, 0));
         SetOwned(package, "ClayLiftDropMargin", new Thickness(near + 2, far + 3, 0, 0));
         SetOwned(package, "ClayLiftFaceMargin", new Thickness(0, 0, near + 2, far + 3));
+        SetOwned(package, "ClayBlur", reduced ? 4d : blur);
+        SetOwned(package, "ClayDistance", reduced || inset ? 0d : distance);
+        SetOwned(package, "ClayLiftDistance", distance + 3d);
+        SetOwned(package, "ClayGutter", reduced || inset ? new Thickness(2) : new Thickness(Math.Ceiling(distance + blur * 0.35)));
+        string shadow = (mode, state.Canvas) switch
+        {
+            (Appearance.Light, ClayCanvas.Warm) => "#C4A890",
+            (Appearance.Light, ClayCanvas.Cool) => "#8A9BB8",
+            (Appearance.Light, _) => "#A89CBC",
+            (Appearance.Dark, ClayCanvas.Cool) => "#0A1018",
+            _ => "#140E0C"
+        };
+        string highlight = mode == Appearance.Light
+            ? "#FFFFFF"
+            : state.Canvas == ClayCanvas.Cool ? "#A8B8D0" : "#C4A990";
+        SetOwned(package, "ClayShadowColor", (Color)ColorConverter.ConvertFromString(shadow));
+        SetOwned(package, "ClayHighlightColor", (Color)ColorConverter.ConvertFromString(highlight));
         if (reduced)
         {
             SetOwned(package, "ClayShadeThickness", new Thickness(1));

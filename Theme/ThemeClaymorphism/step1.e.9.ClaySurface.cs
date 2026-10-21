@@ -7,7 +7,7 @@ namespace ProGlassAutomation.ThemeClaymorphism;
 public enum ClayRank { Chip, Control, Card }
 
 /// <summary>
-/// Hue-matched plump volume: far/near drop, inner shade, top-left sheen.
+/// Canvas-melted clay: stadium corners, 3D face curve, hue-matched Gaussian glow.
 /// Clay-owned. Not a Bento type, not Neumorph gray plates, not CSS.
 /// </summary>
 public sealed class ClaySurface : ContentControl
