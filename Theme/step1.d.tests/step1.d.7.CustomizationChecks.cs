@@ -4,6 +4,7 @@ using System.ComponentModel;
 using ProGlassAutomation.Theming;
 using ProGlassAutomation.ThemeBento;
 using ProGlassAutomation.ThemeClaymorphism;
+using ProGlassAutomation.ThemeLiquidGlass;
 using ProGlassAutomation.ThemeNeumorphism;
 using ProGlassAutomation.Customization;
 
@@ -86,6 +87,7 @@ internal static class CustomizationChecks
         if (ThemeCatalog.Find(ThemeService.Clay).Geometry != ThemeGeometry.ThemeOwned) throw new Exception("Clay owns radius");
         if (ThemeCatalog.Find(ThemeService.Fluent).Geometry != ThemeGeometry.SharedTokens) throw new Exception("Fluent accepts shared geometry");
         if (ThemeCatalog.Find(ThemeService.Neumorphism).Geometry != ThemeGeometry.SharedTokens) throw new Exception("Neumorphism accepts shared geometry");
+        if (ThemeCatalog.Find(ThemeService.LiquidGlass).Geometry != ThemeGeometry.SharedTokens) throw new Exception("Liquid Glass accepts shared geometry");
         var fluentRounded = ThemeService.Load(Appearance.Light, ThemeService.Fluent, SharedGeometry.Compose(ThemeService.Fluent, new BentoCustomizationState(), new ClayCustomizationState(), new SharedGeometryState(CardRounding.Pill)));
         ResourceValidation.Validate(fluentRounded);
         if (((CornerRadius)fluentRounded["CardCornerRadius"]).TopLeft != 26) throw new Exception("Fluent shared pill rounding");
@@ -102,6 +104,18 @@ internal static class CustomizationChecks
         if (NeumorphCustomization.BuiltIn.Count != 4) throw new Exception("Four neumorph built-in presets required");
         ContractChecks.ExpectFailure(() => ThemeService.Load(Appearance.Light, ThemeService.Neumorphism, (candidate, appearance) =>
             NeumorphCustomization.Apply(candidate, appearance, new NeumorphCustomizationState((NeumorphDepth)999))), "invalid neumorph preset");
+        var liquidRounded = ThemeService.Load(Appearance.Light, ThemeService.LiquidGlass, SharedGeometry.Compose(ThemeService.LiquidGlass, new BentoCustomizationState(), new ClayCustomizationState(), new SharedGeometryState(CardRounding.Pill)));
+        ResourceValidation.Validate(liquidRounded);
+        if (((CornerRadius)liquidRounded["CardCornerRadius"]).TopLeft != 26) throw new Exception("Liquid Glass shared pill rounding");
+        var liquidClear = ThemeService.Load(Appearance.Light, ThemeService.LiquidGlass, SharedGeometry.Compose(ThemeService.LiquidGlass, new BentoCustomizationState(), new ClayCustomizationState(), new SharedGeometryState(), null, null, null, new LiquidCustomizationState(LiquidFrost.Clear, LiquidSpecular.Bright, LiquidTint.Cool)));
+        ResourceValidation.Validate(liquidClear);
+        if ((double)liquidClear["LiquidFrostOpacity"] != 0.45d) throw new Exception("Liquid clear frost");
+        foreach (object key in liquidClear.Keys)
+            if (Equals(key, "LiquidFrostOpacity") || Equals(key, "LiquidFaceBrush"))
+                throw new Exception("Liquid extras must stay in the extras dictionary, not the package root.");
+        if (LiquidCustomization.BuiltIn.Count != 4) throw new Exception("Four liquid built-in presets required");
+        ContractChecks.ExpectFailure(() => ThemeService.Load(Appearance.Light, ThemeService.LiquidGlass, (candidate, appearance) =>
+            LiquidCustomization.Apply(candidate, appearance, new LiquidCustomizationState((LiquidFrost)999))), "invalid liquid preset");
         Console.WriteLine($"PASS: {combinations} customization/mode combinations, {clayCombinations} clay combinations, immutable helpers, preference retention, rejected candidates and notification-failure semantics.");
     }
 }

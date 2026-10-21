@@ -8,8 +8,7 @@ ENGINE = ROOT / 'Theme/step1.a.ThemeEngine'
 X = '{http://schemas.microsoft.com/winfx/2006/xaml}'
 assert not list(ENGINE.rglob('*.xaml')), 'Shared engine must not own visual dictionaries'
 packages = sorted(p for p in (ROOT / 'Theme').iterdir() if p.is_dir() and p.name.startswith('Theme'))
-assert {'ThemeBento', 'ThemeClaymorphism', 'ThemeFluent', 'ThemeNeumorphism'} <= {p.name for p in packages}
-assert {p.name for p in packages} <= {'ThemeBento', 'ThemeClaymorphism', 'ThemeFluent', 'ThemeNeumorphism', 'ThemeLiquidGlass'}, 'Unexpected visual package'
+assert {p.name for p in packages} == {'ThemeBento', 'ThemeClaymorphism', 'ThemeFluent', 'ThemeNeumorphism', 'ThemeLiquidGlass'}, 'Registered visual packages only'
 for path in ROOT.glob('Theme/**/*.xaml'):
     assert any(path.resolve().is_relative_to(pkg.resolve()) for pkg in packages), f'Visual dictionary outside a theme package: {path}'
 
@@ -74,4 +73,4 @@ service = (ENGINE / 'step1.a.2.ThemeService.cs').read_text()
 assert 'definition.LoadResources(appearance)' in service, 'Engine must delegate visual composition'
 assert '.xaml' not in service, 'Orchestrator must not hardcode a visual dictionary'
 assert 'MergedDictionaries.Add(styles)' not in service, 'Global visual styles must not survive theme replacement'
-print('PASS: isolated Bento, Clay, Fluent and Neumorphism packages, 47 required style/target contracts in both modes, no duplicate/cross-theme keys or engine visuals.')
+print('PASS: isolated Bento, Clay, Fluent, Neumorphism and Liquid Glass packages, 47 required style/target contracts in both modes, no duplicate/cross-theme keys or engine visuals.')

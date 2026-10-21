@@ -5,6 +5,7 @@ using ProGlassAutomation.Customization;
 using ProGlassAutomation.Theming;
 using ProGlassAutomation.ThemeBento;
 using ProGlassAutomation.ThemeClaymorphism;
+using ProGlassAutomation.ThemeLiquidGlass;
 using ProGlassAutomation.ThemeNeumorphism;
 
 namespace ProGlassAutomation.ThemeTests;
@@ -25,9 +26,10 @@ internal static class CustomizationPersistenceChecks
         // Save/load roundtrip
         var clayState = new ClayCustomizationState(ClayAccent.Berry, ClayVolume.Deep, ClayPlumpness.Puffy, ClayDensity.Compact, ClayCanvas.Cool, ClayType.Large, ClaySpacing.Spacious, ClayTextContrast.High, ClaySheen.Gloss, ClayWeight.Semibold);
         var neuState = new NeumorphCustomizationState(NeumorphDepth.Deep, NeumorphBlur.Diffuse, NeumorphIntensity.Strong);
+        var liquidState = new LiquidCustomizationState(LiquidFrost.Clear, LiquidSpecular.Bright, LiquidTint.Warm);
         var fontState = new FontCustomizationState("Georgia", false, true, true);
         var colorState = new ColorPlateState("Forest", new Dictionary<string, string> { ["AccentPrimary"] = "#1F6B4A" });
-        var saved = new SavedCustomization(2, Appearance.Dark, state, null, null, [new NamedPreset("My Test", state, Appearance.Dark)], ThemeCatalog.FluentName, clayState, [new ClayNamedPreset("Berry Night", clayState, Appearance.Dark)], new SharedGeometryState(CardRounding.Pill), neuState, [new NeumorphNamedPreset("Deep Night", neuState, Appearance.Dark)], fontState, colorState);
+        var saved = new SavedCustomization(2, Appearance.Dark, state, null, null, [new NamedPreset("My Test", state, Appearance.Dark)], ThemeCatalog.FluentName, clayState, [new ClayNamedPreset("Berry Night", clayState, Appearance.Dark)], new SharedGeometryState(CardRounding.Pill), neuState, [new NeumorphNamedPreset("Deep Night", neuState, Appearance.Dark)], fontState, colorState, liquidState, [new LiquidNamedPreset("Clear Night", liquidState, Appearance.Dark)]);
         var tmp = Path.Combine(Path.GetTempPath(), "proglass-test-" + Guid.NewGuid() + ".json");
         CustomizationStore.WriteFile(saved, tmp);
         var fromFile = CustomizationStore.ReadFile(tmp);
@@ -35,6 +37,7 @@ internal static class CustomizationPersistenceChecks
         if (fromFile.Clay?.Accent != ClayAccent.Berry) throw new Exception("Store clay roundtrip");
         if (fromFile.Geometry?.Rounding != CardRounding.Pill) throw new Exception("Store geometry roundtrip");
         if (fromFile.Neumorph?.Depth != NeumorphDepth.Deep) throw new Exception("Store neumorph roundtrip");
+        if (fromFile.Liquid?.Frost != LiquidFrost.Clear) throw new Exception("Store liquid roundtrip");
         if (fromFile.Font?.Family != "Georgia" || fromFile.Font.BodyItalic != true || fromFile.Font.BodyUnderline != true) throw new Exception("Store font roundtrip");
         if (fromFile.Colors?.Plate != "Forest" || fromFile.Colors.RoleHex is null || fromFile.Colors.RoleHex["AccentPrimary"] != "#1F6B4A") throw new Exception("Store color plate roundtrip");
         File.WriteAllText(tmp, "{\"Version\":1}");
@@ -55,6 +58,7 @@ internal static class CustomizationPersistenceChecks
         if (reloaded.Clay?.Typography != ClayType.Large || reloaded.Clay?.Sheen != ClaySheen.Gloss) throw new Exception("Roundtrip clay extras");
         if (reloaded.ClayPresets is not { Count: 1 } || reloaded.ClayPresets[0].Name != "Berry Night") throw new Exception("Clay preset roundtrip");
         if (reloaded.Neumorph?.Blur != NeumorphBlur.Diffuse || reloaded.NeumorphPresets is not { Count: 1 } || reloaded.NeumorphPresets[0].Name != "Deep Night") throw new Exception("Neumorph preset roundtrip");
+        if (reloaded.Liquid?.Tint != LiquidTint.Warm || reloaded.LiquidPresets is not { Count: 1 } || reloaded.LiquidPresets[0].Name != "Clear Night") throw new Exception("Liquid preset roundtrip");
         if (reloaded.Font?.Family != "Georgia" || reloaded.Font.BodyItalic != true) throw new Exception("Roundtrip font");
         if (reloaded.Colors?.Plate != "Forest") throw new Exception("Roundtrip color plate");
         var overlay = ThemeService.Load(Appearance.Light);

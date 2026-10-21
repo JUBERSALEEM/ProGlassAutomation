@@ -190,7 +190,7 @@ internal static class RuntimeChecks
             Pump();
             Check(model.SelectedAccent == ProGlassAutomation.ThemeBento.BentoAccent.Ocean &&
                 (double)themes.GetToken("ControlMinHeight") == 32d, "reset design restores defaults without resetting sample input");
-            Check(ThemeService.InstalledThemes.Contains(ThemeService.Clay) && ThemeService.InstalledThemes.Contains(ThemeService.Fluent) && ThemeService.InstalledThemes.Contains(ThemeService.Neumorphism), "Clay, Fluent and Neumorphism are registered themes");
+            Check(ThemeService.InstalledThemes.Contains(ThemeService.Clay) && ThemeService.InstalledThemes.Contains(ThemeService.Fluent) && ThemeService.InstalledThemes.Contains(ThemeService.Neumorphism) && ThemeService.InstalledThemes.Contains(ThemeService.LiquidGlass), "Clay, Fluent, Neumorphism and Liquid Glass are registered themes");
             foreach (string extra in ThemeService.InstalledThemes)
             {
                 if (extra == ThemeService.Bento) continue;
@@ -203,6 +203,7 @@ internal static class RuntimeChecks
                 Check(!model.CanCustomizeBento, extra + " keeps the Bento customization engine off");
                 Check(model.IsFluent == (extra == ThemeService.Fluent), extra + " fluent studio flag");
                 Check(model.IsNeumorph == (extra == ThemeService.Neumorphism), extra + " neumorph studio flag");
+                Check(model.IsLiquid == (extra == ThemeService.LiquidGlass), extra + " liquid studio flag");
                 if (extra == ThemeService.Clay)
                 {
                     Check(model.CanCustomizeClay && model.DesignSummary.Contains("Rose"), "clay customization is live");
@@ -229,6 +230,17 @@ internal static class RuntimeChecks
                     model.ResetDesign.Execute(null);
                     Pump();
                     Check(model.SelectedNeumorphDepth == ProGlassAutomation.ThemeNeumorphism.NeumorphDepth.Standard && (double)themes.GetToken("NeumorphDistance") == 6d, "neumorph reset restores defaults");
+                }
+                else if (extra == ThemeService.LiquidGlass)
+                {
+                    Check(model.CanCustomizeGeometry && model.CanCustomizeLiquid && model.DesignSummary.StartsWith("Liquid Glass"), extra + " uses shared rounding and a liquid frost engine");
+                    Check(model.ResetTheme.CanExecute(null) && model.PreviewDefault.CanExecute(null), "liquid studio reset commands");
+                    model.SelectedLiquidFrost = ProGlassAutomation.ThemeLiquidGlass.LiquidFrost.Clear;
+                    Pump();
+                    Check((double)themes.GetToken("LiquidFrostOpacity") == 0.45d, "live liquid frost");
+                    model.ResetDesign.Execute(null);
+                    Pump();
+                    Check(model.SelectedLiquidFrost == ProGlassAutomation.ThemeLiquidGlass.LiquidFrost.Standard, "liquid reset restores defaults");
                 }
                 else
                     throw new Exception("Unhandled extra theme: " + extra);

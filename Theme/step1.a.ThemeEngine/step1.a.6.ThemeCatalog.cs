@@ -2,6 +2,7 @@ using System.Windows;
 using ProGlassAutomation.ThemeBento;
 using ProGlassAutomation.ThemeClaymorphism;
 using ProGlassAutomation.ThemeFluent;
+using ProGlassAutomation.ThemeLiquidGlass;
 using ProGlassAutomation.ThemeNeumorphism;
 
 namespace ProGlassAutomation.Theming;
@@ -29,6 +30,7 @@ public static class ThemeCatalog
             new ThemeDefinition(ClayName, "ThemeClaymorphism", ClayResources.Load, ThemeGeometry.ThemeOwned),
             new ThemeDefinition(FluentName, "ThemeFluent", FluentResources.Load),
             new ThemeDefinition(NeumorphismName, "ThemeNeumorphism", NeumorphResources.Load),
+            new ThemeDefinition(LiquidGlassName, "ThemeLiquidGlass", LiquidResources.Load),
         });
 
     public static ThemeDefinition Find(string name) =>

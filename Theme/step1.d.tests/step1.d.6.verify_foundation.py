@@ -36,7 +36,7 @@ for path in [*ROOT.glob('*.cs'), *ROOT.glob('Theme/**/*.cs'), *ROOT.glob('step1.
 app = (ROOT / 'App.xaml.cs').read_text()
 assert 'Themes.Initialize(Resources)' in app and 'MainWindow.Show()' in app
 runtime = (ROOT / 'Theme/step1.d.tests/step1.d.1.RuntimeChecks.cs').read_text()
-assert 'ThemeService.InstalledThemes' in runtime and 'CanCustomize' in runtime and 'ThemeService.Fluent' in runtime
+assert 'ThemeService.InstalledThemes' in runtime and 'CanCustomize' in runtime and 'ThemeService.Fluent' in runtime and 'ThemeService.LiquidGlass' in runtime
 assert 'Apply("Claymorphism"' not in runtime, 'Clay is installed; do not treat it as missing'
 shell = (ROOT/'MainWindow.xaml').read_text()
 assert '<studio:ThemeStudioView />' in shell and '<studio:BusinessReferenceView />' in shell

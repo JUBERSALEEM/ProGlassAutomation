@@ -200,4 +200,4 @@ Empty folder now = forbidden (project rules: no placeholder themes).
 
 Reply with **L0 authorized** to implement L2–L3 next (tokens + surface, still unregistered), or hold. Do not ask for Glassmorphism, Spatial, Swiss, or Holographic until Liquid Glass is registered and this file’s L8 note is still honest.
 
-**Not implemented in this checkpoint.** Next theme is Liquid Glass. The four installed themes stay as they are.
+L0–L7 applied as separate commits. L8 Windows visual remains **0%**. L9: do not start Glassmorphism.

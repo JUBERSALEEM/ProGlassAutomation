@@ -21,4 +21,4 @@ True Metal refraction, per-card desktop capture, device-tilt specular, Win2D and
 
 ## Completeness
 
-47 contract roles when components are present. Catalog registration is a later phase. Windows pixels **0%** — this environment cannot produce a Windows visual proof.
+47 contract roles. Fifth catalog entry. Windows pixels **0%** — this environment cannot produce a Windows visual proof. L8 visual sign-off is not this sandbox.

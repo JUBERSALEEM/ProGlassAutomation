@@ -244,7 +244,7 @@ public sealed partial class ThemeStudioViewModel
     public bool IsClay => SelectedTheme == ThemeService.Clay;
     public bool IsFluent => SelectedTheme == ThemeService.Fluent;
     public bool IsNeumorph => SelectedTheme == ThemeService.Neumorphism;
-    public bool IsLiquid => SelectedTheme == ThemeCatalog.LiquidGlassName;
+    public bool IsLiquid => SelectedTheme == ThemeService.LiquidGlass;
     public bool CanCustomizeBento => SelectedTheme == ThemeService.Bento;
     public bool CanCustomizeClay => IsClay;
     public bool CanCustomizeNeumorph => IsNeumorph;
@@ -527,7 +527,7 @@ public sealed partial class ThemeStudioViewModel
             if (IsLiquid)
             {
                 ApplyLiquidState(new LiquidCustomizationState());
-                lastSaved = lastSaved with { Liquid = new LiquidCustomizationState(), Theme = ThemeCatalog.LiquidGlassName, Appearance = themes.ActiveAppearance, Geometry = geometry };
+                lastSaved = lastSaved with { Liquid = new LiquidCustomizationState(), Theme = ThemeService.LiquidGlass, Appearance = themes.ActiveAppearance, Geometry = geometry };
                 CustomizationStore.Save(lastSaved);
                 Feedback = "Liquid Glass restored to defaults.";
                 return;
@@ -628,7 +628,7 @@ public sealed partial class ThemeStudioViewModel
             {
                 var glassPreset = LiquidCustomization.BuiltIn.Concat(lastSaved.LiquidPresets ?? []).FirstOrDefault(p => p.Name == name);
                 if (glassPreset == null) return;
-                if (glassPreset.Appearance != themes.ActiveAppearance) SelectAppearance(ThemeCatalog.LiquidGlassName, glassPreset.Appearance);
+                if (glassPreset.Appearance != themes.ActiveAppearance) SelectAppearance(ThemeService.LiquidGlass, glassPreset.Appearance);
                 ApplyLiquidState(glassPreset.State);
                 Feedback = $"Liquid Glass preset applied: {glassPreset.Name}";
                 return;
@@ -900,7 +900,7 @@ public sealed partial class ThemeStudioViewModel
     {
         try
         {
-            themes.Apply(ThemeCatalog.LiquidGlassName, themes.ActiveAppearance, SharedGeometry.Compose(ThemeCatalog.LiquidGlassName, extended, clay, geometry, neumorph, font, colors, next));
+            themes.Apply(ThemeService.LiquidGlass, themes.ActiveAppearance, SharedGeometry.Compose(ThemeService.LiquidGlass, extended, clay, geometry, neumorph, font, colors, next));
             liquid = next; ThemeError = ""; Feedback = "Live liquid glass preview updated — use Save to persist.";
         }
         catch (ThemeNotificationException error) { liquid = next; ThemeError = error.Message; }

@@ -85,7 +85,7 @@ public static class SharedGeometry
                 ClayCustomization.Apply(package, mode, clay);
             else if (theme == ThemeService.Neumorphism)
                 NeumorphCustomization.Apply(package, mode, neu);
-            else if (theme == ThemeCatalog.LiquidGlassName)
+            else if (theme == ThemeService.LiquidGlass)
                 LiquidCustomization.Apply(package, mode, glass);
             FontService.Apply(package, type);
             ColorPlateService.Apply(package, mode, plate);
