@@ -21,14 +21,11 @@
   </ControlTemplate></Setter.Value></Setter>
  </Style>
  <Style x:Key="StatusBadge" TargetType="Border">
-  <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" /><Setter Property="CornerRadius" Value="{DynamicResource ChipCornerRadius}" /><Setter Property="Padding" Value="{DynamicResource PaddingCompact}" />
-  <Setter Property="BorderBrush" Value="{DynamicResource NeumorphDarkBrush}" /><Setter Property="BorderThickness" Value="{DynamicResource BorderThicknessControl}" />
-  <Style.Triggers>
-   <Trigger Property="Tag" Value="Success"><Setter Property="Background" Value="{DynamicResource StatusSuccessSurface}" /></Trigger>
-   <Trigger Property="Tag" Value="Warning"><Setter Property="Background" Value="{DynamicResource StatusWarningSurface}" /></Trigger>
-   <Trigger Property="Tag" Value="Information"><Setter Property="Background" Value="{DynamicResource StatusInformationSurface}" /></Trigger>
-   <Trigger Property="Tag" Value="Error"><Setter Property="Background" Value="{DynamicResource StatusErrorSurface}" /></Trigger>
-  </Style.Triggers>
+  <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
+  <Setter Property="CornerRadius" Value="20" />
+  <Setter Property="Padding" Value="{DynamicResource PaddingCompact}" />
+  <Setter Property="BorderBrush" Value="{DynamicResource TransparentBrush}" />
+  <Setter Property="BorderThickness" Value="0" />
  </Style>
  <Style x:Key="StatusText" TargetType="TextBlock">
   <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" /><Setter Property="FontSize" Value="{DynamicResource FontSizeCaption}" /><Setter Property="TextWrapping" Value="Wrap" />
