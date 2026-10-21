@@ -41,7 +41,6 @@
    <Grid>
     <Grid.ColumnDefinitions>
      <ColumnDefinition Width="*"/>
-     <ColumnDefinition Width="{DynamicResource BentoGutter}"/>
      <ColumnDefinition Width="*"/>
     </Grid.ColumnDefinitions>
     <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
@@ -64,7 +63,7 @@
       <TextBlock Text="{Binding ThemeError}" Foreground="{DynamicResource StatusError}" AutomationProperties.LiveSetting="Assertive" Margin="{DynamicResource MarginItem}"/>
      </StackPanel>
     </ContentControl>
-    <ContentControl Grid.Column="2" Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
+    <ContentControl Grid.Column="1" Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
      <StackPanel>
       <TextBlock Text="Live accent preview" Style="{DynamicResource SectionHeading}"/>
       <TextBlock Text="These surfaces bind Accent and Chart tokens. Changing a plate updates the whole application, including Theme Studio and Home." Style="{DynamicResource Caption}"/>

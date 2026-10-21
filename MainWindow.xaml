@@ -198,45 +198,47 @@
                             <Expander.Header>
                                 <TextBlock Text="Settings" FontWeight="{DynamicResource FontWeightHeading}" />
                             </Expander.Header>
-                            <Button Command="{Binding ShowStudio}" AutomationProperties.Name="Theme Studio page">
-                                <Button.Style>
-                                    <Style TargetType="Button" BasedOn="{StaticResource ShellNavButton}">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsStudio}" Value="True">
-                                                <Setter Property="Background" Value="{DynamicResource AccentPrimary}" />
-                                                <Setter Property="Foreground" Value="{DynamicResource TextOnAccent}" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style>
-                                <TextBlock Text="Theme Studio" />
-                            </Button>
-                            <Button Command="{Binding ShowTexts}" AutomationProperties.Name="Texts Studio page">
-                                <Button.Style>
-                                    <Style TargetType="Button" BasedOn="{StaticResource ShellNavButton}">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsTexts}" Value="True">
-                                                <Setter Property="Background" Value="{DynamicResource AccentPrimary}" />
-                                                <Setter Property="Foreground" Value="{DynamicResource TextOnAccent}" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style>
-                                <TextBlock Text="Texts Studio" />
-                            </Button>
-                            <Button Command="{Binding ShowColors}" AutomationProperties.Name="Colors Studio page">
-                                <Button.Style>
-                                    <Style TargetType="Button" BasedOn="{StaticResource ShellNavButton}">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsColors}" Value="True">
-                                                <Setter Property="Background" Value="{DynamicResource AccentPrimary}" />
-                                                <Setter Property="Foreground" Value="{DynamicResource TextOnAccent}" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style>
-                                <TextBlock Text="Colors Studio" />
-                            </Button>
+                            <StackPanel>
+                                <Button Command="{Binding ShowStudio}" AutomationProperties.Name="Theme Studio page">
+                                    <Button.Style>
+                                        <Style TargetType="Button" BasedOn="{StaticResource ShellNavButton}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsStudio}" Value="True">
+                                                    <Setter Property="Background" Value="{DynamicResource AccentPrimary}" />
+                                                    <Setter Property="Foreground" Value="{DynamicResource TextOnAccent}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                    <TextBlock Text="Theme Studio" />
+                                </Button>
+                                <Button Command="{Binding ShowTexts}" AutomationProperties.Name="Texts Studio page">
+                                    <Button.Style>
+                                        <Style TargetType="Button" BasedOn="{StaticResource ShellNavButton}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsTexts}" Value="True">
+                                                    <Setter Property="Background" Value="{DynamicResource AccentPrimary}" />
+                                                    <Setter Property="Foreground" Value="{DynamicResource TextOnAccent}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                    <TextBlock Text="Texts Studio" />
+                                </Button>
+                                <Button Command="{Binding ShowColors}" AutomationProperties.Name="Colors Studio page">
+                                    <Button.Style>
+                                        <Style TargetType="Button" BasedOn="{StaticResource ShellNavButton}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsColors}" Value="True">
+                                                    <Setter Property="Background" Value="{DynamicResource AccentPrimary}" />
+                                                    <Setter Property="Foreground" Value="{DynamicResource TextOnAccent}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                    <TextBlock Text="Colors Studio" />
+                                </Button>
+                            </StackPanel>
                         </Expander>
                     </StackPanel>
                 </ScrollViewer>

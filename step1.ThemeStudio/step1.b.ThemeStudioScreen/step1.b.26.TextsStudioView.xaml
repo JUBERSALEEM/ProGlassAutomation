@@ -3,10 +3,9 @@
   <Grid Margin="{DynamicResource PaddingPage}">
    <Grid.ColumnDefinitions>
     <ColumnDefinition Width="2*"/>
-    <ColumnDefinition Width="{DynamicResource BentoGutter}"/>
     <ColumnDefinition Width="3*"/>
    </Grid.ColumnDefinitions>
-   <ContentControl Style="{DynamicResource Card}">
+   <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginInline}">
     <StackPanel>
      <TextBlock Text="Texts studio" Style="{DynamicResource PageHeading}"/>
      <TextBlock Text="A shared type overlay. The active theme still owns density, radius and material. Built-in families plus imported TTF, OTF, TTC or OTC files (8 MB)." Style="{DynamicResource Caption}"/>
@@ -32,7 +31,7 @@
      <TextBlock Text="{Binding ThemeError}" Foreground="{DynamicResource StatusError}" AutomationProperties.LiveSetting="Assertive" Margin="{DynamicResource MarginItem}"/>
     </StackPanel>
    </ContentControl>
-   <ContentControl Grid.Column="2" Style="{DynamicResource Card}">
+   <ContentControl Grid.Column="1" Style="{DynamicResource Card}" Margin="{DynamicResource MarginInline}">
     <StackPanel>
      <TextBlock Text="Live type preview" Style="{DynamicResource SectionHeading}"/>
      <TextBlock Text="HEADING" Style="{DynamicResource Caption}"/>
