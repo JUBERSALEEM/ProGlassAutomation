@@ -1,25 +1,21 @@
 # Liquid Glass — fifth theme (Phase 01 / step1)
 
-Native WPF reading of Apple Liquid Glass / iOS 26 widgets: a translucent veil over a **theme-owned wallpaper**, not a scene catalog. Wallpaper follows the GlassPulse / WWDC showcase pattern (mesh of overlapping light orbs). Glass follows glass-ui (`--glass-bg`, `--glass-border`, `--glass-shadow`). Not Fluent acrylic, not Clay, not CSS, not desktop capture, not a sine-wave lining, not a built-in scene generator.
+Native WPF reading of Apple Liquid Glass (iOS 26 / macOS Tahoe Control Center). Wallpaper is a **coded Tahoe sky/water scene** (`LiquidWallpaper`), not a PNG and not a scene catalog. Glass is a translucent veil + inset specular + hairline + lift. Not Fluent acrylic, not Clay, not CSS, not desktop capture, not a sine-wave lining.
 
 ## Showcase canvas
 
-`LiquidCanvasBrush` is the Liquid Glass wallpaper — one DrawingBrush in extras, Light and Dark. Cyan / violet / rose orbs on a sky field so glass has something to sit on. No PNG, no extra type, no wallpaper picker.
+`LiquidWallpaper.Create` paints sky → water, a sun/moon bloom and a warm sea path. `LiquidResources.Load` installs it as `LiquidCanvasBrush`. Light and Dark only.
 
 ## Standard
 
-- **Glass face** is an iOS-like veil (~8–16% white). The frost token stays 0.22/0.40/0.62; the painted alpha is `frost × 0.40`. Wallpaper must show through. A 1px inset specular is the lip.
-- **Edge** is a visible white hairline, plus a short top specular.
+- **Glass face** is an iOS-like veil (`frost × 0.40`). Clear ≈ 9% white. Token stays 0.22/0.40/0.62.
+- **Edge** is a white hairline plus a 1px inset specular lip.
 - **Lift** is an unnamed `DropShadowEffect` on a near-transparent caster — never on the content tree, never `x:Name`.
 - **Inputs** stay `LiquidWellBrush`. Charts stay CPU; no Blur, no BitmapCache.
 - **Reduced transparency** swaps in `LiquidOpaqueBrush` and drops sheen/lift.
 
-True Metal refraction, per-card desktop capture, Win2D and extra NuGet are **not** in this build.
-
-## Engine
-
-`LiquidGlassSurface` paints the glass. Frost / specular / tint are Liquid-owned extras. Rounding stays SharedTokens.
+True Metal refraction of the wallpaper through the pane is **not** in this build.
 
 ## Completeness
 
-47 contract roles. Fifth catalog entry. Windows pixels **0%** — this environment cannot produce a Windows visual proof. L8 visual sign-off is not this sandbox.
+47 contract roles. Fifth catalog entry. Windows pixels **0%**. L8 visual sign-off is not this sandbox.

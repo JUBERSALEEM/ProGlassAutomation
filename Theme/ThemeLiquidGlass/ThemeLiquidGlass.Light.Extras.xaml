@@ -44,73 +44,11 @@
   <Thickness x:Key="LiquidSpecularThickness">2,2,0,0</Thickness>
   <Thickness x:Key="LiquidRimThickness">1</Thickness>
   <sys:Boolean x:Key="LiquidReduceTransparency">False</sys:Boolean>
-  <DrawingBrush x:Key="LiquidCanvasBrush" Stretch="UniformToFill" AlignmentX="Center" AlignmentY="Center">
-    <DrawingBrush.Drawing>
-      <DrawingGroup>
-        <GeometryDrawing Brush="#3E8EC8">
-          <GeometryDrawing.Geometry>
-            <RectangleGeometry Rect="0,0,400,240" />
-          </GeometryDrawing.Geometry>
-        </GeometryDrawing>
-        <GeometryDrawing>
-          <GeometryDrawing.Brush>
-            <RadialGradientBrush Center="0.22,0.18" GradientOrigin="0.22,0.18" RadiusX="0.42" RadiusY="0.48">
-              <GradientStop Color="#B37EF0FF" Offset="0" />
-              <GradientStop Color="#6638B8F0" Offset="0.55" />
-              <GradientStop Color="#003E8EC8" Offset="1" />
-            </RadialGradientBrush>
-          </GeometryDrawing.Brush>
-          <GeometryDrawing.Geometry>
-            <EllipseGeometry Center="88,48" RadiusX="168" RadiusY="118" />
-          </GeometryDrawing.Geometry>
-        </GeometryDrawing>
-        <GeometryDrawing>
-          <GeometryDrawing.Brush>
-            <RadialGradientBrush Center="0.78,0.42" GradientOrigin="0.78,0.42" RadiusX="0.40" RadiusY="0.52">
-              <GradientStop Color="#CC9B7CFF" Offset="0" />
-              <GradientStop Color="#667B7AE8" Offset="0.5" />
-              <GradientStop Color="#003E8EC8" Offset="1" />
-            </RadialGradientBrush>
-          </GeometryDrawing.Brush>
-          <GeometryDrawing.Geometry>
-            <EllipseGeometry Center="312,108" RadiusX="160" RadiusY="130" />
-          </GeometryDrawing.Geometry>
-        </GeometryDrawing>
-        <GeometryDrawing>
-          <GeometryDrawing.Brush>
-            <RadialGradientBrush Center="0.70,0.88" GradientOrigin="0.70,0.88" RadiusX="0.38" RadiusY="0.34">
-              <GradientStop Color="#BBFF9EC8" Offset="0" />
-              <GradientStop Color="#55E8A0C8" Offset="0.5" />
-              <GradientStop Color="#003E8EC8" Offset="1" />
-            </RadialGradientBrush>
-          </GeometryDrawing.Brush>
-          <GeometryDrawing.Geometry>
-            <EllipseGeometry Center="280,210" RadiusX="150" RadiusY="90" />
-          </GeometryDrawing.Geometry>
-        </GeometryDrawing>
-        <GeometryDrawing>
-          <GeometryDrawing.Brush>
-            <RadialGradientBrush Center="0.12,0.82" GradientOrigin="0.12,0.82" RadiusX="0.30" RadiusY="0.28">
-              <GradientStop Color="#995EE8C8" Offset="0" />
-              <GradientStop Color="#003E8EC8" Offset="1" />
-            </RadialGradientBrush>
-          </GeometryDrawing.Brush>
-          <GeometryDrawing.Geometry>
-            <EllipseGeometry Center="48,196" RadiusX="120" RadiusY="72" />
-          </GeometryDrawing.Geometry>
-        </GeometryDrawing>
-        <GeometryDrawing>
-          <GeometryDrawing.Brush>
-            <RadialGradientBrush Center="0.48,0.08" GradientOrigin="0.48,0.08" RadiusX="0.22" RadiusY="0.16">
-              <GradientStop Color="#99FFFFFF" Offset="0" />
-              <GradientStop Color="#003E8EC8" Offset="1" />
-            </RadialGradientBrush>
-          </GeometryDrawing.Brush>
-          <GeometryDrawing.Geometry>
-            <EllipseGeometry Center="192,28" RadiusX="88" RadiusY="40" />
-          </GeometryDrawing.Geometry>
-        </GeometryDrawing>
-      </DrawingGroup>
-    </DrawingBrush.Drawing>
-  </DrawingBrush>
+  <LinearGradientBrush x:Key="LiquidCanvasBrush" StartPoint="0.18,0" EndPoint="0.82,1">
+    <GradientStop Color="#E8F2FA" Offset="0" />
+    <GradientStop Color="#B5D4EC" Offset="0.28" />
+    <GradientStop Color="#6FA3D0" Offset="0.52" />
+    <GradientStop Color="#3A6FB0" Offset="0.76" />
+    <GradientStop Color="#1E4A88" Offset="1" />
+  </LinearGradientBrush>
 </ResourceDictionary>

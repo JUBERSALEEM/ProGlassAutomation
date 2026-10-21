@@ -13,6 +13,7 @@ public static class LiquidResources
         var package = new ResourceDictionary { Source = Resource($"ThemeLiquidGlass.{appearance}.xaml") };
         package.MergedDictionaries.Add(new ResourceDictionary { Source = Resource($"ThemeLiquidGlass.{appearance}.Extras.xaml") });
         package.MergedDictionaries.Add(new ResourceDictionary { Source = Resource("step1.e.Components/step1.e.1.Components.xaml") });
+        LiquidWallpaper.Install(package, appearance);
         return package;
     }
 
