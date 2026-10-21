@@ -36,17 +36,18 @@ public static class LiquidWallpaper
 
     private static void PaintDay(DrawingGroup group)
     {
+        // Light.xaml ApplicationBackground #62B4E8 — day sky, not the Dark night ocean.
         Fill(group, Sky(
-            Color.FromRgb(244, 248, 252),
-            Color.FromRgb(212, 230, 244),
-            Color.FromRgb(158, 196, 228),
-            Color.FromRgb(90, 146, 200),
-            Color.FromRgb(26, 74, 136)));
-        Bloom(group, 680, 50, 520, 360, Color.FromArgb(230, 255, 250, 232), Color.FromArgb(0, 212, 230, 244));
-        Bloom(group, 540, 240, 520, 140, Color.FromArgb(170, 242, 220, 176), Color.FromArgb(0, 158, 196, 228));
-        Bloom(group, 60, 160, 260, 200, Color.FromArgb(70, 186, 216, 236), Color.FromArgb(0, 90, 146, 200));
-        Bloom(group, 400, 300, 640, 70, Color.FromArgb(80, 255, 255, 255), Color.FromArgb(0, 212, 230, 244));
-        Bloom(group, 400, 530, 560, 180, Color.FromArgb(210, 20, 58, 112), Color.FromArgb(0, 26, 74, 136));
+            Color.FromRgb(232, 244, 252),
+            Color.FromRgb(181, 216, 240),
+            Color.FromRgb(98, 180, 232),
+            Color.FromRgb(58, 142, 200),
+            Color.FromRgb(42, 106, 170)));
+        Bloom(group, 680, 50, 520, 360, Color.FromArgb(230, 255, 250, 232), Color.FromArgb(0, 181, 216, 240));
+        Bloom(group, 540, 240, 520, 140, Color.FromArgb(160, 242, 220, 176), Color.FromArgb(0, 98, 180, 232));
+        Bloom(group, 60, 160, 260, 200, Color.FromArgb(70, 186, 216, 236), Color.FromArgb(0, 58, 142, 200));
+        Bloom(group, 400, 300, 640, 70, Color.FromArgb(80, 255, 255, 255), Color.FromArgb(0, 181, 216, 240));
+        Bloom(group, 400, 530, 560, 180, Color.FromArgb(180, 42, 106, 170), Color.FromArgb(0, 42, 106, 170));
     }
 
     private static void PaintNight(DrawingGroup group)

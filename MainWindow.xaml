@@ -41,9 +41,13 @@
                     <Setter Property="Width" Value="0" />
                     <Setter Property="Visibility" Value="Collapsed" />
                 </DataTrigger>
-                <DataTrigger Binding="{Binding IsLiquid}" Value="True">
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding IsLiquid}" Value="True" />
+                        <Condition Binding="{Binding IsDark}" Value="True" />
+                    </MultiDataTrigger.Conditions>
                     <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
-                </DataTrigger>
+                </MultiDataTrigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="ShellIconButton" TargetType="Button">
@@ -81,9 +85,13 @@
                 </ControlTemplate.Triggers>
             </ControlTemplate></Setter.Value></Setter>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding IsLiquid}" Value="True">
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding IsLiquid}" Value="True" />
+                        <Condition Binding="{Binding IsDark}" Value="True" />
+                    </MultiDataTrigger.Conditions>
                     <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
-                </DataTrigger>
+                </MultiDataTrigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="ShellExpanderCard" TargetType="Expander">
@@ -133,9 +141,13 @@
                 </Setter.Value>
             </Setter>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding IsLiquid}" Value="True">
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding IsLiquid}" Value="True" />
+                        <Condition Binding="{Binding IsDark}" Value="True" />
+                    </MultiDataTrigger.Conditions>
                     <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
-                </DataTrigger>
+                </MultiDataTrigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="ShellSectionLabel" TargetType="TextBlock" BasedOn="{StaticResource Caption}">
@@ -150,9 +162,13 @@
             <Setter Property="Margin" Value="{DynamicResource MarginSection}" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Style.Triggers>
-                <DataTrigger Binding="{Binding IsLiquid}" Value="True">
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding IsLiquid}" Value="True" />
+                        <Condition Binding="{Binding IsDark}" Value="True" />
+                    </MultiDataTrigger.Conditions>
                     <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
-                </DataTrigger>
+                </MultiDataTrigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="ShellBannerCluster" TargetType="Border">
@@ -162,9 +178,13 @@
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="SnapsToDevicePixels" Value="True" />
             <Style.Triggers>
-                <DataTrigger Binding="{Binding IsLiquid}" Value="True">
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding IsLiquid}" Value="True" />
+                        <Condition Binding="{Binding IsDark}" Value="True" />
+                    </MultiDataTrigger.Conditions>
                     <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
-                </DataTrigger>
+                </MultiDataTrigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="ShellBannerButton" TargetType="Button" BasedOn="{StaticResource ShellIconButton}">

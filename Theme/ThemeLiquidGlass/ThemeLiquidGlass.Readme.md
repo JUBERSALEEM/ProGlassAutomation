@@ -9,8 +9,8 @@ Native WPF reading of Apple Liquid Glass (iOS 26 / macOS Tahoe Control Center). 
 ## Standard
 
 - **Card** frost is the CC pane. **Control** is lighter. **Chip** is almost clear.
-- **Hero** is a dark glass veil so shared light hero text stays readable and the wallpaper still shows.
-- **Shell** (sidebar, banner, nav pills) goes transparent when `IsLiquid` is true. Other themes keep opaque SurfacePrimary.
+- **Hero** uses Light `HeroBackground` (`#0A3658` / `#085872`) as glass so `HeroForeground` still reads. Dark keeps a night veil. Light extras are not a copy of Dark.
+- **Shell** stays `SurfacePrimary` on Light (`TextPrimary` `#071422`). Transparent chrome is Dark Liquid only. Other themes keep opaque SurfacePrimary.
 - **Edge** is a white hairline plus a 1px inset specular lip.
 - **Lift** is an unnamed `DropShadowEffect` on a near-transparent caster — never `x:Name`.
 - **Inputs** stay `LiquidWellBrush`. Charts stay CPU.
