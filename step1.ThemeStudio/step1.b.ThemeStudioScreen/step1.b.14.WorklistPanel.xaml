@@ -18,7 +18,7 @@
      <TextBlock Text="REFERENCE / OWNER" Style="{DynamicResource Caption}" /><TextBlock Grid.Column="1" Text="UPDATED" Style="{DynamicResource Caption}" /><TextBlock Grid.Column="2" Text="STATUS" Style="{DynamicResource Caption}" />
     </Grid></ContentControl>
    </StackPanel>
-   <ListBox Grid.Row="1" ItemsSource="{Binding ReferenceView}" SelectedItem="{Binding SelectedReference}" HorizontalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Auto" AutomationProperties.Name="Reference worklist">
+   <ListBox Grid.Row="1" ItemsSource="{Binding ReferenceView}" SelectedItem="{Binding SelectedReference}" HorizontalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Auto" VirtualizingPanel.IsVirtualizing="False" ScrollViewer.CanContentScroll="False" AutomationProperties.Name="Reference worklist">
     <ListBox.ItemTemplate><DataTemplate><Grid>
      <Grid.ColumnDefinitions><ColumnDefinition Width="3*" /><ColumnDefinition Width="2*" /><ColumnDefinition Width="2*" /></Grid.ColumnDefinitions>
      <StackPanel Margin="{DynamicResource MarginInline}"><TextBlock Text="{Binding Title}" FontWeight="{DynamicResource FontWeightHeading}" /><TextBlock Text="{Binding Owner}" Style="{DynamicResource Caption}" /></StackPanel>

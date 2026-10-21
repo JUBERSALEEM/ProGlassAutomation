@@ -49,9 +49,9 @@ assert '<local:CustomizationPanel' in view and '<local:TokensPanel' in view
 assert 'CustomizationPanel' not in sample and 'TokensPanel' not in sample, 'Business page must not contain engine settings'
 assert 'MaxWidth=' not in view and 'MaxWidth=' not in sample, 'Use full viewport width'
 assert 'bento:BentoGrid' in view and 'bento:BentoGrid' in sample, 'Studio and reference must use the Bento grid'
-assert 'FillAvailable="True"' in view and 'FillAvailable="True"' in sample, 'Studio and reference mosaics fill the viewport'
+assert 'FillAvailable="False"' in view and 'FillAvailable="False"' in sample, 'Studio and Home mosaics keep BentoRowHeight so cards are not crushed to the viewport'
 assert 'Compact="True"' in view, 'Studio preview must use the compact 2×3 mosaic, not a nested full page'
-assert 'ScrollViewer' in sample and 'BusinessModules' in sample, 'Home mosaic must scroll when it is taller than the viewport'
+assert 'ScrollViewer' in view and 'ScrollViewer' in sample and 'BusinessModules' in sample, 'Studio and Home mosaics must scroll when taller than the viewport'
 assert 'UniformGrid' not in sample, 'Equal KPI strips are not a bento mosaic'
 assert 'BentoGrid.ColumnSpan' in sample and 'BentoGrid.RowSpan' in sample, 'Reference mosaic must declare spans'
 for component in ('OverviewPanel', 'AnalyticsOverview', 'WorklistPanel', 'ControlsPanel'):

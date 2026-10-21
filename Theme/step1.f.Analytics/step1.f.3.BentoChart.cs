@@ -36,7 +36,13 @@ public sealed partial class BentoChart
     }
     public BentoChart()
     {
-        var root = new StackPanel();
+        var root = new Grid();
+        root.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+        root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+        root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+        root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+        root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+        root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
         // Ensure no white surfaces — chart must be transparent and reveal the dark card behind, including the donut hole.
         cartesian.Background = System.Windows.Media.Brushes.Transparent;
         pie.Background = System.Windows.Media.Brushes.Transparent;
@@ -44,10 +50,13 @@ public sealed partial class BentoChart
         Background = System.Windows.Media.Brushes.Transparent;
         BorderBrush = System.Windows.Media.Brushes.Transparent;
         plot.Children.Add(cartesian); plot.Children.Add(pie); plot.Children.Add(center);
-        root.Children.Add(plot); root.Children.Add(legend); root.Children.Add(message); root.Children.Add(summary); root.Children.Add(inspectToggle); root.Children.Add(values);
+        Grid.SetRow(plot, 0); Grid.SetRow(legend, 1); Grid.SetRow(message, 2);
+        Grid.SetRow(summary, 3); Grid.SetRow(inspectToggle, 4); Grid.SetRow(values, 5);
+        root.Children.Add(plot); root.Children.Add(legend); root.Children.Add(message);
+        root.Children.Add(summary); root.Children.Add(inspectToggle); root.Children.Add(values);
         inspectToggle.Checked += (_, _) => values.Visibility = Visibility.Visible;
         inspectToggle.Unchecked += (_, _) => values.Visibility = Visibility.Collapsed;
-        plot.SetBinding(HeightProperty, new Binding(nameof(PlotHeight)) { Source = this });
+        plot.SetBinding(MinHeightProperty, new Binding(nameof(PlotHeight)) { Source = this });
         Content = root;
         center.SetBinding(TextBlock.FontSizeProperty, new Binding(nameof(CenterFontSize)) { Source = this });
         Loaded += (_, _) => Schedule(true);

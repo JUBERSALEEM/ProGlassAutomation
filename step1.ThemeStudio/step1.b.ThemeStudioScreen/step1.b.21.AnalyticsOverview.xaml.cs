@@ -43,6 +43,7 @@ public partial class AnalyticsOverview : UserControl
     private void ApplyLayout()
     {
         if (AnalyticsGrid is null) return;
+        AnalyticsGrid.FillAvailable = Compact;
         if (Compact)
         {
             AnalyticsGrid.Columns = 2;
@@ -59,10 +60,10 @@ public partial class AnalyticsOverview : UserControl
         Show(RevenueCard, 0, 1, 2, 2);
         Show(MixCard, 2, 1, 1, 2);
         Show(TargetCard, 3, 1, 1, 2);
-        Show(TrendCard, 0, 3, 2, 1);
-        Show(ActivityCard, 2, 3, 1, 1);
-        Show(StatusCard, 3, 3, 1, 1);
-        Show(TableCard, 0, 4, 4, 1);
+        Show(TrendCard, 0, 3, 2, 2);
+        Show(ActivityCard, 2, 3, 1, 2);
+        Show(StatusCard, 3, 3, 1, 2);
+        Show(TableCard, 0, 5, 4, 3);
         if (vm is null) return;
         switch (vm.SelectedLayoutPreset)
         {
