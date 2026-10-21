@@ -133,7 +133,28 @@
             <Setter Property="Background" Value="{DynamicResource AccentPrimary}" />
             <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
             <Setter Property="Padding" Value="{DynamicResource PaddingControl}" />
-            <Setter Property="Margin" Value="{DynamicResource PaddingPage}" />
+            <Setter Property="Margin" Value="{DynamicResource MarginSection}" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="ShellBannerCluster" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
+            <Setter Property="CornerRadius" Value="{DynamicResource ChipCornerRadius}" />
+            <Setter Property="Padding" Value="{DynamicResource PaddingCompact}" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+        </Style>
+        <Style x:Key="ShellBannerButton" TargetType="Button" BasedOn="{StaticResource ShellIconButton}">
+            <Setter Property="MinHeight" Value="{DynamicResource FontSizeSection}" />
+            <Setter Property="Padding" Value="{DynamicResource PaddingCompact}" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+        </Style>
+        <Style x:Key="ShellBannerRule" TargetType="Border">
+            <Setter Property="Width" Value="{DynamicResource StrokeWidth}" />
+            <Setter Property="Height" Value="{DynamicResource FontSizeSection}" />
+            <Setter Property="Background" Value="{DynamicResource BorderSubtle}" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="{DynamicResource PaddingCompact}" />
         </Style>
     </Window.Resources>
     <Grid>
@@ -199,37 +220,46 @@
                 <TextBlock Grid.Row="2" Text="ProGlass Automation · Version 3.0" Style="{StaticResource ShellSectionLabel}" />
             </Grid>
         </Border>
-        <Grid Grid.Column="1">
+        <Grid Grid.Column="1" Margin="{DynamicResource PaddingPage}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Border Grid.Row="0" Style="{StaticResource ShellModuleBanner}">
-                <DockPanel>
-                    <Border DockPanel.Dock="Left" Width="{DynamicResource ControlMinHeight}" Margin="{DynamicResource MarginInline}">
-                        <Border.Style>
-                            <Style TargetType="Border">
-                                <Setter Property="Visibility" Value="Collapsed" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsMenuOpen}" Value="False">
-                                        <Setter Property="Visibility" Value="Visible" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Border.Style>
-                    </Border>
-                    <ContentControl DockPanel.Dock="Right" Style="{DynamicResource Card}" Margin="{DynamicResource MarginInline}">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <TextBlock Text="{Binding ShellClock}" Style="{DynamicResource Caption}" VerticalAlignment="Center" Margin="{DynamicResource MarginInline}" />
-                            <Button Content="Home" Command="{Binding ShowBusiness}" Style="{StaticResource ShellIconButton}" ToolTip="Home" AutomationProperties.Name="Go home" />
-                            <Button Content="Dark" Command="{Binding ToggleAppearance}" Style="{StaticResource ShellIconButton}" AutomationProperties.Name="Toggle appearance" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Border Width="{DynamicResource ControlMinHeight}" Margin="{DynamicResource PaddingCompact}">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMenuOpen}" Value="False">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="{Binding WorkspaceTitle}" Foreground="{DynamicResource TextOnAccent}" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" />
+                            <TextBlock Text="{Binding WorkspaceSubtitle}" Foreground="{DynamicResource TextOnAccent}" Style="{DynamicResource Caption}" />
                         </StackPanel>
-                    </ContentControl>
-                    <StackPanel VerticalAlignment="Center">
-                        <TextBlock Text="{Binding WorkspaceTitle}" Foreground="{DynamicResource TextOnAccent}" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" />
-                        <TextBlock Text="{Binding WorkspaceSubtitle}" Foreground="{DynamicResource TextOnAccent}" Style="{DynamicResource Caption}" />
                     </StackPanel>
-                </DockPanel>
+                    <Border Grid.Column="2" Style="{StaticResource ShellBannerCluster}">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding ShellClock}" Style="{DynamicResource Caption}" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimary}" />
+                            <Border Style="{StaticResource ShellBannerRule}" />
+                            <Button Content="Home" Command="{Binding ShowBusiness}" Style="{StaticResource ShellBannerButton}" ToolTip="Home" AutomationProperties.Name="Go home" />
+                            <Border Style="{StaticResource ShellBannerRule}" />
+                            <Button Content="Dark" Command="{Binding ToggleAppearance}" Style="{StaticResource ShellBannerButton}" AutomationProperties.Name="Toggle appearance" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
             </Border>
             <TabControl Grid.Row="1" x:Name="WorkspaceTabs"
                         SelectedIndex="{Binding SelectedWorkspace, Mode=TwoWay}"
