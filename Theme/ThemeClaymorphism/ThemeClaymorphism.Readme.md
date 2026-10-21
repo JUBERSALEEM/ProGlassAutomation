@@ -15,7 +15,9 @@ Clay is a **floating inflated object**, not an extrusion:
 
 ## Engine
 
-`ClaySurface` owns that recipe. Rank Chip / Control / Card. Volume scales glow blur and distance. Plumpness owns radii. `ClayCustomization` stays Clay-owned.
+`ClaySurface` owns that recipe. Rank Chip / Control / Card. **Card** keeps a small glow gutter; **Control/Chip** have gutter 0 so nested plates are not a second frame. Volume scales glow on cards only. Plumpness owns radii. `ClayCustomization` stays Clay-owned.
+
+C1 (3D corner rim) and C2 (no nested gutters) are in. C3 pastel faces, C4 semantic tiles, C5 pill controls are not applied yet.
 
 ## Completeness
 

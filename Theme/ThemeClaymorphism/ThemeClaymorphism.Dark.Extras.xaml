@@ -6,11 +6,11 @@
   <Thickness x:Key="ClayLiftMargin">0,0,3,4</Thickness>
   <Thickness x:Key="ClayLiftDropMargin">5,7,0,0</Thickness>
   <Thickness x:Key="ClayLiftFaceMargin">0,0,4,5</Thickness>
-  <Thickness x:Key="ClayShadeThickness">0,0,2.5,2.5</Thickness>
-  <Thickness x:Key="ClayLightThickness">2.5,2.5,0,0</Thickness>
-  <Thickness x:Key="ClayWellShadeThickness">4,4,0,0</Thickness>
-  <Thickness x:Key="ClayWellLightThickness">0,0,3,3</Thickness>
-  <Thickness x:Key="ClayGutter">10</Thickness>
+  <Thickness x:Key="ClayShadeThickness">0,0,7,7</Thickness>
+  <Thickness x:Key="ClayLightThickness">6,6,0,0</Thickness>
+  <Thickness x:Key="ClayWellShadeThickness">8,8,0,0</Thickness>
+  <Thickness x:Key="ClayWellLightThickness">0,0,6,6</Thickness>
+  <Thickness x:Key="ClayGutter">6</Thickness>
   <sys:Double x:Key="ClayBlur">14</sys:Double>
   <sys:Double x:Key="ClayDistance">5</sys:Double>
   <sys:Double x:Key="ClayLiftDistance">8</sys:Double>
@@ -20,8 +20,8 @@
   <Color x:Key="ClayHighlightColor">#C4A990</Color>
   <SolidColorBrush x:Key="ClayDropBrush" Color="#99140E0C" />
   <SolidColorBrush x:Key="ClayLiftBrush" Color="#44FFFFFF" />
-  <SolidColorBrush x:Key="ClayInsetLightBrush" Color="#66FFFFFF" />
-  <SolidColorBrush x:Key="ClayInsetShadeBrush" Color="#88000000" />
+  <SolidColorBrush x:Key="ClayInsetLightBrush" Color="#99FFFFFF" />
+  <SolidColorBrush x:Key="ClayInsetShadeBrush" Color="#99000000" />
   <LinearGradientBrush x:Key="ClayCurveBrush" StartPoint="0,0" EndPoint="1,1">
     <GradientStop Color="#59FFFFFF" Offset="0" />
     <GradientStop Color="#18FFFFFF" Offset="0.38" />

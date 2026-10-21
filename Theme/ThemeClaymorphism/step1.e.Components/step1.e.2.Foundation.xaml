@@ -99,29 +99,37 @@
    </Grid>
    <ControlTemplate.Triggers>
     <Trigger Property="Rank" Value="Control">
-     <Setter TargetName="Volume" Property="Margin" Value="8" />
-     <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="DarkGlowControl" Property="Visibility" Value="Visible" />
-     <Setter TargetName="LightGlowControl" Property="Visibility" Value="Visible" />
-    </Trigger>
-    <Trigger Property="Rank" Value="Chip">
-     <Setter TargetName="Volume" Property="Margin" Value="4" />
-     <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="DarkGlowChip" Property="Visibility" Value="Visible" />
-     <Setter TargetName="LightGlowChip" Property="Visibility" Value="Visible" />
-    </Trigger>
-    <Trigger Property="Lifted" Value="True">
+     <Setter TargetName="Volume" Property="Margin" Value="0" />
      <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="DarkGlowControl" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightGlowControl" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="DarkGlowChip" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightGlowChip" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowLift" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlowLift" Property="Visibility" Value="Collapsed" />
+    </Trigger>
+    <Trigger Property="Rank" Value="Chip">
+     <Setter TargetName="Volume" Property="Margin" Value="0" />
+     <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowControl" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlowControl" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowChip" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlowChip" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="DarkGlowLift" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlowLift" Property="Visibility" Value="Collapsed" />
+    </Trigger>
+    <MultiTrigger>
+     <MultiTrigger.Conditions>
+      <Condition Property="Lifted" Value="True" />
+      <Condition Property="Rank" Value="Card" />
+     </MultiTrigger.Conditions>
+     <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
+     <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="DarkGlowLift" Property="Visibility" Value="Visible" />
      <Setter TargetName="LightGlowLift" Property="Visibility" Value="Visible" />
-    </Trigger>
+    </MultiTrigger>
     <Trigger Property="ShowDrop" Value="False">
      <Setter TargetName="DarkGlow" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightGlow" Property="Visibility" Value="Collapsed" />
@@ -143,8 +151,8 @@
      <Setter TargetName="LightGlowChip" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="DarkGlowLift" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="LightGlowLift" Property="Visibility" Value="Collapsed" />
-     <Setter TargetName="Volume" Property="Margin" Value="2" />
-     <Setter TargetName="Face" Property="Margin" Value="1" />
+     <Setter TargetName="Volume" Property="Margin" Value="0" />
+     <Setter TargetName="Face" Property="Margin" Value="0" />
      <Setter TargetName="Curve" Property="Background" Value="{DynamicResource ClayWellCurveBrush}" />
      <Setter TargetName="InnerShade" Property="BorderThickness" Value="{DynamicResource ClayWellShadeThickness}" />
      <Setter TargetName="InnerLight" Property="BorderThickness" Value="{DynamicResource ClayWellLightThickness}" />
