@@ -47,13 +47,11 @@ public static class NeumorphCustomization
         double blur = state.Blur switch { NeumorphBlur.Tight => 8d, NeumorphBlur.Diffuse => 24d, _ => 16d };
         double darkOpacity = state.Intensity switch { NeumorphIntensity.Quiet => 0.22, NeumorphIntensity.Strong => 0.55, _ => 0.4 };
         double lightOpacity = state.Intensity switch { NeumorphIntensity.Quiet => 0.5, NeumorphIntensity.Strong => 0.95, _ => 0.8 };
-        double gutter = Math.Ceiling(distance + blur * 0.4);
         SetOwned(package, "NeumorphDistance", distance);
         SetOwned(package, "NeumorphBlur", blur);
         SetOwned(package, "NeumorphLiftDistance", distance + 3d);
         SetOwned(package, "NeumorphDarkOpacity", darkOpacity);
         SetOwned(package, "NeumorphLightOpacity", lightOpacity);
-        SetOwned(package, "NeumorphGutter", new Thickness(gutter));
         Color surface = mode == Appearance.Light
             ? (Color)ColorConverter.ConvertFromString("#E6EBEF")
             : (Color)ColorConverter.ConvertFromString("#2A2F38");
