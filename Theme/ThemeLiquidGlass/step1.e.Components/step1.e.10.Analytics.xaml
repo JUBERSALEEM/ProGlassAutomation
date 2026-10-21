@@ -1,6 +1,6 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:analytics="clr-namespace:ProGlassAutomation.Analytics" xmlns:liquid="clr-namespace:ProGlassAutomation.ThemeLiquidGlass">
  <Style x:Key="ChartCard" TargetType="ContentControl">
-  <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
+  <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
   <Setter Property="Padding" Value="{DynamicResource PaddingCard}" />
   <Setter Property="Margin" Value="{DynamicResource MarginPanel}" />
   <Setter Property="Focusable" Value="False" />
@@ -32,7 +32,7 @@
   <Setter Property="AreaOpacity" Value="{DynamicResource ChartAreaOpacity}" />
  </Style>
  <Style TargetType="analytics:BentoKpi">
-  <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" /><Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
+  <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" /><Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
   <Setter Property="Padding" Value="{DynamicResource PaddingCard}" />
   <Setter Property="HorizontalAlignment" Value="Stretch" /><Setter Property="VerticalAlignment" Value="Stretch" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="analytics:BentoKpi">

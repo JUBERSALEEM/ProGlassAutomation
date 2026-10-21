@@ -11,7 +11,7 @@
   </ControlTemplate></Setter.Value></Setter>
  </Style>
  <Style x:Key="MetricCard" TargetType="ContentControl">
-  <Setter Property="Background" Value="{DynamicResource SurfaceElevated}" />
+  <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
   <Setter Property="Padding" Value="{DynamicResource PaddingPlate}" />
   <Setter Property="Focusable" Value="False" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
@@ -41,7 +41,7 @@
  </Style>
  <Style TargetType="TabControl">
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="TabControl">
-   <Grid><Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition /></Grid.RowDefinitions>
+   <Grid Background="{DynamicResource LiquidCanvasBrush}"><Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition /></Grid.RowDefinitions>
     <liquid:LiquidGlassSurface Rank="Control" Concave="True" ShowFace="False" Background="{DynamicResource LiquidWellBrush}" Padding="{DynamicResource PaddingCompact}" CornerRadius="{DynamicResource ControlCornerRadius}">
      <TabPanel IsItemsHost="True" KeyboardNavigation.TabNavigation="Once" />
     </liquid:LiquidGlassSurface>
