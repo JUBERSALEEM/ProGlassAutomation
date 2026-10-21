@@ -22,7 +22,7 @@ Soft UI extrusion from a **shared mid-tone canvas**:
 
 `NeumorphSurface` owns plates, the 145° face, clipped 6/12 inset pair, and layout-safe Gaussian glow. Triggers never name a `DropShadowEffect` (MC4111). Control/Chip glow uses a small gutter (6/4). Card near plates stay off. StatusBadge stays a `Border` (one Effect).
 
-N1–N2, M1–M14, R1–R14 are in.
+N1–N2, M1–M14, R1–R14, S1–S10 are in.
 
 ## Completeness
 

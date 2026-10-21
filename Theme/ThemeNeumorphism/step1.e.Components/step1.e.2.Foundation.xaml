@@ -89,7 +89,6 @@
      <Border x:Name="LightNear" Visibility="Collapsed" Background="{TemplateBinding LightBrush}" Opacity="0.85" CornerRadius="{TemplateBinding CornerRadius}" Margin="0,0,3,3" IsHitTestVisible="False" />
      <Border x:Name="Face" Background="{DynamicResource NeumorphSheenBrush}" CornerRadius="{TemplateBinding CornerRadius}" Margin="0">
       <Grid>
-       <Border x:Name="Sheen" Visibility="Collapsed" Background="{DynamicResource NeumorphSheenBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False" />
        <Border x:Name="InsetHost" Visibility="Collapsed" Opacity="0" ClipToBounds="False" Background="{DynamicResource TransparentBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
         <Grid>
          <Border Margin="6" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
@@ -169,7 +168,6 @@
      <Setter TargetName="Face" Property="ClipToBounds" Value="True" />
      <Setter TargetName="InsetHost" Property="Visibility" Value="Visible" />
      <Setter TargetName="Face" Property="Background" Value="{DynamicResource NeumorphWellSheenBrush}" />
-     <Setter TargetName="Sheen" Property="Background" Value="{DynamicResource NeumorphWellSheenBrush}" />
      <Setter TargetName="RimShade" Property="BorderThickness" Value="{DynamicResource NeumorphInsetShadeThickness}" />
      <Setter TargetName="RimLight" Property="BorderThickness" Value="{DynamicResource NeumorphInsetLightThickness}" />
      <Trigger.EnterActions>
