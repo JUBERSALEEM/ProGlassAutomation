@@ -1,18 +1,19 @@
 # Liquid Glass — fifth theme (Phase 01 / step1)
 
-Native WPF reading of Apple Liquid Glass (iOS 26 / macOS Tahoe Control Center). Wallpaper is a **coded Tahoe sky/water scene** (`LiquidWallpaper`), not a PNG and not a scene catalog. Glass is a translucent veil + inset specular + hairline + lift. Not Fluent acrylic, not Clay, not CSS, not desktop capture, not a sine-wave lining.
+Native WPF reading of Apple Liquid Glass (iOS 26 / macOS Tahoe Control Center). Wallpaper is a coded Tahoe sky/water scene. Glass is rank-based: milky cards, clearer chips. Shell chrome is glass **only while Liquid Glass is active**. Not Fluent acrylic, not Clay, not CSS, not desktop capture, not a PNG wallpaper.
 
 ## Showcase canvas
 
-`LiquidWallpaper.Create` paints sky → water, a sun/moon bloom and a warm sea path. `LiquidResources.Load` installs it as `LiquidCanvasBrush`. Light and Dark only.
+`LiquidWallpaper.Create` paints pale sky, a cream sun path and deep water. `LiquidResources.Load` installs it as `LiquidCanvasBrush`. `ThemedWindow` uses that brush so the scene sits behind sidebar and banner.
 
 ## Standard
 
-- **Glass face** is an iOS-like veil (`frost × 0.40`). Clear ≈ 9% white. Token stays 0.22/0.40/0.62.
+- **Card** frost is the CC pane. **Control** is lighter. **Chip** is almost clear.
+- **Hero** is a dark glass veil so shared light hero text stays readable and the wallpaper still shows.
+- **Shell** (sidebar, banner, nav pills) goes transparent when `IsLiquid` is true. Other themes keep opaque SurfacePrimary.
 - **Edge** is a white hairline plus a 1px inset specular lip.
-- **Lift** is an unnamed `DropShadowEffect` on a near-transparent caster — never on the content tree, never `x:Name`.
-- **Inputs** stay `LiquidWellBrush`. Charts stay CPU; no Blur, no BitmapCache.
-- **Reduced transparency** swaps in `LiquidOpaqueBrush` and drops sheen/lift.
+- **Lift** is an unnamed `DropShadowEffect` on a near-transparent caster — never `x:Name`.
+- **Inputs** stay `LiquidWellBrush`. Charts stay CPU.
 
 True Metal refraction of the wallpaper through the pane is **not** in this build.
 

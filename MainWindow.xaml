@@ -7,7 +7,6 @@
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
         Style="{DynamicResource ThemedWindow}"
-        Background="{DynamicResource ApplicationBackground}"
         UseLayoutRounding="True" SnapsToDevicePixels="True"
         TextOptions.TextFormattingMode="Display"
         WindowStyle="SingleBorderWindow"
@@ -41,6 +40,9 @@
                 <DataTrigger Binding="{Binding IsMenuOpen}" Value="False">
                     <Setter Property="Width" Value="0" />
                     <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsLiquid}" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -78,6 +80,11 @@
                     <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Row" Property="Background" Value="{DynamicResource StateHover}" /></Trigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate></Setter.Value></Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsLiquid}" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
         <Style x:Key="ShellExpanderCard" TargetType="Expander">
             <Setter Property="Background" Value="{DynamicResource SurfaceElevated}" />
@@ -87,6 +94,11 @@
             <Setter Property="Margin" Value="{DynamicResource MarginItem}" />
             <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
             <Setter Property="FocusVisualStyle" Value="{DynamicResource KeyboardFocus}" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsLiquid}" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
+                </DataTrigger>
+            </Style.Triggers>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Expander">
@@ -137,6 +149,11 @@
             <Setter Property="Padding" Value="{DynamicResource PaddingControl}" />
             <Setter Property="Margin" Value="{DynamicResource MarginSection}" />
             <Setter Property="VerticalAlignment" Value="Center" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsLiquid}" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
         <Style x:Key="ShellBannerCluster" TargetType="Border">
             <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
@@ -144,6 +161,11 @@
             <Setter Property="Padding" Value="{DynamicResource PaddingCompact}" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsLiquid}" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
         <Style x:Key="ShellBannerButton" TargetType="Button" BasedOn="{StaticResource ShellIconButton}">
             <Setter Property="MinHeight" Value="{DynamicResource FontSizeSection}" />

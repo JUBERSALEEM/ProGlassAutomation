@@ -5,7 +5,7 @@
   </ControlTemplate></Setter.Value></Setter>
  </Style>
  <Style x:Key="ThemedWindow" TargetType="Window">
-  <Setter Property="Background" Value="{DynamicResource ApplicationBackground}" />
+  <Setter Property="Background" Value="{DynamicResource LiquidCanvasBrush}" />
   <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
   <Setter Property="FontWeight" Value="{DynamicResource FontWeightBody}" />
   <Setter Property="FontFamily" Value="{DynamicResource FontFamilyBody}" />
@@ -44,7 +44,7 @@
   <Setter Property="HorizontalContentAlignment" Value="Stretch" />
   <Setter Property="VerticalContentAlignment" Value="Stretch" />
   <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
-  <Setter Property="FaceBrush" Value="{DynamicResource LiquidFaceBrush}" />
+  <Setter Property="FaceBrush" Value="{DynamicResource LiquidCardFaceBrush}" />
   <Setter Property="SpecularBrush" Value="{DynamicResource LiquidSpecularBrush}" />
   <Setter Property="RimBrush" Value="{DynamicResource LiquidRimBrush}" />
   <Setter Property="StrokeBrush" Value="{DynamicResource LiquidStrokeBrush}" />
@@ -88,10 +88,12 @@
      <Setter TargetName="Caster" Property="Visibility" Value="Collapsed" />
     </Trigger>
     <Trigger Property="Rank" Value="Control">
+     <Setter Property="FaceBrush" Value="{DynamicResource LiquidControlFaceBrush}" />
      <Setter TargetName="Caster" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="Sheen" Property="Height" Value="{DynamicResource SpacingLarge}" />
     </Trigger>
     <Trigger Property="Rank" Value="Chip">
+     <Setter Property="FaceBrush" Value="{DynamicResource LiquidChipFaceBrush}" />
      <Setter TargetName="Caster" Property="Visibility" Value="Collapsed" />
      <Setter TargetName="Sheen" Property="Visibility" Value="Collapsed" />
     </Trigger>

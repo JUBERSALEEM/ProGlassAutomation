@@ -37,30 +37,30 @@ public static class LiquidWallpaper
     private static void PaintDay(DrawingGroup group)
     {
         Fill(group, Sky(
-            Color.FromRgb(232, 242, 250),
-            Color.FromRgb(181, 212, 236),
-            Color.FromRgb(111, 163, 208),
-            Color.FromRgb(58, 111, 176),
-            Color.FromRgb(30, 74, 136)));
-        Bloom(group, 620, 80, 420, 300, Color.FromArgb(210, 255, 248, 230), Color.FromArgb(0, 181, 212, 236));
-        Bloom(group, 500, 270, 460, 110, Color.FromArgb(140, 240, 216, 168), Color.FromArgb(0, 111, 163, 208));
-        Bloom(group, 90, 210, 340, 280, Color.FromArgb(120, 126, 184, 232), Color.FromArgb(0, 58, 111, 176));
-        Bloom(group, 400, 320, 520, 80, Color.FromArgb(70, 255, 255, 255), Color.FromArgb(0, 181, 212, 236));
-        Bloom(group, 400, 510, 440, 140, Color.FromArgb(200, 22, 58, 112), Color.FromArgb(0, 30, 74, 136));
+            Color.FromRgb(244, 248, 252),
+            Color.FromRgb(212, 230, 244),
+            Color.FromRgb(158, 196, 228),
+            Color.FromRgb(90, 146, 200),
+            Color.FromRgb(26, 74, 136)));
+        Bloom(group, 680, 50, 520, 360, Color.FromArgb(230, 255, 250, 232), Color.FromArgb(0, 212, 230, 244));
+        Bloom(group, 540, 240, 520, 140, Color.FromArgb(170, 242, 220, 176), Color.FromArgb(0, 158, 196, 228));
+        Bloom(group, 60, 160, 260, 200, Color.FromArgb(70, 186, 216, 236), Color.FromArgb(0, 90, 146, 200));
+        Bloom(group, 400, 300, 640, 70, Color.FromArgb(80, 255, 255, 255), Color.FromArgb(0, 212, 230, 244));
+        Bloom(group, 400, 530, 560, 180, Color.FromArgb(210, 20, 58, 112), Color.FromArgb(0, 26, 74, 136));
     }
 
     private static void PaintNight(DrawingGroup group)
     {
         Fill(group, Sky(
-            Color.FromRgb(8, 22, 48),
-            Color.FromRgb(12, 36, 72),
-            Color.FromRgb(16, 48, 92),
-            Color.FromRgb(10, 36, 78),
-            Color.FromRgb(4, 14, 32)));
-        Bloom(group, 600, 90, 380, 260, Color.FromArgb(160, 186, 214, 236), Color.FromArgb(0, 12, 36, 72));
-        Bloom(group, 480, 260, 420, 100, Color.FromArgb(90, 120, 160, 210), Color.FromArgb(0, 16, 48, 92));
-        Bloom(group, 80, 200, 300, 260, Color.FromArgb(110, 32, 72, 128), Color.FromArgb(0, 8, 22, 48));
-        Bloom(group, 400, 510, 440, 140, Color.FromArgb(220, 2, 10, 28), Color.FromArgb(0, 4, 14, 32));
+            Color.FromRgb(10, 24, 48),
+            Color.FromRgb(14, 40, 78),
+            Color.FromRgb(18, 52, 96),
+            Color.FromRgb(12, 40, 80),
+            Color.FromRgb(4, 12, 28)));
+        Bloom(group, 640, 70, 440, 300, Color.FromArgb(170, 198, 220, 240), Color.FromArgb(0, 14, 40, 78));
+        Bloom(group, 500, 250, 480, 120, Color.FromArgb(100, 140, 176, 214), Color.FromArgb(0, 18, 52, 96));
+        Bloom(group, 80, 180, 240, 200, Color.FromArgb(80, 36, 72, 120), Color.FromArgb(0, 10, 24, 48));
+        Bloom(group, 400, 530, 560, 180, Color.FromArgb(230, 2, 8, 22), Color.FromArgb(0, 4, 12, 28));
     }
 
     private static LinearGradientBrush Sky(Color top, Color high, Color mid, Color water, Color deep)

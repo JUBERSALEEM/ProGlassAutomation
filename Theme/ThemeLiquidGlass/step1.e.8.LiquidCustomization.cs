@@ -55,7 +55,10 @@ public static class LiquidCustomization
         SetOwned(package, "LiquidLiftDepth", lift);
         SetOwned(package, "LiquidLiftBlur", blur);
         SetOwned(package, "LiquidLiftOpacity", liftOpacity);
-        SetOwned(package, "LiquidFaceBrush", FaceGradient(rgb, frost));
+        SetOwned(package, "LiquidFaceBrush", FaceGradient(rgb, frost, 1.00));
+        SetOwned(package, "LiquidCardFaceBrush", FaceGradient(rgb, frost, 1.00));
+        SetOwned(package, "LiquidControlFaceBrush", FaceGradient(rgb, frost, 0.62));
+        SetOwned(package, "LiquidChipFaceBrush", FaceGradient(rgb, frost, 0.32));
         SetOwned(package, "LiquidLensBrush", LensGradient(mode, frost));
         SetOwned(package, "LiquidSpecularSheenBrush", SheenGradient(sheen));
         SetOwned(package, "LiquidSpecularBrush", new SolidColorBrush(Color.FromArgb(sheen, 255, 255, 255)));
@@ -67,11 +70,11 @@ public static class LiquidCustomization
         ? tint switch { LiquidTint.Warm => Color.FromRgb(255, 244, 232), LiquidTint.Neutral => Color.FromRgb(242, 244, 246), _ => Colors.White }
         : tint switch { LiquidTint.Warm => Color.FromRgb(255, 236, 220), LiquidTint.Neutral => Color.FromRgb(236, 240, 244), _ => Colors.White };
 
-    private static LinearGradientBrush FaceGradient(Color rgb, double frost)
+    private static LinearGradientBrush FaceGradient(Color rgb, double frost, double rank)
     {
-        // Frost token stays 0.22/0.40/0.62. Visual veil is iOS-like (~8–25%), not a plate.
+        // Frost token stays 0.22/0.40/0.62. Cards are milkier (CC pane); chips stay clear.
         byte A(double amount) => (byte)Math.Clamp((int)Math.Round(amount * 255), 1, 255);
-        double veil = frost * 0.40;
+        double veil = frost * 0.40 * rank;
         var brush = new LinearGradientBrush { StartPoint = new Point(0.2, 0), EndPoint = new Point(0.8, 1) };
         brush.GradientStops.Add(new GradientStop(Color.FromArgb(A(veil), rgb.R, rgb.G, rgb.B), 0));
         brush.GradientStops.Add(new GradientStop(Color.FromArgb(A(veil * 0.70), rgb.R, rgb.G, rgb.B), 0.45));
