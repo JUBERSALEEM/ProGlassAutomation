@@ -205,9 +205,9 @@ public static class ColorPlateService
     {
         if (IsThemePlate(plate.Name))
         {
-            var sample = new SolidColorBrush(Color.FromRgb(0x88, 0x88, 0x88));
-            sample.Freeze();
-            return new ColorPlateCard(plate.Name, plate.Stops, [sample], sample, "Active theme accent. No overlay.");
+            var identity = new SolidColorBrush(Color.FromRgb(0x88, 0x88, 0x88));
+            identity.Freeze();
+            return new ColorPlateCard(plate.Name, plate.Stops, [identity], identity, "Active theme accent. No overlay.");
         }
         var swatches = new List<Brush>(plate.Stops.Count);
         foreach (var stop in plate.Stops)
