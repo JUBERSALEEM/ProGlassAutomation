@@ -39,23 +39,21 @@
    <glass:GlassSurface x:Name="Pod" Lifted="True" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource CardCornerRadius}" TintBrush="{DynamicResource GlassHighlightBrush}" StrokeBrush="{DynamicResource GlassStrokeBrush}" LuminosityBrush="{DynamicResource GlassHairlineBrush}">
     <Grid>
      <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="Auto"/>
       <ColumnDefinition Width="*"/>
       <ColumnDefinition Width="*" MinWidth="72" MaxWidth="96"/>
      </Grid.ColumnDefinitions>
-     <Border x:Name="Rail" Width="{DynamicResource SpacingSmall}" Background="{DynamicResource AccentPrimary}" CornerRadius="{DynamicResource ChipCornerRadius}" Margin="{DynamicResource PaddingCompact}" />
-     <StackPanel Grid.Column="1" Margin="{TemplateBinding Padding}" VerticalAlignment="Center">
+     <StackPanel Grid.Column="0" Margin="{TemplateBinding Padding}" VerticalAlignment="Center">
       <TextBlock Text="{TemplateBinding Label}" Foreground="{DynamicResource TextMuted}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
       <TextBlock x:Name="ValueText" Text="{TemplateBinding Value}" FontSize="{DynamicResource FontSizeDisplay}" FontWeight="{DynamicResource FontWeightHeading}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
       <TextBlock Text="{TemplateBinding Detail}" Foreground="{DynamicResource TextSecondary}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
      </StackPanel>
-     <analytics:BentoChart x:Name="SparkPlot" Grid.Column="2" Data="{Binding Spark, RelativeSource={RelativeSource TemplatedParent}}" ShowAxis="False" ShowGrid="False" ShowLegend="False" VerticalAlignment="Stretch" Margin="{DynamicResource PaddingCompact}" />
+     <analytics:BentoChart x:Name="SparkPlot" Grid.Column="1" Data="{Binding Spark, RelativeSource={RelativeSource TemplatedParent}}" ShowAxis="False" ShowGrid="False" ShowLegend="False" VerticalAlignment="Stretch" Margin="{DynamicResource PaddingCompact}" />
     </Grid>
    </glass:GlassSurface>
    <ControlTemplate.Triggers>
-    <Trigger Property="Tag" Value="Positive"><Setter TargetName="Rail" Property="Background" Value="{DynamicResource StatusSuccess}" /><Setter TargetName="ValueText" Property="Foreground" Value="{DynamicResource StatusSuccess}" /></Trigger>
-    <Trigger Property="Tag" Value="Feature"><Setter TargetName="Rail" Property="Background" Value="{DynamicResource AccentSecondary}" /></Trigger>
-    <Trigger Property="Tag" Value="Attention"><Setter TargetName="Rail" Property="Background" Value="{DynamicResource StatusWarning}" /><Setter TargetName="ValueText" Property="Foreground" Value="{DynamicResource StatusWarning}" /></Trigger>
+    <Trigger Property="Tag" Value="Positive"><Setter TargetName="ValueText" Property="Foreground" Value="{DynamicResource StatusSuccess}" /></Trigger>
+    <Trigger Property="Tag" Value="Feature"><Setter TargetName="ValueText" Property="Foreground" Value="{DynamicResource AccentSecondary}" /></Trigger>
+    <Trigger Property="Tag" Value="Attention"><Setter TargetName="ValueText" Property="Foreground" Value="{DynamicResource StatusWarning}" /></Trigger>
     <DataTrigger Binding="{Binding Spark, RelativeSource={RelativeSource TemplatedParent}}" Value="{x:Null}"><Setter TargetName="SparkPlot" Property="Visibility" Value="Collapsed" /></DataTrigger>
    </ControlTemplate.Triggers>
   </ControlTemplate></Setter.Value></Setter>
