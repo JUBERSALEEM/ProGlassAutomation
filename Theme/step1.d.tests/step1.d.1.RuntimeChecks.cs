@@ -198,7 +198,7 @@ internal static class RuntimeChecks
             Pump();
             Check(model.SelectedAccent == ProGlassAutomation.ThemeBento.BentoAccent.Ocean &&
                 (double)themes.GetToken("ControlMinHeight") == 32d, "reset design restores defaults without resetting sample input");
-            Check(ThemeService.InstalledThemes.Contains(ThemeService.Clay) && ThemeService.InstalledThemes.Contains(ThemeService.Fluent) && ThemeService.InstalledThemes.Contains(ThemeService.Neumorphism) && ThemeService.InstalledThemes.Contains(ThemeService.LiquidGlass) && ThemeService.InstalledThemes.Contains(ThemeService.Glassmorphism) && ThemeService.InstalledThemes.Contains(ThemeService.Spatial), "Clay, Fluent, Neumorphism, Liquid Glass, Glassmorphism and Spatial are registered themes");
+            Check(ThemeService.InstalledThemes.Contains(ThemeService.Clay) && ThemeService.InstalledThemes.Contains(ThemeService.Fluent) && ThemeService.InstalledThemes.Contains(ThemeService.Neumorphism) && ThemeService.InstalledThemes.Contains(ThemeService.LiquidGlass) && ThemeService.InstalledThemes.Contains(ThemeService.Glassmorphism) && ThemeService.InstalledThemes.Contains(ThemeService.Spatial) && ThemeService.InstalledThemes.Contains(ThemeService.Swiss) && ThemeService.InstalledThemes.Contains(ThemeService.Holographic), "Clay through Holographic are registered themes");
             foreach (string extra in ThemeService.InstalledThemes)
             {
                 if (extra == ThemeService.Bento) continue;

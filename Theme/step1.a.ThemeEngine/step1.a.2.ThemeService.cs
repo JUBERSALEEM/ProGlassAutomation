@@ -18,6 +18,7 @@ public sealed class ThemeService : INotifyPropertyChanged
     public const string Glassmorphism = ThemeCatalog.GlassName;
     public const string Spatial = ThemeCatalog.SpatialName;
     public const string Swiss = ThemeCatalog.SwissName;
+    public const string Holographic = ThemeCatalog.HolographicName;
     public static IReadOnlyList<string> InstalledThemes { get; } = Array.AsReadOnly(ThemeCatalog.Installed.Select(theme => theme.Name).ToArray());
     public Appearance ActiveAppearance { get; private set; } = Appearance.Light;
     public string ActiveTheme { get; private set; } = Bento;

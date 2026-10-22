@@ -249,6 +249,7 @@ public sealed partial class ThemeStudioViewModel
     public bool IsGlass => SelectedTheme == ThemeService.Glassmorphism;
     public bool IsSpatial => SelectedTheme == ThemeService.Spatial;
     public bool IsSwiss => SelectedTheme == ThemeService.Swiss;
+    public bool IsHolographic => SelectedTheme == ThemeService.Holographic;
     public bool CanCustomizeBento => SelectedTheme == ThemeService.Bento;
     public bool CanCustomizeClay => IsClay;
     public bool CanCustomizeNeumorph => IsNeumorph;
@@ -264,6 +265,7 @@ public sealed partial class ThemeStudioViewModel
         : IsGlass ? $"Glassmorphism / {SelectedRounding}"
         : IsSpatial ? $"Spatial / {SelectedRounding}"
         : IsSwiss ? $"Swiss / {SelectedRounding}"
+        : IsHolographic ? $"Holographic / {SelectedRounding}"
         : "Theme-default settings";
     public bool IsDirty =>
         themes.ActiveTheme != lastSaved.Theme

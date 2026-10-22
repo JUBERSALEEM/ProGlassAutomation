@@ -7,6 +7,7 @@ using ProGlassAutomation.ThemeLiquidGlass;
 using ProGlassAutomation.ThemeNeumorphism;
 using ProGlassAutomation.ThemeSpatial;
 using ProGlassAutomation.ThemeSwiss;
+using ProGlassAutomation.ThemeHolographic;
 
 namespace ProGlassAutomation.Theming;
 
@@ -52,6 +53,7 @@ public static class ThemeCatalog
             new ThemeDefinition(GlassName, "ThemeGlassmorphism", GlassResources.Load),
             new ThemeDefinition(SpatialName, "ThemeSpatial", SpatialResources.Load),
             new ThemeDefinition(SwissName, "ThemeSwiss", SwissResources.Load),
+            new ThemeDefinition(HolographicName, "ThemeHolographic", HoloResources.Load),
         });
 
     public static IReadOnlyList<ThemeIdentity> Sequence { get; } =
@@ -65,7 +67,7 @@ public static class ThemeCatalog
             new ThemeIdentity(6, GlassName, "Frosted material, contrast-safe fills, solid fallback.", ThemeImplementationStatus.Installed, false, "Frost surface + solid fallback; Liquid visual still open"),
             new ThemeIdentity(7, SpatialName, "Depth layers and spatial chrome.", ThemeImplementationStatus.Installed, false, "Far plane + lifted near cards; no extras engine"),
             new ThemeIdentity(8, SwissName, "Grid, type hierarchy, restrained color.", ThemeImplementationStatus.Installed, false, "Paper, ink, red rule; SharedTokens Crisp; no extras engine"),
-            new ThemeIdentity(9, HolographicName, "Iridescent sheen without chart blur.", ThemeImplementationStatus.Planned, false, "After Swiss"),
+            new ThemeIdentity(9, HolographicName, "Iridescent sheen without chart blur.", ThemeImplementationStatus.Installed, false, "Cyan-violet rim + pearl sheen; SharedTokens; no extras engine; no chart blur"),
         });
 
     public static ThemeDefinition Find(string name) =>
