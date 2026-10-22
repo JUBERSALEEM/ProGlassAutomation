@@ -3,8 +3,9 @@
   <StackPanel>
    <TextBlock Text="YOUR WORK, IN FOCUS" Foreground="{DynamicResource HeroSecondaryText}" FontSize="{DynamicResource FontSizeCaption}" />
    <TextBlock Text="Good work starts with a clear view." Foreground="{DynamicResource HeroForeground}" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" Margin="{DynamicResource MarginItem}" />
+   <TextBlock Text="Review priorities, keep the team aligned and move the next detail forward." Foreground="{DynamicResource HeroSecondaryText}" Margin="{DynamicResource MarginSection}" />
    <Button Content="Review selected item" Command="{Binding ReviewReference}" HorizontalAlignment="Left" />
-   <TextBlock Text="October 2026 · demo, not live ERP" Foreground="{DynamicResource HeroSecondaryText}" FontSize="{DynamicResource FontSizeCaption}" Margin="{DynamicResource MarginItem}" />
+   <TextBlock Text="October 2026 / deterministic demonstration, not live ERP data" Foreground="{DynamicResource HeroSecondaryText}" FontSize="{DynamicResource FontSizeCaption}" />
   </StackPanel>
  </Grid></ContentControl>
 </UserControl>

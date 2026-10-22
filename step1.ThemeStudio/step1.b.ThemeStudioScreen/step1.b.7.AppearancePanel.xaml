@@ -6,12 +6,14 @@
     <RowDefinition Height="*"/>
     <RowDefinition Height="Auto"/>
    </Grid.RowDefinitions>
-   <DockPanel>
-    <Border Tag="Success" Style="{DynamicResource StatusBadge}" DockPanel.Dock="Right" Margin="{DynamicResource MarginItem}"><TextBlock Text="● Live" Foreground="{DynamicResource StatusSuccess}" /></Border>
-    <TextBlock Text="{Binding SelectedReference.Title}" FontWeight="{DynamicResource FontWeightHeading}" VerticalAlignment="Center" />
-   </DockPanel>
-   <TextBlock Grid.Row="1" Text="{Binding DesignSummary}" Style="{DynamicResource Caption}" TextWrapping="Wrap" />
-   <Button Grid.Row="2" Content="Open _preview window" Command="{Binding OpenDialog}" ToolTip="Keep this window open while editing the design in Studio." HorizontalAlignment="Left" />
+   <StackPanel>
+    <TextBlock Text="Workspace pulse" Style="{DynamicResource SectionHeading}" />
+    <Border Tag="Success" Style="{DynamicResource StatusBadge}" HorizontalAlignment="Left" Margin="{DynamicResource MarginItem}"><TextBlock Text="●  Preview ready" Foreground="{DynamicResource StatusSuccess}" /></Border>
+    <TextBlock Text="{Binding SelectedReference.Title}" FontWeight="{DynamicResource FontWeightHeading}" />
+    <TextBlock Text="{Binding SelectedReference.Owner}" Style="{DynamicResource Caption}" Margin="{DynamicResource MarginItem}" />
+    <TextBlock Text="{Binding DesignSummary}" Style="{DynamicResource Caption}" Margin="{DynamicResource MarginItem}" />
+   </StackPanel>
+   <Button Grid.Row="2" Content="Open _preview window" Command="{Binding OpenDialog}" ToolTip="Keep this window open while editing the design in Studio." HorizontalAlignment="Left" Margin="{DynamicResource MarginItem}" />
   </Grid>
  </ContentControl>
 </UserControl>
