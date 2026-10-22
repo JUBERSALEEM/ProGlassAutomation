@@ -71,14 +71,9 @@ public sealed partial class ThemeStudioViewModel : INotifyPropertyChanged, IData
         var current = extended;
         try
         {
-            if (theme == ThemeService.Swiss && themes.ActiveTheme != ThemeService.Swiss)
-            {
-                geometry = geometry with { Rounding = CardRounding.Crisp };
-                Changed(nameof(SelectedRounding));
-            }
             themes.Apply(theme, appearance, SharedGeometry.Compose(theme, current, clay, geometry, neumorph, font, colors, liquid));
             ThemeError = "";
-            lastSaved = lastSaved with { Theme = theme, Appearance = appearance };
+            lastSaved = lastSaved with { Theme = theme, Appearance = appearance, Geometry = geometry };
             try { CustomizationStore.Save(lastSaved); } catch (Exception ex) when (ex is IOException or ArgumentException or InvalidOperationException) { }
         }
         catch (ThemeNotificationException error) { ThemeError = error.Message; }
