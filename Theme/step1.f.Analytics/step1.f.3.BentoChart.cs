@@ -42,8 +42,11 @@ public sealed partial class BentoChart
         HorizontalContentAlignment = HorizontalAlignment.Stretch;
         cartesian.HorizontalAlignment = HorizontalAlignment.Stretch;
         cartesian.VerticalAlignment = VerticalAlignment.Stretch;
+        cartesian.MinHeight = 0;
         pie.HorizontalAlignment = HorizontalAlignment.Stretch;
         pie.VerticalAlignment = VerticalAlignment.Stretch;
+        pie.MinHeight = 0;
+        plot.MinHeight = 0;
         cartesian.Background = System.Windows.Media.Brushes.Transparent;
         pie.Background = System.Windows.Media.Brushes.Transparent;
         plot.Background = System.Windows.Media.Brushes.Transparent;
@@ -56,7 +59,7 @@ public sealed partial class BentoChart
         inspectToggle.HorizontalAlignment = HorizontalAlignment.Left;
         inspectToggle.MinHeight = 0;
         inspectToggle.Padding = new Thickness(4, 0, 0, 0);
-        values.Margin = new Thickness(0, 8, 0, 0);
+        values.Margin = new Thickness(0, 8, 0, 8);
         DockPanel.SetDock(inspectToggle, Dock.Right);
         footer.Children.Add(inspectToggle);
         footer.Children.Add(legend);
@@ -66,8 +69,8 @@ public sealed partial class BentoChart
         root.Children.Add(summary);
         root.Children.Add(values);
         LayoutChrome(circular: false);
-        inspectToggle.Checked += (_, _) => values.Visibility = Visibility.Visible;
-        inspectToggle.Unchecked += (_, _) => values.Visibility = Visibility.Collapsed;
+        inspectToggle.Checked += (_, _) => { values.Visibility = Visibility.Visible; BudgetPlot(); };
+        inspectToggle.Unchecked += (_, _) => { values.Visibility = Visibility.Collapsed; BudgetPlot(); };
         Content = root;
         center.SetBinding(TextBlock.FontSizeProperty, new Binding(nameof(CenterFontSize)) { Source = this });
         values.SetBinding(TextBlock.ForegroundProperty, new Binding(nameof(AxisBrush)) { Source = this });
@@ -75,7 +78,7 @@ public sealed partial class BentoChart
         message.SetBinding(TextBlock.ForegroundProperty, new Binding(nameof(AxisBrush)) { Source = this });
         Loaded += (_, _) => Schedule(true);
         IsVisibleChanged += (_, _) => { if (IsVisible) Schedule(false); };
-        SizeChanged += (_, _) => { if (IsLoaded) Schedule(false); };
+        SizeChanged += (_, _) => { if (IsLoaded) { BudgetPlot(); Schedule(false); } };
     }
 
     /// <summary>
@@ -112,6 +115,7 @@ public sealed partial class BentoChart
             Place(message, 2, 0, 2);
             Place(summary, 3, 0, 2);
             Place(values, 4, 0, 2);
+            BudgetPlot();
         }
         else
         {
@@ -132,7 +136,34 @@ public sealed partial class BentoChart
             Place(message, 2, 0, 1);
             Place(summary, 3, 0, 1);
             Place(values, 4, 0, 1);
+            BudgetPlot();
         }
+    }
+
+    /// <summary>
+    /// Mix sits in a fixed Bento cell. LiveCharts pie min-size plus Auto source lines overflow and clip.
+    /// Cap the plot row so the four source-value lines always measure inside the card.
+    /// </summary>
+    private void BudgetPlot()
+    {
+        if (root.RowDefinitions.Count < 1) return;
+        var plotRow = root.RowDefinitions[0];
+        if (values.Visibility != Visibility.Visible || ActualHeight <= 1)
+        {
+            plotRow.MaxHeight = double.PositiveInfinity;
+            return;
+        }
+        double width = Math.Max(1, ActualWidth);
+        inspectToggle.Measure(new Size(width, double.PositiveInfinity));
+        values.Measure(new Size(width, double.PositiveInfinity));
+        double reserved = values.DesiredSize.Height + 16;
+        if (sideLegend) reserved += inspectToggle.DesiredSize.Height;
+        else
+        {
+            footer.Measure(new Size(width, double.PositiveInfinity));
+            reserved += footer.DesiredSize.Height;
+        }
+        plotRow.MaxHeight = Math.Max(88, ActualHeight - reserved);
     }
 
     private static void Host(Panel parent, FrameworkElement child)
