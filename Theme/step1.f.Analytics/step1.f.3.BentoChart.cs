@@ -16,6 +16,8 @@ public sealed partial class BentoChart
     private readonly PieChart pie = new() { AnimationsSpeed = TimeSpan.Zero, LegendPosition = LegendPosition.Hidden };
     private readonly Grid plot = new();
     private readonly Grid root = new() { HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Stretch };
+    private readonly Grid sideBody = new() { MinHeight = 0 };
+    private readonly DockPanel sideHost = new() { LastChildFill = true };
     private readonly WrapPanel legend = new();
     private readonly DockPanel footer = new() { LastChildFill = true };
     private readonly TextBlock message = new() { TextWrapping = TextWrapping.Wrap };
@@ -60,17 +62,9 @@ public sealed partial class BentoChart
         inspectToggle.MinHeight = 0;
         inspectToggle.Padding = new Thickness(4, 0, 0, 0);
         values.Margin = new Thickness(0, 8, 0, 8);
-        DockPanel.SetDock(inspectToggle, Dock.Right);
-        footer.Children.Add(inspectToggle);
-        footer.Children.Add(legend);
-        root.Children.Add(plot);
-        root.Children.Add(footer);
-        root.Children.Add(message);
-        root.Children.Add(summary);
-        root.Children.Add(values);
         LayoutChrome(circular: false);
-        inspectToggle.Checked += (_, _) => { values.Visibility = Visibility.Visible; BudgetPlot(); };
-        inspectToggle.Unchecked += (_, _) => { values.Visibility = Visibility.Collapsed; BudgetPlot(); };
+        inspectToggle.Checked += (_, _) => values.Visibility = Visibility.Visible;
+        inspectToggle.Unchecked += (_, _) => values.Visibility = Visibility.Collapsed;
         Content = root;
         center.SetBinding(TextBlock.FontSizeProperty, new Binding(nameof(CenterFontSize)) { Source = this });
         values.SetBinding(TextBlock.ForegroundProperty, new Binding(nameof(AxisBrush)) { Source = this });
@@ -78,106 +72,82 @@ public sealed partial class BentoChart
         message.SetBinding(TextBlock.ForegroundProperty, new Binding(nameof(AxisBrush)) { Source = this });
         Loaded += (_, _) => Schedule(true);
         IsVisibleChanged += (_, _) => { if (IsVisible) Schedule(false); };
-        SizeChanged += (_, _) => { if (IsLoaded) { BudgetPlot(); Schedule(false); } };
+        SizeChanged += (_, _) => { if (IsLoaded) Schedule(false); };
     }
 
     /// <summary>
-    /// Donut: plot | four-tick legend, then inspect toggle, then source values.
-    /// The long "Show source values" label must not share the legend column (it zeroed the ticks).
-    /// Cartesian: plot fills the card; PlotHeight is not a MaxHeight cap (that left hollow Chart Lab / KPI strips).
+    /// Donut: ticks stay beside the pie. Toggle and source values Dock.Bottom so the four lines
+    /// are measured first and the pie shrinks — a star-row MaxHeight budget still clipped Other.
+    /// Cartesian: plot fills the card; footer under the plot.
     /// </summary>
     private void LayoutChrome(bool circular)
     {
         bool side = circular && ShowLegend;
-        if (side == sideLegend && root.RowDefinitions.Count == 5) return;
+        if (side == sideLegend && root.Children.Count > 0) return;
         sideLegend = side;
-        root.RowDefinitions.Clear();
-        root.ColumnDefinitions.Clear();
         legend.Orientation = side ? Orientation.Vertical : Orientation.Horizontal;
         legend.VerticalAlignment = VerticalAlignment.Top;
+        Detach(plot); Detach(legend); Detach(inspectToggle); Detach(message); Detach(summary); Detach(values);
+        Detach(footer); Detach(sideBody); Detach(sideHost);
+        root.Children.Clear();
+        root.RowDefinitions.Clear();
+        root.ColumnDefinitions.Clear();
+        footer.Children.Clear();
+        sideBody.Children.Clear();
+        sideBody.ColumnDefinitions.Clear();
+        sideHost.Children.Clear();
         if (side)
         {
-            Host(root, legend);
-            Host(root, inspectToggle);
             inspectToggle.HorizontalAlignment = HorizontalAlignment.Left;
             inspectToggle.Margin = new Thickness(0, 8, 0, 0);
-            footer.Visibility = Visibility.Collapsed;
-            root.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star), MinWidth = 96 });
-            root.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto, MinWidth = 108 });
-            root.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-            root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            Place(plot, 0, 0, 1);
-            Place(legend, 0, 1, 1);
-            Place(inspectToggle, 1, 0, 2);
-            Place(message, 2, 0, 2);
-            Place(summary, 3, 0, 2);
-            Place(values, 4, 0, 2);
-            BudgetPlot();
+            DockPanel.SetDock(values, Dock.Bottom);
+            DockPanel.SetDock(inspectToggle, Dock.Bottom);
+            DockPanel.SetDock(message, Dock.Bottom);
+            DockPanel.SetDock(summary, Dock.Bottom);
+            sideHost.Children.Add(values);
+            sideHost.Children.Add(inspectToggle);
+            sideHost.Children.Add(message);
+            sideHost.Children.Add(summary);
+            sideBody.MinHeight = 0;
+            sideBody.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star), MinWidth = 96 });
+            sideBody.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto, MinWidth = 108 });
+            Grid.SetColumn(plot, 0);
+            Grid.SetColumn(legend, 1);
+            sideBody.Children.Add(plot);
+            sideBody.Children.Add(legend);
+            sideHost.Children.Add(sideBody);
+            root.Children.Add(sideHost);
         }
         else
         {
-            Host(footer, inspectToggle);
-            Host(footer, legend);
-            DockPanel.SetDock(inspectToggle, Dock.Right);
             inspectToggle.HorizontalAlignment = HorizontalAlignment.Right;
             inspectToggle.Margin = new Thickness(4, 0, 0, 0);
+            DockPanel.SetDock(inspectToggle, Dock.Right);
+            footer.Children.Add(inspectToggle);
+            footer.Children.Add(legend);
             footer.Visibility = Visibility.Visible;
             root.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-            root.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            root.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star), MinHeight = 0 });
             root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            Place(plot, 0, 0, 1);
-            Place(footer, 1, 0, 1);
-            Place(message, 2, 0, 1);
-            Place(summary, 3, 0, 1);
-            Place(values, 4, 0, 1);
-            BudgetPlot();
+            Grid.SetRow(plot, 0); Grid.SetColumn(plot, 0); Grid.SetColumnSpan(plot, 1);
+            Grid.SetRow(footer, 1); Grid.SetColumn(footer, 0); Grid.SetColumnSpan(footer, 1);
+            Grid.SetRow(message, 2); Grid.SetColumn(message, 0); Grid.SetColumnSpan(message, 1);
+            Grid.SetRow(summary, 3); Grid.SetColumn(summary, 0); Grid.SetColumnSpan(summary, 1);
+            Grid.SetRow(values, 4); Grid.SetColumn(values, 0); Grid.SetColumnSpan(values, 1);
+            root.Children.Add(plot);
+            root.Children.Add(footer);
+            root.Children.Add(message);
+            root.Children.Add(summary);
+            root.Children.Add(values);
         }
     }
 
-    /// <summary>
-    /// Mix sits in a fixed Bento cell. LiveCharts pie min-size plus Auto source lines overflow and clip.
-    /// Cap the plot row so the four source-value lines always measure inside the card.
-    /// </summary>
-    private void BudgetPlot()
+    private static void Detach(FrameworkElement child)
     {
-        if (root.RowDefinitions.Count < 1) return;
-        var plotRow = root.RowDefinitions[0];
-        if (values.Visibility != Visibility.Visible || ActualHeight <= 1)
-        {
-            plotRow.MaxHeight = double.PositiveInfinity;
-            return;
-        }
-        double width = Math.Max(1, ActualWidth);
-        inspectToggle.Measure(new Size(width, double.PositiveInfinity));
-        values.Measure(new Size(width, double.PositiveInfinity));
-        double reserved = values.DesiredSize.Height + 16;
-        if (sideLegend) reserved += inspectToggle.DesiredSize.Height;
-        else
-        {
-            footer.Measure(new Size(width, double.PositiveInfinity));
-            reserved += footer.DesiredSize.Height;
-        }
-        plotRow.MaxHeight = Math.Max(88, ActualHeight - reserved);
-    }
-
-    private static void Host(Panel parent, FrameworkElement child)
-    {
-        if (ReferenceEquals(child.Parent, parent)) return;
         if (child.Parent is Panel current) current.Children.Remove(child);
-        parent.Children.Add(child);
-    }
-
-    private static void Place(UIElement child, int row, int column, int columnSpan)
-    {
-        Grid.SetRow(child, row);
-        Grid.SetColumn(child, column);
-        Grid.SetColumnSpan(child, columnSpan);
     }
 
     protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
