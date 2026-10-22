@@ -108,9 +108,9 @@ internal static class RuntimeChecks
             model.SampleName = "x";
             Pump();
             Check(Validation.GetHasError(input), "actual binding validation state");
-            Check(!model.ApplyPreview.CanExecute(null), "invalid preview command disabled");
+            Check(!model.QuickApplyPreview.CanExecute(null), "invalid preview command disabled");
             model.SampleName = "Runtime review";
-            model.ApplyPreview.Execute(null);
+            model.QuickApplyPreview.Execute(null);
             Pump();
             Check(!Validation.GetHasError(input) && model.Feedback.Contains("Runtime review"), "valid preview action");
             model.AdvanceProgress.Execute(null);
@@ -129,7 +129,7 @@ internal static class RuntimeChecks
             model.ReviewReference.Execute(null);
             Check(model.Feedback.Contains("Lobby partitions"), "selected sample review action");
             model.ClearPreview.Execute(null);
-            Check(model.SampleName == "" && !model.ApplyPreview.CanExecute(null), "clear preview is local and validates");
+            Check(model.SampleName == "" && !model.QuickApplyPreview.CanExecute(null), "clear preview is local and validates");
             model.ResetPreview.Execute(null);
 
             int packageCount = app.Resources.MergedDictionaries.Count;
@@ -258,7 +258,7 @@ internal static class RuntimeChecks
                 model.IsDark = true;
                 Pump();
                 Check(themes.ActiveTheme == extra && themes.ActiveAppearance == Appearance.Dark, extra + " dark");
-                Check(Equals(window.Background, themes.GetToken("ApplicationBackground")), extra + " dark window background");
+                Check(Equals(window.Background, WindowFill(themes)), extra + " dark window background");
                 model.IsLight = true;
                 Pump();
             }
@@ -285,8 +285,8 @@ internal static class RuntimeChecks
     }
 
     private static object WindowFill(ThemeService themes) =>
-        themes.ActiveTheme == ThemeService.LiquidGlass
-            ? themes.GetToken("LiquidCanvasBrush")
+        themes.ActiveTheme == ThemeService.LiquidGlass ? themes.GetToken("LiquidCanvasBrush")
+            : themes.ActiveTheme == ThemeService.Glassmorphism ? themes.GetToken("GlassCanvasBrush")
             : themes.GetToken("ApplicationBackground");
 
     private static void Pump() => Dispatcher.CurrentDispatcher.Invoke(() => { }, DispatcherPriority.ApplicationIdle);

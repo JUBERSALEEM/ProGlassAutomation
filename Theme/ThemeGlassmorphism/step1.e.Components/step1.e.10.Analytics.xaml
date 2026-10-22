@@ -1,11 +1,11 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:analytics="clr-namespace:ProGlassAutomation.Analytics" xmlns:glass="clr-namespace:ProGlassAutomation.ThemeGlassmorphism">
  <Style x:Key="ChartCard" TargetType="ContentControl">
-  <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
+  <Setter Property="Background" Value="{DynamicResource GlassFrostElevated}" />
   <Setter Property="Padding" Value="{DynamicResource PaddingCard}" />
   <Setter Property="Margin" Value="{DynamicResource MarginPanel}" />
   <Setter Property="Focusable" Value="False" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
-   <glass:GlassSurface ShowTint="False" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}" TintBrush="{DynamicResource GlassFrostBrush}" StrokeBrush="{DynamicResource GlassStrokeBrush}" LuminosityBrush="{DynamicResource GlassHairlineBrush}">
+   <glass:GlassSurface Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}" TintBrush="{DynamicResource GlassHighlightBrush}" StrokeBrush="{DynamicResource GlassStrokeBrush}" LuminosityBrush="{DynamicResource GlassHairlineBrush}">
     <ContentPresenter />
    </glass:GlassSurface>
   </ControlTemplate></Setter.Value></Setter>
@@ -32,11 +32,11 @@
   <Setter Property="AreaOpacity" Value="{DynamicResource ChartAreaOpacity}" />
  </Style>
  <Style TargetType="analytics:BentoKpi">
-  <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" /><Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
+  <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" /><Setter Property="Background" Value="{DynamicResource GlassFrostBrush}" />
   <Setter Property="Padding" Value="{DynamicResource PaddingCard}" />
   <Setter Property="HorizontalAlignment" Value="Stretch" /><Setter Property="VerticalAlignment" Value="Stretch" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="analytics:BentoKpi">
-   <glass:GlassSurface x:Name="Pod" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource CardCornerRadius}" TintBrush="{DynamicResource GlassFrostBrush}" StrokeBrush="{DynamicResource GlassStrokeBrush}" LuminosityBrush="{DynamicResource GlassHairlineBrush}">
+   <glass:GlassSurface x:Name="Pod" Lifted="True" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource CardCornerRadius}" TintBrush="{DynamicResource GlassHighlightBrush}" StrokeBrush="{DynamicResource GlassStrokeBrush}" LuminosityBrush="{DynamicResource GlassHairlineBrush}">
     <Grid>
      <Grid.ColumnDefinitions>
       <ColumnDefinition Width="Auto"/>

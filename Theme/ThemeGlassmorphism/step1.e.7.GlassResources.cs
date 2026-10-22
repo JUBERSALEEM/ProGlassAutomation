@@ -13,6 +13,7 @@ public static class GlassResources
         var package = new ResourceDictionary { Source = Resource($"ThemeGlassmorphism.{appearance}.xaml") };
         package.MergedDictionaries.Add(new ResourceDictionary { Source = Resource($"ThemeGlassmorphism.{appearance}.Extras.xaml") });
         package.MergedDictionaries.Add(new ResourceDictionary { Source = Resource("step1.e.Components/step1.e.1.Components.xaml") });
+        GlassWallpaper.Install(package, appearance);
         return package;
     }
 

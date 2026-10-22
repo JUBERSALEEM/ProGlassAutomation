@@ -1,14 +1,14 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:glass="clr-namespace:ProGlassAutomation.ThemeGlassmorphism">
  <Style TargetType="ToolTip">
   <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
-  <Setter Property="Background" Value="{DynamicResource SurfaceElevated}" />
+  <Setter Property="Background" Value="{DynamicResource GlassFrostElevated}" />
   <Setter Property="FontSize" Value="{DynamicResource FontSizeCaption}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ToolTip">
    <Border>
     <Border.Effect>
      <DropShadowEffect Color="{DynamicResource GlassShadowColor}" BlurRadius="24" ShadowDepth="8" Direction="270" Opacity="0.22" RenderingBias="Quality" />
     </Border.Effect>
-    <glass:GlassSurface Background="{TemplateBinding Background}" Padding="{DynamicResource PaddingPlate}" CornerRadius="{DynamicResource ControlCornerRadius}"><ContentPresenter /></glass:GlassSurface>
+    <glass:GlassSurface Lifted="True" Background="{TemplateBinding Background}" Padding="{DynamicResource PaddingPlate}" CornerRadius="{DynamicResource ControlCornerRadius}"><ContentPresenter /></glass:GlassSurface>
    </Border>
   </ControlTemplate></Setter.Value></Setter>
  </Style>
@@ -19,7 +19,7 @@
     <Border.Effect>
      <DropShadowEffect Color="{DynamicResource GlassShadowColor}" BlurRadius="24" ShadowDepth="8" Direction="270" Opacity="0.22" RenderingBias="Quality" />
     </Border.Effect>
-    <glass:GlassSurface Background="{DynamicResource SurfaceElevated}" Padding="{DynamicResource PaddingCompact}" CornerRadius="{DynamicResource ControlCornerRadius}"><StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" /></glass:GlassSurface>
+    <glass:GlassSurface Lifted="True" Background="{DynamicResource GlassFrostElevated}" Padding="{DynamicResource PaddingCompact}" CornerRadius="{DynamicResource ControlCornerRadius}"><StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" /></glass:GlassSurface>
    </Border>
   </ControlTemplate></Setter.Value></Setter>
  </Style>

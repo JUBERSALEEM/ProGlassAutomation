@@ -50,7 +50,7 @@
   </ControlTemplate></Setter.Value></Setter>
  </Style>
  <Style TargetType="ListBox">
-  <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
+  <Setter Property="Background" Value="{DynamicResource GlassFrostInset}" />
   <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
   <Setter Property="BorderBrush" Value="{DynamicResource BorderSubtle}" />
   <Setter Property="BorderThickness" Value="{DynamicResource BorderThicknessControl}" />

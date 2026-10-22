@@ -1,7 +1,7 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:glass="clr-namespace:ProGlassAutomation.ThemeGlassmorphism">
  <Style TargetType="TextBox">
   <Setter Property="FocusVisualStyle" Value="{DynamicResource KeyboardFocus}" />
-  <Setter Property="Background" Value="{DynamicResource SurfaceSecondary}" />
+  <Setter Property="Background" Value="{DynamicResource GlassFrostInset}" />
   <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
   <Setter Property="CaretBrush" Value="{DynamicResource TextPrimary}" />
   <Setter Property="SelectionTextBrush" Value="{DynamicResource TextOnAccent}" />
@@ -45,7 +45,7 @@
  </Style>
  <Style TargetType="ComboBox">
   <Setter Property="FocusVisualStyle" Value="{DynamicResource KeyboardFocus}" />
-  <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
+  <Setter Property="Background" Value="{DynamicResource GlassFrostControl}" />
   <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
   <Setter Property="BorderBrush" Value="{DynamicResource SurfaceElevated}" />
   <Setter Property="Padding" Value="{DynamicResource PaddingControl}" />
@@ -65,7 +65,7 @@
      </Grid>
     </glass:GlassSurface>
     <Popup x:Name="PART_Popup" IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" AllowsTransparency="True" Focusable="False">
-     <glass:GlassSurface Background="{DynamicResource SurfaceElevated}" CornerRadius="{DynamicResource ControlCornerRadius}" MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}">
+     <glass:GlassSurface Lifted="True" Background="{DynamicResource GlassFrostElevated}" CornerRadius="{DynamicResource ControlCornerRadius}" MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}">
       <ScrollViewer MaxHeight="{DynamicResource PopupMaxHeight}" CanContentScroll="True" HorizontalScrollBarVisibility="Disabled"><ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained" /></ScrollViewer>
      </glass:GlassSurface>
     </Popup>
