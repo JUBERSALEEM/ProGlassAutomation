@@ -71,6 +71,11 @@ public sealed partial class ThemeStudioViewModel : INotifyPropertyChanged, IData
         var current = extended;
         try
         {
+            if (theme == ThemeService.Swiss && themes.ActiveTheme != ThemeService.Swiss)
+            {
+                geometry = geometry with { Rounding = CardRounding.Crisp };
+                Changed(nameof(SelectedRounding));
+            }
             themes.Apply(theme, appearance, SharedGeometry.Compose(theme, current, clay, geometry, neumorph, font, colors, liquid));
             ThemeError = "";
             lastSaved = lastSaved with { Theme = theme, Appearance = appearance };
@@ -90,7 +95,7 @@ public sealed partial class ThemeStudioViewModel : INotifyPropertyChanged, IData
         if (e.PropertyName != nameof(ThemeService.ActiveAppearance) && e.PropertyName != nameof(ThemeService.ActiveTheme)) return;
         RefreshTokens();
         colorRoleHexDraft = ColorPlateService.ResolvedHex(colors, themes.ActiveAppearance, selectedColorRole);
-        foreach (string property in new[] { nameof(IsLight), nameof(IsDark), nameof(AppearanceLabel), nameof(SelectedTheme), nameof(IsClay), nameof(IsFluent), nameof(IsNeumorph), nameof(IsLiquid), nameof(IsGlass), nameof(IsSpatial), nameof(CanCustomizeBento), nameof(CanCustomizeClay), nameof(CanCustomizeNeumorph), nameof(CanCustomizeLiquid), nameof(CanCustomizeGeometry), nameof(CanCustomize), nameof(DesignSummary), nameof(SelectedRounding), nameof(SelectedFontFamily), nameof(HeadingBold), nameof(BodyItalic), nameof(BodyUnderline), nameof(SelectedColorPlate), nameof(ColorStopSummary), nameof(ColorRoleSummary), nameof(ColorRoleHex), nameof(FontFamilyChoices), nameof(IsDirty) }) Changed(property);
+        foreach (string property in new[] { nameof(IsLight), nameof(IsDark), nameof(AppearanceLabel), nameof(SelectedTheme), nameof(IsClay), nameof(IsFluent), nameof(IsNeumorph), nameof(IsLiquid), nameof(IsGlass), nameof(IsSpatial), nameof(IsSwiss), nameof(CanCustomizeBento), nameof(CanCustomizeClay), nameof(CanCustomizeNeumorph), nameof(CanCustomizeLiquid), nameof(CanCustomizeGeometry), nameof(CanCustomize), nameof(DesignSummary), nameof(SelectedRounding), nameof(SelectedFontFamily), nameof(HeadingBold), nameof(BodyItalic), nameof(BodyUnderline), nameof(SelectedColorPlate), nameof(ColorStopSummary), nameof(ColorRoleSummary), nameof(ColorRoleHex), nameof(FontFamilyChoices), nameof(IsDirty) }) Changed(property);
         CommandManager.InvalidateRequerySuggested();
     }
 
