@@ -48,6 +48,11 @@ internal static class RuntimeChecks
             Check(window.IsVisible, "startup main window is visible");
             var model = (ThemeStudioViewModel)window.DataContext;
             Check(model.SelectedWorkspace == 1, "business reference is the startup page");
+            // AppData may restore Liquid/Clay; Bento-specific smoke (Border popup, AccentPrimary) must not depend on that.
+            model.SelectedTheme = ThemeService.Bento;
+            model.IsLight = true;
+            Pump();
+            Check(themes.ActiveTheme == ThemeService.Bento && model.IsLight, "STA smoke pins Bento Light");
             Check(model.IsMenuOpen, "shell menu starts open");
             Check(model.WorkspaceTitle == "Home" && model.WorkspaceSubtitle == "Home", "home chrome titles");
             model.ToggleMenu.Execute(null);
@@ -72,7 +77,10 @@ internal static class RuntimeChecks
             Pump();
             var popup = (Popup)combo.Template.FindName("PART_Popup", combo);
             Check(popup.IsOpen, "real selection popup opens");
-            var popupBorder = (Border)popup.Child;
+            var popupChrome = popup.Child as FrameworkElement
+                ?? throw new InvalidOperationException("selection popup has no visual child");
+            Check(popupChrome is Border, "Bento selection popup chrome is a Border");
+            var popupBorder = (Border)popupChrome;
             input.SetCurrentValue(TextBox.TextProperty, "Unsaved editing state");
             input.GetBindingExpression(TextBox.TextProperty)!.UpdateSource();
             input.CaretIndex = 7;
@@ -199,7 +207,7 @@ internal static class RuntimeChecks
                 Pump();
                 Check(themes.ActiveTheme == extra, extra + " activates");
                 Check(!ReferenceEquals(previous, window.Background), extra + " replaces window resources");
-                Check(Equals(window.Background, themes.GetToken("ApplicationBackground")), extra + " window background");
+                Check(Equals(window.Background, WindowFill(themes)), extra + " window background");
                 Check(!model.CanCustomizeBento, extra + " keeps the Bento customization engine off");
                 Check(model.IsFluent == (extra == ThemeService.Fluent), extra + " fluent studio flag");
                 Check(model.IsNeumorph == (extra == ThemeService.Neumorphism), extra + " neumorph studio flag");
@@ -272,6 +280,11 @@ internal static class RuntimeChecks
     {
         if (!passed) throw new InvalidOperationException("FAILED: " + name);
     }
+
+    private static object WindowFill(ThemeService themes) =>
+        themes.ActiveTheme == ThemeService.LiquidGlass
+            ? themes.GetToken("LiquidCanvasBrush")
+            : themes.GetToken("ApplicationBackground");
 
     private static void Pump() => Dispatcher.CurrentDispatcher.Invoke(() => { }, DispatcherPriority.ApplicationIdle);
 
