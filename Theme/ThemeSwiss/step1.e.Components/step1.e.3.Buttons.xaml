@@ -8,7 +8,7 @@
   <Setter Property="Padding" Value="{DynamicResource PaddingControl}" />
   <Setter Property="MinHeight" Value="{DynamicResource ControlMinHeight}" />
   <Setter Property="MinWidth" Value="{DynamicResource ControlMinWidth}" />
-  <Setter Property="FontWeight" Value="{DynamicResource FontWeightHeading}" />
+  <Setter Property="FontWeight" Value="{DynamicResource FontWeightBody}" />
   <Setter Property="FontSize" Value="{DynamicResource FontSizeBody}" />
   <Setter Property="FontFamily" Value="{DynamicResource FontFamilyBody}" />
   <Setter Property="HorizontalContentAlignment" Value="Center" />

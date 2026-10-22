@@ -34,9 +34,9 @@
   <SolidColorBrush x:Key="HeroForeground" Color="#F3F1EC" />
   <SolidColorBrush x:Key="HeroSecondaryText" Color="#D0CCC4" />
   <SolidColorBrush x:Key="HeroAccent" Color="#E8C4C8" />
-  <sys:Double x:Key="FontSizeDisplay">32</sys:Double>
+  <sys:Double x:Key="FontSizeDisplay">36</sys:Double>
   <sys:Double x:Key="FontSizeTitle">22</sys:Double>
-  <sys:Double x:Key="FontSizeSection">16</sys:Double>
+  <sys:Double x:Key="FontSizeSection">15</sys:Double>
   <sys:Double x:Key="FontSizeBody">13</sys:Double>
   <sys:Double x:Key="FontSizeCaption">11</sys:Double>
   <sys:Double x:Key="SpacingSmall">4</sys:Double>
@@ -47,7 +47,7 @@
   <sys:Double x:Key="ControlMinHeight">32</sys:Double>
   <sys:Double x:Key="ControlMinWidth">76</sys:Double>
   <sys:Double x:Key="ChoiceMarkSize">18</sys:Double>
-  <sys:Double x:Key="ScrollBarSize">12</sys:Double>
+  <sys:Double x:Key="ScrollBarSize">8</sys:Double>
   <sys:Double x:Key="DisabledOpacity">0.55</sys:Double>
   <sys:Double x:Key="PopupMaxHeight">280</sys:Double>
   <sys:Double x:Key="StudioSidebarWidth">300</sys:Double>
@@ -57,9 +57,9 @@
   <sys:Double x:Key="WindowMinWidth">720</sys:Double>
   <sys:Double x:Key="WindowMinHeight">600</sys:Double>
   <Thickness x:Key="PaddingControl">10,5</Thickness>
-  <Thickness x:Key="PaddingCard">20</Thickness>
-  <Thickness x:Key="PaddingPlate">12</Thickness>
-  <Thickness x:Key="PaddingPage">20</Thickness>
+  <Thickness x:Key="PaddingCard">24</Thickness>
+  <Thickness x:Key="PaddingPlate">16</Thickness>
+  <Thickness x:Key="PaddingPage">24</Thickness>
   <Thickness x:Key="MarginItem">0,0,0,8</Thickness>
   <Thickness x:Key="MarginSection">0,0,0,12</Thickness>
   <Thickness x:Key="MarginInline">0,0,8,4</Thickness>
@@ -68,8 +68,8 @@
   <Thickness x:Key="FocusThickness">2</Thickness>
   <Thickness x:Key="PaddingChoice">8</Thickness>
   <Thickness x:Key="PaddingCompact">8,4</Thickness>
-  <CornerRadius x:Key="CardCornerRadius">6</CornerRadius>
-  <CornerRadius x:Key="ControlCornerRadius">2</CornerRadius>
+  <CornerRadius x:Key="CardCornerRadius">0</CornerRadius>
+  <CornerRadius x:Key="ControlCornerRadius">0</CornerRadius>
   <CornerRadius x:Key="ChipCornerRadius">0</CornerRadius>
   <FontFamily x:Key="FontFamilyBody">Arial, Segoe UI</FontFamily>
   <FontFamily x:Key="FontFamilyMono">Consolas</FontFamily>
@@ -101,6 +101,6 @@
   <sys:Double x:Key="ChartDonutRadius">56</sys:Double>
   <sys:Double x:Key="ChartAreaOpacity">0.12</sys:Double>
   <sys:Double x:Key="BentoRowHeight">168</sys:Double>
-  <sys:Double x:Key="BentoGutter">20</sys:Double>
+  <sys:Double x:Key="BentoGutter">24</sys:Double>
   <sys:Double x:Key="BentoCompactWidth">1100</sys:Double>
 </ResourceDictionary>

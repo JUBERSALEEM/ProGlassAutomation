@@ -44,6 +44,12 @@
                 <DataTrigger Binding="{Binding IsSpatial}" Value="True">
                     <Setter Property="Margin" Value="{DynamicResource SpatialStagePad}" />
                 </DataTrigger>
+                <DataTrigger Binding="{Binding IsSwiss}" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource AccentPrimary}" />
+                    <Setter Property="BorderThickness" Value="4,0,0,0" />
+                    <Setter Property="Padding" Value="{DynamicResource PaddingPlate}" />
+                </DataTrigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="ShellIconButton" TargetType="Button">
@@ -211,6 +217,14 @@
                                         </DataTrigger>
                                         <MultiDataTrigger>
                                             <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsSwiss}" Value="True" />
+                                                <Condition Binding="{Binding IsBusiness}" Value="True" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Background" Value="{DynamicResource HeroBackground}" />
+                                            <Setter Property="Foreground" Value="{DynamicResource HeroForeground}" />
+                                        </MultiDataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
                                                 <Condition Binding="{Binding IsGlass}" Value="True" />
                                                 <Condition Binding="{Binding IsBusiness}" Value="True" />
                                             </MultiDataTrigger.Conditions>
@@ -232,6 +246,14 @@
                                             <Setter Property="Background" Value="{DynamicResource AccentPrimary}" />
                                             <Setter Property="Foreground" Value="{DynamicResource TextOnAccent}" />
                                         </DataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsSwiss}" Value="True" />
+                                                <Condition Binding="{Binding IsStudio}" Value="True" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Background" Value="{DynamicResource HeroBackground}" />
+                                            <Setter Property="Foreground" Value="{DynamicResource HeroForeground}" />
+                                        </MultiDataTrigger>
                                         <MultiDataTrigger>
                                             <MultiDataTrigger.Conditions>
                                                 <Condition Binding="{Binding IsGlass}" Value="True" />
@@ -256,6 +278,14 @@
                                         </DataTrigger>
                                         <MultiDataTrigger>
                                             <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsSwiss}" Value="True" />
+                                                <Condition Binding="{Binding IsTexts}" Value="True" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Background" Value="{DynamicResource HeroBackground}" />
+                                            <Setter Property="Foreground" Value="{DynamicResource HeroForeground}" />
+                                        </MultiDataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
                                                 <Condition Binding="{Binding IsGlass}" Value="True" />
                                                 <Condition Binding="{Binding IsTexts}" Value="True" />
                                             </MultiDataTrigger.Conditions>
@@ -276,6 +306,14 @@
                                             <Setter Property="Background" Value="{DynamicResource AccentPrimary}" />
                                             <Setter Property="Foreground" Value="{DynamicResource TextOnAccent}" />
                                         </DataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsSwiss}" Value="True" />
+                                                <Condition Binding="{Binding IsColors}" Value="True" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Background" Value="{DynamicResource HeroBackground}" />
+                                            <Setter Property="Foreground" Value="{DynamicResource HeroForeground}" />
+                                        </MultiDataTrigger>
                                         <MultiDataTrigger>
                                             <MultiDataTrigger.Conditions>
                                                 <Condition Binding="{Binding IsGlass}" Value="True" />

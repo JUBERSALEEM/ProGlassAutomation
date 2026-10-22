@@ -45,7 +45,7 @@
       <ColumnDefinition Width="*"/>
       <ColumnDefinition Width="*" MinWidth="72" MaxWidth="96"/>
      </Grid.ColumnDefinitions>
-     <Border x:Name="Rail" Width="{DynamicResource SpacingSmall}" Background="{DynamicResource AccentPrimary}" />
+     <Border x:Name="Rail" Width="{DynamicResource SpacingSmall}" Background="{DynamicResource BorderStrong}" />
      <StackPanel Grid.Column="1" Margin="{TemplateBinding Padding}" VerticalAlignment="Center">
       <TextBlock Text="{TemplateBinding Label}" Foreground="{DynamicResource TextMuted}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
       <TextBlock x:Name="ValueText" Text="{TemplateBinding Value}" FontSize="{DynamicResource FontSizeDisplay}" FontWeight="{DynamicResource FontWeightHeading}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />

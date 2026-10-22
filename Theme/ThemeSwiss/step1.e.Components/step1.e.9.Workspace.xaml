@@ -5,12 +5,11 @@
   <Setter Property="HorizontalAlignment" Value="Stretch" /><Setter Property="VerticalAlignment" Value="Stretch" />
   <Setter Property="Focusable" Value="False" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
-   <Border Background="{TemplateBinding Background}" CornerRadius="{DynamicResource CardCornerRadius}" BorderBrush="{DynamicResource BorderStrong}" BorderThickness="{DynamicResource BorderThicknessControl}">
-    <DockPanel>
-     <Border DockPanel.Dock="Top" Height="{DynamicResource SpacingMedium}" Background="{DynamicResource HeroAccent}" />
-     <ContentPresenter Margin="{TemplateBinding Padding}" />
-    </DockPanel>
-   </Border>
+   <Grid>
+    <Border Background="{TemplateBinding Background}" />
+    <Border Width="{DynamicResource SpacingSmall}" HorizontalAlignment="Left" Background="{DynamicResource AccentPrimary}" />
+    <ContentPresenter Margin="{TemplateBinding Padding}" />
+   </Grid>
   </ControlTemplate></Setter.Value></Setter>
  </Style>
  <Style x:Key="MetricCard" TargetType="ContentControl">

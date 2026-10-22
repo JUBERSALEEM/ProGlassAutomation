@@ -33,6 +33,7 @@
   <Setter Property="FontStyle" Value="Normal" />
   <Setter Property="TextDecorations" Value="{x:Null}" />
   <Setter Property="Margin" Value="{DynamicResource MarginItem}" />
+  <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
  </Style>
  <Style x:Key="PageHeading" TargetType="TextBlock" BasedOn="{StaticResource SectionHeading}">
   <Setter Property="FontSize" Value="{DynamicResource FontSizeDisplay}" />
@@ -78,7 +79,7 @@
  <Style TargetType="Separator">
   <Setter Property="Margin" Value="{DynamicResource MarginItem}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Separator">
-   <Border Height="1" Background="{DynamicResource BorderSubtle}" />
+   <Border Height="1" Background="{DynamicResource BorderStrong}" />
   </ControlTemplate></Setter.Value></Setter>
  </Style>
  <Style TargetType="ProgressBar">
