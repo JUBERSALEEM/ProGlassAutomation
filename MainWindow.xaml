@@ -366,6 +366,44 @@
                             </Button.Style>
                             <TextBlock Text="Colors Studio" />
                         </Button>
+                        <Button Command="{Binding ShowAbout}" AutomationProperties.Name="About page">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource ShellNavButton}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsAbout}" Value="True">
+                                            <Setter Property="Background" Value="{DynamicResource AccentPrimary}" />
+                                            <Setter Property="Foreground" Value="{DynamicResource TextOnAccent}" />
+                                        </DataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsSwiss}" Value="True" />
+                                                <Condition Binding="{Binding IsAbout}" Value="True" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Background" Value="{DynamicResource AccentSoft}" />
+                                            <Setter Property="Foreground" Value="{DynamicResource AccentPrimary}" />
+                                        </MultiDataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsHolographic}" Value="True" />
+                                                <Condition Binding="{Binding IsAbout}" Value="True" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Background" Value="{DynamicResource AccentSoft}" />
+                                            <Setter Property="Foreground" Value="{DynamicResource HeroAccent}" />
+                                        </MultiDataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsGlass}" Value="True" />
+                                                <Condition Binding="{Binding IsAbout}" Value="True" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Background" Value="{DynamicResource GlassFrostElevated}" />
+                                            <Setter Property="BorderBrush" Value="{DynamicResource AccentPrimary}" />
+                                            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+                                        </MultiDataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            <TextBlock Text="About" />
+                        </Button>
                     </StackPanel>
                 </ScrollViewer>
                 <TextBlock Grid.Row="2" Text="ProGlass Automation · Version 3.0" Style="{StaticResource ShellSectionLabel}" />
@@ -454,6 +492,7 @@
                 <TabItem Header="_Home"><studio:BusinessReferenceView /></TabItem>
                 <TabItem Header="_Texts Studio"><studio:TextsStudioView /></TabItem>
                 <TabItem Header="_Colors Studio"><studio:ColorsStudioView /></TabItem>
+                <TabItem Header="_About"><studio:AboutView /></TabItem>
             </TabControl>
         </Grid>
         <Button Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" Content="☰" Command="{Binding ToggleMenu}" ToolTip="Open menu" AutomationProperties.Name="Toggle menu" Panel.ZIndex="2" Margin="{DynamicResource PaddingPage}">

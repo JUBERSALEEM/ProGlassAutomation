@@ -125,6 +125,32 @@ public sealed partial class ThemeStudioViewModel
         string.Join("  ·  ", ColorPlateService.StopsOf(colors.Plate).Select(stop => stop.Name + " " + stop.Hex));
     public string ColorRoleSummary =>
         string.Join("  ·  ", ColorPlateService.Roles.Select(role => role + " " + ColorPlateService.ResolvedHex(colors, themes.ActiveAppearance, role)));
+    public IReadOnlyList<string> CardTintStrengthChoices => ColorPlateService.CardTintStrengths;
+    public IReadOnlyList<ThemeIdentity> AboutThemes => ThemeCatalog.Sequence;
+    public string SelectedCardTintStrength
+    {
+        get => ColorPlateService.StrengthName(colors.CardSaturation);
+        set
+        {
+            int next = ColorPlateService.StrengthValue(value);
+            if (next == colors.CardSaturation) return;
+            UpdateColors(colors with { CardSaturation = next });
+        }
+    }
+    public string CardTintHex
+    {
+        get => colors.CardTint;
+        set
+        {
+            if (overlayBusy || string.Equals(value, colors.CardTint, StringComparison.OrdinalIgnoreCase)) return;
+            if (ColorPlateService.ParseHex(value) is not Color parsed) return;
+            UpdateColors(colors with { CardTint = ColorPlateService.ToHex(parsed) });
+        }
+    }
+    public string CardTintSummary =>
+        colors.CardSaturation <= 0
+            ? "Off. Ordinary cards keep the active theme surfaces. Status plates are never washed."
+            : SelectedCardTintStrength + " wash toward " + colors.CardTint + ". Lightness stays with the theme so type and icons remain readable.";
     public IReadOnlyList<NeumorphDepth> NeumorphDepthChoices { get; } = Enum.GetValues<NeumorphDepth>();
     public IReadOnlyList<NeumorphBlur> NeumorphBlurChoices { get; } = Enum.GetValues<NeumorphBlur>();
     public IReadOnlyList<NeumorphIntensity> NeumorphIntensityChoices { get; } = Enum.GetValues<NeumorphIntensity>();
@@ -282,7 +308,7 @@ public sealed partial class ThemeStudioViewModel
         get => selectedWorkspace;
         set
         {
-            if (value is >= 0 and <= 3)
+            if (value is >= 0 and <= 4)
             {
                 selectedWorkspace = value;
                 Changed(nameof(SelectedWorkspace));
@@ -290,6 +316,7 @@ public sealed partial class ThemeStudioViewModel
                 Changed(nameof(IsBusiness));
                 Changed(nameof(IsTexts));
                 Changed(nameof(IsColors));
+                Changed(nameof(IsAbout));
                 Changed(nameof(WorkspaceTitle));
                 Changed(nameof(WorkspaceSubtitle));
             }
@@ -299,11 +326,13 @@ public sealed partial class ThemeStudioViewModel
     public bool IsBusiness { get => selectedWorkspace == 1; set { if (value) SelectedWorkspace = 1; } }
     public bool IsTexts { get => selectedWorkspace == 2; set { if (value) SelectedWorkspace = 2; } }
     public bool IsColors { get => selectedWorkspace == 3; set { if (value) SelectedWorkspace = 3; } }
+    public bool IsAbout { get => selectedWorkspace == 4; set { if (value) SelectedWorkspace = 4; } }
     public string WorkspaceTitle => selectedWorkspace switch
     {
         0 => "Theme Studio",
         2 => "Texts Studio",
         3 => "Colors Studio",
+        4 => "About",
         _ => "Home"
     };
     public string WorkspaceSubtitle => selectedWorkspace switch
@@ -311,6 +340,7 @@ public sealed partial class ThemeStudioViewModel
         0 => "Settings · Theme engine",
         2 => "Settings · Type overlay",
         3 => "Settings · Color plates",
+        4 => "Settings · Product and credits",
         _ => "Home"
     };
     public bool IsMenuOpen { get => isMenuOpen; set { isMenuOpen = value; Changed(nameof(IsMenuOpen)); } }
@@ -322,6 +352,7 @@ public sealed partial class ThemeStudioViewModel
     public ICommand ShowBusiness { get; private set; } = null!;
     public ICommand ShowTexts { get; private set; } = null!;
     public ICommand ShowColors { get; private set; } = null!;
+    public ICommand ShowAbout { get; private set; } = null!;
     public ICommand SelectColorPlate { get; private set; } = null!;
     public ICommand ApplyPreview { get; private set; } = null!;
     public ICommand SaveCustomization { get; private set; } = null!;
@@ -386,6 +417,7 @@ public sealed partial class ThemeStudioViewModel
         ShowBusiness = new DelegateCommand(() => SelectedWorkspace = 1);
         ShowTexts = new DelegateCommand(() => SelectedWorkspace = 2);
         ShowColors = new DelegateCommand(() => SelectedWorkspace = 3);
+        ShowAbout = new DelegateCommand(() => SelectedWorkspace = 4);
         SelectColorPlate = new DelegateCommand<string>(name => { if (!string.IsNullOrWhiteSpace(name)) SelectedColorPlate = name; });
         ApplyPreview = new DelegateCommand(() => { try { themes.Apply(SelectedTheme, themes.ActiveAppearance, LiveConfigure()); ThemeError=""; Feedback="Preview applied — unsaved changes present."; } catch(Exception ex){ ThemeError=ex.Message; } Changed(nameof(ThemeError)); }, () => CanCustomize || CanCustomizeGeometry);
         SaveCustomization = new DelegateCommand(() =>
@@ -1078,7 +1110,7 @@ public sealed partial class ThemeStudioViewModel
 
     private void NotifyFontColor()
     {
-        foreach (var n in new[] { nameof(SelectedFontFamily), nameof(HeadingBold), nameof(BodyItalic), nameof(BodyUnderline), nameof(SelectedColorPlate), nameof(ColorStopSummary), nameof(ColorRoleSummary), nameof(ColorRoleHex), nameof(ThemeError), nameof(IsDirty) })
+        foreach (var n in new[] { nameof(SelectedFontFamily), nameof(HeadingBold), nameof(BodyItalic), nameof(BodyUnderline), nameof(SelectedColorPlate), nameof(ColorStopSummary), nameof(ColorRoleSummary), nameof(ColorRoleHex), nameof(SelectedCardTintStrength), nameof(CardTintHex), nameof(CardTintSummary), nameof(ThemeError), nameof(IsDirty) })
             Changed(n);
         CommandManager.InvalidateRequerySuggested();
     }
@@ -1092,6 +1124,7 @@ public sealed partial class ThemeStudioViewModel
         foreach (var pair in a)
             if (!b.TryGetValue(pair.Key, out string? hex) || !string.Equals(pair.Value, hex, StringComparison.OrdinalIgnoreCase))
                 return false;
-        return true;
+        if (!string.Equals(left.CardTint, right.CardTint, StringComparison.OrdinalIgnoreCase)) return false;
+        return left.CardSaturation == right.CardSaturation;
     }
 }

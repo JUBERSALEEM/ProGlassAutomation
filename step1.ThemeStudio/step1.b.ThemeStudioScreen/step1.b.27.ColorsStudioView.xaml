@@ -5,6 +5,12 @@
     <StackPanel>
      <TextBlock Text="Colors studio" Style="{DynamicResource PageHeading}"/>
      <TextBlock Text="A plate is one hue with named values 50–800. The bar below picks an exact #RRGGBB for the selected role. Overlay writes Accent, Focus and Chart tokens only — the active theme still owns canvas and material." Style="{DynamicResource Caption}"/>
+     <TextBlock Text="Card plates" Style="{DynamicResource SectionHeading}"/>
+     <TextBlock Text="Optional wash on ordinary cards (SurfacePrimary, Secondary, Elevated). Saturation Off restores the theme. Lightness is kept so text, icons and charts are not recolored. Status plates (positive, feature, attention) stay semantic." Style="{DynamicResource Caption}"/>
+     <local:ColorPickerBar SelectedHex="{Binding CardTintHex, UpdateSourceTrigger=PropertyChanged}" Margin="{DynamicResource MarginItem}"/>
+     <Label Content="Wash strength" Foreground="{DynamicResource TextSecondary}"/>
+     <ComboBox ItemsSource="{Binding CardTintStrengthChoices}" SelectedItem="{Binding SelectedCardTintStrength}" AutomationProperties.Name="Card plate wash strength" Margin="{DynamicResource MarginItem}"/>
+     <TextBlock Text="{Binding CardTintSummary}" Style="{DynamicResource TokenValue}" Margin="{DynamicResource MarginItem}"/>
      <TextBlock Text="Color bar" Style="{DynamicResource SectionHeading}"/>
      <local:ColorPickerBar SelectedHex="{Binding ColorRoleHex, UpdateSourceTrigger=PropertyChanged}" Margin="{DynamicResource MarginItem}"/>
      <Label Content="Color plate" Target="{Binding ElementName=ColorPlatePicker}" Foreground="{DynamicResource TextSecondary}"/>

@@ -25,7 +25,9 @@ public sealed record ColorPlateCard(
 
 public sealed record ColorPlateState(
     string Plate = "Ocean",
-    Dictionary<string, string>? RoleHex = null)
+    Dictionary<string, string>? RoleHex = null,
+    string CardTint = "#C4B0D4",
+    int CardSaturation = 0)
 {
     public string? Validate()
     {
@@ -40,6 +42,10 @@ public sealed record ColorPlateState(
             if (ColorPlateService.ParseHex(pair.Value) is null)
                 return "Color values must be #RRGGBB.";
         }
+        if (ColorPlateService.ParseHex(CardTint) is null)
+            return "Card tint must be #RRGGBB.";
+        if (CardSaturation is < 0 or > 100)
+            return "Card saturation must be 0–100.";
         return null;
     }
 }
@@ -51,6 +57,13 @@ public static class ColorPlateService
         "AccentPrimary", "AccentHover", "AccentPressed", "AccentSoft", "AccentSecondary",
         "FocusIndicator", "ChartSeries1", "ChartSeries2", "ChartSeries3", "ChartSeries4"
     ];
+
+    public static readonly IReadOnlyList<string> CardRoles =
+    [
+        "SurfacePrimary", "SurfaceSecondary", "SurfaceElevated"
+    ];
+
+    public static readonly IReadOnlyList<string> CardTintStrengths = ["Off", "Subtle", "Balanced", "Vivid"];
 
     public static IReadOnlyList<ColorPlateDefinition> BuiltIn { get; } =
     [
@@ -120,6 +133,7 @@ public static class ColorPlateService
         {
             if (!string.IsNullOrWhiteSpace(theme))
                 RestoreRoles(package, theme, mode);
+            ApplyCardTint(package, mode, state, theme);
             return;
         }
         var plate = Find(state.Plate);
@@ -139,7 +153,24 @@ public static class ColorPlateService
             brush.Freeze();
             Set(package, role, brush);
         }
+        ApplyCardTint(package, mode, state, theme);
     }
+
+    public static string StrengthName(int saturation) => saturation switch
+    {
+        <= 0 => "Off",
+        <= 22 => "Subtle",
+        <= 36 => "Balanced",
+        _ => "Vivid"
+    };
+
+    public static int StrengthValue(string? name) => name switch
+    {
+        "Subtle" => 18,
+        "Balanced" => 32,
+        "Vivid" => 48,
+        _ => 0
+    };
 
     public static IReadOnlyList<ColorStop> StopsOf(string plate) => Find(plate).Stops;
 
@@ -225,6 +256,72 @@ public static class ColorPlateService
             swatches,
             sample,
             string.Join("  ·  ", plate.Stops.Select(stop => stop.Name + " " + stop.Hex)));
+    }
+
+    private static void ApplyCardTint(ResourceDictionary package, Appearance mode, ColorPlateState state, string? theme)
+    {
+        if (string.IsNullOrWhiteSpace(theme)) return;
+        var fresh = ThemeService.Load(mode, theme);
+        Color? tint = ParseHex(state.CardTint);
+        double amount = Math.Clamp(state.CardSaturation, 0, 100) / 100d;
+        foreach (string role in CardRoles)
+        {
+            if (fresh[role] is not SolidColorBrush source) continue;
+            Color mixed = amount <= 0 || tint is null
+                ? source.Color
+                : MixKeepLuma(source.Color, tint.Value, amount);
+            var brush = new SolidColorBrush(mixed);
+            brush.Freeze();
+            Set(package, role, brush);
+        }
+    }
+
+    private static Color MixKeepLuma(Color original, Color tint, double amount)
+    {
+        var (_, s0, l0) = ToHsl(original);
+        var (h1, s1, _) = ToHsl(tint);
+        double s = Math.Min(0.52, s0 * (1 - amount) + s1 * amount);
+        return FromHsl(h1, s, l0);
+    }
+
+    private static (double H, double S, double L) ToHsl(Color color)
+    {
+        double r = color.R / 255d, g = color.G / 255d, b = color.B / 255d;
+        double max = Math.Max(r, Math.Max(g, b));
+        double min = Math.Min(r, Math.Min(g, b));
+        double l = (max + min) / 2d;
+        if (Math.Abs(max - min) < 0.0001) return (0, 0, l);
+        double d = max - min;
+        double s = l > 0.5 ? d / (2d - max - min) : d / (max + min);
+        double h = max == r ? (g - b) / d + (g < b ? 6 : 0)
+            : max == g ? (b - r) / d + 2
+            : (r - g) / d + 4;
+        return (h / 6d, s, l);
+    }
+
+    private static Color FromHsl(double h, double s, double l)
+    {
+        s = Math.Clamp(s, 0, 1);
+        l = Math.Clamp(l, 0, 1);
+        byte Unit(double x) => (byte)Math.Round(Math.Clamp(x, 0, 1) * 255);
+        if (s <= 0)
+        {
+            byte gray = Unit(l);
+            return Color.FromRgb(gray, gray, gray);
+        }
+        double q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        double p = 2 * l - q;
+        return Color.FromRgb(Unit(Hue(p, q, h + 1d / 3d)), Unit(Hue(p, q, h)), Unit(Hue(p, q, h - 1d / 3d)));
+    }
+
+    private static double Hue(double p, double q, double t)
+    {
+        if (t < 0) t += 1;
+        if (t > 1) t -= 1;
+        if (t < 1d / 6d) return p + (q - p) * 6 * t;
+        if (t < 0.5) return q;
+        if (t < 2d / 3d) return p + (q - p) * (2d / 3d - t) * 6;
+        return p;
     }
 
     private static void Set(ResourceDictionary package, string key, object value)

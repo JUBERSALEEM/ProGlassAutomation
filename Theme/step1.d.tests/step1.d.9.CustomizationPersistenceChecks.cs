@@ -40,6 +40,7 @@ internal static class CustomizationPersistenceChecks
         if (fromFile.Liquid?.Frost != LiquidFrost.Clear) throw new Exception("Store liquid roundtrip");
         if (fromFile.Font?.Family != "Georgia" || fromFile.Font.BodyItalic != true || fromFile.Font.BodyUnderline != true) throw new Exception("Store font roundtrip");
         if (fromFile.Colors?.Plate != "Forest" || fromFile.Colors.RoleHex is null || fromFile.Colors.RoleHex["AccentPrimary"] != "#1F6B4A") throw new Exception("Store color plate roundtrip");
+        if (fromFile.Colors.CardSaturation != 0 || ColorPlateService.ParseHex(fromFile.Colors.CardTint) is null) throw new Exception("Store card tint defaults");
         File.WriteAllText(tmp, "{\"Version\":1}");
         try { CustomizationStore.ReadFile(tmp); throw new Exception("Version 1 import must fail"); }
         catch (ArgumentException) { }

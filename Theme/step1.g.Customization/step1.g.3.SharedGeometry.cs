@@ -88,7 +88,7 @@ public static class SharedGeometry
             else if (theme == ThemeService.LiquidGlass)
                 LiquidCustomization.Apply(package, mode, glass);
             FontService.Apply(package, type);
-            ColorPlateService.Apply(package, mode, plate);
+            ColorPlateService.Apply(package, mode, plate, theme);
             if (ThemeCatalog.Find(theme).Geometry != ThemeGeometry.SharedTokens)
                 return;
             Apply(package, geometry);
