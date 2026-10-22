@@ -8,7 +8,7 @@ Statuses below are **source coverage**, not visual approval.
 | 2 | Claymorphism | Yes | Yes | Yes | `ClaySurface` plump | Yes (volume, plumpness, sheen, …) | Yes | Yes | Source-tested | User still sending Clay Home shots with chart collapse (pre-`703797e`) |
 | 3 | Fluent / Acrylic | Yes | Yes | Yes | `FluentSurface` tint/stroke | Geometry/font/color plates only — **no Fluent extras engine** | Yes | Yes | Source-tested | Not recently re-accepted |
 | 4 | Neumorphism | Yes | Yes | Yes | `NeumorphSurface` | Depth/blur/intensity owned | Yes | Yes | Source-tested | Not recently re-accepted |
-| 5 | Liquid Glass | Yes | Yes | Yes | `LiquidGlassSurface` + coded wallpaper | Frost/specular/tint studio | Yes | Yes | Source-tested | **OPEN** — multiple visual rejects through 4-shot after `6b22ffa`; `703797e` unconfirmed |
+| 5 | Liquid Glass | Yes | Yes | Yes | `LiquidGlassSurface` + coded wallpaper | Frost/specular/tint studio | Yes | Yes | Source-tested | **BLOCKED** — D01 run 2026-10-22: source OK, no WPF pixels (`D01_LIQUID_VISUAL.md`) |
 | 6 | Glassmorphism | **No** | — | — | — | — | — | — | — | Not started (gated) |
 | 7 | Spatial / Immersive | **No** | — | — | — | — | — | — | — | Not started |
 | 8 | Swiss International | **No** | — | — | — | — | — | — | — | Not started |

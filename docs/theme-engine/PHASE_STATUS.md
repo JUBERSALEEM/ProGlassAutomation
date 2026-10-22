@@ -2,7 +2,7 @@
 
 Legend: NOT STARTED | IN PROGRESS | BLOCKED | IMPLEMENTED — NOT VERIFIED | VERIFIED | APPROVED
 
-Updated: 2026-10-22 (Stage B freeze + Stage C engine gaps).
+Updated: 2026-10-22 (D01 Liquid visual gate — **BLOCKED**, no Windows render).
 
 ## Stage A — Discovery
 
@@ -16,44 +16,35 @@ Stage A is **documentation-verified**, not Windows-verified.
 
 | ID | Status | Note |
 | --- | --- | --- |
-| B01 | IMPLEMENTED — NOT VERIFIED | Identity model in STAGE_B_FREEZE + `ThemeIdentity` / `Sequence` |
-| B02 | IMPLEMENTED — NOT VERIFIED | Capability matrix in freeze; Fluent extras remain absent |
-| B03 | IMPLEMENTED — NOT VERIFIED | Slot-replace + Overlay frozen as-is |
-| B04 | IMPLEMENTED — NOT VERIFIED | Session protocol; façade `ThemeEditSession` |
-| B05 | IMPLEMENTED — NOT VERIFIED | v2, 64 KB, JSON only; filename kept (D08) |
-| B06 | IMPLEMENTED — NOT VERIFIED | Glass criteria planning only; no Theme 6 code |
-| B07 | IMPLEMENTED — NOT VERIFIED | Studio IA: picker still Installed (5); completeness badges = E01 |
-| B08 | IMPLEMENTED — NOT VERIFIED | No ADR conflict with Liquid gate |
-
-B is source/docs freeze. Not owner-approved. Not Windows-verified.
+| B01–B08 | IMPLEMENTED — NOT VERIFIED | Freeze + identity at `4b4ef3d` |
 
 ## Stage C — Engine gaps
 
 | ID | Status | Note |
 | --- | --- | --- |
-| C01 | IMPLEMENTED — NOT VERIFIED | Colors Studio `MarginInline` + `{Binding .}`; checker not weakened |
-| C02 | IMPLEMENTED — NOT VERIFIED | `ThemeIdentity.Sequence` (9); `Installed` still 5 |
-| C03 | IMPLEMENTED — NOT VERIFIED | `ThemeEditSession` one-editor; Save advances baseline |
-| C04 | IMPLEMENTED — NOT VERIFIED | VM `PersistSaved` / Discard via session |
-| C05 | IMPLEMENTED — NOT VERIFIED | Markup/XAML rejected in `ReadFile`; persistence check added (Windows NOT RUN) |
-| C06 | IMPLEMENTED — NOT VERIFIED | Overlay unchanged (already validates) |
-| C07 | IMPLEMENTED — NOT VERIFIED | Existing `ThemeNotificationException`; portable source assert |
-| C08 | IMPLEMENTED — NOT VERIFIED | No shared `ReduceTransparency` token |
-| C09 | IMPLEMENTED — NOT VERIFIED | `LoadWarning` + Studio `StoreWarning` / `ThemeError` |
-| C10 | IMPLEMENTED — NOT VERIFIED | Isolation still 5 packages; no ThemeGlassmorphism folder |
-| C11 | IMPLEMENTED — NOT VERIFIED | docs/04 + docs/06 supersession notes |
-| C12 | IMPLEMENTED — NOT VERIFIED | This review; F still blocked on D01 |
+| C01–C12 | IMPLEMENTED — NOT VERIFIED | `4b4ef3d`. Isolation 5. No Theme 6. |
 
-## Stages D–I
+## Stage D — Shared components / Liquid visual
 
-D01 Liquid visual **OPEN**. E not started. **F BLOCKED**. G–I not started.
+| ID | Status | Note |
+| --- | --- | --- |
+| **D01 (V1 / defect D01)** | **BLOCKED** | Liquid Light+Dark not rendered on this host. Evidence: `D01_LIQUID_VISUAL.md`. |
+| D01 (plan table: 47 styles) | IMPLEMENTED — NOT VERIFIED | Isolation PASS both modes (source). Not visual accept. |
+| D02 | IMPLEMENTED — NOT VERIFIED | Nested chart chrome `703797e`; needs Windows Home shot |
+| D03–D08 | NOT STARTED | Need Windows / spot checks |
+
+**F remains BLOCKED on V1.**
+
+## Stages E–I
+
+E **NOT STARTED** (gated on V1). F **BLOCKED**. G–I not started.
 
 ## Counts
 
 | Status | Count |
 | --- | --- |
 | VERIFIED (docs) | 8 (A01–A08) |
-| IMPLEMENTED — NOT VERIFIED | B01–B08, C01–C12 |
-| NOT STARTED | D–I except F blocked |
-| BLOCKED | F01–F08 (until D01) |
+| IMPLEMENTED — NOT VERIFIED | B01–B08, C01–C12, Stage D 47-styles |
+| BLOCKED | **D01 V1**, F01–F08 |
+| NOT STARTED | Remaining D, E, G–I |
 | APPROVED | 0 |

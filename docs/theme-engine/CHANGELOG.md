@@ -1,5 +1,13 @@
 # Changelog (theme-engine program)
 
+## 2026-10-22 — D01 Liquid visual gate
+
+- Inspected Liquid Light/Dark packages, shell, Home, Studio, charts at `4b4ef3d`.
+- Portable isolation / foundation / verify_sources **PASS**. `dotnet` and WPF **NOT RUN**.
+- **No Liquid code changes.** No screenshots (none fabricated).
+- D01 / V1 status: **BLOCKED** pending Windows rendering. Stage E/F not started.
+- Evidence: `D01_LIQUID_VISUAL.md`.
+
 ## 2026-10-22 — Stage B freeze + Stage C engine gaps
 
 - Freeze: `STAGE_B_FREEZE.md` (B01–B08).
