@@ -15,7 +15,7 @@ public sealed class LiquidGlassSurface : ContentControl
 {
     public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(
         nameof(CornerRadius), typeof(CornerRadius), typeof(LiquidGlassSurface),
-        new FrameworkPropertyMetadata(new CornerRadius(18)));
+        new FrameworkPropertyMetadata(new CornerRadius(18), OnClipChanged));
     public static readonly DependencyProperty ConcaveProperty = DependencyProperty.Register(
         nameof(Concave), typeof(bool), typeof(LiquidGlassSurface),
         new FrameworkPropertyMetadata(false));
@@ -46,9 +46,37 @@ public sealed class LiquidGlassSurface : ContentControl
         UseLayoutRounding = true;
         SnapsToDevicePixels = true;
         ClipToBounds = false;
+        SizeChanged += (_, _) => ClipFace();
+        Loaded += (_, _) => ClipFace();
     }
 
     protected override Geometry? GetLayoutClip(Size layoutSlotSize) => null;
+
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+        ClipFace();
+    }
+
+    private static void OnClipChanged(DependencyObject sender, DependencyPropertyChangedEventArgs _) =>
+        ((LiquidGlassSurface)sender).ClipFace();
+
+    /// <summary>
+    /// WPF Border.ClipToBounds clips a rectangle, not the rounded face. Charts and sheen then
+    /// paint square corners. Clip the Face to the card radius; do not clip the lift shadow.
+    /// </summary>
+    private void ClipFace()
+    {
+        if (Template?.FindName("Face", this) is not Border face) return;
+        double width = face.ActualWidth, height = face.ActualHeight;
+        if (width < 1 || height < 1)
+        {
+            face.Clip = null;
+            return;
+        }
+        double radius = Math.Min(Math.Max(0, CornerRadius.TopLeft), Math.Min(width, height) / 2d);
+        face.Clip = new RectangleGeometry(new Rect(0, 0, width, height), radius, radius);
+    }
 
     public CornerRadius CornerRadius { get => (CornerRadius)GetValue(CornerRadiusProperty); set => SetValue(CornerRadiusProperty, value); }
     public bool Concave { get => (bool)GetValue(ConcaveProperty); set => SetValue(ConcaveProperty, value); }

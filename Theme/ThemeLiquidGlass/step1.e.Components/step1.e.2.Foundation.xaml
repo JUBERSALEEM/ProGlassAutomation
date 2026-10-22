@@ -51,7 +51,7 @@
   <Setter Property="ReduceTransparency" Value="{DynamicResource LiquidReduceTransparency}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="liquid:LiquidGlassSurface">
    <Grid ClipToBounds="False">
-    <Border x:Name="Caster" Background="{DynamicResource LiquidShadowCasterBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
+    <Border x:Name="Caster" Visibility="Collapsed" Background="{DynamicResource LiquidShadowCasterBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False">
      <Border.Effect>
       <DropShadowEffect Color="{DynamicResource LiquidShadowColor}" BlurRadius="{DynamicResource LiquidLiftBlur}" ShadowDepth="{DynamicResource LiquidLiftDepth}" Direction="270" Opacity="{DynamicResource LiquidLiftOpacity}" RenderingBias="Quality" />
      </Border.Effect>
