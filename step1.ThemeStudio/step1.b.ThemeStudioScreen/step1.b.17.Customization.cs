@@ -247,6 +247,7 @@ public sealed partial class ThemeStudioViewModel
     public bool IsNeumorph => SelectedTheme == ThemeService.Neumorphism;
     public bool IsLiquid => SelectedTheme == ThemeService.LiquidGlass;
     public bool IsGlass => SelectedTheme == ThemeService.Glassmorphism;
+    public bool IsSpatial => SelectedTheme == ThemeService.Spatial;
     public bool CanCustomizeBento => SelectedTheme == ThemeService.Bento;
     public bool CanCustomizeClay => IsClay;
     public bool CanCustomizeNeumorph => IsNeumorph;
@@ -260,6 +261,7 @@ public sealed partial class ThemeStudioViewModel
         : IsNeumorph ? $"Neumorphism / {SelectedRounding} / {SelectedNeumorphDepth} / {SelectedNeumorphBlur}"
         : IsLiquid ? $"Liquid Glass / {SelectedRounding} / {SelectedLiquidFrost} / {SelectedLiquidSpecular}"
         : IsGlass ? $"Glassmorphism / {SelectedRounding}"
+        : IsSpatial ? $"Spatial / {SelectedRounding}"
         : "Theme-default settings";
     public bool IsDirty =>
         themes.ActiveTheme != lastSaved.Theme

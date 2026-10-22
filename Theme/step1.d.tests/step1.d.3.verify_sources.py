@@ -33,7 +33,7 @@ pairs += [(fg, 'SurfaceElevated', 4.5) for fg in ('AccentPrimary', 'StatusSucces
 pairs += [('AccentPrimary', 'AccentSoft', 4.5), ('AccentPrimary', 'StateSelected', 4.5)]
 pairs += [(fg, bg, 3) for fg in ('FocusIndicator', 'BorderStrong')
           for bg in ('SurfacePrimary', 'SurfaceSecondary')]
-for package, stem, accents in (('ThemeBento', 'ThemeBento', True), ('ThemeClaymorphism', 'ThemeClaymorphism', False), ('ThemeFluent', 'ThemeFluent', False), ('ThemeNeumorphism', 'ThemeNeumorphism', False), ('ThemeLiquidGlass', 'ThemeLiquidGlass', False), ('ThemeGlassmorphism', 'ThemeGlassmorphism', False)):
+for package, stem, accents in (('ThemeBento', 'ThemeBento', True), ('ThemeClaymorphism', 'ThemeClaymorphism', False), ('ThemeFluent', 'ThemeFluent', False), ('ThemeNeumorphism', 'ThemeNeumorphism', False), ('ThemeLiquidGlass', 'ThemeLiquidGlass', False), ('ThemeGlassmorphism', 'ThemeGlassmorphism', False), ('ThemeSpatial', 'ThemeSpatial', False)):
     for mode in ('Light', 'Dark'):
         path = ROOT / f'Theme/{package}/{stem}.{mode}.xaml'
         tree = ET.parse(path).getroot()
@@ -135,7 +135,7 @@ for path in xamls:
         if local(node.tag) == 'ResourceDictionary' and 'Source' in node.attrib:
             assert (path.parent / node.attrib['Source']).is_file(), (path, node.attrib['Source'])
     posix = path.as_posix()
-    if 'Theme/ThemeBento/' not in posix and 'Theme/ThemeClaymorphism/' not in posix and 'Theme/ThemeFluent/' not in posix and 'Theme/ThemeNeumorphism/' not in posix and 'Theme/ThemeLiquidGlass/' not in posix and 'Theme/ThemeGlassmorphism/' not in posix and path.name != 'MainWindow.xaml':
+    if 'Theme/ThemeBento/' not in posix and 'Theme/ThemeClaymorphism/' not in posix and 'Theme/ThemeFluent/' not in posix and 'Theme/ThemeNeumorphism/' not in posix and 'Theme/ThemeLiquidGlass/' not in posix and 'Theme/ThemeGlassmorphism/' not in posix and 'Theme/ThemeSpatial/' not in posix and path.name != 'MainWindow.xaml':
         assert not re.search(r'#[0-9A-Fa-f]{6,8}\b', text), f'{path}: scattered literal color'
     if path.name == 'MainWindow.xaml':
         assert 'WindowState="Maximized"' in text, 'Shell must remain maximized'

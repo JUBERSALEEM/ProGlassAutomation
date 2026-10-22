@@ -349,6 +349,9 @@
                             <DataTrigger Binding="{Binding IsGlass}" Value="True">
                                 <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
                             </DataTrigger>
+                            <DataTrigger Binding="{Binding IsSpatial}" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
+                            </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </TabControl.Style>

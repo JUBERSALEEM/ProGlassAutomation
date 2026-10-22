@@ -5,6 +5,7 @@ using ProGlassAutomation.ThemeFluent;
 using ProGlassAutomation.ThemeGlassmorphism;
 using ProGlassAutomation.ThemeLiquidGlass;
 using ProGlassAutomation.ThemeNeumorphism;
+using ProGlassAutomation.ThemeSpatial;
 
 namespace ProGlassAutomation.Theming;
 
@@ -48,6 +49,7 @@ public static class ThemeCatalog
             new ThemeDefinition(NeumorphismName, "ThemeNeumorphism", NeumorphResources.Load),
             new ThemeDefinition(LiquidGlassName, "ThemeLiquidGlass", LiquidResources.Load),
             new ThemeDefinition(GlassName, "ThemeGlassmorphism", GlassResources.Load),
+            new ThemeDefinition(SpatialName, "ThemeSpatial", SpatialResources.Load),
         });
 
     public static IReadOnlyList<ThemeIdentity> Sequence { get; } =
@@ -59,7 +61,7 @@ public static class ThemeCatalog
             new ThemeIdentity(4, NeumorphismName, "Extruded controls, dual shadows, tactile relief.", ThemeImplementationStatus.Installed, true, "Neu extras + shared rounding + overlays"),
             new ThemeIdentity(5, LiquidGlassName, "Luminous veil, specular highlights, adaptive depth.", ThemeImplementationStatus.Installed, true, "Liquid extras + overlays; visual not accepted"),
             new ThemeIdentity(6, GlassName, "Frosted material, contrast-safe fills, solid fallback.", ThemeImplementationStatus.Installed, false, "Frost surface + solid fallback; Liquid visual still open"),
-            new ThemeIdentity(7, SpatialName, "Depth layers and spatial chrome.", ThemeImplementationStatus.Planned, false, "After Glassmorphism"),
+            new ThemeIdentity(7, SpatialName, "Depth layers and spatial chrome.", ThemeImplementationStatus.Installed, false, "Far plane + lifted near cards; no extras engine"),
             new ThemeIdentity(8, SwissName, "Grid, type hierarchy, restrained color.", ThemeImplementationStatus.Planned, false, "After Spatial"),
             new ThemeIdentity(9, HolographicName, "Iridescent sheen without chart blur.", ThemeImplementationStatus.Planned, false, "After Swiss"),
         });
