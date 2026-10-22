@@ -55,10 +55,9 @@
       <DropShadowEffect Color="{DynamicResource GlassShadowColor}" BlurRadius="{DynamicResource GlassLiftBlur}" ShadowDepth="{DynamicResource GlassLiftDepth}" Direction="270" Opacity="{DynamicResource GlassLiftOpacity}" RenderingBias="Quality" />
      </Border.Effect>
     </Border>
-    <Border x:Name="Face" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" ClipToBounds="True">
+    <Border x:Name="Face" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}">
      <Grid>
       <Border x:Name="Tint" Height="{DynamicResource GlassSheenHeight}" VerticalAlignment="Top" Background="{TemplateBinding TintBrush}" CornerRadius="{TemplateBinding CornerRadius}" IsHitTestVisible="False" />
-      <Border x:Name="Luminosity" BorderBrush="{TemplateBinding LuminosityBrush}" BorderThickness="1,1,0,0" CornerRadius="{TemplateBinding CornerRadius}" Background="{DynamicResource TransparentBrush}" IsHitTestVisible="False" />
       <Border x:Name="Stroke" BorderBrush="{TemplateBinding StrokeBrush}" BorderThickness="{DynamicResource BorderThicknessControl}" CornerRadius="{TemplateBinding CornerRadius}" Padding="{TemplateBinding Padding}">
        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
       </Border>
@@ -78,12 +77,10 @@
      <Setter TargetName="Caster" Property="Visibility" Value="Collapsed" />
     </Trigger>
     <Trigger Property="Concave" Value="True">
-     <Setter TargetName="Luminosity" Property="BorderThickness" Value="0,0,1,1" />
      <Setter TargetName="Tint" Property="VerticalAlignment" Value="Bottom" />
      <Setter TargetName="Caster" Property="Visibility" Value="Collapsed" />
     </Trigger>
     <Trigger Property="IsMouseOver" Value="True">
-     <Setter TargetName="Luminosity" Property="BorderBrush" Value="{DynamicResource GlassRevealBrush}" />
      <Setter TargetName="Stroke" Property="BorderBrush" Value="{DynamicResource GlassRevealStroke}" />
     </Trigger>
    </ControlTemplate.Triggers>
