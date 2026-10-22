@@ -49,7 +49,8 @@
                     <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
                 </MultiDataTrigger>
                 <DataTrigger Binding="{Binding IsGlass}" Value="True">
-                    <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
+                    <Setter Property="Background" Value="{DynamicResource GlassFrostSecondary}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource GlassStrokeBrush}" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -96,7 +97,8 @@
                     <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
                 </MultiDataTrigger>
                 <DataTrigger Binding="{Binding IsGlass}" Value="True">
-                    <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
+                    <Setter Property="Background" Value="{DynamicResource GlassFrostControl}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource GlassStrokeBrush}" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -155,7 +157,8 @@
                     <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
                 </MultiDataTrigger>
                 <DataTrigger Binding="{Binding IsGlass}" Value="True">
-                    <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
+                    <Setter Property="Background" Value="{DynamicResource GlassFrostBrush}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource GlassStrokeBrush}" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -179,7 +182,8 @@
                     <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
                 </MultiDataTrigger>
                 <DataTrigger Binding="{Binding IsGlass}" Value="True">
-                    <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
+                    <Setter Property="Background" Value="{DynamicResource GlassFrostElevated}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource GlassStrokeBrush}" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -198,7 +202,8 @@
                     <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
                 </MultiDataTrigger>
                 <DataTrigger Binding="{Binding IsGlass}" Value="True">
-                    <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
+                    <Setter Property="Background" Value="{DynamicResource GlassFrostControl}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource GlassStrokeBrush}" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -251,6 +256,15 @@
                                             <Setter Property="Background" Value="{DynamicResource AccentPrimary}" />
                                             <Setter Property="Foreground" Value="{DynamicResource TextOnAccent}" />
                                         </DataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsGlass}" Value="True" />
+                                                <Condition Binding="{Binding IsBusiness}" Value="True" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Background" Value="{DynamicResource GlassFrostElevated}" />
+                                            <Setter Property="BorderBrush" Value="{DynamicResource AccentPrimary}" />
+                                            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+                                        </MultiDataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
@@ -265,6 +279,15 @@
                                             <Setter Property="Background" Value="{DynamicResource AccentPrimary}" />
                                             <Setter Property="Foreground" Value="{DynamicResource TextOnAccent}" />
                                         </DataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsGlass}" Value="True" />
+                                                <Condition Binding="{Binding IsStudio}" Value="True" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Background" Value="{DynamicResource GlassFrostElevated}" />
+                                            <Setter Property="BorderBrush" Value="{DynamicResource AccentPrimary}" />
+                                            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+                                        </MultiDataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
@@ -278,6 +301,15 @@
                                             <Setter Property="Background" Value="{DynamicResource AccentPrimary}" />
                                             <Setter Property="Foreground" Value="{DynamicResource TextOnAccent}" />
                                         </DataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsGlass}" Value="True" />
+                                                <Condition Binding="{Binding IsTexts}" Value="True" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Background" Value="{DynamicResource GlassFrostElevated}" />
+                                            <Setter Property="BorderBrush" Value="{DynamicResource AccentPrimary}" />
+                                            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+                                        </MultiDataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
@@ -291,6 +323,15 @@
                                             <Setter Property="Background" Value="{DynamicResource AccentPrimary}" />
                                             <Setter Property="Foreground" Value="{DynamicResource TextOnAccent}" />
                                         </DataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsGlass}" Value="True" />
+                                                <Condition Binding="{Binding IsColors}" Value="True" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Background" Value="{DynamicResource GlassFrostElevated}" />
+                                            <Setter Property="BorderBrush" Value="{DynamicResource AccentPrimary}" />
+                                            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+                                        </MultiDataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
