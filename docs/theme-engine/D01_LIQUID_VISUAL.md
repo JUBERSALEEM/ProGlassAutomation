@@ -133,6 +133,12 @@ Still open from the register: D01 visual, D02/D03 chart pixels, D05 no Windows, 
 
 Rationale: V1 requires user-visible Windows shots. Source PASS is not runtime PASS. A successful mental compile is not acceptance.
 
+## Windows operator procedure
+
+See [D01_WINDOWS_HANDOFF.md](D01_WINDOWS_HANDOFF.md) for prerequisites, exact `dotnet`/`python` commands from `README.md` and `cols/ci/windows-wpf.yml`, the Light/Dark Home+Studio checklist, screenshot IDs S01–S12, and how to change D01 status.
+
+This Linux host still has **0% WPF pixels**. D01 remains **BLOCKED**.
+
 ## Next authorized phase
 
 Remain on **D01 / V1** until a Windows host (or owner-supplied shots of this tree) inspects Light+Dark Home and Studio.

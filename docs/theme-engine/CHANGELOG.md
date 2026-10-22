@@ -1,5 +1,10 @@
 # Changelog (theme-engine program)
 
+## 2026-10-22 — D01 Windows handoff
+
+- Added `D01_WINDOWS_HANDOFF.md`: Windows SDK/csproj commands from README + `cols/ci/windows-wpf.yml`, Light/Dark Home+Studio checklist, screenshot IDs S01–S12, defect/status rules.
+- D01 / V1 remains **BLOCKED**. No C#/XAML. App not launched. Not pushed.
+
 ## 2026-10-22 — D01 Liquid visual gate
 
 - Inspected Liquid Light/Dark packages, shell, Home, Studio, charts at `4b4ef3d`.

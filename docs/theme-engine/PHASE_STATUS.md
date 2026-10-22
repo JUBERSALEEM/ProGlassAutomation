@@ -28,7 +28,7 @@ Stage A is **documentation-verified**, not Windows-verified.
 
 | ID | Status | Note |
 | --- | --- | --- |
-| **D01 (V1 / defect D01)** | **BLOCKED** | Liquid Light+Dark not rendered on this host. Evidence: `D01_LIQUID_VISUAL.md`. |
+| **D01 (V1 / defect D01)** | **BLOCKED** | No WPF pixels on this host. Source: `D01_LIQUID_VISUAL.md`. Windows procedure: `D01_WINDOWS_HANDOFF.md`. |
 | D01 (plan table: 47 styles) | IMPLEMENTED — NOT VERIFIED | Isolation PASS both modes (source). Not visual accept. |
 | D02 | IMPLEMENTED — NOT VERIFIED | Nested chart chrome `703797e`; needs Windows Home shot |
 | D03–D08 | NOT STARTED | Need Windows / spot checks |

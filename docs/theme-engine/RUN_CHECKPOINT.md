@@ -2,17 +2,17 @@
 
 **Time:** 2026-10-22  
 **Branch:** `arena/f1e0ac70-proglassautomation`  
-**HEAD:** `4b4ef3d` at start of run  
-**Run type:** D01 Liquid Glass visual acceptance gate  
+**HEAD at handoff write:** `a9f82ce` (docs commit of this handoff will be newer)  
+**Run type:** D01 Windows visual verification handoff  
 **Do not push/publish** unless the owner authorizes.
 
 ## Last completed
 
-Source inspection for D01. **No Liquid code changes. No Stage E. No Stage F.**
+Windows operator procedure: `D01_WINDOWS_HANDOFF.md`. **D01 / V1 remains BLOCKED.** No app launch. No product code. No Stage E/F.
 
 ## Current phase
 
-**D01 / V1 is BLOCKED.** Next authorized work is Windows (or owner) rendering of Liquid Light+Dark Home and Theme Studio. Do not start E or F.
+**D01 / V1 is BLOCKED.** Execute the handoff on Windows. Do not start E or F. Do not mark VERIFIED without WPF shots.
 
 ## Work performed this run
 

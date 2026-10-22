@@ -4,7 +4,7 @@ Status: OPEN / MITIGATED-IN-SOURCE / ACCEPTED-RISK / FIXED-UNVERIFIED / CLOSED.
 
 | ID | Opened | Severity | Summary | Status | Notes |
 | --- | --- | --- | --- | --- | --- |
-| D01 | 2026-10-22 | High | Liquid Light+Dark not visually accepted | OPEN | Gate for Theme 6. 2026-10-22 D01 run: source inspected (`D01_LIQUID_VISUAL.md`); **visual BLOCKED** (no WPF host). History: L7 opaque, frost plates, lining, wash, orbs, Light chrome, Mix/KPI/Channels holes. |
+| D01 | 2026-10-22 | High | Liquid Light+Dark not visually accepted | OPEN | Gate for Theme 6. Visual **BLOCKED**. Source: `D01_LIQUID_VISUAL.md`. Windows procedure: `D01_WINDOWS_HANDOFF.md`. History: L7 opaque, frost plates, lining, wash, orbs, Light chrome, Mix/KPI/Channels holes. |
 | D02 | 2026-10-22 | High | Nested cartesian charts flattened by axis chrome | FIXED-UNVERIFIED | `703797e`. Needs Windows Home shot. |
 | D03 | 2026-10-22 | High | KPI sparks empty (padding + non-sparkline Orders bars) | FIXED-UNVERIFIED | Same commit + KPI template 72–96 column (`52d1345`). |
 | D04 | 2026-10-22 | Medium | `verify_sources.py` FAIL Colors Studio Margin/`{Binding}` | FIXED-UNVERIFIED | C01: `MarginInline` + `{Binding .}`; ColorPickerBar spectrum in code-behind. Python PASS this host. Not Windows-verified. |
