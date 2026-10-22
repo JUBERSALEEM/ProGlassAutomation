@@ -50,7 +50,6 @@ public partial class AnalyticsOverview : UserControl
         Show(KpiConversion, 2, 0, 1, 1);
         Show(KpiOnTime, 3, 0, 1, 1);
         Show(TrendsCard, 0, 1, 3, 2);
-        Show(MixCard, 3, 1, 1, 1);
         Show(ChannelsCard, 3, 2, 1, 1);
         Show(ActivityCard, 0, 3, 1, 1);
         Show(RevenueCard, 1, 3, 1, 1);
@@ -59,9 +58,15 @@ public partial class AnalyticsOverview : UserControl
         Hide(TrendCard);
         if (Compact)
         {
+            // Type & signal fits the narrow slot; Order mix moves to the studio bottom-left cell.
+            Hide(MixCard);
+            Show(SignalsCard, 3, 1, 1, 1);
             Hide(TableCard);
             return;
         }
+        Hide(SignalsCard);
+        Hide(ChannelsCard);
+        Show(MixCard, 3, 1, 1, 2);
         Show(TableCard, 0, 4, 4, 2);
         if (vm is null) return;
         switch (vm.SelectedLayoutPreset)

@@ -33,6 +33,7 @@
     <analytics:BentoChart Grid.Row="1" Data="{Binding Mix}" />
    </Grid>
   </ContentControl>
+  <local:TypeAndStatusPanel x:Name="SignalsCard" bento:BentoGrid.Column="3" bento:BentoGrid.Row="1" />
   <ContentControl x:Name="ChannelsCard" Style="{DynamicResource ChartCard}" bento:BentoGrid.Column="3" bento:BentoGrid.Row="2">
    <Grid>
     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
