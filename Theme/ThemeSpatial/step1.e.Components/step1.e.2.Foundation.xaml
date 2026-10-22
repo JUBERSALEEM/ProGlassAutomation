@@ -50,7 +50,7 @@
    <Grid ClipToBounds="False">
     <Border x:Name="Caster" Background="{DynamicResource SpatialShadowCasterBrush}" CornerRadius="{TemplateBinding CornerRadius}" Visibility="Collapsed" IsHitTestVisible="False">
      <Border.Effect>
-      <DropShadowEffect Color="{DynamicResource SpatialShadowColor}" BlurRadius="{DynamicResource SpatialLiftBlur}" ShadowDepth="{DynamicResource SpatialLiftDepth}" Direction="270" Opacity="{DynamicResource SpatialLiftOpacity}" RenderingBias="Quality" />
+      <DropShadowEffect Color="{DynamicResource SpatialShadowColor}" BlurRadius="{DynamicResource SpatialLiftBlur}" ShadowDepth="{DynamicResource SpatialLiftDepth}" Direction="255" Opacity="{DynamicResource SpatialLiftOpacity}" RenderingBias="Quality" />
      </Border.Effect>
     </Border>
     <Border x:Name="Face" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}">
@@ -100,7 +100,7 @@
   <Setter Property="Background" Value="{DynamicResource SurfaceSecondary}" />
   <Setter Property="Padding" Value="{DynamicResource PaddingPlate}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
-   <spatial:SpatialSurface Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ControlCornerRadius}" TintBrush="{DynamicResource SpatialPlaneBrush}" StrokeBrush="{DynamicResource SpatialStrokeBrush}" LuminosityBrush="{DynamicResource SpatialEdgeBrush}">
+   <spatial:SpatialSurface ShowTint="False" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ControlCornerRadius}" TintBrush="{DynamicResource SpatialPlaneBrush}" StrokeBrush="{DynamicResource SpatialStrokeBrush}" LuminosityBrush="{DynamicResource SpatialEdgeBrush}">
     <ContentPresenter />
    </spatial:SpatialSurface>
   </ControlTemplate></Setter.Value></Setter>
@@ -116,7 +116,7 @@
  <Style x:Key="ElevatedPlate" TargetType="ContentControl" BasedOn="{StaticResource Plate}">
   <Setter Property="Background" Value="{DynamicResource SurfaceElevated}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
-   <spatial:SpatialSurface ShowTint="False" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ControlCornerRadius}" TintBrush="{DynamicResource SpatialPlaneBrush}" StrokeBrush="{DynamicResource SpatialStrokeBrush}" LuminosityBrush="{DynamicResource SpatialEdgeBrush}">
+   <spatial:SpatialSurface Lifted="True" ShowTint="False" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ControlCornerRadius}" TintBrush="{DynamicResource SpatialPlaneBrush}" StrokeBrush="{DynamicResource SpatialStrokeBrush}" LuminosityBrush="{DynamicResource SpatialEdgeBrush}">
     <ContentPresenter />
    </spatial:SpatialSurface>
   </ControlTemplate></Setter.Value></Setter>

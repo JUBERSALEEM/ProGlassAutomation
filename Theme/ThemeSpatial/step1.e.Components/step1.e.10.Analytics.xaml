@@ -5,7 +5,7 @@
   <Setter Property="Margin" Value="{DynamicResource MarginPanel}" />
   <Setter Property="Focusable" Value="False" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
-   <spatial:SpatialSurface ShowTint="False" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}" TintBrush="{DynamicResource SpatialPlaneBrush}" StrokeBrush="{DynamicResource SpatialStrokeBrush}" LuminosityBrush="{DynamicResource SpatialEdgeBrush}">
+   <spatial:SpatialSurface Lifted="True" ShowTint="False" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource CardCornerRadius}" TintBrush="{DynamicResource SpatialPlaneBrush}" StrokeBrush="{DynamicResource SpatialStrokeBrush}" LuminosityBrush="{DynamicResource SpatialEdgeBrush}">
     <ContentPresenter />
    </spatial:SpatialSurface>
   </ControlTemplate></Setter.Value></Setter>
@@ -36,7 +36,7 @@
   <Setter Property="Padding" Value="{DynamicResource PaddingCard}" />
   <Setter Property="HorizontalAlignment" Value="Stretch" /><Setter Property="VerticalAlignment" Value="Stretch" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="analytics:BentoKpi">
-   <spatial:SpatialSurface x:Name="Pod" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource CardCornerRadius}" TintBrush="{DynamicResource SpatialPlaneBrush}" StrokeBrush="{DynamicResource SpatialStrokeBrush}" LuminosityBrush="{DynamicResource SpatialEdgeBrush}">
+   <spatial:SpatialSurface x:Name="Pod" Lifted="True" ShowTint="False" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource CardCornerRadius}" TintBrush="{DynamicResource SpatialPlaneBrush}" StrokeBrush="{DynamicResource SpatialStrokeBrush}" LuminosityBrush="{DynamicResource SpatialEdgeBrush}">
     <Grid>
      <Grid.ColumnDefinitions>
       <ColumnDefinition Width="Auto"/>
