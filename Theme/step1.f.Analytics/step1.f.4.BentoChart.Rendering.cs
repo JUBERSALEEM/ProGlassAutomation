@@ -75,7 +75,7 @@ public sealed partial class BentoChart
         cartesian.TooltipBackgroundPaint = Paint(TooltipSurface); cartesian.TooltipTextPaint = TextPaint(TooltipText);
         pie.TooltipBackgroundPaint = Paint(TooltipSurface); pie.TooltipTextPaint = TextPaint(TooltipText);
         cartesian.TooltipTextSize = FontSize; pie.TooltipTextSize = FontSize;
-        center.Foreground = AxisBrush; message.Foreground = AxisBrush; summary.Foreground = AxisBrush;
+        center.Foreground = AxisBrush; message.Foreground = AxisBrush; summary.Foreground = AxisBrush; values.Foreground = AxisBrush;
         bool horizontal = data.Kind == ChartKind.HorizontalBars;
         var category = new Axis
         {

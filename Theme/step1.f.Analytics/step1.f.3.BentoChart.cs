@@ -53,8 +53,10 @@ public sealed partial class BentoChart
         plot.Children.Add(pie);
         plot.Children.Add(center);
         inspectToggle.VerticalAlignment = VerticalAlignment.Center;
+        inspectToggle.HorizontalAlignment = HorizontalAlignment.Left;
         inspectToggle.MinHeight = 0;
         inspectToggle.Padding = new Thickness(4, 0, 0, 0);
+        values.Margin = new Thickness(0, 8, 0, 0);
         DockPanel.SetDock(inspectToggle, Dock.Right);
         footer.Children.Add(inspectToggle);
         footer.Children.Add(legend);
@@ -68,49 +70,83 @@ public sealed partial class BentoChart
         inspectToggle.Unchecked += (_, _) => values.Visibility = Visibility.Collapsed;
         Content = root;
         center.SetBinding(TextBlock.FontSizeProperty, new Binding(nameof(CenterFontSize)) { Source = this });
+        values.SetBinding(TextBlock.ForegroundProperty, new Binding(nameof(AxisBrush)) { Source = this });
+        summary.SetBinding(TextBlock.ForegroundProperty, new Binding(nameof(AxisBrush)) { Source = this });
+        message.SetBinding(TextBlock.ForegroundProperty, new Binding(nameof(AxisBrush)) { Source = this });
         Loaded += (_, _) => Schedule(true);
         IsVisibleChanged += (_, _) => { if (IsVisible) Schedule(false); };
         SizeChanged += (_, _) => { if (IsLoaded) Schedule(false); };
     }
 
     /// <summary>
-    /// Donut: plot | legend (Home Mix was a tall cell with the pie in the corner).
+    /// Donut: plot | four-tick legend, then inspect toggle, then source values.
+    /// The long "Show source values" label must not share the legend column (it zeroed the ticks).
     /// Cartesian: plot fills the card; PlotHeight is not a MaxHeight cap (that left hollow Chart Lab / KPI strips).
     /// </summary>
     private void LayoutChrome(bool circular)
     {
         bool side = circular && ShowLegend;
-        if (side == sideLegend && root.RowDefinitions.Count > 0) return;
+        if (side == sideLegend && root.RowDefinitions.Count == 5) return;
         sideLegend = side;
         root.RowDefinitions.Clear();
         root.ColumnDefinitions.Clear();
         legend.Orientation = side ? Orientation.Vertical : Orientation.Horizontal;
+        legend.VerticalAlignment = VerticalAlignment.Top;
         if (side)
         {
-            root.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1.1, GridUnitType.Star) });
-            root.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.9, GridUnitType.Star) });
+            Host(root, legend);
+            Host(root, inspectToggle);
+            inspectToggle.HorizontalAlignment = HorizontalAlignment.Left;
+            inspectToggle.Margin = new Thickness(0, 8, 0, 0);
+            footer.Visibility = Visibility.Collapsed;
+            root.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star), MinWidth = 96 });
+            root.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto, MinWidth = 108 });
             root.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
             root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            Grid.SetRow(plot, 0); Grid.SetColumn(plot, 0); Grid.SetColumnSpan(plot, 1);
-            Grid.SetRow(footer, 0); Grid.SetColumn(footer, 1); Grid.SetColumnSpan(footer, 1);
-            Grid.SetRow(message, 1); Grid.SetColumn(message, 0); Grid.SetColumnSpan(message, 2);
-            Grid.SetRow(summary, 2); Grid.SetColumn(summary, 0); Grid.SetColumnSpan(summary, 2);
-            Grid.SetRow(values, 2); Grid.SetColumn(values, 0); Grid.SetColumnSpan(values, 2);
+            root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            Place(plot, 0, 0, 1);
+            Place(legend, 0, 1, 1);
+            Place(inspectToggle, 1, 0, 2);
+            Place(message, 2, 0, 2);
+            Place(summary, 3, 0, 2);
+            Place(values, 4, 0, 2);
         }
         else
         {
+            Host(footer, inspectToggle);
+            Host(footer, legend);
+            DockPanel.SetDock(inspectToggle, Dock.Right);
+            inspectToggle.HorizontalAlignment = HorizontalAlignment.Right;
+            inspectToggle.Margin = new Thickness(4, 0, 0, 0);
+            footer.Visibility = Visibility.Visible;
             root.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             root.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
             root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            Grid.SetRow(plot, 0); Grid.SetColumn(plot, 0); Grid.SetColumnSpan(plot, 1);
-            Grid.SetRow(footer, 1); Grid.SetColumn(footer, 0); Grid.SetColumnSpan(footer, 1);
-            Grid.SetRow(message, 2); Grid.SetColumn(message, 0); Grid.SetColumnSpan(message, 1);
-            Grid.SetRow(summary, 3); Grid.SetColumn(summary, 0); Grid.SetColumnSpan(summary, 1);
-            Grid.SetRow(values, 3); Grid.SetColumn(values, 0); Grid.SetColumnSpan(values, 1);
+            root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            Place(plot, 0, 0, 1);
+            Place(footer, 1, 0, 1);
+            Place(message, 2, 0, 1);
+            Place(summary, 3, 0, 1);
+            Place(values, 4, 0, 1);
         }
+    }
+
+    private static void Host(Panel parent, UIElement child)
+    {
+        if (ReferenceEquals(child.Parent, parent)) return;
+        if (child.Parent is Panel current) current.Children.Remove(child);
+        parent.Children.Add(child);
+    }
+
+    private static void Place(UIElement child, int row, int column, int columnSpan)
+    {
+        Grid.SetRow(child, row);
+        Grid.SetColumn(child, column);
+        Grid.SetColumnSpan(child, columnSpan);
     }
 
     protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
@@ -151,13 +187,16 @@ public sealed partial class BentoChart
         if (!ready)
         {
             cartesian.Series = []; pie.Series = []; rendered = []; legend.Children.Clear();
-            dataDirty = true; inspectToggle.Visibility = Visibility.Collapsed; footer.Visibility = Visibility.Collapsed;
+            dataDirty = true;
+            inspectToggle.Visibility = Visibility.Collapsed;
+            legend.Visibility = Visibility.Collapsed;
+            footer.Visibility = Visibility.Collapsed;
             values.Text = ""; message.Visibility = Visibility.Visible;
             return;
         }
         inspectToggle.Visibility = ShowLegend ? Visibility.Visible : Visibility.Collapsed;
         legend.Visibility = ShowLegend ? Visibility.Visible : Visibility.Collapsed;
-        footer.Visibility = ShowLegend ? Visibility.Visible : Visibility.Collapsed;
+        footer.Visibility = ShowLegend && !sideLegend ? Visibility.Visible : Visibility.Collapsed;
         message.Visibility = ready ? Visibility.Collapsed : Visibility.Visible;
         if (dataDirty)
         {
@@ -183,8 +222,10 @@ public sealed partial class BentoChart
             swatch.SetBinding(BackgroundProperty, new Binding($"Series{i + 1}") { Source = this });
             swatch.SetBinding(WidthProperty, new Binding(nameof(FontSize)) { Source = this });
             swatch.SetBinding(HeightProperty, new Binding(nameof(FontSize)) { Source = this });
+            var caption = new TextBlock { Text = "  " + data.Series[i].Name };
+            caption.SetBinding(TextBlock.ForegroundProperty, new Binding(nameof(Foreground)) { Source = this });
             var label = new StackPanel { Orientation = Orientation.Horizontal };
-            label.Children.Add(swatch); label.Children.Add(new TextBlock { Text = "  " + data.Series[i].Name });
+            label.Children.Add(swatch); label.Children.Add(caption);
             var item = new CheckBox
             {
                 Content = label,
