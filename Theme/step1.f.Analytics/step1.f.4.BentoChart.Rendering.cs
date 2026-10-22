@@ -22,16 +22,21 @@ public sealed partial class BentoChart
         series.Name = source.Name;
         return series;
     }).ToArray();
-    private static SKColor ColorOf(Brush brush)
+    private static SKColor ColorOf(Brush? brush)
     {
-        if (brush is not SolidColorBrush solid) throw new InvalidOperationException("Chart paint roles require SolidColorBrush values.");
+        if (brush is not SolidColorBrush solid) return new SKColor(0, 0, 0, 0);
         var c = solid.Color;
         return new SKColor(c.R, c.G, c.B, c.A);
     }
-    private static SolidColorPaint Paint(Brush brush, double thickness = 1) => new(ColorOf(brush)) { StrokeThickness = (float)thickness };
-    private SolidColorPaint TextPaint(Brush brush) => new(ColorOf(brush)) { SKTypeface = SKTypeface.FromFamilyName(FontFamily.Source) };
+    private static SolidColorPaint Paint(Brush? brush, double thickness = 1) => new(ColorOf(brush)) { StrokeThickness = (float)thickness };
+    private SolidColorPaint TextPaint(Brush? brush)
+    {
+        string family = FontFamily?.Source ?? "Segoe UI";
+        return new SolidColorPaint(ColorOf(brush)) { SKTypeface = SKTypeface.FromFamilyName(family) };
+    }
     private void ApplyPaints(ChartDataset data)
     {
+        if (Series1 is null) return;
         Brush[] palette = [Series1, Series2, Series3, Series4];
         for (int i = 0; i < rendered.Length; i++)
         {

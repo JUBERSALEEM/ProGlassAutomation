@@ -39,7 +39,7 @@
    <liquid:LiquidGlassSurface x:Name="Pod" Rank="Card" Background="{DynamicResource TransparentBrush}" CornerRadius="{DynamicResource CardCornerRadius}">
     <DockPanel>
      <Border x:Name="Rail" DockPanel.Dock="Left" Width="{DynamicResource SpacingSmall}" Background="{DynamicResource AccentPrimary}" CornerRadius="{DynamicResource ChipCornerRadius}" Margin="{DynamicResource PaddingCompact}" />
-     <analytics:BentoChart x:Name="SparkPlot" DockPanel.Dock="Right" Width="{DynamicResource BentoRowHeight}" Data="{Binding Spark, RelativeSource={RelativeSource TemplatedParent}}" ShowAxis="False" ShowGrid="False" ShowLegend="False" PlotHeight="72" VerticalAlignment="Stretch" Margin="{DynamicResource PaddingCompact}" />
+     <analytics:BentoChart x:Name="SparkPlot" DockPanel.Dock="Right" Width="{DynamicResource BentoRowHeight}" MinWidth="{DynamicResource ControlMinWidth}" Data="{Binding Spark, RelativeSource={RelativeSource TemplatedParent}}" ShowAxis="False" ShowGrid="False" ShowLegend="False" VerticalAlignment="Stretch" Margin="{DynamicResource PaddingCompact}" />
      <StackPanel Margin="{TemplateBinding Padding}" VerticalAlignment="Center">
       <TextBlock Text="{TemplateBinding Label}" Foreground="{DynamicResource TextMuted}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="Wrap" />
       <TextBlock x:Name="ValueText" Text="{TemplateBinding Value}" FontSize="{DynamicResource FontSizeDisplay}" FontWeight="{DynamicResource FontWeightHeading}" TextWrapping="Wrap" />
