@@ -26,6 +26,7 @@
      </WrapPanel>
      <TextBlock Text="Import applies to live application resources. Save persists. Discard restores the last saved package. Invalid or oversized files are rejected." Style="{DynamicResource Caption}"/>
      <TextBlock Text="{Binding ThemeError}" Foreground="{DynamicResource StatusError}" AutomationProperties.LiveSetting="Assertive" Margin="{DynamicResource MarginItem}"/>
+     <TextBlock Text="{Binding StoreWarning}" Foreground="{DynamicResource StatusError}" AutomationProperties.LiveSetting="Polite" Margin="{DynamicResource MarginItem}"/>
      <WrapPanel Margin="{DynamicResource MarginItem}">
       <Button Content="Open Texts Studio" Command="{Binding ShowTexts}" Margin="{DynamicResource MarginInline}" AutomationProperties.Name="Open Texts Studio"/>
       <Button Content="Open Colors Studio" Command="{Binding ShowColors}" Margin="{DynamicResource MarginInline}" AutomationProperties.Name="Open Colors Studio"/>

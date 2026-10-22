@@ -22,8 +22,11 @@ public static class CustomizationStore
         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
         "ProGlassAutomation", "bento-customization.json");
 
+    public static string? LoadWarning { get; private set; }
+
     public static SavedCustomization Load()
     {
+        LoadWarning = null;
         try
         {
             if (!File.Exists(FilePath)) return Defaults();
@@ -31,6 +34,7 @@ public static class CustomizationStore
         }
         catch (Exception ex) when (ex is IOException or JsonException or ArgumentException or InvalidOperationException)
         {
+            LoadWarning = "Saved customization could not be loaded. Defaults applied. " + ex.Message;
             return Defaults();
         }
     }
@@ -42,6 +46,8 @@ public static class CustomizationStore
         if (!info.Exists) throw new FileNotFoundException("Theme file not found.", path);
         if (info.Length > MaxBytes) throw new ArgumentException("Theme files must be at most 64 KB.");
         var json = File.ReadAllText(path);
+        if (LooksLikeMarkup(json))
+            throw new ArgumentException("Theme files must be JSON customization data, not XAML or markup.");
         var loaded = JsonSerializer.Deserialize<SavedCustomization>(json, Options);
         if (loaded is null || loaded.Version != 2) throw new ArgumentException("Unsupported or empty ProGlass theme file.");
         if (loaded.Preferences is null || loaded.Preferences.Validate() is not null) throw new ArgumentException("Theme file contains invalid Bento preferences.");
@@ -108,6 +114,12 @@ public static class CustomizationStore
         {
             if (File.Exists(tmp)) File.Delete(tmp);
         }
+    }
+
+    private static bool LooksLikeMarkup(string text)
+    {
+        var start = text.AsSpan().TrimStart();
+        return start.Length > 0 && start[0] == '<';
     }
 
     public static SavedCustomization Defaults() => new();

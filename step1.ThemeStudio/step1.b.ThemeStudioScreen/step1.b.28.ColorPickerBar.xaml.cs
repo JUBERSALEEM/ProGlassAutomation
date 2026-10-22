@@ -28,13 +28,36 @@ public partial class ColorPickerBar : UserControl
     public ColorPickerBar()
     {
         InitializeComponent();
-        Loaded += (_, _) => BuildBasic();
+        Loaded += (_, _) =>
+        {
+            BuildBasic();
+            BuildSpectrum();
+        };
     }
 
     public string SelectedHex
     {
         get => (string)GetValue(SelectedHexProperty);
         set => SetValue(SelectedHexProperty, value);
+    }
+
+    private void BuildSpectrum()
+    {
+        var hue = new LinearGradientBrush { StartPoint = new Point(0, 0), EndPoint = new Point(1, 0) };
+        hue.GradientStops.Add(new GradientStop(Color.FromRgb(255, 0, 0), 0));
+        hue.GradientStops.Add(new GradientStop(Color.FromRgb(255, 255, 0), 0.17));
+        hue.GradientStops.Add(new GradientStop(Color.FromRgb(0, 255, 0), 0.33));
+        hue.GradientStops.Add(new GradientStop(Color.FromRgb(0, 255, 255), 0.5));
+        hue.GradientStops.Add(new GradientStop(Color.FromRgb(0, 0, 255), 0.67));
+        hue.GradientStops.Add(new GradientStop(Color.FromRgb(255, 0, 255), 0.83));
+        hue.GradientStops.Add(new GradientStop(Color.FromRgb(255, 0, 0), 1));
+        hue.Freeze();
+        HueStrip.Background = hue;
+        var veil = new LinearGradientBrush { StartPoint = new Point(0, 0), EndPoint = new Point(0, 1) };
+        veil.GradientStops.Add(new GradientStop(Color.FromArgb(0, 255, 255, 255), 0));
+        veil.GradientStops.Add(new GradientStop(Color.FromRgb(255, 255, 255), 1));
+        veil.Freeze();
+        WhiteVeil.Background = veil;
     }
 
     private void BuildBasic()

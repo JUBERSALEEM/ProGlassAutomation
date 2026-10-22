@@ -1,5 +1,15 @@
 # Changelog (theme-engine program)
 
+## 2026-10-22 — Stage B freeze + Stage C engine gaps
+
+- Freeze: `STAGE_B_FREEZE.md` (B01–B08).
+- Identity metadata `ThemeCatalog.Sequence` (9) without registering themes 6–9.
+- `ThemeEditSession` façade on store v2; Studio save/discard wired; no second JSON.
+- Colors Studio D04: token Margin + `{Binding .}`; ColorPickerBar hue spectrum moved to code-behind (hex was hidden behind the Margin first-fail). `verify_sources` rule unchanged.
+- Import rejects XAML/markup. Load warning surfaced in Studio.
+- `docs/04` and `docs/06` marked superseded. Isolation still five packages.
+- **No Glassmorphism. ThemeService Overlay/slot-replace unchanged. Not pushed.**
+
 ## 2026-10-22 — First run (research and planning)
 
 - Created `docs/theme-engine/` planning set. **No theme engine or Glassmorphism code.**

@@ -64,6 +64,17 @@ for name in ('ThemePicker', 'AccentPicker', 'DensityPicker', 'ShapePicker', 'Typ
 for prop in ('SelectedAccent', 'SelectedDensity', 'SelectedShape', 'SelectedTypography'):
     assert f'Binding {prop}' in settings and f'public ' in (screen/'step1.b.17.Customization.cs').read_text()
 assert 'Binding IsDark' in settings and 'Binding ResetDesign' in settings
+assert 'Binding StoreWarning' in settings
+catalog = (ROOT / 'Theme/step1.a.ThemeEngine/step1.a.6.ThemeCatalog.cs').read_text()
+assert catalog.count('new ThemeDefinition(') == 5 and catalog.count('new ThemeIdentity(') == 9
+session = (ROOT / 'Theme/step1.g.Customization/step1.g.5.ThemeEditSession.cs').read_text()
+assert 'class ThemeEditSession' in session and 'CustomizationStore.Save' in session
+customization = (screen / 'step1.b.17.Customization.cs').read_text()
+assert 'ThemeEditSession.Begin' in customization and 'PersistSaved' in customization
+assert 'class ThemeNotificationException' in (ROOT / 'Theme/step1.a.ThemeEngine/step1.a.7.ThemeNotificationException.cs').read_text()
+assert 'ThemeNotificationException' in (ROOT / 'Theme/step1.a.ThemeEngine/step1.a.2.ThemeService.cs').read_text()
+assert 'ReduceTransparency' not in (ROOT / 'Theme/step1.a.ThemeEngine/step1.a.1.ThemeContract.cs').read_text(), 'Keep ReduceTransparency theme-owned; do not glass other themes'
+assert not (ROOT / 'Theme/ThemeGlassmorphism').exists()
 texts = (screen/'step1.b.26.TextsStudioView.xaml').read_text()
 colors = (screen/'step1.b.27.ColorsStudioView.xaml').read_text()
 assert 'x:Name="FontPicker"' in texts and 'Binding SelectedFontFamily' in texts

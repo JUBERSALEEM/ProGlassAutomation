@@ -49,6 +49,9 @@ internal static class CustomizationPersistenceChecks
         File.WriteAllText(tmp, "{}");
         try { CustomizationStore.ReadFile(tmp); throw new Exception("Empty import must fail"); }
         catch (ArgumentException) { }
+        File.WriteAllText(tmp, "<ResourceDictionary xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"></ResourceDictionary>");
+        try { CustomizationStore.ReadFile(tmp); throw new Exception("XAML import must fail"); }
+        catch (ArgumentException) { }
         File.Delete(tmp);
         var json = System.Text.Json.JsonSerializer.Serialize(saved, new System.Text.Json.JsonSerializerOptions{ WriteIndented=true, Converters={ new System.Text.Json.Serialization.JsonStringEnumConverter()}});
         var reloaded = System.Text.Json.JsonSerializer.Deserialize<SavedCustomization>(json, new System.Text.Json.JsonSerializerOptions{ Converters={ new System.Text.Json.Serialization.JsonStringEnumConverter()}, PropertyNameCaseInsensitive=true});

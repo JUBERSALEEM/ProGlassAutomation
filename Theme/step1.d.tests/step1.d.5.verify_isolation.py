@@ -9,6 +9,11 @@ X = '{http://schemas.microsoft.com/winfx/2006/xaml}'
 assert not list(ENGINE.rglob('*.xaml')), 'Shared engine must not own visual dictionaries'
 packages = sorted(p for p in (ROOT / 'Theme').iterdir() if p.is_dir() and p.name.startswith('Theme'))
 assert {p.name for p in packages} == {'ThemeBento', 'ThemeClaymorphism', 'ThemeFluent', 'ThemeNeumorphism', 'ThemeLiquidGlass'}, 'Registered visual packages only'
+assert not (ROOT / 'Theme/ThemeGlassmorphism').exists(), 'Do not add Theme 6 folders before Liquid is accepted'
+catalog = (ENGINE / 'step1.a.6.ThemeCatalog.cs').read_text()
+assert catalog.count('new ThemeDefinition(') == 5, 'Installed remains five complete packages'
+assert catalog.count('new ThemeIdentity(') == 9, 'Identity sequence is nine themes'
+assert 'ThemeImplementationStatus.Planned' in catalog and 'Glassmorphism' in catalog
 for path in ROOT.glob('Theme/**/*.xaml'):
     assert any(path.resolve().is_relative_to(pkg.resolve()) for pkg in packages), f'Visual dictionary outside a theme package: {path}'
 

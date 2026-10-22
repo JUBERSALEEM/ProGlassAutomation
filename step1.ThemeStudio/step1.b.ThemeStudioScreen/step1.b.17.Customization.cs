@@ -26,6 +26,7 @@ public sealed partial class ThemeStudioViewModel
     private string selectedColorRole = ColorPlateService.Roles[0];
     private string colorRoleHexDraft = "";
     private SavedCustomization lastSaved = CustomizationStore.Load();
+    private ThemeEditSession session = null!;
     private BentoCustomizationState draft => extended;
     private int selectedWorkspace = 1;
     private bool isMenuOpen = true;
@@ -331,6 +332,14 @@ public sealed partial class ThemeStudioViewModel
     public ICommand ResetColors { get; private set; } = null!;
     public ICommand ClearColorOverride { get; private set; } = null!;
 
+    public string StoreWarning => CustomizationStore.LoadWarning ?? "";
+
+    private void PersistSaved(SavedCustomization state)
+    {
+        session.Save(state);
+        lastSaved = session.Baseline;
+    }
+
     private void InitializeCustomization()
     {
         // Restore last saved; if none, defaults
@@ -343,6 +352,9 @@ public sealed partial class ThemeStudioViewModel
         colors = lastSaved.Colors ?? new ColorPlateState();
         colorRoleHexDraft = ColorPlateService.ResolvedHex(colors, lastSaved.Appearance, selectedColorRole);
         if (lastSaved.Geometry is null) lastSaved = lastSaved with { Geometry = geometry };
+        session = ThemeEditSession.Begin(lastSaved);
+        if (!string.IsNullOrEmpty(CustomizationStore.LoadWarning))
+            ThemeError = CustomizationStore.LoadWarning;
         preferences = extended.ToLegacy();
         var restored = ThemeService.InstalledThemes.Contains(lastSaved.Theme) ? lastSaved.Theme : ThemeService.Bento;
         try
@@ -379,8 +391,7 @@ public sealed partial class ThemeStudioViewModel
             var candidate = CaptureLive();
             try
             {
-                CustomizationStore.Save(candidate);
-                lastSaved = candidate;
+                PersistSaved(candidate);
                 ThemeError = "";
                 Feedback = "Customization saved — will restore on next launch.";
             }
@@ -393,7 +404,8 @@ public sealed partial class ThemeStudioViewModel
         }, () => extended.Validate() is null && (clay ?? new ClayCustomizationState()).Validate() is null && (neumorph ?? new NeumorphCustomizationState()).Validate() is null && (liquid ?? new LiquidCustomizationState()).Validate() is null && font.Validate() is null && colors.Validate() is null);
         DiscardChanges = new DelegateCommand(() =>
         {
-            RestoreSaved(lastSaved);
+            RestoreSaved(session.Revert());
+            lastSaved = session.Baseline;
             Feedback = "Discarded unsaved changes.";
         }, () => IsDirty);
         ImportCustomization = new DelegateCommand(() =>
@@ -512,7 +524,7 @@ public sealed partial class ThemeStudioViewModel
             {
                 ApplyClayState(new ClayCustomizationState());
                 lastSaved = lastSaved with { Clay = new ClayCustomizationState(), Theme = ThemeService.Clay, Appearance = themes.ActiveAppearance, Geometry = geometry };
-                CustomizationStore.Save(lastSaved);
+                PersistSaved(lastSaved);
                 Feedback = "Clay restored to defaults.";
                 return;
             }
@@ -520,7 +532,7 @@ public sealed partial class ThemeStudioViewModel
             {
                 ApplyNeumorphState(new NeumorphCustomizationState());
                 lastSaved = lastSaved with { Neumorph = new NeumorphCustomizationState(), Theme = ThemeService.Neumorphism, Appearance = themes.ActiveAppearance, Geometry = geometry };
-                CustomizationStore.Save(lastSaved);
+                PersistSaved(lastSaved);
                 Feedback = "Neumorphism restored to defaults.";
                 return;
             }
@@ -528,13 +540,13 @@ public sealed partial class ThemeStudioViewModel
             {
                 ApplyLiquidState(new LiquidCustomizationState());
                 lastSaved = lastSaved with { Liquid = new LiquidCustomizationState(), Theme = ThemeService.LiquidGlass, Appearance = themes.ActiveAppearance, Geometry = geometry };
-                CustomizationStore.Save(lastSaved);
+                PersistSaved(lastSaved);
                 Feedback = "Liquid Glass restored to defaults.";
                 return;
             }
             ApplyState(new BentoCustomizationState());
             lastSaved = new SavedCustomization();
-            CustomizationStore.Save(lastSaved);
+            PersistSaved(lastSaved);
             Feedback = "Theme restored to Bento defaults.";
         }, () => CanCustomize);
         PreviewDefault = new DelegateCommand(() =>
@@ -662,7 +674,7 @@ public sealed partial class ThemeStudioViewModel
                 clayList.RemoveAll(p => p.Name == n);
                 clayList.Add(new ClayNamedPreset(n, clay, themes.ActiveAppearance));
                 lastSaved = lastSaved with { ClayPresets = clayList, Clay = clay, Theme = themes.ActiveTheme, Appearance = themes.ActiveAppearance };
-                CustomizationStore.Save(lastSaved);
+                PersistSaved(lastSaved);
                 PresetNameInput = "";
                 Feedback = $"Clay preset saved: {n}";
                 Changed(nameof(ThemeError));
@@ -682,7 +694,7 @@ public sealed partial class ThemeStudioViewModel
                 neuList.RemoveAll(p => p.Name == n);
                 neuList.Add(new NeumorphNamedPreset(n, neumorph, themes.ActiveAppearance));
                 lastSaved = lastSaved with { NeumorphPresets = neuList, Neumorph = neumorph, Theme = themes.ActiveTheme, Appearance = themes.ActiveAppearance };
-                CustomizationStore.Save(lastSaved);
+                PersistSaved(lastSaved);
                 PresetNameInput = "";
                 Feedback = $"Neumorph preset saved: {n}";
                 Changed(nameof(ThemeError));
@@ -702,7 +714,7 @@ public sealed partial class ThemeStudioViewModel
                 glassList.RemoveAll(p => p.Name == n);
                 glassList.Add(new LiquidNamedPreset(n, liquid, themes.ActiveAppearance));
                 lastSaved = lastSaved with { LiquidPresets = glassList, Liquid = liquid, Theme = themes.ActiveTheme, Appearance = themes.ActiveAppearance };
-                CustomizationStore.Save(lastSaved);
+                PersistSaved(lastSaved);
                 PresetNameInput = "";
                 Feedback = $"Liquid Glass preset saved: {n}";
                 Changed(nameof(ThemeError));
@@ -720,7 +732,7 @@ public sealed partial class ThemeStudioViewModel
             list.RemoveAll(p => p.Name == n);
             list.Add(new NamedPreset(n, extended, themes.ActiveAppearance));
             lastSaved = lastSaved with { CustomPresets = list };
-            CustomizationStore.Save(lastSaved);
+            PersistSaved(lastSaved);
             PresetNameInput = "";
             Feedback = $"Preset saved: {n}";
             Changed(nameof(ThemeError));
@@ -733,7 +745,7 @@ public sealed partial class ThemeStudioViewModel
                 var clayList = (lastSaved.ClayPresets ?? []).ToList();
                 clayList.RemoveAll(p => p.Name == name);
                 lastSaved = lastSaved with { ClayPresets = clayList };
-                CustomizationStore.Save(lastSaved);
+                PersistSaved(lastSaved);
                 Feedback = $"Deleted clay preset: {name}";
                 Changed(nameof(ClayCustomPresets));
                 Changed(nameof(ClayPresetNames));
@@ -745,7 +757,7 @@ public sealed partial class ThemeStudioViewModel
                 var neuList = (lastSaved.NeumorphPresets ?? []).ToList();
                 neuList.RemoveAll(p => p.Name == name);
                 lastSaved = lastSaved with { NeumorphPresets = neuList };
-                CustomizationStore.Save(lastSaved);
+                PersistSaved(lastSaved);
                 Feedback = $"Deleted neumorph preset: {name}";
                 Changed(nameof(NeumorphCustomPresets));
                 Changed(nameof(NeumorphPresetNames));
@@ -757,7 +769,7 @@ public sealed partial class ThemeStudioViewModel
                 var glassList = (lastSaved.LiquidPresets ?? []).ToList();
                 glassList.RemoveAll(p => p.Name == name);
                 lastSaved = lastSaved with { LiquidPresets = glassList };
-                CustomizationStore.Save(lastSaved);
+                PersistSaved(lastSaved);
                 Feedback = $"Deleted liquid glass preset: {name}";
                 Changed(nameof(LiquidCustomPresets));
                 Changed(nameof(LiquidPresetNames));
@@ -767,7 +779,7 @@ public sealed partial class ThemeStudioViewModel
             var list = (lastSaved.CustomPresets ?? []).ToList();
             list.RemoveAll(p => p.Name == name);
             lastSaved = lastSaved with { CustomPresets = list };
-            CustomizationStore.Save(lastSaved);
+            PersistSaved(lastSaved);
             Feedback = $"Deleted preset: {name}";
         });
         RenamePreset = new DelegateCommand<(string oldName, string newName)>(pair =>
@@ -783,7 +795,7 @@ public sealed partial class ThemeStudioViewModel
                 {
                     clayList[clayIdx] = clayList[clayIdx] with { Name = n };
                     lastSaved = lastSaved with { ClayPresets = clayList };
-                    CustomizationStore.Save(lastSaved);
+                    PersistSaved(lastSaved);
                     Feedback = $"Renamed to {n}";
                     Changed(nameof(ClayCustomPresets));
                     Changed(nameof(ClayPresetNames));
@@ -799,7 +811,7 @@ public sealed partial class ThemeStudioViewModel
                 {
                     neuList[neuIdx] = neuList[neuIdx] with { Name = n };
                     lastSaved = lastSaved with { NeumorphPresets = neuList };
-                    CustomizationStore.Save(lastSaved);
+                    PersistSaved(lastSaved);
                     Feedback = $"Renamed to {n}";
                     Changed(nameof(NeumorphCustomPresets));
                     Changed(nameof(NeumorphPresetNames));
@@ -815,7 +827,7 @@ public sealed partial class ThemeStudioViewModel
                 {
                     glassList[glassIdx] = glassList[glassIdx] with { Name = n };
                     lastSaved = lastSaved with { LiquidPresets = glassList };
-                    CustomizationStore.Save(lastSaved);
+                    PersistSaved(lastSaved);
                     Feedback = $"Renamed to {n}";
                     Changed(nameof(LiquidCustomPresets));
                     Changed(nameof(LiquidPresetNames));
@@ -829,7 +841,7 @@ public sealed partial class ThemeStudioViewModel
             {
                 list[idx] = list[idx] with { Name = n };
                 lastSaved = lastSaved with { CustomPresets = list };
-                CustomizationStore.Save(lastSaved);
+                PersistSaved(lastSaved);
                 Feedback = $"Renamed to {n}";
             }
         });
@@ -984,8 +996,7 @@ public sealed partial class ThemeStudioViewModel
             ThemeError = "";
             if (persist)
             {
-                CustomizationStore.Save(package);
-                lastSaved = package;
+                PersistSaved(package);
             }
         }
         catch (ThemeNotificationException error)

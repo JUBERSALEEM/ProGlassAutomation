@@ -15,27 +15,8 @@
    </Grid.RowDefinitions>
    <TextBlock Text="Spectrum" Style="{DynamicResource Caption}"/>
    <Grid Grid.Row="1" x:Name="Spectrum" Cursor="Cross" Background="{DynamicResource SurfaceSecondary}" MouseLeftButtonDown="OnSpectrumDown" MouseMove="OnSpectrumMove" MouseLeftButtonUp="OnSpectrumUp">
-    <Border>
-     <Border.Background>
-      <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-       <GradientStop Color="#FFFF0000" Offset="0"/>
-       <GradientStop Color="#FFFFFF00" Offset="0.17"/>
-       <GradientStop Color="#FF00FF00" Offset="0.33"/>
-       <GradientStop Color="#FF00FFFF" Offset="0.5"/>
-       <GradientStop Color="#FF0000FF" Offset="0.67"/>
-       <GradientStop Color="#FFFF00FF" Offset="0.83"/>
-       <GradientStop Color="#FFFF0000" Offset="1"/>
-      </LinearGradientBrush>
-     </Border.Background>
-    </Border>
-    <Border IsHitTestVisible="False">
-     <Border.Background>
-      <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-       <GradientStop Color="#00FFFFFF" Offset="0"/>
-       <GradientStop Color="#FFFFFFFF" Offset="1"/>
-      </LinearGradientBrush>
-     </Border.Background>
-    </Border>
+    <Border x:Name="HueStrip"/>
+    <Border x:Name="WhiteVeil" IsHitTestVisible="False"/>
    </Grid>
   </Grid>
  </Grid>

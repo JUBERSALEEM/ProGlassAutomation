@@ -2,69 +2,76 @@
 
 **Time:** 2026-10-22  
 **Branch:** `arena/f1e0ac70-proglassautomation`  
-**HEAD before this docs commit:** `703797e`  
-**Run type:** first — research and planning **only**
+**Run type:** Stage B freeze + Stage C engine gaps  
+**Do not push/publish** unless the owner authorizes.
 
 ## Last completed
 
-Stage A (A01–A08) documentation.
+B01–B08 freeze document. C01–C12 source/docs. **No Glassmorphism. No Stage F.**
 
 ## Current phase
 
-Stop. Next implementation run starts at **B01** (identity model spec → then C01 Colors Margin) **or** continues Liquid visual (D01) if the owner sends more Home/Studio shots. **Do not start F (Glassmorphism).**
+Stop at C12. Next authorized work is either **Liquid visual (D01)** or **Stage E Studio completeness** after D01 policy. **Do not start F.**
 
 ## Work performed this run
 
-- Web research (WPF resources, blur/Effect, WCAG, glassmorphism a11y).
-- GitHub inspection of ExcelSticker theming.
-- Full relevant ProGlass audit (engine, five packages, store, Studio, tests).
-- Wrote the required `docs/theme-engine/*` files.
-- **Zero application C#/XAML changes in this run.**
+- Wrote `STAGE_B_FREEZE.md` (identity, tokens, slot protocol, session, persistence, glass criteria, Studio IA, ADR review).
+- C01: Colors Studio swatch `Margin="{DynamicResource MarginInline}"`, `Background="{Binding .}"`. Did not weaken `verify_sources`.
+- C02: `ThemeIdentity` + `Sequence` (9). `Installed` unchanged (5).
+- C03/C04: `ThemeEditSession` façade; VM persists only through the session.
+- C05: reject markup/XAML on import.
+- C06: Overlay left alone.
+- C07/C08: notification type kept; no shared ReduceTransparency.
+- C09: `CustomizationStore.LoadWarning` surfaced in Studio.
+- C10: isolation still five packages.
+- C11: supersession banners on `docs/04` and `docs/06`.
+- ThemeService slot-replace, Overlay, store v2 path/filename preserved.
 
 ## Files changed (this run)
 
-All new under `docs/theme-engine/`:
+- `docs/theme-engine/STAGE_B_FREEZE.md` (new)
+- `docs/theme-engine/PHASE_STATUS.md`, `CHANGELOG.md`, `DEFECT_REGISTER.md`, `RUN_CHECKPOINT.md`
+- `docs/04.Project-Roadmap.md`, `docs/06.Feature-Registry.md`
+- `Theme/step1.a.ThemeEngine/step1.a.6.ThemeCatalog.cs`
+- `Theme/step1.g.Customization/step1.g.5.ThemeEditSession.cs` (new)
+- `Theme/step1.g.Customization/step1.g.2.CustomizationStore.cs`
+- `step1.ThemeStudio/.../step1.b.17.Customization.cs`
+- `step1.ThemeStudio/.../step1.b.16.CustomizationPanel.xaml`
+- `step1.ThemeStudio/.../step1.b.27.ColorsStudioView.xaml`
+- `Theme/step1.d.tests/step1.d.5.verify_isolation.py`
+- `Theme/step1.d.tests/step1.d.6.verify_foundation.py`
+- `Theme/step1.d.tests/step1.d.9.CustomizationPersistenceChecks.cs`
 
-- RESEARCH_FINDINGS.md
-- SOURCE_REGISTER.md
-- ARCHITECTURE_DECISIONS.md
-- REPOSITORY_AUDIT.md
-- BASELINE_TEST_RESULTS.md
-- EXISTING_THEME_COVERAGE.md
-- MASTER_PLAN.md
-- PHASE_STATUS.md
-- TEST_STRATEGY.md
-- DEFECT_REGISTER.md
-- ACCEPTANCE_CRITERIA.md
-- CHANGELOG.md
-- RUN_CHECKPOINT.md (this file)
+## Commands
 
-## Commands actually executed
-
-- `git status`, `git log`, directory listings
-- `gh api` ExcelSticker tree + ThemeEngine.cs, ThemeEditSession.cs, CLAY_ENGINE.md
-- `web_search` / `fetch_page` (Learn overview partly gated)
-- Isolation/foundation were last run in the **previous** (Liquid) turn: PASS. verify_sources FAIL on Colors Margin (D04). Not re-run after docs-only edits.
+- `python3 Theme/step1.d.tests/step1.d.3.verify_sources.py` **PASS** (also runs isolation)
+- `python3 Theme/step1.d.tests/step1.d.5.verify_isolation.py` **PASS** (5 packages, Sequence 9)
+- `python3 Theme/step1.d.tests/step1.d.6.verify_foundation.py` **PASS** (64 Compile / 78 Page)
+- `python3 Theme/step1.d.tests/step1.d.4.CheckerRegression.py` **PASS** (14 mutations)
+- `dotnet` **NOT RUN**. Windows STA **NOT RUN**. No push.
 
 ## Build/test results this run
 
-Not applicable (markdown only). Prior: isolation PASS, foundation PASS, verify_sources FAIL (pre-existing), dotnet NOT RUN.
+| Command | Result |
+| --- | --- |
+| verify_sources | PASS (source). ColorPickerBar hue spectrum moved to code-behind so Studio XAML has no hex. |
+| isolation | PASS (source). Five packages. |
+| foundation | PASS (source). 64 Compile (added ThemeEditSession.cs). |
+| checker regression | PASS (source). |
+| ThemeTests / `dotnet` | NOT RUN |
+| Windows pixels | NOT RUN |
 
-## Known failures
+C01 also required ColorPickerBar (previously hidden because verify_sources stopped at Colors Margin). Checker was not weakened.
 
-D01 Liquid visual open. D04 verify_sources. D05 no Windows.
+## Risks / follow-ups
 
-## Unresolved questions
+- D01 Liquid visual still OPEN — Theme 6 blocked.
+- D02/D03 chart chrome still FIXED-UNVERIFIED (`703797e`).
+- D05 no Windows host.
+- Persistence/XAML reject test is source-only until ThemeTests run on Windows.
+- Session `Dispose` releases the one-editor lock; live revert is Discard via `Revert()` (VM is process-lifetime).
+- Gallery completeness badges remain E01.
 
-See RESEARCH_FINDINGS §6 (frost without GPU blur; DWM acrylic for Fluent deferred; auto high-contrast deferred).
+## Explicitly not done
 
-## Next action
-
-1. Read this checkpoint and `git status`.
-2. If owner wants Liquid pixels: stay on D01/D02 Windows confirmation — **no Theme 6**.
-3. If owner wants engine work: B01 then C01 (fix Colors Margin so source tests pass).
-4. Never start F01 until D01 CLOSED by the user.
-
-## Working tree
-
-Docs added; `image-search/` remains untracked and must stay out of Git.
+Glassmorphism dictionaries, extras engine for Fluent, second customization JSON, Layout Studio, push/PR, theme folders 6–9.
