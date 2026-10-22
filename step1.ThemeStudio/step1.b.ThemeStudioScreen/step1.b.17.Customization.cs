@@ -125,16 +125,25 @@ public sealed partial class ThemeStudioViewModel
         string.Join("  ·  ", ColorPlateService.StopsOf(colors.Plate).Select(stop => stop.Name + " " + stop.Hex));
     public string ColorRoleSummary =>
         string.Join("  ·  ", ColorPlateService.Roles.Select(role => role + " " + ColorPlateService.ResolvedHex(colors, themes.ActiveAppearance, role)));
-    public IReadOnlyList<string> CardTintStrengthChoices => ColorPlateService.CardTintStrengths;
+    public IReadOnlyList<string> CardGradientChoices => ColorPlateService.CardGradients;
     public IReadOnlyList<ThemeIdentity> AboutThemes => ThemeCatalog.Sequence;
-    public string SelectedCardTintStrength
+    public int CardSaturation
     {
-        get => ColorPlateService.StrengthName(colors.CardSaturation);
+        get => colors.CardSaturation;
         set
         {
-            int next = ColorPlateService.StrengthValue(value);
+            int next = Math.Clamp(value, 0, 100);
             if (next == colors.CardSaturation) return;
             UpdateColors(colors with { CardSaturation = next });
+        }
+    }
+    public string SelectedCardGradient
+    {
+        get => colors.CardGradient;
+        set
+        {
+            if (string.IsNullOrWhiteSpace(value) || value == colors.CardGradient) return;
+            UpdateColors(colors with { CardGradient = value });
         }
     }
     public string CardTintHex
@@ -147,10 +156,21 @@ public sealed partial class ThemeStudioViewModel
             UpdateColors(colors with { CardTint = ColorPlateService.ToHex(parsed) });
         }
     }
+    public string CardTintEndHex
+    {
+        get => colors.CardTintEnd;
+        set
+        {
+            if (overlayBusy || string.Equals(value, colors.CardTintEnd, StringComparison.OrdinalIgnoreCase)) return;
+            if (ColorPlateService.ParseHex(value) is not Color parsed) return;
+            UpdateColors(colors with { CardTintEnd = ColorPlateService.ToHex(parsed) });
+        }
+    }
     public string CardTintSummary =>
         colors.CardSaturation <= 0
-            ? "Off. Ordinary cards keep the active theme surfaces. Status plates are never washed."
-            : SelectedCardTintStrength + " wash toward " + colors.CardTint + ". Lightness stays with the theme so type and icons remain readable.";
+            ? "0 keeps theme card surfaces. 100 is the coded start colour. Status plates are never washed."
+            : colors.CardSaturation + "% toward " + colors.CardTint
+                + (colors.CardGradient == "Solid" ? "." : " → " + colors.CardTintEnd + " (" + colors.CardGradient + ").");
     public IReadOnlyList<NeumorphDepth> NeumorphDepthChoices { get; } = Enum.GetValues<NeumorphDepth>();
     public IReadOnlyList<NeumorphBlur> NeumorphBlurChoices { get; } = Enum.GetValues<NeumorphBlur>();
     public IReadOnlyList<NeumorphIntensity> NeumorphIntensityChoices { get; } = Enum.GetValues<NeumorphIntensity>();
@@ -1110,7 +1130,7 @@ public sealed partial class ThemeStudioViewModel
 
     private void NotifyFontColor()
     {
-        foreach (var n in new[] { nameof(SelectedFontFamily), nameof(HeadingBold), nameof(BodyItalic), nameof(BodyUnderline), nameof(SelectedColorPlate), nameof(ColorStopSummary), nameof(ColorRoleSummary), nameof(ColorRoleHex), nameof(SelectedCardTintStrength), nameof(CardTintHex), nameof(CardTintSummary), nameof(ThemeError), nameof(IsDirty) })
+        foreach (var n in new[] { nameof(SelectedFontFamily), nameof(HeadingBold), nameof(BodyItalic), nameof(BodyUnderline), nameof(SelectedColorPlate), nameof(ColorStopSummary), nameof(ColorRoleSummary), nameof(ColorRoleHex), nameof(CardSaturation), nameof(SelectedCardGradient), nameof(CardTintHex), nameof(CardTintEndHex), nameof(CardTintSummary), nameof(ThemeError), nameof(IsDirty) })
             Changed(n);
         CommandManager.InvalidateRequerySuggested();
     }
@@ -1125,6 +1145,8 @@ public sealed partial class ThemeStudioViewModel
             if (!b.TryGetValue(pair.Key, out string? hex) || !string.Equals(pair.Value, hex, StringComparison.OrdinalIgnoreCase))
                 return false;
         if (!string.Equals(left.CardTint, right.CardTint, StringComparison.OrdinalIgnoreCase)) return false;
+        if (!string.Equals(left.CardTintEnd, right.CardTintEnd, StringComparison.OrdinalIgnoreCase)) return false;
+        if (!string.Equals(left.CardGradient, right.CardGradient, StringComparison.OrdinalIgnoreCase)) return false;
         return left.CardSaturation == right.CardSaturation;
     }
 }

@@ -6,10 +6,19 @@
      <TextBlock Text="Colors studio" Style="{DynamicResource PageHeading}"/>
      <TextBlock Text="A plate is one hue with named values 50–800. The bar below picks an exact #RRGGBB for the selected role. Overlay writes Accent, Focus and Chart tokens only — the active theme still owns canvas and material." Style="{DynamicResource Caption}"/>
      <TextBlock Text="Card plates" Style="{DynamicResource SectionHeading}"/>
-     <TextBlock Text="Optional wash on ordinary cards (SurfacePrimary, Secondary, Elevated). Saturation Off restores the theme. Lightness is kept so text, icons and charts are not recolored. Status plates (positive, feature, attention) stay semantic." Style="{DynamicResource Caption}"/>
+     <TextBlock Text="Ordinary cards only (SurfacePrimary, Secondary, Elevated). 0 restores the theme. 100 is the coded hex as painted. Status plates stay semantic. Gradient uses start and end colours." Style="{DynamicResource Caption}"/>
+     <TextBlock Text="Start colour" Style="{DynamicResource Caption}"/>
      <local:ColorPickerBar SelectedHex="{Binding CardTintHex, UpdateSourceTrigger=PropertyChanged}" Margin="{DynamicResource MarginItem}"/>
-     <Label Content="Wash strength" Foreground="{DynamicResource TextSecondary}"/>
-     <ComboBox ItemsSource="{Binding CardTintStrengthChoices}" SelectedItem="{Binding SelectedCardTintStrength}" AutomationProperties.Name="Card plate wash strength" Margin="{DynamicResource MarginItem}"/>
+     <Label Content="Wash 0–100" Foreground="{DynamicResource TextSecondary}"/>
+     <DockPanel Margin="{DynamicResource MarginItem}">
+      <TextBox DockPanel.Dock="Right" MinWidth="{DynamicResource ControlMinWidth}" Text="{Binding CardSaturation, UpdateSourceTrigger=LostFocus}" AutomationProperties.Name="Card plate wash percent"/>
+      <Slider Minimum="0" Maximum="100" SmallChange="1" LargeChange="10" IsSnapToTickEnabled="True" TickFrequency="1" Value="{Binding CardSaturation}" VerticalAlignment="Center" Margin="{DynamicResource MarginInline}" AutomationProperties.Name="Card plate wash slider"/>
+     </DockPanel>
+     <Label Content="Fill" Foreground="{DynamicResource TextSecondary}"/>
+     <ComboBox ItemsSource="{Binding CardGradientChoices}" SelectedItem="{Binding SelectedCardGradient}" AutomationProperties.Name="Card plate gradient" Margin="{DynamicResource MarginItem}"/>
+     <TextBlock Text="End colour" Style="{DynamicResource Caption}"/>
+     <local:ColorPickerBar SelectedHex="{Binding CardTintEndHex, UpdateSourceTrigger=PropertyChanged}" Margin="{DynamicResource MarginItem}"/>
+     <Border Height="{DynamicResource ControlMinHeight}" Background="{DynamicResource SurfacePrimary}" CornerRadius="{DynamicResource ControlCornerRadius}" Margin="{DynamicResource MarginItem}"/>
      <TextBlock Text="{Binding CardTintSummary}" Style="{DynamicResource TokenValue}" Margin="{DynamicResource MarginItem}"/>
      <TextBlock Text="Color bar" Style="{DynamicResource SectionHeading}"/>
      <local:ColorPickerBar SelectedHex="{Binding ColorRoleHex, UpdateSourceTrigger=PropertyChanged}" Margin="{DynamicResource MarginItem}"/>
