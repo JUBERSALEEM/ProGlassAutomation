@@ -198,7 +198,7 @@ internal static class RuntimeChecks
             Pump();
             Check(model.SelectedAccent == ProGlassAutomation.ThemeBento.BentoAccent.Ocean &&
                 (double)themes.GetToken("ControlMinHeight") == 32d, "reset design restores defaults without resetting sample input");
-            Check(ThemeService.InstalledThemes.Contains(ThemeService.Clay) && ThemeService.InstalledThemes.Contains(ThemeService.Fluent) && ThemeService.InstalledThemes.Contains(ThemeService.Neumorphism) && ThemeService.InstalledThemes.Contains(ThemeService.LiquidGlass), "Clay, Fluent, Neumorphism and Liquid Glass are registered themes");
+            Check(ThemeService.InstalledThemes.Contains(ThemeService.Clay) && ThemeService.InstalledThemes.Contains(ThemeService.Fluent) && ThemeService.InstalledThemes.Contains(ThemeService.Neumorphism) && ThemeService.InstalledThemes.Contains(ThemeService.LiquidGlass) && ThemeService.InstalledThemes.Contains(ThemeService.Glassmorphism), "Clay, Fluent, Neumorphism, Liquid Glass and Glassmorphism are registered themes");
             foreach (string extra in ThemeService.InstalledThemes)
             {
                 if (extra == ThemeService.Bento) continue;
@@ -212,6 +212,7 @@ internal static class RuntimeChecks
                 Check(model.IsFluent == (extra == ThemeService.Fluent), extra + " fluent studio flag");
                 Check(model.IsNeumorph == (extra == ThemeService.Neumorphism), extra + " neumorph studio flag");
                 Check(model.IsLiquid == (extra == ThemeService.LiquidGlass), extra + " liquid studio flag");
+                Check(model.IsGlass == (extra == ThemeService.Glassmorphism), extra + " glass studio flag");
                 if (extra == ThemeService.Clay)
                 {
                     Check(model.CanCustomizeClay && model.DesignSummary.Contains("Rose"), "clay customization is live");
@@ -250,6 +251,8 @@ internal static class RuntimeChecks
                     Pump();
                     Check(model.SelectedLiquidFrost == ProGlassAutomation.ThemeLiquidGlass.LiquidFrost.Standard, "liquid reset restores defaults");
                 }
+                else if (extra == ThemeService.Glassmorphism)
+                    Check(model.CanCustomizeGeometry && !model.CanCustomize && model.DesignSummary.StartsWith("Glassmorphism"), extra + " uses shared card rounding without a glass extras engine");
                 else
                     throw new Exception("Unhandled extra theme: " + extra);
                 model.IsDark = true;

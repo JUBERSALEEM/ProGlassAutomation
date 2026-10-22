@@ -24,7 +24,7 @@ for kind in ('Compile', 'Page'):
             included.extend(paths)
     assert len(included) == len(set(included)), f'Duplicate {kind} items'
     if kind == 'Compile':
-        expected = set(ROOT.glob('*.cs')) | set(ROOT.glob('Theme/step1.a.ThemeEngine/**/*.cs')) | set(ROOT.glob('Theme/ThemeBento/**/*.cs')) | set(ROOT.glob('Theme/ThemeClaymorphism/**/*.cs')) | set(ROOT.glob('Theme/ThemeFluent/**/*.cs')) | set(ROOT.glob('Theme/ThemeNeumorphism/**/*.cs')) | set(ROOT.glob('Theme/ThemeLiquidGlass/**/*.cs')) | set(ROOT.glob('Theme/step1.f.Analytics/**/*.cs')) | set(ROOT.glob('Theme/step1.g.Customization/**/*.cs')) | set(ROOT.glob('step1.ThemeStudio/step1.b.ThemeStudioScreen/**/*.cs'))
+        expected = set(ROOT.glob('*.cs')) | set(ROOT.glob('Theme/step1.a.ThemeEngine/**/*.cs')) | set(ROOT.glob('Theme/ThemeBento/**/*.cs')) | set(ROOT.glob('Theme/ThemeClaymorphism/**/*.cs')) | set(ROOT.glob('Theme/ThemeFluent/**/*.cs')) | set(ROOT.glob('Theme/ThemeNeumorphism/**/*.cs')) | set(ROOT.glob('Theme/ThemeLiquidGlass/**/*.cs')) | set(ROOT.glob('Theme/ThemeGlassmorphism/**/*.cs')) | set(ROOT.glob('Theme/step1.f.Analytics/**/*.cs')) | set(ROOT.glob('Theme/step1.g.Customization/**/*.cs')) | set(ROOT.glob('step1.ThemeStudio/step1.b.ThemeStudioScreen/**/*.cs'))
         assert set(included) == expected, 'Application code missing from project'
     print(f'PASS: {len(included)} {kind} items; existing paths and no duplicates.')
 
@@ -36,7 +36,7 @@ for path in [*ROOT.glob('*.cs'), *ROOT.glob('Theme/**/*.cs'), *ROOT.glob('step1.
 app = (ROOT / 'App.xaml.cs').read_text()
 assert 'Themes.Initialize(Resources)' in app and 'MainWindow.Show()' in app
 runtime = (ROOT / 'Theme/step1.d.tests/step1.d.1.RuntimeChecks.cs').read_text()
-assert 'ThemeService.InstalledThemes' in runtime and 'CanCustomize' in runtime and 'ThemeService.Fluent' in runtime and 'ThemeService.LiquidGlass' in runtime
+assert 'ThemeService.InstalledThemes' in runtime and 'CanCustomize' in runtime and 'ThemeService.Fluent' in runtime and 'ThemeService.LiquidGlass' in runtime and 'ThemeService.Glassmorphism' in runtime
 assert 'Apply("Claymorphism"' not in runtime, 'Clay is installed; do not treat it as missing'
 shell = (ROOT/'MainWindow.xaml').read_text()
 assert '<studio:ThemeStudioView />' in shell and '<studio:BusinessReferenceView />' in shell
@@ -66,7 +66,7 @@ for prop in ('SelectedAccent', 'SelectedDensity', 'SelectedShape', 'SelectedTypo
 assert 'Binding IsDark' in settings and 'Binding ResetDesign' in settings
 assert 'Binding StoreWarning' in settings
 catalog = (ROOT / 'Theme/step1.a.ThemeEngine/step1.a.6.ThemeCatalog.cs').read_text()
-assert catalog.count('new ThemeDefinition(') == 5 and catalog.count('new ThemeIdentity(') == 9
+assert catalog.count('new ThemeDefinition(') == 6 and catalog.count('new ThemeIdentity(') == 9
 session = (ROOT / 'Theme/step1.g.Customization/step1.g.5.ThemeEditSession.cs').read_text()
 assert 'class ThemeEditSession' in session and 'CustomizationStore.Save' in session
 customization = (screen / 'step1.b.17.Customization.cs').read_text()
@@ -74,7 +74,7 @@ assert 'ThemeEditSession.Begin' in customization and 'PersistSaved' in customiza
 assert 'class ThemeNotificationException' in (ROOT / 'Theme/step1.a.ThemeEngine/step1.a.7.ThemeNotificationException.cs').read_text()
 assert 'ThemeNotificationException' in (ROOT / 'Theme/step1.a.ThemeEngine/step1.a.2.ThemeService.cs').read_text()
 assert 'ReduceTransparency' not in (ROOT / 'Theme/step1.a.ThemeEngine/step1.a.1.ThemeContract.cs').read_text(), 'Keep ReduceTransparency theme-owned; do not glass other themes'
-assert not (ROOT / 'Theme/ThemeGlassmorphism').exists()
+assert (ROOT / 'Theme/ThemeGlassmorphism/ThemeGlassmorphism.Light.xaml').is_file() and (ROOT / 'Theme/ThemeGlassmorphism/ThemeGlassmorphism.Dark.xaml').is_file()
 texts = (screen/'step1.b.26.TextsStudioView.xaml').read_text()
 colors = (screen/'step1.b.27.ColorsStudioView.xaml').read_text()
 assert 'x:Name="FontPicker"' in texts and 'Binding SelectedFontFamily' in texts

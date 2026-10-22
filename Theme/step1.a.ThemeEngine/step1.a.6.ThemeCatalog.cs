@@ -2,6 +2,7 @@ using System.Windows;
 using ProGlassAutomation.ThemeBento;
 using ProGlassAutomation.ThemeClaymorphism;
 using ProGlassAutomation.ThemeFluent;
+using ProGlassAutomation.ThemeGlassmorphism;
 using ProGlassAutomation.ThemeLiquidGlass;
 using ProGlassAutomation.ThemeNeumorphism;
 
@@ -46,6 +47,7 @@ public static class ThemeCatalog
             new ThemeDefinition(FluentName, "ThemeFluent", FluentResources.Load),
             new ThemeDefinition(NeumorphismName, "ThemeNeumorphism", NeumorphResources.Load),
             new ThemeDefinition(LiquidGlassName, "ThemeLiquidGlass", LiquidResources.Load),
+            new ThemeDefinition(GlassName, "ThemeGlassmorphism", GlassResources.Load),
         });
 
     public static IReadOnlyList<ThemeIdentity> Sequence { get; } =
@@ -56,7 +58,7 @@ public static class ThemeCatalog
             new ThemeIdentity(3, FluentName, "Layered acrylic, motion, system-aligned chrome.", ThemeImplementationStatus.Installed, false, "Geometry, font, and color plates only — no extras engine"),
             new ThemeIdentity(4, NeumorphismName, "Extruded controls, dual shadows, tactile relief.", ThemeImplementationStatus.Installed, true, "Neu extras + shared rounding + overlays"),
             new ThemeIdentity(5, LiquidGlassName, "Luminous veil, specular highlights, adaptive depth.", ThemeImplementationStatus.Installed, true, "Liquid extras + overlays; visual not accepted"),
-            new ThemeIdentity(6, GlassName, "Frosted material, contrast-safe fills, solid fallback.", ThemeImplementationStatus.Planned, false, "Blocked until Liquid Light+Dark accepted"),
+            new ThemeIdentity(6, GlassName, "Frosted material, contrast-safe fills, solid fallback.", ThemeImplementationStatus.Installed, false, "Frost surface + solid fallback; Liquid visual still open"),
             new ThemeIdentity(7, SpatialName, "Depth layers and spatial chrome.", ThemeImplementationStatus.Planned, false, "After Glassmorphism"),
             new ThemeIdentity(8, SwissName, "Grid, type hierarchy, restrained color.", ThemeImplementationStatus.Planned, false, "After Spatial"),
             new ThemeIdentity(9, HolographicName, "Iridescent sheen without chart blur.", ThemeImplementationStatus.Planned, false, "After Swiss"),

@@ -8,10 +8,9 @@ ENGINE = ROOT / 'Theme/step1.a.ThemeEngine'
 X = '{http://schemas.microsoft.com/winfx/2006/xaml}'
 assert not list(ENGINE.rglob('*.xaml')), 'Shared engine must not own visual dictionaries'
 packages = sorted(p for p in (ROOT / 'Theme').iterdir() if p.is_dir() and p.name.startswith('Theme'))
-assert {p.name for p in packages} == {'ThemeBento', 'ThemeClaymorphism', 'ThemeFluent', 'ThemeNeumorphism', 'ThemeLiquidGlass'}, 'Registered visual packages only'
-assert not (ROOT / 'Theme/ThemeGlassmorphism').exists(), 'Do not add Theme 6 folders before Liquid is accepted'
+assert {p.name for p in packages} == {'ThemeBento', 'ThemeClaymorphism', 'ThemeFluent', 'ThemeNeumorphism', 'ThemeLiquidGlass', 'ThemeGlassmorphism'}, 'Registered visual packages only'
 catalog = (ENGINE / 'step1.a.6.ThemeCatalog.cs').read_text()
-assert catalog.count('new ThemeDefinition(') == 5, 'Installed remains five complete packages'
+assert catalog.count('new ThemeDefinition(') == 6, 'Installed remains six complete packages'
 assert catalog.count('new ThemeIdentity(') == 9, 'Identity sequence is nine themes'
 assert 'ThemeImplementationStatus.Planned' in catalog and 'Glassmorphism' in catalog
 for path in ROOT.glob('Theme/**/*.xaml'):
@@ -78,4 +77,4 @@ service = (ENGINE / 'step1.a.2.ThemeService.cs').read_text()
 assert 'definition.LoadResources(appearance)' in service, 'Engine must delegate visual composition'
 assert '.xaml' not in service, 'Orchestrator must not hardcode a visual dictionary'
 assert 'MergedDictionaries.Add(styles)' not in service, 'Global visual styles must not survive theme replacement'
-print('PASS: isolated Bento, Clay, Fluent, Neumorphism and Liquid Glass packages, 47 required style/target contracts in both modes, no duplicate/cross-theme keys or engine visuals.')
+print('PASS: isolated Bento, Clay, Fluent, Neumorphism, Liquid Glass and Glassmorphism packages, 47 required style/target contracts in both modes, no duplicate/cross-theme keys or engine visuals.')
