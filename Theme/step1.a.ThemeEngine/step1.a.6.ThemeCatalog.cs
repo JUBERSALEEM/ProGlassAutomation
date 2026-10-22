@@ -64,7 +64,7 @@ public static class ThemeCatalog
             new ThemeIdentity(3, FluentName, "Layered acrylic, motion, system-aligned chrome.", ThemeImplementationStatus.Installed, false, "Geometry, font, and color plates only — no extras engine"),
             new ThemeIdentity(4, NeumorphismName, "Extruded controls, dual shadows, tactile relief.", ThemeImplementationStatus.Installed, true, "Neu extras + shared rounding + overlays"),
             new ThemeIdentity(5, LiquidGlassName, "Luminous veil, specular highlights, adaptive depth.", ThemeImplementationStatus.Installed, true, "Liquid extras + overlays; visual not accepted"),
-            new ThemeIdentity(6, GlassName, "Frosted material, contrast-safe fills, solid fallback.", ThemeImplementationStatus.Installed, false, "Frost surface + solid fallback; Liquid visual still open"),
+            new ThemeIdentity(6, GlassName, "Frosted material, contrast-safe fills, solid fallback.", ThemeImplementationStatus.Installed, false, "Frost surface + solid fallback; owner Home Light+Dark accepted"),
             new ThemeIdentity(7, SpatialName, "Depth layers and spatial chrome.", ThemeImplementationStatus.Installed, false, "Far plane + lifted near cards; no extras engine"),
             new ThemeIdentity(8, SwissName, "Grid, type hierarchy, restrained color.", ThemeImplementationStatus.Installed, false, "Paper, ink, red rule; SharedTokens Crisp; no extras engine"),
             new ThemeIdentity(9, HolographicName, "Iridescent sheen without chart blur.", ThemeImplementationStatus.Installed, false, "Cyan-violet rim + pearl sheen; SharedTokens; no extras engine; no chart blur"),
