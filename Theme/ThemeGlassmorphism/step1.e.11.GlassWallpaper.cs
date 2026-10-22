@@ -39,25 +39,25 @@ public static class GlassWallpaper
     private static void PaintLight(DrawingGroup group)
     {
         Fill(group, Wash(
-            Color.FromRgb(186, 214, 236),
-            Color.FromRgb(168, 196, 228),
-            Color.FromRgb(210, 198, 232),
-            Color.FromRgb(176, 212, 220)));
-        Bloom(group, 200, 160, 140, 120, Color.FromArgb(180, 176, 140, 232), Color.FromArgb(0, 168, 196, 228));
-        Bloom(group, 620, 180, 140, 140, Color.FromArgb(200, 80, 176, 232), Color.FromArgb(0, 186, 214, 236));
-        Bloom(group, 400, 380, 160, 100, Color.FromArgb(160, 120, 216, 196), Color.FromArgb(0, 176, 212, 220));
+            Color.FromRgb(96, 168, 216),
+            Color.FromRgb(140, 120, 216),
+            Color.FromRgb(72, 176, 200),
+            Color.FromRgb(120, 156, 220)));
+        Bloom(group, 200, 160, 140, 120, Color.FromArgb(220, 168, 96, 232), Color.FromArgb(0, 140, 120, 216));
+        Bloom(group, 620, 180, 140, 140, Color.FromArgb(230, 32, 168, 236), Color.FromArgb(0, 96, 168, 216));
+        Bloom(group, 400, 380, 160, 100, Color.FromArgb(200, 64, 212, 176), Color.FromArgb(0, 72, 176, 200));
     }
 
     private static void PaintDark(DrawingGroup group)
     {
         Fill(group, Wash(
-            Color.FromRgb(8, 14, 22),
-            Color.FromRgb(12, 32, 56),
-            Color.FromRgb(28, 18, 56),
-            Color.FromRgb(5, 10, 18)));
-        Bloom(group, 640, 140, 130, 130, Color.FromArgb(200, 40, 180, 230), Color.FromArgb(0, 12, 32, 56));
-        Bloom(group, 160, 360, 150, 120, Color.FromArgb(190, 120, 80, 200), Color.FromArgb(0, 28, 18, 56));
-        Bloom(group, 400, 200, 100, 100, Color.FromArgb(140, 80, 220, 240), Color.FromArgb(0, 8, 14, 22));
+            Color.FromRgb(6, 10, 22),
+            Color.FromRgb(8, 40, 72),
+            Color.FromRgb(48, 16, 72),
+            Color.FromRgb(4, 8, 16)));
+        Bloom(group, 640, 140, 130, 130, Color.FromArgb(230, 0, 196, 255), Color.FromArgb(0, 8, 40, 72));
+        Bloom(group, 160, 360, 150, 120, Color.FromArgb(220, 160, 64, 255), Color.FromArgb(0, 48, 16, 72));
+        Bloom(group, 400, 200, 100, 100, Color.FromArgb(180, 64, 240, 255), Color.FromArgb(0, 6, 10, 22));
     }
 
     private static LinearGradientBrush Wash(Color top, Color high, Color mid, Color deep)
