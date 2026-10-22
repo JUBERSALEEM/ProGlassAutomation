@@ -58,7 +58,7 @@ public partial class AnalyticsOverview : UserControl
         Hide(TrendCard);
         if (Compact)
         {
-            // Type & signal fits the narrow slot; Order mix moves to the studio bottom-left cell.
+            // Studio preview is 4 rows: KPIs, 2×2 trends + type/channels, bottom tiles. Mix lives in the studio page.
             Hide(MixCard);
             Show(SignalsCard, 3, 1, 1, 1);
             Hide(TableCard);

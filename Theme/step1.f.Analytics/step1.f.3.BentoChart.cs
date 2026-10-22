@@ -84,6 +84,7 @@ public sealed partial class BentoChart
         sideLegend = side;
         root.RowDefinitions.Clear();
         root.ColumnDefinitions.Clear();
+        legend.Orientation = side ? Orientation.Vertical : Orientation.Horizontal;
         if (side)
         {
             root.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1.1, GridUnitType.Star) });

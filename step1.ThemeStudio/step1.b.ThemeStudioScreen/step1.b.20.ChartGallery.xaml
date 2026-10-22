@@ -3,26 +3,26 @@
  <ContentControl Style="{DynamicResource Card}" DataContext="{StaticResource Samples}">
   <Grid>
    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
-   <StackPanel>
-    <TextBlock Text="Chart laboratory" Style="{DynamicResource SectionHeading}" />
-    <TextBlock Text="REAL WPF CHARTS / DETERMINISTIC DEMO DATA" Style="{DynamicResource Caption}" />
-    <WrapPanel>
-     <StackPanel Margin="{DynamicResource MarginPanel}"><Label Foreground="{DynamicResource TextSecondary}" Content="Chart _type" Target="{Binding ElementName=ChartType}" /><ComboBox x:Name="ChartType" ItemsSource="{Binding ChartKinds}" SelectedItem="{Binding SelectedKind}" AutomationProperties.Name="Chart type" /></StackPanel>
-     <StackPanel Margin="{DynamicResource MarginPanel}"><Label Foreground="{DynamicResource TextSecondary}" Content="Data _scenario" Target="{Binding ElementName=Scenario}" /><ComboBox x:Name="Scenario" ItemsSource="{Binding Scenarios}" SelectedItem="{Binding SelectedScenario}" AutomationProperties.Name="Data scenario" /></StackPanel>
-     <Button Content="_Reset demo / retry" Command="{Binding Reset}" VerticalAlignment="Center" />
-    </WrapPanel>
-   </StackPanel>
+   <DockPanel LastChildFill="True">
+    <Button DockPanel.Dock="Right" Content="_Reset demo / retry" Command="{Binding Reset}" VerticalAlignment="Center" Margin="{DynamicResource MarginInline}" />
+    <StackPanel DockPanel.Dock="Right" Margin="{DynamicResource MarginInline}"><Label Foreground="{DynamicResource TextSecondary}" Content="Data _scenario" Target="{Binding ElementName=Scenario}" /><ComboBox x:Name="Scenario" MinWidth="{DynamicResource ControlMinWidth}" ItemsSource="{Binding Scenarios}" SelectedItem="{Binding SelectedScenario}" AutomationProperties.Name="Data scenario" /></StackPanel>
+    <StackPanel DockPanel.Dock="Right" Margin="{DynamicResource MarginInline}"><Label Foreground="{DynamicResource TextSecondary}" Content="Chart _type" Target="{Binding ElementName=ChartType}" /><ComboBox x:Name="ChartType" MinWidth="{DynamicResource ControlMinWidth}" ItemsSource="{Binding ChartKinds}" SelectedItem="{Binding SelectedKind}" AutomationProperties.Name="Chart type" /></StackPanel>
+    <StackPanel VerticalAlignment="Center">
+     <TextBlock Text="Chart laboratory" Style="{DynamicResource SectionHeading}" />
+     <TextBlock Text="REAL WPF CHARTS / DETERMINISTIC DEMO DATA" Style="{DynamicResource Caption}" />
+    </StackPanel>
+   </DockPanel>
    <Grid Grid.Row="1">
     <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
     <Grid Margin="{DynamicResource PaddingCompact}">
      <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
-     <TextBlock Text="Interactive preview" Style="{DynamicResource SectionHeading}" />
+     <TextBlock Text="Interactive preview" Style="{DynamicResource Caption}" />
      <analytics:BentoChart Grid.Row="1" Data="{Binding Preview}" />
     </Grid>
     <Border Grid.Column="1" Width="{DynamicResource StrokeWidth}" Background="{DynamicResource BorderSubtle}" Margin="{DynamicResource PaddingCompact}" />
     <Grid Grid.Column="2" Margin="{DynamicResource PaddingCompact}">
      <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
-     <TextBlock Text="Multi-series / area" Style="{DynamicResource SectionHeading}" />
+     <TextBlock Text="Multi-series / area" Style="{DynamicResource Caption}" />
      <analytics:BentoChart x:Name="AreaCard" Grid.Row="1" Data="{Binding Area}" />
     </Grid>
    </Grid>

@@ -53,7 +53,10 @@ public sealed partial class BentoChart
                     break;
                 case PieSeries<double?> s:
                     s.Fill = Paint(palette[i]); s.Stroke = Paint(GridBrush, LineWidth);
-                    s.InnerRadius = data.Kind == ChartKind.Donut ? DonutRadius : 0;
+                    double hole = DonutRadius;
+                    double plotSize = Math.Min(pie.ActualWidth, pie.ActualHeight);
+                    if (plotSize > 0) hole = Math.Min(hole, plotSize * 0.38);
+                    s.InnerRadius = data.Kind == ChartKind.Donut ? hole : 0;
                     break;
             }
         }

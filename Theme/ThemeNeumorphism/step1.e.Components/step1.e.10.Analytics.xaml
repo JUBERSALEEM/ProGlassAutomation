@@ -37,14 +37,18 @@
   <Setter Property="HorizontalAlignment" Value="Stretch" /><Setter Property="VerticalAlignment" Value="Stretch" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="analytics:BentoKpi">
    <neu:NeumorphSurface x:Name="Pod" Rank="Card" Background="{DynamicResource SurfacePrimary}" CornerRadius="{DynamicResource CardCornerRadius}">
-    <DockPanel>
-     <analytics:BentoChart x:Name="SparkPlot" DockPanel.Dock="Right" Width="{DynamicResource BentoRowHeight}" Data="{Binding Spark, RelativeSource={RelativeSource TemplatedParent}}" ShowAxis="False" ShowGrid="False" ShowLegend="False" PlotHeight="72" VerticalAlignment="Stretch" Margin="{DynamicResource PaddingCompact}" />
+    <Grid>
+     <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*" MinWidth="72" MaxWidth="96"/>
+     </Grid.ColumnDefinitions>
      <StackPanel Margin="{TemplateBinding Padding}" VerticalAlignment="Center">
-      <TextBlock Text="{TemplateBinding Label}" Foreground="{DynamicResource TextMuted}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="Wrap" />
-      <TextBlock x:Name="ValueText" Text="{TemplateBinding Value}" FontSize="{DynamicResource FontSizeDisplay}" FontWeight="{DynamicResource FontWeightHeading}" TextWrapping="Wrap" />
-      <TextBlock Text="{TemplateBinding Detail}" Foreground="{DynamicResource TextSecondary}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="Wrap" />
+      <TextBlock Text="{TemplateBinding Label}" Foreground="{DynamicResource TextMuted}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
+      <TextBlock x:Name="ValueText" Text="{TemplateBinding Value}" FontSize="{DynamicResource FontSizeDisplay}" FontWeight="{DynamicResource FontWeightHeading}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
+      <TextBlock Text="{TemplateBinding Detail}" Foreground="{DynamicResource TextSecondary}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
      </StackPanel>
-    </DockPanel>
+     <analytics:BentoChart x:Name="SparkPlot" Grid.Column="1" Data="{Binding Spark, RelativeSource={RelativeSource TemplatedParent}}" ShowAxis="False" ShowGrid="False" ShowLegend="False" VerticalAlignment="Stretch" Margin="{DynamicResource PaddingCompact}" />
+    </Grid>
    </neu:NeumorphSurface>
    <ControlTemplate.Triggers>
     <Trigger Property="Tag" Value="Positive"><Setter TargetName="ValueText" Property="Foreground" Value="{DynamicResource StatusSuccess}" /></Trigger>

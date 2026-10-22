@@ -10,13 +10,7 @@
    <StackPanel>
     <TextBlock Text="WORK QUEUE / SAMPLE DATA" Style="{DynamicResource Caption}" />
     <TextBlock Text="Active work" Style="{DynamicResource SectionHeading}" />
-    <TextBlock Text="Select a work item to preview a review. This list uses local sample data." Foreground="{DynamicResource TextSecondary}" Margin="{DynamicResource MarginItem}" />
-    <Label Foreground="{DynamicResource TextSecondary}" Content="Find a work item" Target="{Binding ElementName=ReferenceSearch}" />
     <TextBox x:Name="ReferenceSearch" Text="{Binding ReferenceFilter, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Search reference worklist" Margin="{DynamicResource MarginItem}" />
-    <ContentControl Style="{DynamicResource Plate}" Padding="{DynamicResource PaddingControl}" Margin="{DynamicResource MarginItem}"><Grid>
-     <Grid.ColumnDefinitions><ColumnDefinition Width="3*" /><ColumnDefinition Width="2*" /><ColumnDefinition Width="2*" /></Grid.ColumnDefinitions>
-     <TextBlock Text="REFERENCE / OWNER" Style="{DynamicResource Caption}" /><TextBlock Grid.Column="1" Text="UPDATED" Style="{DynamicResource Caption}" /><TextBlock Grid.Column="2" Text="STATUS" Style="{DynamicResource Caption}" />
-    </Grid></ContentControl>
    </StackPanel>
    <ListBox Grid.Row="1" ItemsSource="{Binding ReferenceView}" SelectedItem="{Binding SelectedReference}" HorizontalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Auto" VirtualizingPanel.IsVirtualizing="False" ScrollViewer.CanContentScroll="False" AutomationProperties.Name="Reference worklist">
     <ListBox.ItemTemplate><DataTemplate><Grid>
@@ -26,16 +20,11 @@
      <Border Grid.Column="2" Tag="{Binding Severity}" Style="{DynamicResource StatusBadge}" VerticalAlignment="Center" HorizontalAlignment="Left"><TextBlock Text="{Binding Status}" Tag="{Binding Severity}" Style="{DynamicResource StatusText}" /></Border>
     </Grid></DataTemplate></ListBox.ItemTemplate>
    </ListBox>
-   <StackPanel Grid.Row="2">
-    <TextBlock Text="{Binding ReferenceSummary}" Style="{DynamicResource Caption}" Margin="{DynamicResource MarginItem}" AutomationProperties.LiveSetting="Polite" />
-    <Separator />
-    <ContentControl Style="{DynamicResource Plate}"><StackPanel>
-     <TextBlock Text="Review notes" FontWeight="{DynamicResource FontWeightHeading}" />
-     <TextBlock Text="Confirm details with your team before handoff. Preview actions never write business data." Margin="{DynamicResource MarginItem}" />
-     <TextBlock Text="Design operations · Reference edition 01 · Local preview" Style="{DynamicResource Caption}" />
-     <WrapPanel Margin="{DynamicResource MarginItem}"><Button Content="Review selected pattern" Command="{Binding ReviewReference}" ToolTip="Reports the selected sample; no business data is changed." Margin="{DynamicResource MarginInline}" /><Button Content="Review notes" Style="{DynamicResource SubtleButton}" Command="{Binding OpenDialog}" /></WrapPanel>
-    </StackPanel></ContentControl>
-   </StackPanel>
+   <DockPanel Grid.Row="2" Margin="{DynamicResource MarginItem}">
+    <Button DockPanel.Dock="Right" Content="Review notes" Style="{DynamicResource SubtleButton}" Command="{Binding OpenDialog}" Margin="{DynamicResource MarginInline}" />
+    <Button DockPanel.Dock="Right" Content="Review selected" Command="{Binding ReviewReference}" ToolTip="Reports the selected sample; no business data is changed." Margin="{DynamicResource MarginInline}" />
+    <TextBlock Text="{Binding ReferenceSummary}" Style="{DynamicResource Caption}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" AutomationProperties.LiveSetting="Polite" />
+   </DockPanel>
   </Grid>
  </ContentControl>
 </UserControl>

@@ -5,9 +5,9 @@
    <local:OverviewPanel x:Name="Hero" bento:BentoGrid.Column="0" bento:BentoGrid.Row="0" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="2" />
    <local:AppearancePanel x:Name="Health" bento:BentoGrid.Column="2" bento:BentoGrid.Row="0" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="2" />
    <local:AnalyticsOverview x:Name="Analytics" bento:BentoGrid.Column="0" bento:BentoGrid.Row="2" bento:BentoGrid.ColumnSpan="4" bento:BentoGrid.RowSpan="6" />
-   <local:WorklistPanel x:Name="Work" bento:BentoGrid.Column="0" bento:BentoGrid.Row="8" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="5" />
-   <local:ControlsPanel x:Name="Details" bento:BentoGrid.Column="2" bento:BentoGrid.Row="8" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="5" />
-   <local:SurfacesPanel x:Name="Layers" bento:BentoGrid.Column="0" bento:BentoGrid.Row="13" bento:BentoGrid.ColumnSpan="4" bento:BentoGrid.RowSpan="3" />
+   <local:WorklistPanel x:Name="Work" bento:BentoGrid.Column="0" bento:BentoGrid.Row="8" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="3" />
+   <local:ControlsPanel x:Name="Details" bento:BentoGrid.Column="2" bento:BentoGrid.Row="8" bento:BentoGrid.ColumnSpan="2" bento:BentoGrid.RowSpan="3" />
+   <local:SurfacesPanel x:Name="Layers" bento:BentoGrid.Column="0" bento:BentoGrid.Row="11" bento:BentoGrid.ColumnSpan="4" bento:BentoGrid.RowSpan="2" />
   </bento:BentoGrid>
  </ScrollViewer>
 </UserControl>

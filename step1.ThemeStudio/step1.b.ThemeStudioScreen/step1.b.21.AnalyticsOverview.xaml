@@ -10,7 +10,7 @@
    <Grid>
     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
     <TextBlock Text="Monthly performance" Style="{DynamicResource SectionHeading}" />
-    <UniformGrid Grid.Row="1" Columns="4" Rows="1">
+    <UniformGrid Grid.Row="1" Columns="2" Rows="2">
      <Grid Margin="{DynamicResource PaddingCompact}"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
       <TextBlock Text="Revenue" Style="{DynamicResource Caption}" /><analytics:BentoChart Grid.Row="1" Data="{Binding Area}" ShowLegend="False" />
      </Grid>
@@ -42,12 +42,15 @@
    </Grid>
   </ContentControl>
   <ContentControl x:Name="ActivityCard" Style="{DynamicResource InformationPlate}" bento:BentoGrid.Column="0" bento:BentoGrid.Row="3">
-   <StackPanel>
+   <Grid>
+    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
     <TextBlock Text="Activity" Style="{DynamicResource SectionHeading}" />
-    <TextBlock Text="09:40  PG-1042 ready" FontSize="{DynamicResource FontSizeCaption}" />
-    <TextBlock Text="09:15  PG-1041 review" FontSize="{DynamicResource FontSizeCaption}" />
-    <TextBlock Text="08:50  Capacity update" FontSize="{DynamicResource FontSizeCaption}" />
-   </StackPanel>
+    <StackPanel Grid.Row="1">
+     <TextBlock Text="09:40  PG-1042 ready" FontSize="{DynamicResource FontSizeCaption}" />
+     <TextBlock Text="09:15  PG-1041 review" FontSize="{DynamicResource FontSizeCaption}" />
+     <TextBlock Text="08:50  Capacity update" FontSize="{DynamicResource FontSizeCaption}" />
+    </StackPanel>
+   </Grid>
   </ContentControl>
   <ContentControl x:Name="RevenueCard" Style="{DynamicResource ChartCard}" bento:BentoGrid.Column="1" bento:BentoGrid.Row="3">
    <Grid>
@@ -57,7 +60,7 @@
    </Grid>
   </ContentControl>
   <ContentControl x:Name="StatusCard" Style="{DynamicResource AttentionPlate}" bento:BentoGrid.Column="2" bento:BentoGrid.Row="3">
-   <StackPanel>
+   <StackPanel VerticalAlignment="Center">
     <TextBlock Text="Attention" Style="{DynamicResource SectionHeading}" />
     <TextBlock Text="1 hold / 1 review" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" />
     <TextBlock Text="5 / 60 slots · Demo" Style="{DynamicResource Caption}" TextWrapping="Wrap" />

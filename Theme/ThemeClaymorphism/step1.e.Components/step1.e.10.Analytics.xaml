@@ -65,15 +65,20 @@
   <Setter Property="HorizontalAlignment" Value="Stretch" /><Setter Property="VerticalAlignment" Value="Stretch" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="analytics:BentoKpi">
    <clay:ClaySurface x:Name="Pod" Rank="Card" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource CardCornerRadius}" DropBrush="{DynamicResource ClayDropBrush}" ShadeBrush="{DynamicResource ClayInsetShadeBrush}" LightBrush="{DynamicResource ClayInsetLightBrush}">
-    <DockPanel>
-     <Border x:Name="Rail" DockPanel.Dock="Left" Width="{DynamicResource SpacingSmall}" Visibility="Collapsed" Background="{DynamicResource AccentPrimary}" CornerRadius="{DynamicResource ChipCornerRadius}" Margin="{DynamicResource PaddingCompact}" />
-     <analytics:BentoChart x:Name="SparkPlot" DockPanel.Dock="Right" Width="{DynamicResource BentoRowHeight}" Data="{Binding Spark, RelativeSource={RelativeSource TemplatedParent}}" ShowAxis="False" ShowGrid="False" ShowLegend="False" PlotHeight="72" VerticalAlignment="Stretch" Margin="{DynamicResource PaddingCompact}" />
-     <StackPanel Margin="{TemplateBinding Padding}" VerticalAlignment="Center">
-      <TextBlock Text="{TemplateBinding Label}" Foreground="{DynamicResource TextMuted}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="Wrap" />
-      <TextBlock x:Name="ValueText" Text="{TemplateBinding Value}" FontSize="{DynamicResource FontSizeDisplay}" FontWeight="{DynamicResource FontWeightHeading}" TextWrapping="Wrap" />
-      <TextBlock Text="{TemplateBinding Detail}" Foreground="{DynamicResource TextSecondary}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="Wrap" />
+    <Grid>
+     <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto"/>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*" MinWidth="72" MaxWidth="96"/>
+     </Grid.ColumnDefinitions>
+     <Border x:Name="Rail" Width="{DynamicResource SpacingSmall}" Visibility="Collapsed" Background="{DynamicResource AccentPrimary}" CornerRadius="{DynamicResource ChipCornerRadius}" Margin="{DynamicResource PaddingCompact}" />
+     <StackPanel Grid.Column="1" Margin="{TemplateBinding Padding}" VerticalAlignment="Center">
+      <TextBlock Text="{TemplateBinding Label}" Foreground="{DynamicResource TextMuted}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
+      <TextBlock x:Name="ValueText" Text="{TemplateBinding Value}" FontSize="{DynamicResource FontSizeDisplay}" FontWeight="{DynamicResource FontWeightHeading}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
+      <TextBlock Text="{TemplateBinding Detail}" Foreground="{DynamicResource TextSecondary}" FontSize="{DynamicResource FontSizeCaption}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
      </StackPanel>
-    </DockPanel>
+     <analytics:BentoChart x:Name="SparkPlot" Grid.Column="2" Data="{Binding Spark, RelativeSource={RelativeSource TemplatedParent}}" ShowAxis="False" ShowGrid="False" ShowLegend="False" VerticalAlignment="Stretch" Margin="{DynamicResource PaddingCompact}" />
+    </Grid>
    </clay:ClaySurface>
    <ControlTemplate.Triggers>
     <Trigger Property="Tag" Value="Positive"><Setter TargetName="Pod" Property="Background" Value="{DynamicResource SurfacePositive}" /><Setter TargetName="Pod" Property="DropBrush" Value="{DynamicResource ClayDropPositive}" /><Setter TargetName="Pod" Property="ShadeBrush" Value="{DynamicResource ClayShadePositive}" /><Setter TargetName="Rail" Property="Visibility" Value="Collapsed" /><Setter TargetName="ValueText" Property="Foreground" Value="{DynamicResource StatusSuccess}" /></Trigger>
