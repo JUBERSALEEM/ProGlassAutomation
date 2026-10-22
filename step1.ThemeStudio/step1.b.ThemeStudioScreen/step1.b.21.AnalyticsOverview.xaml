@@ -12,16 +12,16 @@
     <TextBlock Text="Monthly performance" Style="{DynamicResource SectionHeading}" />
     <UniformGrid Grid.Row="1" Columns="2" Rows="2">
      <Grid Margin="{DynamicResource PaddingCompact}"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
-      <TextBlock Text="Revenue" Style="{DynamicResource Caption}" /><analytics:BentoChart Grid.Row="1" Data="{Binding Area}" ShowLegend="False" />
+      <TextBlock Text="Revenue" Style="{DynamicResource Caption}" /><analytics:BentoChart Grid.Row="1" Data="{Binding Area}" ShowLegend="False" ShowAxis="False" ShowGrid="False" />
      </Grid>
      <Grid Margin="{DynamicResource PaddingCompact}"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
-      <TextBlock Text="Retention" Style="{DynamicResource Caption}" /><analytics:BentoChart Grid.Row="1" Data="{Binding Trend}" ShowLegend="False" />
+      <TextBlock Text="Retention" Style="{DynamicResource Caption}" /><analytics:BentoChart Grid.Row="1" Data="{Binding Trend}" ShowLegend="False" ShowAxis="False" ShowGrid="False" />
      </Grid>
      <Grid Margin="{DynamicResource PaddingCompact}"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
-      <TextBlock Text="Capacity" Style="{DynamicResource Caption}" /><analytics:BentoChart Grid.Row="1" Data="{Binding Capacity}" ShowLegend="False" />
+      <TextBlock Text="Capacity" Style="{DynamicResource Caption}" /><analytics:BentoChart Grid.Row="1" Data="{Binding Capacity}" ShowLegend="False" ShowAxis="False" ShowGrid="False" />
      </Grid>
      <Grid Margin="{DynamicResource PaddingCompact}"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
-      <TextBlock Text="Conversion" Style="{DynamicResource Caption}" /><analytics:BentoChart Grid.Row="1" Data="{Binding Spark}" ShowLegend="False" />
+      <TextBlock Text="Conversion" Style="{DynamicResource Caption}" /><analytics:BentoChart Grid.Row="1" Data="{Binding Spark}" ShowLegend="False" ShowAxis="False" ShowGrid="False" />
      </Grid>
     </UniformGrid>
    </Grid>
@@ -38,7 +38,7 @@
    <Grid>
     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
     <TextBlock Text="Channels" Style="{DynamicResource SectionHeading}" />
-    <analytics:BentoChart Grid.Row="1" Data="{Binding Channels}" ShowLegend="False" />
+    <analytics:BentoChart Grid.Row="1" Data="{Binding Channels}" ShowLegend="False" ShowAxis="False" ShowGrid="False" />
    </Grid>
   </ContentControl>
   <ContentControl x:Name="ActivityCard" Style="{DynamicResource InformationPlate}" bento:BentoGrid.Column="0" bento:BentoGrid.Row="3">
@@ -56,7 +56,7 @@
    <Grid>
     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
     <TextBlock Text="Revenue vs target" Style="{DynamicResource SectionHeading}" />
-    <analytics:BentoChart Grid.Row="1" Data="{Binding Revenue}" ShowLegend="False" />
+    <analytics:BentoChart Grid.Row="1" Data="{Binding Revenue}" ShowLegend="False" ShowAxis="False" ShowGrid="False" />
    </Grid>
   </ContentControl>
   <ContentControl x:Name="StatusCard" Style="{DynamicResource AttentionPlate}" bento:BentoGrid.Column="2" bento:BentoGrid.Row="3">
@@ -70,7 +70,7 @@
    <Grid>
     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
     <TextBlock Text="98% on-time" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" />
-    <analytics:BentoChart Grid.Row="1" Data="{Binding Spark}" ShowLegend="False" />
+    <analytics:BentoChart Grid.Row="1" Data="{Binding Spark}" ShowLegend="False" ShowAxis="False" ShowGrid="False" />
    </Grid>
   </ContentControl>
   <ContentControl x:Name="TableCard" Style="{DynamicResource ChartCard}" bento:BentoGrid.Column="0" bento:BentoGrid.Row="4" bento:BentoGrid.ColumnSpan="4" bento:BentoGrid.RowSpan="2">

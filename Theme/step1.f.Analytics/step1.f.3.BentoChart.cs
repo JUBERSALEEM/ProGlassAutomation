@@ -151,11 +151,14 @@ public sealed partial class BentoChart
         if (!ready)
         {
             cartesian.Series = []; pie.Series = []; rendered = []; legend.Children.Clear();
-            dataDirty = true; inspectToggle.Visibility = Visibility.Collapsed; values.Text = "";
+            dataDirty = true; inspectToggle.Visibility = Visibility.Collapsed; footer.Visibility = Visibility.Collapsed;
+            values.Text = ""; message.Visibility = Visibility.Visible;
             return;
         }
         inspectToggle.Visibility = ShowLegend ? Visibility.Visible : Visibility.Collapsed;
         legend.Visibility = ShowLegend ? Visibility.Visible : Visibility.Collapsed;
+        footer.Visibility = ShowLegend ? Visibility.Visible : Visibility.Collapsed;
+        message.Visibility = ready ? Visibility.Collapsed : Visibility.Visible;
         if (dataDirty)
         {
             values.Text = string.Join("\n", Data!.Series.Select(s => s.Name + ": " + string.Join(" / ", s.Values.Select((v, i) => $"{(i < Data.Categories.Count ? Data.Categories[i] : s.Name)} {(v.HasValue ? v.Value.ToString("N1") : "missing")} {Data.Unit}"))));
