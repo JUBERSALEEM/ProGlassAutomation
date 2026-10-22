@@ -2,10 +2,10 @@
  <UserControl.Resources><local:AnalyticsSamples x:Key="Samples" /></UserControl.Resources>
  <bento:BentoGrid x:Name="AnalyticsGrid" DataContext="{StaticResource Samples}" Columns="4" FillAvailable="False"
                   RowHeight="{DynamicResource BentoRowHeight}" Gutter="{DynamicResource BentoGutter}" CompactWidth="{DynamicResource BentoCompactWidth}">
-  <analytics:BentoKpi x:Name="KpiRevenue" Label="Monthly revenue" Value="AED 284k" Detail="↑ 6.4% vs September" Spark="{Binding KpiRevenueSpark}" bento:BentoGrid.Column="0" bento:BentoGrid.Row="0"/>
-  <analytics:BentoKpi x:Name="KpiOrders" Tag="Positive" Label="Orders" Value="128" Detail="↑ 18 vs September" Spark="{Binding KpiOrdersBars}" bento:BentoGrid.Column="1" bento:BentoGrid.Row="0"/>
-  <analytics:BentoKpi x:Name="KpiConversion" Tag="Feature" Label="Conversion" Value="72%" Detail="↑ 3 points · Demo" Spark="{Binding Spark}" bento:BentoGrid.Column="2" bento:BentoGrid.Row="0"/>
-  <analytics:BentoKpi x:Name="KpiOnTime" Tag="Positive" Label="On-time" Value="98%" Detail="Target 95% · Demo" Spark="{Binding KpiOnTimeSpark}" bento:BentoGrid.Column="3" bento:BentoGrid.Row="0"/>
+  <analytics:BentoKpi x:Name="KpiRevenue" Label="Monthly revenue" Value="AED 284k" Detail="↑ 6.4% vs September" Spark="{Binding KpiRevenueSpark, Source={StaticResource Samples}}" bento:BentoGrid.Column="0" bento:BentoGrid.Row="0"/>
+  <analytics:BentoKpi x:Name="KpiOrders" Tag="Positive" Label="Orders" Value="128" Detail="↑ 18 vs September" Spark="{Binding KpiOrdersBars, Source={StaticResource Samples}}" bento:BentoGrid.Column="1" bento:BentoGrid.Row="0"/>
+  <analytics:BentoKpi x:Name="KpiConversion" Tag="Feature" Label="Conversion" Value="72%" Detail="↑ 3 points · Demo" Spark="{Binding Spark, Source={StaticResource Samples}}" bento:BentoGrid.Column="2" bento:BentoGrid.Row="0"/>
+  <analytics:BentoKpi x:Name="KpiOnTime" Tag="Positive" Label="On-time" Value="98%" Detail="Target 95% · Demo" Spark="{Binding KpiOnTimeSpark, Source={StaticResource Samples}}" bento:BentoGrid.Column="3" bento:BentoGrid.Row="0"/>
   <ContentControl x:Name="TrendsCard" Style="{DynamicResource ChartCard}" bento:BentoGrid.Column="0" bento:BentoGrid.Row="1" bento:BentoGrid.ColumnSpan="3" bento:BentoGrid.RowSpan="2">
    <Grid>
     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>

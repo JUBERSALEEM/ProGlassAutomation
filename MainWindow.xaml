@@ -330,9 +330,18 @@
             <TabControl Grid.Row="1" x:Name="WorkspaceTabs"
                         SelectedIndex="{Binding SelectedWorkspace, Mode=TwoWay}"
                         AutomationProperties.Name="Design workspace pages"
-                        Background="{DynamicResource ApplicationBackground}"
                         BorderThickness="0"
                         ClipToBounds="True">
+                <TabControl.Style>
+                    <Style TargetType="TabControl">
+                        <Setter Property="Background" Value="{DynamicResource ApplicationBackground}" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsLiquid}" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabControl.Style>
                 <TabControl.Resources>
                     <Style TargetType="TabItem">
                         <Setter Property="Visibility" Value="Collapsed"/>
