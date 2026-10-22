@@ -29,30 +29,29 @@
     <GradientStop Color="#4D7C3AED" Offset="1" />
   </LinearGradientBrush>
   <LinearGradientBrush x:Key="HoloSheenTopBrush" StartPoint="0.5,0" EndPoint="0.5,1">
-    <GradientStop Color="#E6FFFFFF" Offset="0" />
-    <GradientStop Color="#8A67E8F9" Offset="0.28" />
-    <GradientStop Color="#59C4B5FD" Offset="0.55" />
-    <GradientStop Color="#00FFFFFF" Offset="1" />
+    <GradientStop Color="#B3FFFFFF" Offset="0" />
+    <GradientStop Color="#6667E8F9" Offset="0.04" />
+    <GradientStop Color="#33C4B5FD" Offset="0.08" />
+    <GradientStop Color="#00FFFFFF" Offset="0.14" />
   </LinearGradientBrush>
   <LinearGradientBrush x:Key="HoloSheenBottomBrush" StartPoint="0.5,1" EndPoint="0.5,0">
-    <GradientStop Color="#E6FFFFFF" Offset="0" />
-    <GradientStop Color="#8A67E8F9" Offset="0.28" />
-    <GradientStop Color="#59C4B5FD" Offset="0.55" />
-    <GradientStop Color="#00FFFFFF" Offset="1" />
+    <GradientStop Color="#B3FFFFFF" Offset="0" />
+    <GradientStop Color="#6667E8F9" Offset="0.04" />
+    <GradientStop Color="#33C4B5FD" Offset="0.08" />
+    <GradientStop Color="#00FFFFFF" Offset="0.14" />
   </LinearGradientBrush>
   <LinearGradientBrush x:Key="HoloSheenLeftBrush" StartPoint="0,0.5" EndPoint="1,0.5">
-    <GradientStop Color="#E6FFFFFF" Offset="0" />
-    <GradientStop Color="#8A67E8F9" Offset="0.28" />
-    <GradientStop Color="#59C4B5FD" Offset="0.55" />
-    <GradientStop Color="#00FFFFFF" Offset="1" />
+    <GradientStop Color="#B3FFFFFF" Offset="0" />
+    <GradientStop Color="#6667E8F9" Offset="0.04" />
+    <GradientStop Color="#33C4B5FD" Offset="0.08" />
+    <GradientStop Color="#00FFFFFF" Offset="0.14" />
   </LinearGradientBrush>
   <LinearGradientBrush x:Key="HoloSheenRightBrush" StartPoint="1,0.5" EndPoint="0,0.5">
-    <GradientStop Color="#E6FFFFFF" Offset="0" />
-    <GradientStop Color="#8A67E8F9" Offset="0.28" />
-    <GradientStop Color="#59C4B5FD" Offset="0.55" />
-    <GradientStop Color="#00FFFFFF" Offset="1" />
+    <GradientStop Color="#B3FFFFFF" Offset="0" />
+    <GradientStop Color="#6667E8F9" Offset="0.04" />
+    <GradientStop Color="#33C4B5FD" Offset="0.08" />
+    <GradientStop Color="#00FFFFFF" Offset="0.14" />
   </LinearGradientBrush>
   <Thickness x:Key="HoloRimThickness">2</Thickness>
   <Thickness x:Key="HoloHeroRimThickness">3</Thickness>
-  <sys:Double x:Key="HoloSheenHeight">24</sys:Double>
 </ResourceDictionary>
