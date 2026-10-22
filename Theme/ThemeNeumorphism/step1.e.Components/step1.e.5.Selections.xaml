@@ -8,14 +8,14 @@
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="CheckBox">
    <Border x:Name="Frame" Background="{DynamicResource TransparentBrush}" BorderBrush="{DynamicResource TransparentBrush}" BorderThickness="{DynamicResource BorderThicknessControl}" CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
     <DockPanel>
-     <neu:NeumorphSurface x:Name="Indicator" DockPanel.Dock="Left" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" VerticalAlignment="Center" Concave="True" Rank="Chip" Background="{DynamicResource SurfacePrimary}" CornerRadius="{DynamicResource ChipCornerRadius}">
-      <Path x:Name="Mark" Data="M 2,8 L 6,12 L 14,3" Stroke="{DynamicResource AccentPrimary}" StrokeThickness="{DynamicResource StrokeWidth}" Stretch="Uniform" Margin="{DynamicResource PaddingMark}" Visibility="Collapsed" />
+     <neu:NeumorphSurface x:Name="Track" DockPanel.Dock="Left" Width="{DynamicResource ControlMinHeight}" Height="{DynamicResource ChoiceMarkSize}" VerticalAlignment="Center" Concave="True" Rank="Chip" Background="{DynamicResource SurfaceSecondary}" CornerRadius="{DynamicResource ChoiceCornerRadius}">
+      <Border x:Name="Thumb" Width="{DynamicResource SpacingLarge}" Height="{DynamicResource SpacingLarge}" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="{DynamicResource ControlCornerRadius}" Background="{DynamicResource SurfacePrimary}" />
      </neu:NeumorphSurface>
      <ContentPresenter Margin="{DynamicResource PaddingChoice}" VerticalAlignment="Center" RecognizesAccessKey="True" />
     </DockPanel>
    </Border>
    <ControlTemplate.Triggers>
-    <Trigger Property="IsChecked" Value="True"><Setter TargetName="Mark" Property="Visibility" Value="Visible" /></Trigger>
+    <Trigger Property="IsChecked" Value="True"><Setter TargetName="Track" Property="Background" Value="{DynamicResource AccentPrimary}" /><Setter TargetName="Thumb" Property="HorizontalAlignment" Value="Right" /></Trigger>
     <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Frame" Property="BorderBrush" Value="{DynamicResource FocusIndicator}" /><Setter TargetName="Frame" Property="BorderThickness" Value="{DynamicResource FocusThickness}" /></Trigger>
     <Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="{DynamicResource DisabledOpacity}" /></Trigger>
    </ControlTemplate.Triggers>

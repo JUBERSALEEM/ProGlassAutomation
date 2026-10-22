@@ -8,17 +8,15 @@
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="CheckBox">
    <Border x:Name="Frame" Background="{DynamicResource TransparentBrush}" BorderBrush="{DynamicResource TransparentBrush}" BorderThickness="{DynamicResource BorderThicknessControl}" CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
     <DockPanel>
-     <Grid DockPanel.Dock="Left" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" VerticalAlignment="Center">
-      <Border x:Name="Indicator" Background="{DynamicResource SurfacePrimary}" BorderBrush="{DynamicResource FluentStrokeBrush}" BorderThickness="{DynamicResource BorderThicknessControl}" CornerRadius="{DynamicResource ChipCornerRadius}">
-       <Path x:Name="Mark" Data="M 2,8 L 6,12 L 14,3" Stroke="{DynamicResource TextOnAccent}" StrokeThickness="{DynamicResource StrokeWidth}" Stretch="Uniform" Margin="{DynamicResource PaddingMark}" Visibility="Collapsed" />
-      </Border>
-     </Grid>
+     <Border x:Name="Track" DockPanel.Dock="Left" Width="{DynamicResource ControlMinHeight}" Height="{DynamicResource ChoiceMarkSize}" VerticalAlignment="Center" CornerRadius="{DynamicResource ChoiceCornerRadius}" Background="{DynamicResource SurfaceSecondary}" BorderBrush="{DynamicResource FluentStrokeBrush}" BorderThickness="{DynamicResource BorderThicknessControl}">
+      <Border x:Name="Thumb" Width="{DynamicResource SpacingLarge}" Height="{DynamicResource SpacingLarge}" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="{DynamicResource ControlCornerRadius}" Background="{DynamicResource SurfacePrimary}" />
+     </Border>
      <ContentPresenter Margin="{DynamicResource PaddingChoice}" VerticalAlignment="Center" RecognizesAccessKey="True" />
     </DockPanel>
    </Border>
    <ControlTemplate.Triggers>
     <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Frame" Property="Background" Value="{DynamicResource StateHover}" /></Trigger>
-    <Trigger Property="IsChecked" Value="True"><Setter TargetName="Mark" Property="Visibility" Value="Visible" /><Setter TargetName="Indicator" Property="Background" Value="{DynamicResource AccentPrimary}" /><Setter TargetName="Frame" Property="Background" Value="{DynamicResource StateSelected}" /></Trigger>
+    <Trigger Property="IsChecked" Value="True"><Setter TargetName="Track" Property="Background" Value="{DynamicResource AccentPrimary}" /><Setter TargetName="Thumb" Property="HorizontalAlignment" Value="Right" /><Setter TargetName="Frame" Property="Background" Value="{DynamicResource StateSelected}" /></Trigger>
     <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Frame" Property="BorderBrush" Value="{DynamicResource FocusIndicator}" /><Setter TargetName="Frame" Property="BorderThickness" Value="{DynamicResource FocusThickness}" /></Trigger>
     <Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="{DynamicResource DisabledOpacity}" /></Trigger>
    </ControlTemplate.Triggers>
