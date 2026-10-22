@@ -1051,7 +1051,7 @@ public sealed partial class ThemeStudioViewModel
         overlayBusy = true;
         try
         {
-            themes.Overlay((package, mode) => ColorPlateService.Apply(package, mode, next));
+            themes.Overlay((package, mode) => ColorPlateService.Apply(package, mode, next, themes.ActiveTheme));
             colors = next;
             colorRoleHexDraft = ColorPlateService.ResolvedHex(colors, themes.ActiveAppearance, selectedColorRole);
             ThemeError = "";

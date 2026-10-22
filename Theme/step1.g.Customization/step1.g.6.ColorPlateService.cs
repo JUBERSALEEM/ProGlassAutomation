@@ -72,7 +72,15 @@ public static class ColorPlateService
         Plate("Sand",
             ("50", "#F8F1E8"), ("100", "#EAD9C3"), ("200", "#D4B48A"),
             ("400", "#C4954A"), ("600", "#A67C3A"), ("800", "#6E4F22")),
+        new ColorPlateDefinition(
+            "Theme",
+            [new ColorStop("theme", "#888888")],
+            new Dictionary<string, string>(),
+            new Dictionary<string, string>()),
     ];
+
+    public static bool IsThemePlate(string? name) =>
+        string.Equals(name, "Theme", StringComparison.OrdinalIgnoreCase);
 
     public static IReadOnlyList<ColorPlateCard> Cards { get; } = BuiltIn.Select(CardOf).ToArray();
 
@@ -103,11 +111,17 @@ public static class ColorPlateService
     public static string ToHex(Color color) =>
         $"#{color.R:X2}{color.G:X2}{color.B:X2}";
 
-    public static void Apply(ResourceDictionary package, Appearance mode, ColorPlateState state)
+    public static void Apply(ResourceDictionary package, Appearance mode, ColorPlateState state, string? theme = null)
     {
         ArgumentNullException.ThrowIfNull(package);
         ArgumentNullException.ThrowIfNull(state);
         if (state.Validate() is not null) throw new ArgumentException(state.Validate());
+        if (IsThemePlate(state.Plate))
+        {
+            if (!string.IsNullOrWhiteSpace(theme))
+                RestoreRoles(package, theme, mode);
+            return;
+        }
         var plate = Find(state.Plate);
         var roles = mode == Appearance.Dark ? plate.DarkRoles : plate.LightRoles;
         var stops = plate.Stops.ToDictionary(stop => stop.Name, stop => stop.Hex, StringComparer.OrdinalIgnoreCase);
@@ -175,8 +189,26 @@ public static class ColorPlateService
             });
     }
 
+    private static void RestoreRoles(ResourceDictionary package, string theme, Appearance mode)
+    {
+        var fresh = ThemeService.Load(mode, theme);
+        foreach (string role in Roles)
+        {
+            if (fresh[role] is not SolidColorBrush source) continue;
+            var brush = new SolidColorBrush(source.Color);
+            brush.Freeze();
+            Set(package, role, brush);
+        }
+    }
+
     private static ColorPlateCard CardOf(ColorPlateDefinition plate)
     {
+        if (IsThemePlate(plate.Name))
+        {
+            var sample = new SolidColorBrush(Color.FromRgb(0x88, 0x88, 0x88));
+            sample.Freeze();
+            return new ColorPlateCard(plate.Name, plate.Stops, [sample], sample, "Active theme accent. No overlay.");
+        }
         var swatches = new List<Brush>(plate.Stops.Count);
         foreach (var stop in plate.Stops)
         {
