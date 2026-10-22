@@ -77,8 +77,9 @@ internal static class CustomizationPersistenceChecks
         if (!ClayCustomization.IsBuiltIn("Rose Plush") || ClayCustomization.BuiltIn.Count != 4) throw new Exception("Clay built-in recognition");
         if (PresetCatalog.IsBuiltIn("My Test")) throw new Exception("Custom not built-in");
         if (PresetCatalog.BuiltIn.Count != 5) throw new Exception("Five built-in presets required");
-        // Corrupt handling — invalid enum falls back
-        var corrupt = json.Replace("\"Accent\": \"Ocean\"", "\"Accent\": 999");
+        // Corrupt handling — invalid enum is not a defined BentoAccent (fixture uses Indigo, not Ocean).
+        var corrupt = json.Replace("\"Accent\": \"Indigo\"", "\"Accent\": 999");
+        if (corrupt == json) throw new Exception("Corrupt fixture must rewrite Bento Accent");
         var fallback = System.Text.Json.JsonSerializer.Deserialize<SavedCustomization>(corrupt, new System.Text.Json.JsonSerializerOptions{ Converters={ new System.Text.Json.Serialization.JsonStringEnumConverter()}, PropertyNameCaseInsensitive=true});
         if (fallback!.Preferences.Validate() == null) throw new Exception("Corrupt should fail validation");
         // Reset produces defaults
