@@ -48,7 +48,10 @@
    <Grid>
     <Border Background="{DynamicResource HoloCardFillBrush}" CornerRadius="{DynamicResource CardCornerRadius}" />
     <Border Background="{DynamicResource HoloFaceBrush}" CornerRadius="{DynamicResource CardCornerRadius}" IsHitTestVisible="False" />
-    <Border Height="{DynamicResource HoloSheenHeight}" VerticalAlignment="Top" Background="{DynamicResource HoloSheenBrush}" CornerRadius="{DynamicResource CardCornerRadius}" IsHitTestVisible="False" />
+    <Border Height="{DynamicResource HoloSheenHeight}" VerticalAlignment="Top" Background="{DynamicResource HoloSheenTopBrush}" CornerRadius="{DynamicResource CardCornerRadius}" IsHitTestVisible="False" />
+    <Border Height="{DynamicResource HoloSheenHeight}" VerticalAlignment="Bottom" Background="{DynamicResource HoloSheenBottomBrush}" CornerRadius="{DynamicResource CardCornerRadius}" IsHitTestVisible="False" />
+    <Border Width="{DynamicResource HoloSheenHeight}" HorizontalAlignment="Left" Background="{DynamicResource HoloSheenLeftBrush}" CornerRadius="{DynamicResource CardCornerRadius}" IsHitTestVisible="False" />
+    <Border Width="{DynamicResource HoloSheenHeight}" HorizontalAlignment="Right" Background="{DynamicResource HoloSheenRightBrush}" CornerRadius="{DynamicResource CardCornerRadius}" IsHitTestVisible="False" />
     <Border BorderBrush="{DynamicResource HoloRimBrush}" BorderThickness="{DynamicResource HoloRimThickness}" CornerRadius="{DynamicResource CardCornerRadius}" Padding="{TemplateBinding Padding}">
      <ContentPresenter />
     </Border>
