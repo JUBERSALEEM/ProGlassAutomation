@@ -30,7 +30,7 @@
   <SolidColorBrush x:Key="StatusInformationSurface" Color="#242048" />
   <SolidColorBrush x:Key="OverlayBrush" Color="#B3080C14" />
   <SolidColorBrush x:Key="TransparentBrush" Color="#00000000" />
-  <LinearGradientBrush x:Key="HeroBackground" StartPoint="0,0" EndPoint="1,1"><GradientStop Color="#080C14" Offset="0" /><GradientStop Color="#163048" Offset="1" /></LinearGradientBrush>
+  <LinearGradientBrush x:Key="HeroBackground" StartPoint="0,0" EndPoint="1,1"><GradientStop Color="#2A4668" Offset="0" /><GradientStop Color="#1E3554" Offset="1" /></LinearGradientBrush>
   <SolidColorBrush x:Key="HeroForeground" Color="#F5FAFF" />
   <SolidColorBrush x:Key="HeroSecondaryText" Color="#D6E8FF" />
   <SolidColorBrush x:Key="HeroAccent" Color="#A8F0E8" />
@@ -59,9 +59,9 @@
   <Thickness x:Key="PaddingControl">10,5</Thickness>
   <Thickness x:Key="PaddingCard">16</Thickness>
   <Thickness x:Key="PaddingPlate">12</Thickness>
-  <Thickness x:Key="PaddingPage">16</Thickness>
+  <Thickness x:Key="PaddingPage">20</Thickness>
   <Thickness x:Key="MarginItem">0,0,0,8</Thickness>
-  <Thickness x:Key="MarginSection">0,0,0,12</Thickness>
+  <Thickness x:Key="MarginSection">0,0,0,16</Thickness>
   <Thickness x:Key="MarginInline">0,0,8,4</Thickness>
   <Thickness x:Key="MarginPanel">0</Thickness>
   <Thickness x:Key="BorderThicknessControl">1</Thickness>
@@ -101,6 +101,6 @@
   <sys:Double x:Key="ChartDonutRadius">56</sys:Double>
   <sys:Double x:Key="ChartAreaOpacity">0.16</sys:Double>
   <sys:Double x:Key="BentoRowHeight">168</sys:Double>
-  <sys:Double x:Key="BentoGutter">20</sys:Double>
+  <sys:Double x:Key="BentoGutter">28</sys:Double>
   <sys:Double x:Key="BentoCompactWidth">1100</sys:Double>
 </ResourceDictionary>

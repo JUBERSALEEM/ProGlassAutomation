@@ -22,6 +22,8 @@
   <sys:Double x:Key="SpatialLiftDepth">16</sys:Double>
   <sys:Double x:Key="SpatialLiftOpacity">0.48</sys:Double>
   <sys:Boolean x:Key="SpatialReduceTransparency">False</sys:Boolean>
+  <Thickness x:Key="SpatialStagePad">16,20,12,20</Thickness>
+  <Thickness x:Key="SpatialWorkspacePad">16,12,28,24</Thickness>
   <LinearGradientBrush x:Key="SpatialCanvasBrush" StartPoint="0.5,0" EndPoint="0.5,1">
     <GradientStop Color="#060A12" Offset="0" />
     <GradientStop Color="#0C1422" Offset="0.36" />

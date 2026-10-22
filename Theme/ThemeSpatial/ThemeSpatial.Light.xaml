@@ -59,9 +59,9 @@
   <Thickness x:Key="PaddingControl">10,5</Thickness>
   <Thickness x:Key="PaddingCard">16</Thickness>
   <Thickness x:Key="PaddingPlate">12</Thickness>
-  <Thickness x:Key="PaddingPage">16</Thickness>
+  <Thickness x:Key="PaddingPage">20</Thickness>
   <Thickness x:Key="MarginItem">0,0,0,8</Thickness>
-  <Thickness x:Key="MarginSection">0,0,0,12</Thickness>
+  <Thickness x:Key="MarginSection">0,0,0,16</Thickness>
   <Thickness x:Key="MarginInline">0,0,8,4</Thickness>
   <Thickness x:Key="MarginPanel">0</Thickness>
   <Thickness x:Key="BorderThicknessControl">1</Thickness>
@@ -101,6 +101,6 @@
   <sys:Double x:Key="ChartDonutRadius">56</sys:Double>
   <sys:Double x:Key="ChartAreaOpacity">0.16</sys:Double>
   <sys:Double x:Key="BentoRowHeight">168</sys:Double>
-  <sys:Double x:Key="BentoGutter">20</sys:Double>
+  <sys:Double x:Key="BentoGutter">28</sys:Double>
   <sys:Double x:Key="BentoCompactWidth">1100</sys:Double>
 </ResourceDictionary>

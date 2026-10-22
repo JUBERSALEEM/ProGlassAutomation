@@ -41,6 +41,9 @@
                     <Setter Property="Width" Value="0" />
                     <Setter Property="Visibility" Value="Collapsed" />
                 </DataTrigger>
+                <DataTrigger Binding="{Binding IsSpatial}" Value="True">
+                    <Setter Property="Margin" Value="{DynamicResource SpatialStagePad}" />
+                </DataTrigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="ShellIconButton" TargetType="Button">
@@ -293,7 +296,17 @@
             </Grid>
             </ContentControl>
         </Border>
-        <Grid Grid.Column="1" Margin="{DynamicResource PaddingPage}">
+        <Grid Grid.Column="1">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Margin" Value="{DynamicResource PaddingPage}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsSpatial}" Value="True">
+                            <Setter Property="Margin" Value="{DynamicResource SpatialWorkspacePad}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -337,11 +350,11 @@
             <TabControl Grid.Row="1" x:Name="WorkspaceTabs"
                         SelectedIndex="{Binding SelectedWorkspace, Mode=TwoWay}"
                         AutomationProperties.Name="Design workspace pages"
-                        BorderThickness="0"
-                        ClipToBounds="True">
+                        BorderThickness="0">
                 <TabControl.Style>
                     <Style TargetType="TabControl">
                         <Setter Property="Background" Value="{DynamicResource ApplicationBackground}" />
+                        <Setter Property="ClipToBounds" Value="True" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsLiquid}" Value="True">
                                 <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
@@ -351,6 +364,7 @@
                             </DataTrigger>
                             <DataTrigger Binding="{Binding IsSpatial}" Value="True">
                                 <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
+                                <Setter Property="ClipToBounds" Value="False" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>

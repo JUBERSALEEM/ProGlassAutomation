@@ -41,7 +41,12 @@ public static class SpatialWallpaper
         Fill(group, Wash(Color.FromRgb(206, 218, 232), Color.FromRgb(184, 200, 218), Color.FromRgb(154, 174, 196), Color.FromRgb(122, 146, 170)));
         RectBand(group, 0, 96, Color.FromRgb(214, 224, 236));
         RectBand(group, 96, 84, Color.FromRgb(190, 204, 220));
-        // Vanishing stage: far shelf → near floor. Opaque planes, cooler as they recede.
+        Plane(group,
+            P(0, 0), P(168, 0), P(220, 180), P(0, 180),
+            Color.FromRgb(176, 192, 210), Color.FromRgb(120, 140, 162));
+        Plane(group,
+            P(632, 0), P(800, 0), P(800, 180), P(580, 180),
+            Color.FromRgb(176, 192, 210), Color.FromRgb(120, 140, 162));
         Plane(group,
             P(0, 180), P(220, 180), P(160, 236), P(70, 328), P(0, 430),
             Color.FromRgb(132, 152, 174), Color.FromRgb(96, 118, 142));
@@ -68,6 +73,12 @@ public static class SpatialWallpaper
         Fill(group, Wash(Color.FromRgb(7, 11, 20), Color.FromRgb(10, 18, 32), Color.FromRgb(16, 28, 48), Color.FromRgb(8, 12, 20)));
         RectBand(group, 0, 96, Color.FromRgb(6, 10, 18));
         RectBand(group, 96, 84, Color.FromRgb(10, 16, 28));
+        Plane(group,
+            P(0, 0), P(168, 0), P(220, 180), P(0, 180),
+            Color.FromRgb(14, 22, 36), Color.FromRgb(8, 12, 22));
+        Plane(group,
+            P(632, 0), P(800, 0), P(800, 180), P(580, 180),
+            Color.FromRgb(14, 22, 36), Color.FromRgb(8, 12, 22));
         Plane(group,
             P(0, 180), P(220, 180), P(160, 236), P(70, 328), P(0, 430),
             Color.FromRgb(12, 20, 34), Color.FromRgb(6, 10, 18));
