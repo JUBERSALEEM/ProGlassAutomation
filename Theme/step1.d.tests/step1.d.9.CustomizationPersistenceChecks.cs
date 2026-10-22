@@ -88,7 +88,12 @@ internal static class CustomizationPersistenceChecks
         // Chart data not mutated by display options
         var ds = new ProGlassAutomation.Analytics.ChartDataset("T", ProGlassAutomation.Analytics.ChartKind.Columns, ["A"], [new ProGlassAutomation.Analytics.ChartSeriesData("S", [1])], "u", "summary");
         var vmChart = new ChartCustomizationViewModel();
+        vmChart.SelectedDataset = ds;
+        vmChart.ChartTitle = "Display only";
+        vmChart.SelectedKind = ProGlassAutomation.Analytics.ChartKind.Lines;
+        vmChart.ShowGrid = false;
         if (vmChart.PreviewDataset.Series[0].Values[0] != 1) throw new Exception("Chart source values unchanged");
+        if (ds.Series[0].Values[0] != 1) throw new Exception("Chart source dataset mutated");
         Console.WriteLine("PASS: customization controls affect resources, save/load, built-in protection, corrupt fallback, chart isolation.");
     }
 }
