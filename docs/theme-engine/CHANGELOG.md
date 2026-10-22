@@ -1,5 +1,11 @@
 # Changelog (theme-engine program)
 
+## 2026-10-22 — Empty import reject (D13)
+
+- `CustomizationStore.ReadFile` required an explicit JSON `Version` of 2. `{}` no longer deserializes as a default v2 package.
+- Persistence test expectation unchanged. ThemeTests not re-run on this host.
+- D01 remains BLOCKED. No package upgrades.
+
 ## 2026-10-22 — D01 Windows handoff
 
 - Added `D01_WINDOWS_HANDOFF.md`: Windows SDK/csproj commands from README + `cols/ci/windows-wpf.yml`, Light/Dark Home+Studio checklist, screenshot IDs S01–S12, defect/status rules.

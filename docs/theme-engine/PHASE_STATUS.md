@@ -2,7 +2,7 @@
 
 Legend: NOT STARTED | IN PROGRESS | BLOCKED | IMPLEMENTED — NOT VERIFIED | VERIFIED | APPROVED
 
-Updated: 2026-10-22 (D01 Liquid visual gate — **BLOCKED**, no Windows render).
+Updated: 2026-10-22 (D13 empty-import fix in source; D01 visual still **BLOCKED**).
 
 ## Stage A — Discovery
 

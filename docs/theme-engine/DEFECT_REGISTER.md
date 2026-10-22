@@ -16,3 +16,4 @@ Status: OPEN / MITIGATED-IN-SOURCE / ACCEPTED-RISK / FIXED-UNVERIFIED / CLOSED.
 | D10 | 2026-10-22 | Low | CompactWidth 1100 reflows Studio &lt;1100 DIP | ACCEPTED-RISK | Documented engine behavior (`PlacePacked`). |
 | D11 | historic | — | Layout Studio / layout overlay | CLOSED | Hard reset to `d1c4268`. Do not restore. |
 | D12 | historic | — | Black charts GPU/BitmapCache | CLOSED | CPU Skia. Do not revert. |
+| D13 | 2026-10-22 | Medium | `ReadFile("{}")` accepted as v2 defaults; persistence test “Empty import must fail” | FIXED-UNVERIFIED | Constructor defaults fill Version=2 + Preferences. `HasVersion2` requires explicit JSON Version. ThemeTests not re-run here. |

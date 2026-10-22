@@ -48,6 +48,8 @@ public static class CustomizationStore
         var json = File.ReadAllText(path);
         if (LooksLikeMarkup(json))
             throw new ArgumentException("Theme files must be JSON customization data, not XAML or markup.");
+        if (!HasVersion2(json))
+            throw new ArgumentException("Unsupported or empty ProGlass theme file.");
         var loaded = JsonSerializer.Deserialize<SavedCustomization>(json, Options);
         if (loaded is null || loaded.Version != 2) throw new ArgumentException("Unsupported or empty ProGlass theme file.");
         if (loaded.Preferences is null || loaded.Preferences.Validate() is not null) throw new ArgumentException("Theme file contains invalid Bento preferences.");
@@ -120,6 +122,24 @@ public static class CustomizationStore
     {
         var start = text.AsSpan().TrimStart();
         return start.Length > 0 && start[0] == '<';
+    }
+
+    /// <summary>
+    /// Record constructor defaults set Version=2 and a valid Preferences instance, so <c>{}</c>
+    /// deserializes as a complete package. Import must see an explicit v2 Version in the JSON.
+    /// WriteFile always emits Version; existing v2 saves are unchanged.
+    /// </summary>
+    private static bool HasVersion2(string json)
+    {
+        if (string.IsNullOrWhiteSpace(json)) return false;
+        using var document = JsonDocument.Parse(json);
+        if (document.RootElement.ValueKind != JsonValueKind.Object) return false;
+        foreach (var property in document.RootElement.EnumerateObject())
+        {
+            if (!string.Equals(property.Name, "Version", StringComparison.OrdinalIgnoreCase)) continue;
+            return property.Value.ValueKind == JsonValueKind.Number && property.Value.TryGetInt32(out int version) && version == 2;
+        }
+        return false;
     }
 
     public static SavedCustomization Defaults() => new();
