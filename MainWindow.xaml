@@ -33,24 +33,13 @@
         </DrawingImage>
         <Style x:Key="ShellSidebar" TargetType="Border">
             <Setter Property="Width" Value="{DynamicResource StudioSidebarWidth}" />
-            <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource BorderSubtle}" />
-            <Setter Property="BorderThickness" Value="0,0,1,0" />
+            <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="{DynamicResource PaddingCompact}" />
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsMenuOpen}" Value="False">
                     <Setter Property="Width" Value="0" />
                     <Setter Property="Visibility" Value="Collapsed" />
-                </DataTrigger>
-                <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding IsLiquid}" Value="True" />
-                        <Condition Binding="{Binding IsDark}" Value="True" />
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
-                </MultiDataTrigger>
-                <DataTrigger Binding="{Binding IsGlass}" Value="True">
-                    <Setter Property="Background" Value="{DynamicResource GlassFrostSecondary}" />
-                    <Setter Property="BorderBrush" Value="{DynamicResource GlassStrokeBrush}" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -73,34 +62,16 @@
             <Setter Property="FocusVisualStyle" Value="{DynamicResource KeyboardFocus}" />
             <Setter Property="Background" Value="{DynamicResource SurfaceSecondary}" />
             <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource BorderSubtle}" />
-            <Setter Property="BorderThickness" Value="{DynamicResource BorderThicknessControl}" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="HorizontalContentAlignment" Value="Left" />
             <Setter Property="Padding" Value="{DynamicResource PaddingControl}" />
             <Setter Property="Margin" Value="{DynamicResource MarginItem}" />
             <Setter Property="MinHeight" Value="{DynamicResource ControlMinHeight}" />
             <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button">
-                <Border x:Name="Row" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ControlCornerRadius}">
+                <ContentControl Style="{DynamicResource Plate}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" Focusable="False">
                     <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" RecognizesAccessKey="True" />
-                </Border>
-                <ControlTemplate.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Row" Property="Background" Value="{DynamicResource StateHover}" /></Trigger>
-                </ControlTemplate.Triggers>
+                </ContentControl>
             </ControlTemplate></Setter.Value></Setter>
-            <Style.Triggers>
-                <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding IsLiquid}" Value="True" />
-                        <Condition Binding="{Binding IsDark}" Value="True" />
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
-                </MultiDataTrigger>
-                <DataTrigger Binding="{Binding IsGlass}" Value="True">
-                    <Setter Property="Background" Value="{DynamicResource GlassFrostControl}" />
-                    <Setter Property="BorderBrush" Value="{DynamicResource GlassStrokeBrush}" />
-                </DataTrigger>
-            </Style.Triggers>
         </Style>
         <Style x:Key="ShellExpanderCard" TargetType="Expander">
             <Setter Property="Background" Value="{DynamicResource SurfaceElevated}" />
@@ -165,47 +136,25 @@
         <Style x:Key="ShellSectionLabel" TargetType="TextBlock" BasedOn="{StaticResource Caption}">
             <Setter Property="Margin" Value="{DynamicResource PaddingCompact}" />
         </Style>
-        <Style x:Key="ShellModuleBanner" TargetType="Border">
-            <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource BorderSubtle}" />
-            <Setter Property="BorderThickness" Value="{DynamicResource BorderThicknessControl}" />
-            <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
-            <Setter Property="Padding" Value="{DynamicResource PaddingControl}" />
+        <Style x:Key="ShellModuleBanner" TargetType="ContentControl">
+            <Setter Property="Focusable" Value="False" />
             <Setter Property="Margin" Value="{DynamicResource MarginSection}" />
             <Setter Property="VerticalAlignment" Value="Center" />
-            <Style.Triggers>
-                <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding IsLiquid}" Value="True" />
-                        <Condition Binding="{Binding IsDark}" Value="True" />
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
-                </MultiDataTrigger>
-                <DataTrigger Binding="{Binding IsGlass}" Value="True">
-                    <Setter Property="Background" Value="{DynamicResource GlassFrostElevated}" />
-                    <Setter Property="BorderBrush" Value="{DynamicResource GlassStrokeBrush}" />
-                </DataTrigger>
-            </Style.Triggers>
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
+                <ContentControl Style="{DynamicResource Card}" Padding="{DynamicResource PaddingControl}" Focusable="False">
+                    <ContentPresenter />
+                </ContentControl>
+            </ControlTemplate></Setter.Value></Setter>
         </Style>
-        <Style x:Key="ShellBannerCluster" TargetType="Border">
-            <Setter Property="Background" Value="{DynamicResource SurfacePrimary}" />
-            <Setter Property="CornerRadius" Value="{DynamicResource ChipCornerRadius}" />
-            <Setter Property="Padding" Value="{DynamicResource PaddingCompact}" />
+        <Style x:Key="ShellBannerCluster" TargetType="ContentControl">
+            <Setter Property="Focusable" Value="False" />
             <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="SnapsToDevicePixels" Value="True" />
-            <Style.Triggers>
-                <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding IsLiquid}" Value="True" />
-                        <Condition Binding="{Binding IsDark}" Value="True" />
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="Background" Value="{DynamicResource TransparentBrush}" />
-                </MultiDataTrigger>
-                <DataTrigger Binding="{Binding IsGlass}" Value="True">
-                    <Setter Property="Background" Value="{DynamicResource GlassFrostControl}" />
-                    <Setter Property="BorderBrush" Value="{DynamicResource GlassStrokeBrush}" />
-                </DataTrigger>
-            </Style.Triggers>
+            <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
+                <ContentControl Style="{DynamicResource Plate}" Padding="{DynamicResource PaddingCompact}" Focusable="False">
+                    <ContentPresenter />
+                </ContentControl>
+            </ControlTemplate></Setter.Value></Setter>
         </Style>
         <Style x:Key="ShellBannerButton" TargetType="Button" BasedOn="{StaticResource ShellIconButton}">
             <Setter Property="MinHeight" Value="{DynamicResource FontSizeSection}" />
@@ -228,6 +177,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Border Grid.Column="0" Style="{StaticResource ShellSidebar}">
+            <ContentControl Style="{DynamicResource Card}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -341,13 +291,14 @@
                 </ScrollViewer>
                 <TextBlock Grid.Row="2" Text="ProGlass Automation · Version 3.0" Style="{StaticResource ShellSectionLabel}" />
             </Grid>
+            </ContentControl>
         </Border>
         <Grid Grid.Column="1" Margin="{DynamicResource PaddingPage}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Border Grid.Row="0" Style="{StaticResource ShellModuleBanner}">
+            <ContentControl Grid.Row="0" Style="{StaticResource ShellModuleBanner}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -372,7 +323,7 @@
                             <TextBlock Text="{Binding WorkspaceSubtitle}" Style="{DynamicResource Caption}" />
                         </StackPanel>
                     </StackPanel>
-                    <Border Grid.Column="2" Style="{StaticResource ShellBannerCluster}">
+                    <ContentControl Grid.Column="2" Style="{StaticResource ShellBannerCluster}">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <TextBlock Text="{Binding ShellClock}" Style="{DynamicResource Caption}" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimary}" />
                             <Border Style="{StaticResource ShellBannerRule}" />
@@ -380,9 +331,9 @@
                             <Border Style="{StaticResource ShellBannerRule}" />
                             <Button Content="Dark" Command="{Binding ToggleAppearance}" Style="{StaticResource ShellBannerButton}" AutomationProperties.Name="Toggle appearance" />
                         </StackPanel>
-                    </Border>
+                    </ContentControl>
                 </Grid>
-            </Border>
+            </ContentControl>
             <TabControl Grid.Row="1" x:Name="WorkspaceTabs"
                         SelectedIndex="{Binding SelectedWorkspace, Mode=TwoWay}"
                         AutomationProperties.Name="Design workspace pages"
