@@ -16,8 +16,9 @@ public sealed partial class BentoChart
     private readonly PieChart pie = new() { AnimationsSpeed = TimeSpan.Zero, LegendPosition = LegendPosition.Hidden };
     private readonly Grid plot = new();
     private readonly Grid root = new() { HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Stretch };
-    private readonly Grid sideBody = new() { MinHeight = 0 };
+    private readonly Grid sideBody = new() { MinHeight = 0, ClipToBounds = true };
     private readonly DockPanel sideHost = new() { LastChildFill = true };
+    private readonly FillSlot plotSlot = new();
     private readonly WrapPanel legend = new();
     private readonly DockPanel footer = new() { LastChildFill = true };
     private readonly TextBlock message = new() { TextWrapping = TextWrapping.Wrap };
@@ -76,8 +77,9 @@ public sealed partial class BentoChart
     }
 
     /// <summary>
-    /// Donut: ticks stay beside the pie. Toggle and source values Dock.Bottom so the four lines
-    /// are measured first and the pie shrinks — a star-row MaxHeight budget still clipped Other.
+    /// Donut: ticks stay beside the pie. Toggle and source values Dock.Bottom.
+    /// The pie lives in FillSlot (desired height 0) so LiveCharts min-size cannot
+    /// inflate the host and clip Other on the Home-top Mix cell.
     /// Cartesian: plot fills the card; footer under the plot.
     /// </summary>
     private void LayoutChrome(bool circular)
@@ -87,8 +89,9 @@ public sealed partial class BentoChart
         sideLegend = side;
         legend.Orientation = side ? Orientation.Vertical : Orientation.Horizontal;
         legend.VerticalAlignment = VerticalAlignment.Top;
+        plotSlot.Child = null;
         Detach(plot); Detach(legend); Detach(inspectToggle); Detach(message); Detach(summary); Detach(values);
-        Detach(footer); Detach(sideBody); Detach(sideHost);
+        Detach(footer); Detach(sideBody); Detach(plotSlot); Detach(sideHost);
         root.Children.Clear();
         root.RowDefinitions.Clear();
         root.ColumnDefinitions.Clear();
@@ -109,13 +112,15 @@ public sealed partial class BentoChart
             sideHost.Children.Add(message);
             sideHost.Children.Add(summary);
             sideBody.MinHeight = 0;
+            sideBody.ClipToBounds = true;
             sideBody.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star), MinWidth = 96 });
             sideBody.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto, MinWidth = 108 });
             Grid.SetColumn(plot, 0);
             Grid.SetColumn(legend, 1);
             sideBody.Children.Add(plot);
             sideBody.Children.Add(legend);
-            sideHost.Children.Add(sideBody);
+            plotSlot.Child = sideBody;
+            sideHost.Children.Add(plotSlot);
             root.Children.Add(sideHost);
         }
         else
@@ -148,6 +153,27 @@ public sealed partial class BentoChart
     private static void Detach(FrameworkElement child)
     {
         if (child.Parent is Panel current) current.Children.Remove(child);
+        else if (child.Parent is Decorator decorator) decorator.Child = null;
+    }
+
+    /// <summary>
+    /// Measures as zero height so docked Mix source lines keep their space.
+    /// Arranges the pie into whatever height remains after those lines.
+    /// </summary>
+    private sealed class FillSlot : Decorator
+    {
+        protected override Size MeasureOverride(Size constraint)
+        {
+            Child?.Measure(constraint);
+            double width = double.IsInfinity(constraint.Width) ? 0 : constraint.Width;
+            return new Size(width, 0);
+        }
+
+        protected override Size ArrangeOverride(Size arrangeSize)
+        {
+            Child?.Arrange(new Rect(arrangeSize));
+            return arrangeSize;
+        }
     }
 
     protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
