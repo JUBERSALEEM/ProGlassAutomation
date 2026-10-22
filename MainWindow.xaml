@@ -220,8 +220,8 @@
                                                 <Condition Binding="{Binding IsSwiss}" Value="True" />
                                                 <Condition Binding="{Binding IsBusiness}" Value="True" />
                                             </MultiDataTrigger.Conditions>
-                                            <Setter Property="Background" Value="{DynamicResource HeroBackground}" />
-                                            <Setter Property="Foreground" Value="{DynamicResource HeroForeground}" />
+                                            <Setter Property="Background" Value="{DynamicResource AccentSoft}" />
+                                            <Setter Property="Foreground" Value="{DynamicResource AccentPrimary}" />
                                         </MultiDataTrigger>
                                         <MultiDataTrigger>
                                             <MultiDataTrigger.Conditions>
@@ -251,8 +251,8 @@
                                                 <Condition Binding="{Binding IsSwiss}" Value="True" />
                                                 <Condition Binding="{Binding IsStudio}" Value="True" />
                                             </MultiDataTrigger.Conditions>
-                                            <Setter Property="Background" Value="{DynamicResource HeroBackground}" />
-                                            <Setter Property="Foreground" Value="{DynamicResource HeroForeground}" />
+                                            <Setter Property="Background" Value="{DynamicResource AccentSoft}" />
+                                            <Setter Property="Foreground" Value="{DynamicResource AccentPrimary}" />
                                         </MultiDataTrigger>
                                         <MultiDataTrigger>
                                             <MultiDataTrigger.Conditions>
@@ -281,8 +281,8 @@
                                                 <Condition Binding="{Binding IsSwiss}" Value="True" />
                                                 <Condition Binding="{Binding IsTexts}" Value="True" />
                                             </MultiDataTrigger.Conditions>
-                                            <Setter Property="Background" Value="{DynamicResource HeroBackground}" />
-                                            <Setter Property="Foreground" Value="{DynamicResource HeroForeground}" />
+                                            <Setter Property="Background" Value="{DynamicResource AccentSoft}" />
+                                            <Setter Property="Foreground" Value="{DynamicResource AccentPrimary}" />
                                         </MultiDataTrigger>
                                         <MultiDataTrigger>
                                             <MultiDataTrigger.Conditions>
@@ -311,8 +311,8 @@
                                                 <Condition Binding="{Binding IsSwiss}" Value="True" />
                                                 <Condition Binding="{Binding IsColors}" Value="True" />
                                             </MultiDataTrigger.Conditions>
-                                            <Setter Property="Background" Value="{DynamicResource HeroBackground}" />
-                                            <Setter Property="Foreground" Value="{DynamicResource HeroForeground}" />
+                                            <Setter Property="Background" Value="{DynamicResource AccentSoft}" />
+                                            <Setter Property="Foreground" Value="{DynamicResource AccentPrimary}" />
                                         </MultiDataTrigger>
                                         <MultiDataTrigger>
                                             <MultiDataTrigger.Conditions>

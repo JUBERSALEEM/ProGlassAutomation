@@ -92,13 +92,6 @@ public static class SharedGeometry
             if (ThemeCatalog.Find(theme).Geometry != ThemeGeometry.SharedTokens)
                 return;
             Apply(package, geometry);
-            if (theme == ThemeService.Swiss)
-            {
-                package["CardCornerRadius"] = new CornerRadius(0);
-                package["ControlCornerRadius"] = new CornerRadius(0);
-                package["ChipCornerRadius"] = new CornerRadius(0);
-                package["ChoiceCornerRadius"] = new CornerRadius(0);
-            }
             if (theme == ThemeService.Neumorphism)
             {
                 package["ControlCornerRadius"] = new CornerRadius(12);

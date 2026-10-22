@@ -30,7 +30,7 @@
   <SolidColorBrush x:Key="StatusInformationSurface" Color="#1B1B2E" />
   <SolidColorBrush x:Key="OverlayBrush" Color="#B3080808" />
   <SolidColorBrush x:Key="TransparentBrush" Color="#00000000" />
-  <SolidColorBrush x:Key="HeroBackground" Color="#121212" />
+  <SolidColorBrush x:Key="HeroBackground" Color="#1A1A1A" />
   <SolidColorBrush x:Key="HeroForeground" Color="#F3F1EC" />
   <SolidColorBrush x:Key="HeroSecondaryText" Color="#C9C5BC" />
   <SolidColorBrush x:Key="HeroAccent" Color="#E86870" />
