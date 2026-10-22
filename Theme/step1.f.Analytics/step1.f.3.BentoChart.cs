@@ -135,7 +135,7 @@ public sealed partial class BentoChart
         }
     }
 
-    private static void Host(Panel parent, UIElement child)
+    private static void Host(Panel parent, FrameworkElement child)
     {
         if (ReferenceEquals(child.Parent, parent)) return;
         if (child.Parent is Panel current) current.Children.Remove(child);
