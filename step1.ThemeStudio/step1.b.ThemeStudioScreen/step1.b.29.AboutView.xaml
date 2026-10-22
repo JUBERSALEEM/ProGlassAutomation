@@ -1,7 +1,7 @@
 <UserControl x:Class="ProGlassAutomation.ThemeStudio.AboutView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
  <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" CanContentScroll="False" PanningMode="VerticalOnly">
   <StackPanel Margin="{DynamicResource PaddingPage}">
-   <ContentControl Style="{DynamicResource HeroCard}" Margin="{DynamicResource MarginSection}">
+   <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
     <StackPanel>
      <TextBlock Text="ProGlass Automation" Style="{DynamicResource PageHeading}"/>
      <TextBlock Text="Version 3.0 · Phase 01 · native Windows WPF" Style="{DynamicResource Caption}"/>

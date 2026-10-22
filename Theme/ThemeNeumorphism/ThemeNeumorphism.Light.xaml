@@ -30,10 +30,10 @@
   <SolidColorBrush x:Key="StatusInformationSurface" Color="#D6E3F3" />
   <SolidColorBrush x:Key="OverlayBrush" Color="#991B2430" />
   <SolidColorBrush x:Key="TransparentBrush" Color="#00FFFFFF" />
-  <LinearGradientBrush x:Key="HeroBackground" StartPoint="0,0" EndPoint="1,1"><GradientStop Color="#2A3444" Offset="0" /><GradientStop Color="#3D4F68" Offset="1" /></LinearGradientBrush>
-  <SolidColorBrush x:Key="HeroForeground" Color="#F5F8FC" />
-  <SolidColorBrush x:Key="HeroSecondaryText" Color="#D5DEEA" />
-  <SolidColorBrush x:Key="HeroAccent" Color="#8EE0C8" />
+  <LinearGradientBrush x:Key="HeroBackground" StartPoint="0,0" EndPoint="1,1"><GradientStop Color="#E6EBEF" Offset="0" /><GradientStop Color="#EEF2F6" Offset="1" /></LinearGradientBrush>
+  <SolidColorBrush x:Key="HeroForeground" Color="#1B2430" />
+  <SolidColorBrush x:Key="HeroSecondaryText" Color="#445060" />
+  <SolidColorBrush x:Key="HeroAccent" Color="#2F5AA8" />
   <sys:Double x:Key="FontSizeDisplay">28</sys:Double>
   <sys:Double x:Key="FontSizeTitle">20</sys:Double>
   <sys:Double x:Key="FontSizeSection">16</sys:Double>
