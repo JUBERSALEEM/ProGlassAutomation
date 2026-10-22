@@ -47,7 +47,8 @@
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
    <Grid>
     <Border Background="{TemplateBinding Background}" CornerRadius="{DynamicResource CardCornerRadius}" />
-    <Border Height="{DynamicResource SpacingLarge}" VerticalAlignment="Top" Background="{DynamicResource HoloSheenBrush}" CornerRadius="{DynamicResource CardCornerRadius}" IsHitTestVisible="False" />
+    <Border Background="{DynamicResource HoloFaceBrush}" CornerRadius="{DynamicResource CardCornerRadius}" IsHitTestVisible="False" />
+    <Border Height="{DynamicResource HoloSheenHeight}" VerticalAlignment="Top" Background="{DynamicResource HoloSheenBrush}" CornerRadius="{DynamicResource CardCornerRadius}" IsHitTestVisible="False" />
     <Border BorderBrush="{DynamicResource HoloRimBrush}" BorderThickness="{DynamicResource HoloRimThickness}" CornerRadius="{DynamicResource CardCornerRadius}" Padding="{TemplateBinding Padding}">
      <ContentPresenter />
     </Border>
@@ -63,7 +64,7 @@
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
    <Grid>
     <Border Background="{TemplateBinding Background}" CornerRadius="{DynamicResource ControlCornerRadius}" />
-    <Border BorderBrush="{DynamicResource HoloRimBrush}" BorderThickness="{DynamicResource BorderThicknessControl}" CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
+    <Border BorderBrush="{DynamicResource HoloQuietRimBrush}" BorderThickness="{DynamicResource BorderThicknessControl}" CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
      <ContentPresenter />
     </Border>
    </Grid>
@@ -81,14 +82,14 @@
  <Style TargetType="Separator">
   <Setter Property="Margin" Value="{DynamicResource MarginItem}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Separator">
-   <Border Height="1" Background="{DynamicResource HoloRimBrush}" />
+   <Border Height="1" Background="{DynamicResource BorderSubtle}" />
   </ControlTemplate></Setter.Value></Setter>
  </Style>
  <Style TargetType="ProgressBar">
   <Setter Property="Height" Value="{DynamicResource SpacingMedium}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ProgressBar">
    <Grid><Border Background="{DynamicResource SurfaceSecondary}" CornerRadius="{DynamicResource ChipCornerRadius}" />
-    <Border x:Name="PART_Track"><Border x:Name="PART_Indicator" HorizontalAlignment="Left" Background="{DynamicResource HoloRimBrush}" CornerRadius="{DynamicResource ChipCornerRadius}" /></Border>
+    <Border x:Name="PART_Track"><Border x:Name="PART_Indicator" HorizontalAlignment="Left" Background="{DynamicResource AccentPrimary}" CornerRadius="{DynamicResource ChipCornerRadius}" /></Border>
    </Grid>
   </ControlTemplate></Setter.Value></Setter>
  </Style>

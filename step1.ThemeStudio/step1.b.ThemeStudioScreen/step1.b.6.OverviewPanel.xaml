@@ -15,6 +15,10 @@
          <Setter Property="FontWeight" Value="{DynamicResource FontWeightHeading}" />
          <Setter Property="Margin" Value="{DynamicResource MarginSection}" />
         </DataTrigger>
+        <DataTrigger Binding="{Binding IsHolographic}" Value="True">
+         <Setter Property="Foreground" Value="{DynamicResource HeroAccent}" />
+         <Setter Property="FontWeight" Value="{DynamicResource FontWeightHeading}" />
+        </DataTrigger>
        </Style.Triggers>
       </Style>
      </TextBlock.Style>
