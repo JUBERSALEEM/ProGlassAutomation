@@ -8,7 +8,7 @@
   <Setter Property="Focusable" Value="False" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
    <Grid>
-    <Border Background="{TemplateBinding Background}" CornerRadius="{DynamicResource CardCornerRadius}" />
+    <Border Background="{DynamicResource HoloCardFillBrush}" CornerRadius="{DynamicResource CardCornerRadius}" />
     <Border Background="{DynamicResource HoloFaceBrush}" CornerRadius="{DynamicResource CardCornerRadius}" IsHitTestVisible="False" />
     <Border Height="{DynamicResource HoloSheenHeight}" VerticalAlignment="Top" Background="{DynamicResource HoloSheenBrush}" CornerRadius="{DynamicResource CardCornerRadius}" IsHitTestVisible="False" />
     <Border BorderBrush="{DynamicResource HoloRimBrush}" BorderThickness="{DynamicResource HoloRimThickness}" CornerRadius="{DynamicResource CardCornerRadius}" Padding="{TemplateBinding Padding}">
@@ -44,7 +44,7 @@
   <Setter Property="HorizontalAlignment" Value="Stretch" /><Setter Property="VerticalAlignment" Value="Stretch" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="analytics:BentoKpi">
    <Grid>
-    <Border Background="{TemplateBinding Background}" CornerRadius="{DynamicResource CardCornerRadius}" />
+    <Border Background="{DynamicResource HoloCardFillBrush}" CornerRadius="{DynamicResource CardCornerRadius}" />
     <Border Background="{DynamicResource HoloFaceBrush}" CornerRadius="{DynamicResource CardCornerRadius}" IsHitTestVisible="False" />
     <Border Height="{DynamicResource HoloSheenHeight}" VerticalAlignment="Top" Background="{DynamicResource HoloSheenBrush}" CornerRadius="{DynamicResource CardCornerRadius}" IsHitTestVisible="False" />
     <Border BorderBrush="{DynamicResource HoloRimBrush}" BorderThickness="{DynamicResource HoloRimThickness}" CornerRadius="{DynamicResource CardCornerRadius}">

@@ -1,5 +1,5 @@
 # Holographic / Iridescent — ninth registered theme (Phase 01 / step1)
 
-Iridescent sheen without chart blur. Cyan–violet–rose rims and a top pearl sheen on opaque cards. SharedTokens rounding. No extras engine, no frost, no Liquid sky, no Spatial stage, no BlurEffect on LiveCharts.
+Saturated cyan–violet–rose interference. SharedTokens rounding. No extras engine, no Glass frost, no Liquid sky, no BlurEffect on charts.
 
-Identity: prismatic hairline, pearl canvas, solid chart series. Not Glass frost, not Liquid veil, not Swiss paper/ink/red.
+Light: opaque pearl cards, spectral rims, pearl sheen. Dark: clear crystal fills (canvas shows through), luminous rims, no milky overlay. Chart series stay solid.

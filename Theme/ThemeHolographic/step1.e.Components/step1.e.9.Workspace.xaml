@@ -6,11 +6,11 @@
   <Setter Property="Focusable" Value="False" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
    <Grid>
-    <Border Background="{TemplateBinding Background}" CornerRadius="{DynamicResource CardCornerRadius}" />
+    <Border Background="{DynamicResource HoloCardFillBrush}" CornerRadius="{DynamicResource CardCornerRadius}" />
     <Border Background="{DynamicResource HoloFaceBrush}" CornerRadius="{DynamicResource CardCornerRadius}" IsHitTestVisible="False" />
     <Border Height="{DynamicResource HoloSheenHeight}" VerticalAlignment="Top" Background="{DynamicResource HoloSheenBrush}" CornerRadius="{DynamicResource CardCornerRadius}" IsHitTestVisible="False" />
-    <Border Width="{DynamicResource SpacingSmall}" HorizontalAlignment="Left" Background="{DynamicResource HoloRimBrush}" />
-    <Border BorderBrush="{DynamicResource HoloRimBrush}" BorderThickness="{DynamicResource HoloRimThickness}" CornerRadius="{DynamicResource CardCornerRadius}" Padding="{TemplateBinding Padding}">
+    <Border Width="{DynamicResource SpacingMedium}" HorizontalAlignment="Left" Background="{DynamicResource HoloRimBrush}" />
+    <Border BorderBrush="{DynamicResource HoloRimBrush}" BorderThickness="{DynamicResource HoloHeroRimThickness}" CornerRadius="{DynamicResource CardCornerRadius}" Padding="{TemplateBinding Padding}">
      <ContentPresenter />
     </Border>
    </Grid>
@@ -22,7 +22,7 @@
   <Setter Property="Focusable" Value="False" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ContentControl">
    <Grid>
-    <Border Background="{TemplateBinding Background}" CornerRadius="{DynamicResource ControlCornerRadius}" />
+    <Border Background="{DynamicResource HoloPlateFillBrush}" CornerRadius="{DynamicResource ControlCornerRadius}" />
     <Border BorderBrush="{DynamicResource HoloQuietRimBrush}" BorderThickness="{DynamicResource BorderThicknessControl}" CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
      <ContentPresenter />
     </Border>
