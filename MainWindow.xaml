@@ -413,7 +413,7 @@
         <Grid Grid.Column="1">
             <Grid.Style>
                 <Style TargetType="Grid">
-                    <Setter Property="Margin" Value="{DynamicResource PaddingPage}" />
+                    <Setter Property="Margin" Value="0,16,16,16" />
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsSpatial}" Value="True">
                             <Setter Property="Margin" Value="{DynamicResource SpatialWorkspacePad}" />
