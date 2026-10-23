@@ -10,9 +10,9 @@
    <StackPanel Margin="{DynamicResource MarginItem}">
     <TextBlock Text="WORK QUEUE / SAMPLE DATA" Style="{DynamicResource Caption}" />
     <TextBlock Text="Active work" Style="{DynamicResource SectionHeading}" />
-    <TextBox x:Name="ReferenceSearch" Text="{Binding ReferenceFilter, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Search reference worklist" Margin="{DynamicResource MarginSection}" />
+    <TextBox x:Name="ReferenceSearch" Text="{Binding ReferenceFilter, UpdateSourceTrigger=PropertyChanged, Delay=200}" AutomationProperties.Name="Search reference worklist" Margin="{DynamicResource MarginSection}" />
    </StackPanel>
-   <ListBox Grid.Row="1" ItemsSource="{Binding ReferenceView}" SelectedItem="{Binding SelectedReference}" HorizontalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Auto" VirtualizingPanel.IsVirtualizing="False" ScrollViewer.CanContentScroll="False" AutomationProperties.Name="Reference worklist" Margin="{DynamicResource MarginItem}">
+   <ListBox Grid.Row="1" ItemsSource="{Binding ReferenceView}" SelectedItem="{Binding SelectedReference}" HorizontalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Auto" AutomationProperties.Name="Reference worklist" Margin="{DynamicResource MarginItem}">
     <ListBox.ItemTemplate><DataTemplate><Grid Margin="{DynamicResource PaddingCompact}">
      <Grid.ColumnDefinitions><ColumnDefinition Width="3*" /><ColumnDefinition Width="2*" /><ColumnDefinition Width="2*" /></Grid.ColumnDefinitions>
      <StackPanel Margin="{DynamicResource PaddingCompact}"><TextBlock Text="{Binding Title}" FontWeight="{DynamicResource FontWeightHeading}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" /><TextBlock Text="{Binding Owner}" Style="{DynamicResource Caption}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" /></StackPanel>

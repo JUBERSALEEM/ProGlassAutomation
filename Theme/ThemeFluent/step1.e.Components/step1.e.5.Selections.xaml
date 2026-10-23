@@ -53,9 +53,15 @@
   <Setter Property="BorderBrush" Value="{DynamicResource BorderSubtle}" />
   <Setter Property="BorderThickness" Value="{DynamicResource BorderThicknessControl}" />
   <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+  <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
+  <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
+  <Setter Property="ScrollViewer.PanningMode" Value="VerticalOnly" />
+  <Setter Property="VirtualizingPanel.IsVirtualizing" Value="True" />
+  <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Recycling" />
+  <Setter Property="VirtualizingPanel.ScrollUnit" Value="Pixel" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListBox">
    <fluent:FluentSurface Concave="True" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource CardCornerRadius}">
-    <ScrollViewer Focusable="False"><ItemsPresenter /></ScrollViewer>
+    <ScrollViewer Focusable="False" CanContentScroll="True" PanningMode="VerticalOnly"><ItemsPresenter /></ScrollViewer>
    </fluent:FluentSurface>
   </ControlTemplate></Setter.Value></Setter>
  </Style>

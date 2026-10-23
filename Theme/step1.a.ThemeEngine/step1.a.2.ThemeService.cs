@@ -26,6 +26,7 @@ public sealed class ThemeService : INotifyPropertyChanged
     private ResourceDictionary? applicationResources;
     private ResourceDictionary? activeResources;
     private Action<ResourceDictionary, Appearance>? activeConfiguration;
+    private static readonly Dictionary<(string Theme, Appearance Mode), ResourceDictionary> packed = new();
 
     public void Initialize(ResourceDictionary resources)
     {
@@ -93,8 +94,7 @@ public sealed class ThemeService : INotifyPropertyChanged
         var definition = ThemeCatalog.Find(theme);
         try
         {
-            var resources = definition.LoadResources(appearance)
-                ?? throw new InvalidOperationException("The theme returned no resource package.");
+            var resources = ClonePack(BasePackage(definition, appearance));
             configure?.Invoke(resources, appearance);
             ResourceValidation.Validate(resources, definition.Name + " / " + appearance);
             return resources;
@@ -103,5 +103,30 @@ public sealed class ThemeService : INotifyPropertyChanged
         {
             throw new InvalidOperationException($"Cannot load {definition.Name} / {appearance}: {error.Message}", error);
         }
+    }
+
+    private static ResourceDictionary BasePackage(ThemeDefinition definition, Appearance appearance)
+    {
+        var key = (definition.Name, appearance);
+        lock (packed)
+        {
+            if (!packed.TryGetValue(key, out var found))
+            {
+                found = definition.LoadResources(appearance)
+                    ?? throw new InvalidOperationException("The theme returned no resource package.");
+                packed[key] = found;
+            }
+            return found;
+        }
+    }
+
+    private static ResourceDictionary ClonePack(ResourceDictionary source)
+    {
+        var copy = new ResourceDictionary();
+        foreach (object key in source.Keys)
+            copy[key] = source[key];
+        foreach (ResourceDictionary child in source.MergedDictionaries)
+            copy.MergedDictionaries.Add(ClonePack(child));
+        return copy;
     }
 }

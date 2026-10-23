@@ -10,7 +10,7 @@
     <TextBlock Text="OPTIONAL / RESOURCE DIAGNOSTICS" Style="{DynamicResource Caption}" />
     <TextBlock Text="Inspect active semantic resources." Style="{DynamicResource SectionHeading}" />
     <Label Content="Filter tokens by semantic name" Target="{Binding ElementName=TokenSearch}" Foreground="{DynamicResource TextSecondary}" />
-    <TextBox x:Name="TokenSearch" Text="{Binding TokenFilter, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Filter semantic tokens" Margin="{DynamicResource MarginItem}" />
+    <TextBox x:Name="TokenSearch" Text="{Binding TokenFilter, UpdateSourceTrigger=PropertyChanged, Delay=200}" AutomationProperties.Name="Filter semantic tokens" Margin="{DynamicResource MarginItem}" />
    </StackPanel>
    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" CanContentScroll="False">
     <ItemsControl ItemsSource="{Binding TokenView}" AutomationProperties.Name="Scrollable semantic resource reference">

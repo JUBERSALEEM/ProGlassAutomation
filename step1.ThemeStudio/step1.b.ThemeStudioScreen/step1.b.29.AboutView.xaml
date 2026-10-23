@@ -8,24 +8,26 @@
      <TextBlock Text="A desktop client for glass estimating and operations. Presentation is a first-class engine: nine independent themes, shared type and color overlays, and business views that keep their data when the skin changes." TextWrapping="Wrap" Margin="{DynamicResource MarginItem}"/>
     </StackPanel>
    </ContentControl>
-   <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
-    <StackPanel>
-     <TextBlock Text="Nine presentation engines" Style="{DynamicResource SectionHeading}"/>
-     <TextBlock Text="Each theme is a separate package. Material is not shared. Geometry, type and color plates overlay every theme without cloning engines." Style="{DynamicResource Caption}"/>
-     <ItemsControl ItemsSource="{Binding AboutThemes}" Margin="{DynamicResource MarginItem}">
-      <ItemsControl.ItemTemplate>
-       <DataTemplate>
-        <Border Margin="{DynamicResource MarginItem}" Padding="{DynamicResource PaddingCompact}" Background="{DynamicResource SurfaceSecondary}" CornerRadius="{DynamicResource ControlCornerRadius}">
-         <StackPanel>
-          <TextBlock Text="{Binding Name}" FontWeight="{DynamicResource FontWeightHeading}"/>
-          <TextBlock Text="{Binding Description}" Style="{DynamicResource Caption}"/>
-         </StackPanel>
-        </Border>
-       </DataTemplate>
-      </ItemsControl.ItemTemplate>
-     </ItemsControl>
-    </StackPanel>
-   </ContentControl>
+   <TextBlock Text="Nine presentation engines" Style="{DynamicResource PageHeading}" Margin="{DynamicResource MarginItem}"/>
+   <TextBlock Text="Each theme is a separate package. Material is not shared. Geometry, type and color plates overlay every theme without cloning engines. The cards below use the live Card style, so plump, frost, extrusion and sheen follow the active theme." Style="{DynamicResource Caption}" TextWrapping="Wrap" Margin="{DynamicResource MarginSection}"/>
+   <ItemsControl ItemsSource="{Binding AboutThemes}" Margin="{DynamicResource MarginItem}">
+    <ItemsControl.ItemsPanel>
+     <ItemsPanelTemplate>
+      <UniformGrid Columns="3"/>
+     </ItemsPanelTemplate>
+    </ItemsControl.ItemsPanel>
+    <ItemsControl.ItemTemplate>
+     <DataTemplate>
+      <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
+       <StackPanel>
+        <TextBlock Text="{Binding Name}" Style="{DynamicResource SectionHeading}" TextWrapping="Wrap"/>
+        <TextBlock Text="{Binding Description}" Style="{DynamicResource Caption}" TextWrapping="Wrap" Margin="{DynamicResource MarginItem}"/>
+        <TextBlock Text="{Binding Capabilities}" Style="{DynamicResource Caption}" TextWrapping="Wrap"/>
+       </StackPanel>
+      </ContentControl>
+     </DataTemplate>
+    </ItemsControl.ItemTemplate>
+   </ItemsControl>
    <Grid>
     <Grid.ColumnDefinitions>
      <ColumnDefinition Width="*"/>
