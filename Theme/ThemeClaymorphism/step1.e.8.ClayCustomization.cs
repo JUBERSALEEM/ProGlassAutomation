@@ -195,6 +195,7 @@ public static class ClayCustomization
         SetOwned(package, "ClayBlur", reduced ? 4d : blur);
         SetOwned(package, "ClayDistance", reduced || inset ? 0d : distance);
         SetOwned(package, "ClayLiftDistance", distance + 3d);
+        SetOwned(package, "ClayRimWidth", reduced ? 3d : state.Volume switch { ClayVolume.Soft => 4d, ClayVolume.Deep => 8d, _ => 6d });
         SetOwned(package, "ClayGutter", reduced || inset ? new Thickness(2) : new Thickness(Math.Ceiling(distance + blur * 0.35)));
         string shadow = (mode, state.Canvas) switch
         {

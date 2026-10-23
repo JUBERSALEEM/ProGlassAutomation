@@ -14,7 +14,8 @@
   <sys:Double x:Key="ClayBlur">14</sys:Double>
   <sys:Double x:Key="ClayDistance">5</sys:Double>
   <sys:Double x:Key="ClayLiftDistance">8</sys:Double>
-  <sys:Double x:Key="ClayDarkGlowOpacity">0.38</sys:Double>
+  <sys:Double x:Key="ClayRimWidth">6</sys:Double>
+  <sys:Double x:Key="ClayDarkGlowOpacity">0.42</sys:Double>
   <sys:Double x:Key="ClayLightGlowOpacity">0.72</sys:Double>
   <Color x:Key="ClayShadowColor">#A89CBC</Color>
   <Color x:Key="ClayHighlightColor">#FFFFFF</Color>
@@ -23,9 +24,10 @@
   <SolidColorBrush x:Key="ClayInsetLightBrush" Color="#FFFFFFFF" />
   <SolidColorBrush x:Key="ClayInsetShadeBrush" Color="#595B4A9A" />
   <LinearGradientBrush x:Key="ClayCurveBrush" StartPoint="0,0" EndPoint="1,1">
-    <GradientStop Color="#99FFFFFF" Offset="0" />
-    <GradientStop Color="#22FFFFFF" Offset="0.38" />
-    <GradientStop Color="#335B4A9A" Offset="1" />
+    <GradientStop Color="#B8FFFFFF" Offset="0" />
+    <GradientStop Color="#40FFFFFF" Offset="0.28" />
+    <GradientStop Color="#00000000" Offset="0.55" />
+    <GradientStop Color="#405B4A9A" Offset="1" />
   </LinearGradientBrush>
   <LinearGradientBrush x:Key="ClayWellCurveBrush" StartPoint="0,0" EndPoint="1,1">
     <GradientStop Color="#335B4A9A" Offset="0" />

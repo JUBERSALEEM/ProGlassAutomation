@@ -9,6 +9,9 @@
    <Border x:Name="Frame" Background="{DynamicResource TransparentBrush}" BorderBrush="{DynamicResource TransparentBrush}" BorderThickness="{DynamicResource BorderThicknessControl}" CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
     <DockPanel>
      <Border x:Name="Track" DockPanel.Dock="Left" Width="40" Height="24" VerticalAlignment="Center" CornerRadius="12" Background="{DynamicResource SurfaceSecondary}" BorderBrush="{DynamicResource BorderStrong}" BorderThickness="{DynamicResource FocusThickness}">
+      <Border.Effect>
+       <DropShadowEffect Color="{DynamicResource ClayShadowColor}" BlurRadius="8" ShadowDepth="3" Direction="315" Opacity="{DynamicResource ClayDarkGlowOpacity}" RenderingBias="Quality" />
+      </Border.Effect>
       <Border x:Name="Thumb" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="10" Background="{DynamicResource SurfacePrimary}" BorderBrush="{DynamicResource BorderStrong}" BorderThickness="{DynamicResource BorderThicknessControl}" Margin="2,0" />
      </Border>
      <ContentPresenter Margin="{DynamicResource PaddingChoice}" VerticalAlignment="Center" RecognizesAccessKey="True" />
