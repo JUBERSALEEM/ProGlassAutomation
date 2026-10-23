@@ -64,8 +64,9 @@
   <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
   <Setter Property="Padding" Value="{DynamicResource PaddingControl}" />
   <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+  <Setter Property="Margin" Value="{DynamicResource MarginItem}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListBoxItem">
-   <Border x:Name="Frame" Background="{DynamicResource TransparentBrush}" BorderBrush="{DynamicResource TransparentBrush}" BorderThickness="{DynamicResource BorderThicknessControl}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ChipCornerRadius}">
+   <Border x:Name="Frame" Background="{DynamicResource TransparentBrush}" BorderBrush="{DynamicResource TransparentBrush}" BorderThickness="{DynamicResource BorderThicknessControl}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ChipCornerRadius}" Margin="{DynamicResource MarginInline}">
     <ContentPresenter />
    </Border>
    <ControlTemplate.Triggers>

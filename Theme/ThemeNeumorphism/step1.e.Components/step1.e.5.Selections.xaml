@@ -50,8 +50,8 @@
   <Setter Property="BorderThickness" Value="{DynamicResource BorderThicknessControl}" />
   <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListBox">
-   <neu:NeumorphSurface Concave="True" Rank="Card" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource CardCornerRadius}">
-    <ScrollViewer Focusable="False"><ItemsPresenter /></ScrollViewer>
+   <neu:NeumorphSurface Concave="True" Rank="Control" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{DynamicResource PaddingCompact}">
+    <ScrollViewer Focusable="False" Padding="{DynamicResource PaddingCompact}"><ItemsPresenter /></ScrollViewer>
    </neu:NeumorphSurface>
   </ControlTemplate></Setter.Value></Setter>
  </Style>
@@ -60,15 +60,15 @@
   <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
   <Setter Property="Padding" Value="{DynamicResource PaddingControl}" />
   <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+  <Setter Property="Margin" Value="{DynamicResource MarginItem}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListBoxItem">
-   <Grid>
-    <neu:NeumorphSurface x:Name="Lift" Rank="Chip" Lifted="True" Background="{DynamicResource SurfacePrimary}" CornerRadius="{DynamicResource ChipCornerRadius}" Visibility="Collapsed" IsHitTestVisible="False" />
-    <neu:NeumorphSurface x:Name="Well" Rank="Chip" Concave="True" Background="{DynamicResource SurfacePrimary}" CornerRadius="{DynamicResource ChipCornerRadius}" Visibility="Collapsed" IsHitTestVisible="False" />
-    <Border Padding="{TemplateBinding Padding}"><ContentPresenter /></Border>
-   </Grid>
+   <Border x:Name="Frame" Background="{DynamicResource TransparentBrush}" BorderBrush="{DynamicResource TransparentBrush}" BorderThickness="{DynamicResource BorderThicknessControl}" Padding="{TemplateBinding Padding}" CornerRadius="{DynamicResource ChipCornerRadius}" Margin="{DynamicResource MarginInline}">
+    <ContentPresenter />
+   </Border>
    <ControlTemplate.Triggers>
-    <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Lift" Property="Visibility" Value="Visible" /></Trigger>
-    <Trigger Property="IsSelected" Value="True"><Setter TargetName="Well" Property="Visibility" Value="Visible" /><Setter TargetName="Lift" Property="Visibility" Value="Collapsed" /><Setter Property="Foreground" Value="{DynamicResource AccentPrimary}" /></Trigger>
+    <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Frame" Property="Background" Value="{DynamicResource StateHover}" /></Trigger>
+    <Trigger Property="IsSelected" Value="True"><Setter TargetName="Frame" Property="Background" Value="{DynamicResource StateSelected}" /><Setter Property="Foreground" Value="{DynamicResource AccentPrimary}" /></Trigger>
+    <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Frame" Property="BorderBrush" Value="{DynamicResource FocusIndicator}" /></Trigger>
     <Trigger Property="IsEnabled" Value="False"><Setter Property="Foreground" Value="{DynamicResource DisabledText}" /></Trigger>
    </ControlTemplate.Triggers>
   </ControlTemplate></Setter.Value></Setter>

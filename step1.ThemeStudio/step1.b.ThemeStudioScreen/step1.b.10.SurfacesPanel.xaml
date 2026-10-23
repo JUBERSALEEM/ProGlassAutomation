@@ -6,19 +6,19 @@
     <RowDefinition Height="Auto"/>
     <RowDefinition Height="*"/>
    </Grid.RowDefinitions>
-   <StackPanel>
+   <StackPanel Margin="{DynamicResource MarginItem}">
     <TextBlock Text="TEAM HANDOFF / SAMPLE" Style="{DynamicResource Caption}" />
     <TextBlock Text="Next in the workflow." Style="{DynamicResource SectionHeading}" />
    </StackPanel>
    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" CanContentScroll="False">
     <StackPanel>
-     <WrapPanel>
-      <ContentControl Style="{DynamicResource Plate}" Margin="{DynamicResource MarginInline}"><StackPanel><TextBlock Text="Review brief" FontWeight="{DynamicResource FontWeightHeading}" /><TextBlock Text="Scope and priorities" Style="{DynamicResource Caption}" /></StackPanel></ContentControl>
-      <ContentControl Style="{DynamicResource ElevatedPlate}" Margin="{DynamicResource MarginInline}"><StackPanel><TextBlock Text="Quality check" FontWeight="{DynamicResource FontWeightHeading}" /><TextBlock Text="Details before delivery" Style="{DynamicResource Caption}" /></StackPanel></ContentControl>
-      <ContentControl Style="{DynamicResource AccentPlate}" Margin="{DynamicResource MarginInline}"><StackPanel><TextBlock Text="Handoff" Foreground="{DynamicResource AccentPrimary}" FontWeight="{DynamicResource FontWeightHeading}" /><TextBlock Text="Team alignment" Style="{DynamicResource Caption}" /></StackPanel></ContentControl>
+     <WrapPanel Margin="{DynamicResource MarginItem}">
+      <ContentControl Style="{DynamicResource Plate}" Margin="{DynamicResource PaddingPlate}"><StackPanel Margin="{DynamicResource PaddingCompact}"><TextBlock Text="Review brief" FontWeight="{DynamicResource FontWeightHeading}" /><TextBlock Text="Scope and priorities" Style="{DynamicResource Caption}" /></StackPanel></ContentControl>
+      <ContentControl Style="{DynamicResource Plate}" Margin="{DynamicResource PaddingPlate}"><StackPanel Margin="{DynamicResource PaddingCompact}"><TextBlock Text="Quality check" FontWeight="{DynamicResource FontWeightHeading}" /><TextBlock Text="Details before delivery" Style="{DynamicResource Caption}" /></StackPanel></ContentControl>
+      <ContentControl Style="{DynamicResource AccentPlate}" Margin="{DynamicResource PaddingPlate}"><StackPanel Margin="{DynamicResource PaddingCompact}"><TextBlock Text="Handoff" Foreground="{DynamicResource AccentPrimary}" FontWeight="{DynamicResource FontWeightHeading}" /><TextBlock Text="Team alignment" Style="{DynamicResource Caption}" /></StackPanel></ContentControl>
      </WrapPanel>
-     <TextBlock Text="Selection / use arrows to move between rows" Style="{DynamicResource Caption}" Margin="{DynamicResource MarginItem}" />
-     <ListBox SelectedIndex="0" VirtualizingPanel.IsVirtualizing="False" AutomationProperties.Name="Surface selection examples">
+     <TextBlock Text="Selection / use arrows to move between rows" Style="{DynamicResource Caption}" Margin="{DynamicResource MarginSection}" />
+     <ListBox SelectedIndex="0" VirtualizingPanel.IsVirtualizing="False" AutomationProperties.Name="Surface selection examples" Margin="{DynamicResource MarginItem}">
       <ListBoxItem Content="Primary surface — main working area" />
       <ListBoxItem Content="Secondary surface — grouped supporting information" />
       <ListBoxItem Content="Quality check — dialogs and contextual actions" />

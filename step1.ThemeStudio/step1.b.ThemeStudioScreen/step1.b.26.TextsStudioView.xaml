@@ -10,10 +10,10 @@
      <TextBlock Text="Texts studio" Style="{DynamicResource PageHeading}"/>
      <TextBlock Text="A shared type overlay. The active theme still owns density, radius and material. Built-in families plus imported TTF, OTF, TTC or OTC files (8 MB)." Style="{DynamicResource Caption}"/>
      <Label Content="Typeface" Target="{Binding ElementName=FontPicker}" Foreground="{DynamicResource TextSecondary}"/>
-     <ListBox x:Name="FontPicker" ItemsSource="{Binding FontFamilyChoices}" SelectedItem="{Binding SelectedFontFamily}" AutomationProperties.Name="Body typeface" MinHeight="{DynamicResource ReferenceListMaxHeight}" Margin="{DynamicResource MarginItem}">
+     <ListBox x:Name="FontPicker" ItemsSource="{Binding FontFamilyChoices}" SelectedItem="{Binding SelectedFontFamily}" AutomationProperties.Name="Body typeface" MinHeight="{DynamicResource ReferenceListMaxHeight}" Margin="{DynamicResource MarginSection}">
       <ListBox.ItemTemplate>
        <DataTemplate>
-        <TextBlock Text="{Binding}" FontSize="{DynamicResource FontSizeSection}" Margin="{DynamicResource MarginItem}"/>
+        <TextBlock Text="{Binding}" FontSize="{DynamicResource FontSizeSection}" Margin="{DynamicResource PaddingCompact}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
        </DataTemplate>
       </ListBox.ItemTemplate>
      </ListBox>

@@ -60,8 +60,9 @@
   <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
   <Setter Property="Padding" Value="{DynamicResource PaddingControl}" />
   <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+  <Setter Property="Margin" Value="{DynamicResource MarginItem}" />
   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListBoxItem">
-   <Border x:Name="Frame" Background="{DynamicResource TransparentBrush}" BorderBrush="{DynamicResource TransparentBrush}" BorderThickness="{DynamicResource BorderThicknessControl}" Padding="{TemplateBinding Padding}"><ContentPresenter /></Border>
+   <Border x:Name="Frame" Background="{DynamicResource TransparentBrush}" BorderBrush="{DynamicResource TransparentBrush}" BorderThickness="{DynamicResource BorderThicknessControl}" Padding="{TemplateBinding Padding}" Margin="{DynamicResource MarginInline}"><ContentPresenter /></Border>
    <ControlTemplate.Triggers>
     <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Frame" Property="Background" Value="{DynamicResource StateHover}" /></Trigger>
     <Trigger Property="IsSelected" Value="True"><Setter TargetName="Frame" Property="Background" Value="{DynamicResource StateSelected}" /><Setter Property="Foreground" Value="{DynamicResource AccentPrimary}" /></Trigger>
