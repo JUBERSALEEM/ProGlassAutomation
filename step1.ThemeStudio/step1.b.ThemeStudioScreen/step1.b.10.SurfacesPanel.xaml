@@ -1,5 +1,5 @@
 <UserControl x:Class="ProGlassAutomation.ThemeStudio.SurfacesPanel"
- xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:ProGlassAutomation.ThemeStudio">
  <ContentControl Style="{DynamicResource Card}">
   <Grid>
    <Grid.RowDefinitions>
@@ -8,7 +8,10 @@
    </Grid.RowDefinitions>
    <StackPanel Margin="{DynamicResource MarginItem}">
     <TextBlock Text="TEAM HANDOFF / SAMPLE" Style="{DynamicResource Caption}" />
-    <TextBlock Text="Next in the workflow." Style="{DynamicResource SectionHeading}" />
+    <DockPanel Margin="{DynamicResource MarginItem}">
+     <local:ShellMark DockPanel.Dock="Left" Title="Next in the workflow" Category="work" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimary}"/>
+     <TextBlock Text="Next in the workflow." Style="{DynamicResource SectionHeading}" VerticalAlignment="Center"/>
+    </DockPanel>
    </StackPanel>
    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" CanContentScroll="False">
     <StackPanel>

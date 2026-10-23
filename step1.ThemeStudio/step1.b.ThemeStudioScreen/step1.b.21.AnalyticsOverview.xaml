@@ -9,7 +9,10 @@
   <ContentControl x:Name="TrendsCard" Style="{DynamicResource ChartCard}" bento:BentoGrid.Column="0" bento:BentoGrid.Row="1" bento:BentoGrid.ColumnSpan="3" bento:BentoGrid.RowSpan="2">
    <Grid>
     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
-    <TextBlock Text="Monthly performance" Style="{DynamicResource SectionHeading}" />
+    <DockPanel>
+     <local:ShellMark DockPanel.Dock="Left" Title="Monthly performance" Category="chart" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimary}"/>
+     <TextBlock Text="Monthly performance" Style="{DynamicResource SectionHeading}" VerticalAlignment="Center"/>
+    </DockPanel>
     <UniformGrid Grid.Row="1" Columns="2" Rows="2">
      <Grid Margin="{DynamicResource PaddingCompact}"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
       <TextBlock Text="Revenue" Style="{DynamicResource Caption}" /><analytics:BentoChart Grid.Row="1" Data="{Binding Area}" ShowLegend="False" ShowAxis="False" ShowGrid="False" />
@@ -29,7 +32,10 @@
   <ContentControl x:Name="MixCard" Style="{DynamicResource FeaturePlate}" bento:BentoGrid.Column="3" bento:BentoGrid.Row="1">
    <Grid>
     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
-    <TextBlock Text="Order mix" Style="{DynamicResource SectionHeading}" />
+    <DockPanel>
+     <local:ShellMark DockPanel.Dock="Left" Title="Order mix" Category="chart" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimary}"/>
+     <TextBlock Text="Order mix" Style="{DynamicResource SectionHeading}" VerticalAlignment="Center"/>
+    </DockPanel>
     <analytics:BentoChart Grid.Row="1" Data="{Binding Mix}" />
    </Grid>
   </ContentControl>
@@ -37,14 +43,20 @@
   <ContentControl x:Name="ChannelsCard" Style="{DynamicResource ChartCard}" bento:BentoGrid.Column="3" bento:BentoGrid.Row="2">
    <Grid>
     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
-    <TextBlock Text="Channels" Style="{DynamicResource SectionHeading}" />
+    <DockPanel>
+     <local:ShellMark DockPanel.Dock="Left" Title="Channels" Category="chart" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimary}"/>
+     <TextBlock Text="Channels" Style="{DynamicResource SectionHeading}" VerticalAlignment="Center"/>
+    </DockPanel>
     <analytics:BentoChart Grid.Row="1" Data="{Binding Channels}" ShowLegend="False" ShowAxis="False" ShowGrid="False" />
    </Grid>
   </ContentControl>
   <ContentControl x:Name="ActivityCard" Style="{DynamicResource InformationPlate}" bento:BentoGrid.Column="0" bento:BentoGrid.Row="3">
    <Grid>
     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
-    <TextBlock Text="Activity" Style="{DynamicResource SectionHeading}" />
+    <DockPanel>
+     <local:ShellMark DockPanel.Dock="Left" Title="Activity" Category="work" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimary}"/>
+     <TextBlock Text="Activity" Style="{DynamicResource SectionHeading}" VerticalAlignment="Center"/>
+    </DockPanel>
     <StackPanel Grid.Row="1">
      <TextBlock Text="09:40  PG-1042 ready" FontSize="{DynamicResource FontSizeCaption}" />
      <TextBlock Text="09:15  PG-1041 review" FontSize="{DynamicResource FontSizeCaption}" />
@@ -55,7 +67,10 @@
   <ContentControl x:Name="RevenueCard" Style="{DynamicResource ChartCard}" bento:BentoGrid.Column="1" bento:BentoGrid.Row="3">
    <Grid>
     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
-    <TextBlock Text="Revenue vs target" Style="{DynamicResource SectionHeading}" />
+    <DockPanel>
+     <local:ShellMark DockPanel.Dock="Left" Title="Revenue vs target" Category="chart" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimary}"/>
+     <TextBlock Text="Revenue vs target" Style="{DynamicResource SectionHeading}" VerticalAlignment="Center"/>
+    </DockPanel>
     <analytics:BentoChart Grid.Row="1" Data="{Binding Revenue}" ShowLegend="False" ShowAxis="False" ShowGrid="False" />
    </Grid>
   </ContentControl>
@@ -76,7 +91,10 @@
   <ContentControl x:Name="TableCard" Style="{DynamicResource ChartCard}" bento:BentoGrid.Column="0" bento:BentoGrid.Row="4" bento:BentoGrid.ColumnSpan="4" bento:BentoGrid.RowSpan="2">
    <Grid>
     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
-    <TextBlock Text="Recent work" Style="{DynamicResource SectionHeading}" />
+    <DockPanel>
+     <local:ShellMark DockPanel.Dock="Left" Title="Recent work" Category="work" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimary}"/>
+     <TextBlock Text="Recent work" Style="{DynamicResource SectionHeading}" VerticalAlignment="Center"/>
+    </DockPanel>
     <DataGrid Grid.Row="1" x:Name="RecentWork" ItemsSource="{Binding Rows}" EnableRowVirtualization="False" VerticalScrollBarVisibility="Auto" AutomationProperties.Name="Recent work, demo records">
      <DataGrid.Columns>
       <DataGridTextColumn Header="Reference" Binding="{Binding Reference}" Width="*" />

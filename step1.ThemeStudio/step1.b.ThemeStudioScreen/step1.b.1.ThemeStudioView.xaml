@@ -15,7 +15,10 @@
     <ContentControl x:Name="StudioMix" Style="{DynamicResource FeaturePlate}" DataContext="{StaticResource StudioSamples}" bento:BentoGrid.Column="0" bento:BentoGrid.Row="7" bento:BentoGrid.ColumnSpan="1" bento:BentoGrid.RowSpan="2">
      <Grid>
       <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
-      <TextBlock Text="Order mix" Style="{DynamicResource SectionHeading}" />
+      <DockPanel>
+       <local:ShellMark DockPanel.Dock="Left" Title="Order mix" Category="chart" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimary}"/>
+       <TextBlock Text="Order mix" Style="{DynamicResource SectionHeading}" VerticalAlignment="Center"/>
+      </DockPanel>
       <analytics:BentoChart Grid.Row="1" Data="{Binding Mix}" />
      </Grid>
     </ContentControl>

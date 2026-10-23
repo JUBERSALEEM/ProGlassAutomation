@@ -8,7 +8,10 @@
     <StackPanel DockPanel.Dock="Right" Margin="{DynamicResource MarginInline}"><Label Foreground="{DynamicResource TextSecondary}" Content="Data _scenario" Target="{Binding ElementName=Scenario}" /><ComboBox x:Name="Scenario" MinWidth="{DynamicResource ControlMinWidth}" ItemsSource="{Binding Scenarios}" SelectedItem="{Binding SelectedScenario}" AutomationProperties.Name="Data scenario" /></StackPanel>
     <StackPanel DockPanel.Dock="Right" Margin="{DynamicResource MarginInline}"><Label Foreground="{DynamicResource TextSecondary}" Content="Chart _type" Target="{Binding ElementName=ChartType}" /><ComboBox x:Name="ChartType" MinWidth="{DynamicResource ControlMinWidth}" ItemsSource="{Binding ChartKinds}" SelectedItem="{Binding SelectedKind}" AutomationProperties.Name="Chart type" /></StackPanel>
     <StackPanel VerticalAlignment="Center">
-     <TextBlock Text="Chart laboratory" Style="{DynamicResource SectionHeading}" />
+     <DockPanel>
+      <local:ShellMark DockPanel.Dock="Left" Title="Chart laboratory" Category="chart" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimary}"/>
+      <TextBlock Text="Chart laboratory" Style="{DynamicResource SectionHeading}" VerticalAlignment="Center"/>
+     </DockPanel>
      <TextBlock Text="REAL WPF CHARTS / DETERMINISTIC DEMO DATA" Style="{DynamicResource Caption}" />
     </StackPanel>
    </DockPanel>

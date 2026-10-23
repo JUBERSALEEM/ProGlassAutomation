@@ -3,9 +3,15 @@
   <StackPanel Margin="{DynamicResource PaddingPage}">
    <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginSection}">
     <StackPanel>
-     <TextBlock Text="Colors studio" Style="{DynamicResource PageHeading}"/>
+     <DockPanel Margin="{DynamicResource MarginItem}">
+      <local:ShellMark DockPanel.Dock="Left" Title="Colors studio" Category="palette" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimary}"/>
+      <TextBlock Text="Colors studio" Style="{DynamicResource PageHeading}" VerticalAlignment="Center"/>
+     </DockPanel>
      <TextBlock Text="A plate is one hue with named values 50–800. The bar below picks an exact #RRGGBB for the selected role. Overlay writes Accent, Focus and Chart tokens only — the active theme still owns canvas and material." Style="{DynamicResource Caption}"/>
-     <TextBlock Text="Card plates" Style="{DynamicResource SectionHeading}"/>
+     <DockPanel Margin="{DynamicResource MarginItem}">
+      <local:ShellMark DockPanel.Dock="Left" Title="Card plates" Category="color" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimary}"/>
+      <TextBlock Text="Card plates" Style="{DynamicResource SectionHeading}" VerticalAlignment="Center"/>
+     </DockPanel>
      <TextBlock Text="Ordinary cards only (SurfacePrimary, Secondary, Elevated). 0 restores the theme. 100 is the coded hex as painted. Status plates stay semantic. Gradient uses start and end colours." Style="{DynamicResource Caption}"/>
      <TextBlock Text="Start colour" Style="{DynamicResource Caption}"/>
      <local:ColorPickerBar SelectedHex="{Binding CardTintHex, UpdateSourceTrigger=PropertyChanged}" Margin="{DynamicResource MarginItem}"/>
@@ -20,7 +26,10 @@
      <local:ColorPickerBar SelectedHex="{Binding CardTintEndHex, UpdateSourceTrigger=PropertyChanged}" Margin="{DynamicResource MarginItem}"/>
      <Border Height="{DynamicResource ControlMinHeight}" Background="{DynamicResource SurfacePrimary}" CornerRadius="{DynamicResource ControlCornerRadius}" Margin="{DynamicResource MarginItem}"/>
      <TextBlock Text="{Binding CardTintSummary}" Style="{DynamicResource TokenValue}" Margin="{DynamicResource MarginItem}"/>
-     <TextBlock Text="Color bar" Style="{DynamicResource SectionHeading}"/>
+     <DockPanel Margin="{DynamicResource MarginItem}">
+      <local:ShellMark DockPanel.Dock="Left" Title="Color bar" Category="color" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimary}"/>
+      <TextBlock Text="Color bar" Style="{DynamicResource SectionHeading}" VerticalAlignment="Center"/>
+     </DockPanel>
      <local:ColorPickerBar SelectedHex="{Binding ColorRoleHex, UpdateSourceTrigger=PropertyChanged}" Margin="{DynamicResource MarginItem}"/>
      <Label Content="Color plate" Target="{Binding ElementName=ColorPlatePicker}" Foreground="{DynamicResource TextSecondary}"/>
      <ComboBox x:Name="ColorPlatePicker" ItemsSource="{Binding ColorPlateChoices}" SelectedItem="{Binding SelectedColorPlate}" AutomationProperties.Name="Color plate" Margin="{DynamicResource MarginItem}"/>

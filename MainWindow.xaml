@@ -506,7 +506,7 @@
                                 </Style>
                             </Border.Style>
                         </Border>
-                        <studio:ShellMark Kind="{Binding WorkspaceIcon}" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimary}" />
+                        <studio:ShellMark Title="{Binding WorkspaceTitle}" Category="settings" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimary}" />
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock Text="{Binding WorkspaceTitle}" Foreground="{DynamicResource TextPrimary}" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" />
                             <TextBlock Text="{Binding WorkspaceSubtitle}" Style="{DynamicResource Caption}" />

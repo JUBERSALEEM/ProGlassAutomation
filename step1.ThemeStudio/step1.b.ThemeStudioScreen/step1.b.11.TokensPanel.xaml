@@ -1,5 +1,5 @@
 <UserControl x:Class="ProGlassAutomation.ThemeStudio.TokensPanel"
- xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:ProGlassAutomation.ThemeStudio">
  <ContentControl Style="{DynamicResource Card}">
   <Grid>
    <Grid.RowDefinitions>
@@ -8,7 +8,10 @@
    </Grid.RowDefinitions>
    <StackPanel>
     <TextBlock Text="OPTIONAL / RESOURCE DIAGNOSTICS" Style="{DynamicResource Caption}" />
-    <TextBlock Text="Inspect active semantic resources." Style="{DynamicResource SectionHeading}" />
+    <DockPanel Margin="{DynamicResource MarginItem}">
+     <local:ShellMark DockPanel.Dock="Left" Title="Inspect tokens" Category="token" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimary}"/>
+     <TextBlock Text="Inspect active semantic resources." Style="{DynamicResource SectionHeading}" VerticalAlignment="Center"/>
+    </DockPanel>
     <Label Content="Filter tokens by semantic name" Target="{Binding ElementName=TokenSearch}" Foreground="{DynamicResource TextSecondary}" />
     <TextBox x:Name="TokenSearch" Text="{Binding TokenFilter, UpdateSourceTrigger=PropertyChanged, Delay=200}" AutomationProperties.Name="Filter semantic tokens" Margin="{DynamicResource MarginItem}" />
    </StackPanel>

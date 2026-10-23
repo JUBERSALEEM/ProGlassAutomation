@@ -5,14 +5,25 @@ using ProGlassAutomation.Customization;
 
 namespace ProGlassAutomation.ThemeStudio;
 
-/// <summary>Draws a nav mark from <see cref="IconService"/>. Never hosts Effect or PNG.</summary>
+/// <summary>
+/// Draws a mark from <see cref="IconService"/>.
+/// Set Kind, or Title / Category so a page heading resolves its own glyph.
+/// </summary>
 public sealed class ShellMark : Control
 {
     public static readonly DependencyProperty KindProperty = DependencyProperty.Register(
         nameof(Kind), typeof(IconKind), typeof(ShellMark),
         new FrameworkPropertyMetadata(IconKind.Home, FrameworkPropertyMetadataOptions.AffectsRender));
+    public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
+        nameof(Title), typeof(string), typeof(ShellMark),
+        new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
+    public static readonly DependencyProperty CategoryProperty = DependencyProperty.Register(
+        nameof(Category), typeof(string), typeof(ShellMark),
+        new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
 
     public IconKind Kind { get => (IconKind)GetValue(KindProperty); set => SetValue(KindProperty, value); }
+    public string? Title { get => (string?)GetValue(TitleProperty); set => SetValue(TitleProperty, value); }
+    public string? Category { get => (string?)GetValue(CategoryProperty); set => SetValue(CategoryProperty, value); }
 
     public ShellMark()
     {
@@ -28,9 +39,15 @@ public sealed class ShellMark : Control
 
     private void OnIcons(object? sender, EventArgs e) => InvalidateVisual();
 
+    public IconKind EffectiveKind =>
+        string.IsNullOrWhiteSpace(Title) && string.IsNullOrWhiteSpace(Category)
+            ? Kind
+            : IconService.Resolve(Title, Category, Kind);
+
     protected override void OnRender(DrawingContext dc)
     {
         if (ActualWidth < 2 || ActualHeight < 2) return;
+        var kind = EffectiveKind;
         var recipe = IconService.Recipe(IconService.Active.Style);
         Brush ink = Foreground ?? Brushes.Black;
         double box = Math.Min(ActualWidth, ActualHeight);
@@ -45,7 +62,7 @@ public sealed class ShellMark : Control
         }
         dc.PushTransform(new TranslateTransform(origin, origin));
         dc.PushTransform(new ScaleTransform(size / 24d, size / 24d));
-        var geometry = IconService.Mark(Kind, IconService.Active.Style);
+        var geometry = IconService.Mark(kind, IconService.Active.Style);
         if (recipe.Filled)
         {
             Brush fill = ink;
@@ -58,7 +75,8 @@ public sealed class ShellMark : Control
             dc.DrawGeometry(fill, null, geometry);
         }
         double stroke = recipe.Stroke;
-        if (Kind == IconKind.About && stroke <= 0) stroke = 1.3;
+        if ((kind is IconKind.About or IconKind.Appearance or IconKind.Layout or IconKind.Settings or IconKind.Engineering) && stroke <= 0)
+            stroke = 1.3;
         if (stroke > 0)
         {
             var pen = new Pen(ink, stroke)

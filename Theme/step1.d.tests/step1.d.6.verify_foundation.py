@@ -86,6 +86,20 @@ assert 'ShowTexts' in shell_text and 'ShowColors' in shell_text and 'ShowIcons' 
 assert '<studio:IconsStudioView />' in shell_text
 icons = (screen/'step1.b.30.IconsStudioView.xaml').read_text()
 assert 'x:Name=\"IconPicker\"' in icons and 'Binding SelectedIconStyle' in icons
+icons_svc = (ROOT / 'Theme/step1.g.Customization/step1.g.8.IconService.cs').read_text()
+assert 'static IconKind Resolve' in icons_svc
+assert 'Appearance, Layout, Charts, Work, Settings, Author, Engineering, Components' in icons_svc
+mark = (screen/'step1.b.31.ShellMark.cs').read_text()
+assert 'TitleProperty' in mark and 'CategoryProperty' in mark
+assert 'IconService.Resolve(Title, Category, Kind)' in mark
+about = (screen/'step1.b.29.AboutView.xaml').read_text()
+assert 'Title="{Binding Name}"' in about and 'Category="engine"' in about
+assert 'Title="Author"' in about and 'Title="Engineering notes"' in about
+assert 'Title="Texts studio"' in texts and 'Title="Colors studio"' in colors
+assert 'Title="{Binding WorkspaceTitle}"' in shell_text
+assert 'Title="Active work"' in (screen/'step1.b.14.WorklistPanel.xaml').read_text()
+assert 'Title="Monthly performance"' in (screen/'step1.b.21.AnalyticsOverview.xaml').read_text()
+assert 'Title="Design settings"' in settings
 active = ROOT / '.github/workflows/windows-wpf.yml'
 parked = ROOT / 'cols/ci/windows-wpf.yml'
 workflow = active if active.is_file() else parked

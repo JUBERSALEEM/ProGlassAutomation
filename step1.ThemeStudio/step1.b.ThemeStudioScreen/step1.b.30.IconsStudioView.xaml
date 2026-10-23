@@ -7,7 +7,10 @@
    </Grid.ColumnDefinitions>
    <ContentControl Style="{DynamicResource Card}" Margin="{DynamicResource MarginInline}">
     <StackPanel>
-     <TextBlock Text="Icons studio" Style="{DynamicResource PageHeading}"/>
+     <DockPanel Margin="{DynamicResource MarginItem}">
+      <local:ShellMark DockPanel.Dock="Left" Title="Icons studio" Category="mark" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimary}"/>
+      <TextBlock Text="Icons studio" Style="{DynamicResource PageHeading}" VerticalAlignment="Center"/>
+     </DockPanel>
      <TextBlock Text="A shared mark overlay. Ten styles, native Path geometry — no PNG, no extra font, not a tenth theme. Sidebar buttons and the module title follow the live choice." Style="{DynamicResource Caption}" TextWrapping="Wrap"/>
      <Label Content="Icon style" Target="{Binding ElementName=IconPicker}" Foreground="{DynamicResource TextSecondary}"/>
      <ListBox x:Name="IconPicker" ItemsSource="{Binding IconStyleCards}" SelectedValue="{Binding SelectedIconStyle}" SelectedValuePath="Style" DisplayMemberPath="Name" AutomationProperties.Name="Icon style" MinHeight="{DynamicResource ReferenceListMaxHeight}" Margin="{DynamicResource MarginSection}"/>
@@ -21,7 +24,10 @@
    </ContentControl>
    <ContentControl Grid.Column="1" Style="{DynamicResource Card}" Margin="{DynamicResource MarginInline}">
     <StackPanel>
-     <TextBlock Text="Live mark preview" Style="{DynamicResource SectionHeading}"/>
+     <DockPanel Margin="{DynamicResource MarginItem}">
+      <local:ShellMark DockPanel.Dock="Left" Title="Live mark preview" Category="icon" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimary}"/>
+      <TextBlock Text="Live mark preview" Style="{DynamicResource SectionHeading}" VerticalAlignment="Center"/>
+     </DockPanel>
      <TextBlock Text="Marks inherit the button foreground, so selected gold / on-accent still works." Style="{DynamicResource Caption}" TextWrapping="Wrap" Margin="{DynamicResource MarginItem}"/>
      <WrapPanel Margin="{DynamicResource MarginSection}">
       <StackPanel Margin="{DynamicResource PaddingCompact}" Width="{DynamicResource ControlMinWidth}">
@@ -47,6 +53,22 @@
       <StackPanel Margin="{DynamicResource PaddingCompact}" Width="{DynamicResource ControlMinWidth}">
        <local:ShellMark Kind="About" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimary}"/>
        <TextBlock Text="About" Style="{DynamicResource Caption}" HorizontalAlignment="Center"/>
+      </StackPanel>
+      <StackPanel Margin="{DynamicResource PaddingCompact}" Width="{DynamicResource ControlMinWidth}">
+       <local:ShellMark Title="Author" Category="people" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimary}"/>
+       <TextBlock Text="Author" Style="{DynamicResource Caption}" HorizontalAlignment="Center"/>
+      </StackPanel>
+      <StackPanel Margin="{DynamicResource PaddingCompact}" Width="{DynamicResource ControlMinWidth}">
+       <local:ShellMark Title="Active work" Category="work" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimary}"/>
+       <TextBlock Text="Work" Style="{DynamicResource Caption}" HorizontalAlignment="Center"/>
+      </StackPanel>
+      <StackPanel Margin="{DynamicResource PaddingCompact}" Width="{DynamicResource ControlMinWidth}">
+       <local:ShellMark Title="Order mix" Category="chart" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimary}"/>
+       <TextBlock Text="Charts" Style="{DynamicResource Caption}" HorizontalAlignment="Center"/>
+      </StackPanel>
+      <StackPanel Margin="{DynamicResource PaddingCompact}" Width="{DynamicResource ControlMinWidth}">
+       <local:ShellMark Title="Bento layout" Category="layout" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimary}"/>
+       <TextBlock Text="Layout" Style="{DynamicResource Caption}" HorizontalAlignment="Center"/>
       </StackPanel>
      </WrapPanel>
      <TextBlock Text="{Binding SelectedIconCaption}" Style="{DynamicResource TokenValue}" TextWrapping="Wrap" Margin="{DynamicResource MarginItem}"/>
