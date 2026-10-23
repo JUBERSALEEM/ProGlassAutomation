@@ -59,6 +59,13 @@ public static class SharedGeometry
         package["ChoiceCornerRadius"] = new CornerRadius(Math.Max(6d, Math.Round(card * 0.75, MidpointRounding.AwayFromZero)));
     }
 
+    /// <summary>Keep copy off the left rim of every Card, regardless of theme chrome.</summary>
+    private static void InsetCardCopy(ResourceDictionary package)
+    {
+        if (package["PaddingCard"] is not Thickness card) return;
+        package["PaddingCard"] = new Thickness(card.Left + 8, card.Top, card.Right, card.Bottom);
+    }
+
     public static Action<ResourceDictionary, Appearance> Compose(
         string theme,
         BentoCustomizationState bento,
@@ -89,6 +96,7 @@ public static class SharedGeometry
                 LiquidCustomization.Apply(package, mode, glass);
             FontService.Apply(package, type);
             ColorPlateService.Apply(package, mode, plate, theme);
+            InsetCardCopy(package);
             if (ThemeCatalog.Find(theme).Geometry != ThemeGeometry.SharedTokens)
                 return;
             Apply(package, geometry);
