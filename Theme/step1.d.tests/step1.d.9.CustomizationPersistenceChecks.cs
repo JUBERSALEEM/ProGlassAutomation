@@ -75,7 +75,7 @@ internal static class CustomizationPersistenceChecks
         if (reloaded.CustomPresets!.Count != 1 || reloaded.CustomPresets[0].Name != "My Test") throw new Exception("Custom preset roundtrip");
         // Built-in protected
         if (!PresetCatalog.IsBuiltIn("Balanced Bento")) throw new Exception("Built-in recognition");
-        if (!ClayCustomization.IsBuiltIn("Rose Plush") || ClayCustomization.BuiltIn.Count != 4) throw new Exception("Clay built-in recognition");
+        if (!ClayCustomization.IsBuiltIn("Rose Plush") || !ClayCustomization.IsBuiltIn("Coral sculpted") || ClayCustomization.BuiltIn.Count != 11) throw new Exception("Clay built-in recognition");
         if (PresetCatalog.IsBuiltIn("My Test")) throw new Exception("Custom not built-in");
         if (PresetCatalog.BuiltIn.Count != 5) throw new Exception("Five built-in presets required");
         // Corrupt handling — invalid enum is not a defined BentoAccent (fixture uses Indigo, not Ocean).

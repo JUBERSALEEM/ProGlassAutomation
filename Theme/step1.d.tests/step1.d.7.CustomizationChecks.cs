@@ -81,7 +81,7 @@ internal static class CustomizationChecks
         if (((SolidColorBrush)clayPackage["ApplicationBackground"]).Color != (Color)ColorConverter.ConvertFromString("#E8EEF9")) throw new Exception("Clay cool canvas");
         if (((SolidColorBrush)clayPackage["TextPrimary"]).Color != (Color)ColorConverter.ConvertFromString("#10143A")) throw new Exception("Clay high text");
         ContractChecks.Contrast(clayPackage, "TextPrimary", "ApplicationBackground", 4.5);
-        if (ClayCustomization.BuiltIn.Count != 4) throw new Exception("Four clay built-in presets required");
+        if (ClayCustomization.BuiltIn.Count != 11) throw new Exception("Eleven clay built-in presets required");
         ContractChecks.ExpectFailure(() => ThemeService.Load(Appearance.Light, ThemeService.Clay, (candidate, appearance) =>
             ClayCustomization.Apply(candidate, appearance, new ClayCustomizationState((ClayAccent)999))), "invalid clay preset");
         if (ThemeCatalog.Find(ThemeService.Clay).Geometry != ThemeGeometry.ThemeOwned) throw new Exception("Clay owns radius");

@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using ProGlassAutomation.Theming;
 
 namespace ProGlassAutomation.ThemeClaymorphism;
@@ -17,6 +18,7 @@ public enum ClayWeight { Regular, Medium, Semibold }
 public enum ClayLighting { Directional, Balanced }
 public enum ClayRelief { Raised, Inset }
 public enum ClayEffects { Full, Reduced }
+public enum ClayRecipe { Standard, Coral, Clayhub, PuffyStudio, DailyProgress, Clayboard, Clayshop, Clayplay }
 
 public sealed record ClayCustomizationState(
     ClayAccent Accent = ClayAccent.Rose,
@@ -31,7 +33,8 @@ public sealed record ClayCustomizationState(
     ClayWeight Weight = ClayWeight.Regular,
     ClayLighting Lighting = ClayLighting.Directional,
     ClayRelief Relief = ClayRelief.Raised,
-    ClayEffects Effects = ClayEffects.Full)
+    ClayEffects Effects = ClayEffects.Full,
+    ClayRecipe Recipe = ClayRecipe.Standard)
 {
     public string? Validate()
     {
@@ -39,7 +42,7 @@ public sealed record ClayCustomizationState(
             !Enum.IsDefined(Density) || !Enum.IsDefined(Canvas) || !Enum.IsDefined(Typography) ||
             !Enum.IsDefined(Spacing) || !Enum.IsDefined(TextContrast) || !Enum.IsDefined(Sheen) ||
             !Enum.IsDefined(Weight) || !Enum.IsDefined(Lighting) || !Enum.IsDefined(Relief) ||
-            !Enum.IsDefined(Effects))
+            !Enum.IsDefined(Effects) || !Enum.IsDefined(Recipe))
             return "Unsupported clay customization choice.";
         return null;
     }
@@ -56,6 +59,13 @@ public static class ClayCustomization
         new("Berry Puffy", new ClayCustomizationState(ClayAccent.Berry, ClayVolume.Deep, ClayPlumpness.Puffy, ClayDensity.Comfortable, ClayCanvas.Pastel, ClayType.Large, ClaySpacing.Spacious, ClayTextContrast.Standard, ClaySheen.Gloss), Appearance.Light),
         new("Sage Soft", new ClayCustomizationState(ClayAccent.Sage, ClayVolume.Soft, ClayPlumpness.Modest, ClayDensity.Compact, ClayCanvas.Cool, ClayType.Small, ClaySpacing.Compact, ClayTextContrast.High, ClaySheen.Quiet), Appearance.Light),
         new("Night Berry", new ClayCustomizationState(ClayAccent.Berry, ClayVolume.Deep, ClayPlumpness.Standard, ClayDensity.Comfortable, ClayCanvas.Pastel, ClayType.Standard, ClaySpacing.Comfortable, ClayTextContrast.High, ClaySheen.Gloss), Appearance.Dark),
+        new("Coral sculpted", new ClayCustomizationState(Volume: ClayVolume.Deep, Sheen: ClaySheen.Gloss, Recipe: ClayRecipe.Coral), Appearance.Light),
+        new("Clayhub", new ClayCustomizationState(Volume: ClayVolume.Plush, Recipe: ClayRecipe.Clayhub), Appearance.Light),
+        new("Puffy studio", new ClayCustomizationState(Volume: ClayVolume.Deep, Plumpness: ClayPlumpness.Puffy, Sheen: ClaySheen.Gloss, Recipe: ClayRecipe.PuffyStudio), Appearance.Light),
+        new("Daily progress", new ClayCustomizationState(Volume: ClayVolume.Deep, Plumpness: ClayPlumpness.Puffy, Sheen: ClaySheen.Gloss, Recipe: ClayRecipe.DailyProgress), Appearance.Light),
+        new("Clayboard", new ClayCustomizationState(Volume: ClayVolume.Soft, Plumpness: ClayPlumpness.Modest, Recipe: ClayRecipe.Clayboard), Appearance.Light),
+        new("Clayshop", new ClayCustomizationState(Recipe: ClayRecipe.Clayshop), Appearance.Light),
+        new("Clayplay", new ClayCustomizationState(Recipe: ClayRecipe.Clayplay), Appearance.Light),
     ];
 
     public static bool IsBuiltIn(string name) => BuiltIn.Any(p => p.Name == name);
@@ -231,6 +241,163 @@ public static class ClayCustomization
             SetOwned(package, "ClayWellShadeThickness", balanced ? new Thickness(5) : new Thickness(8, 8, 0, 0));
             SetOwned(package, "ClayWellLightThickness", balanced ? new Thickness(5) : new Thickness(0, 0, 6, 6));
         }
+
+        double bevel = reduced ? 0d : state.Volume switch { ClayVolume.Soft => 8d, ClayVolume.Deep => 18d, _ => 12d };
+        double controlBevel = reduced ? 0d : state.Volume switch { ClayVolume.Soft => 3d, ClayVolume.Deep => 6d, _ => 5d };
+        double highlightAmt = mode == Appearance.Dark
+            ? 0.22
+            : state.Sheen switch { ClaySheen.Quiet => 0.40, ClaySheen.Gloss => 0.78, _ => 0.58 };
+        double glossAmt = reduced ? 0d : state.Sheen switch { ClaySheen.Quiet => 0.12, ClaySheen.Gloss => 0.50, _ => 0.22 };
+        double shadeAmt = mode == Appearance.Dark ? 0.35 : state.Volume switch { ClayVolume.Soft => 0.16, ClayVolume.Deep => 0.58, _ => 0.22 };
+        SetOwned(package, "ClayLighting", balanced ? ClayLighting.Balanced : ClayLighting.Directional);
+        SetOwned(package, "ClayInset", bevel);
+        SetOwned(package, "ClayControlInset", controlBevel);
+        SetOwned(package, "ClaySmallInset", Math.Min(controlBevel, 2d));
+        SetOwned(package, "ClayHighlight", highlightAmt);
+        SetOwned(package, "ClayShade", shadeAmt);
+        SetOwned(package, "ClayGloss", glossAmt);
+        SetOwned(package, "ClayGlossFocus", state.Sheen == ClaySheen.Gloss ? 24d : 28d);
+        SetOwned(package, "ClayCurvature", state.Volume == ClayVolume.Deep ? 1.25d : 1.2d);
+        SetOwned(package, "ClayLightElevation", 45d);
+        SetOwned(package, "ClayLightAngle", 135d);
+        SetOwned(package, "ClayRimOpacity", reduced ? 0d : 0.35d);
+        SetOwned(package, "ClayBorder", reduced ? 0d : 1d);
+        SetOwned(package, "ClayPressedShade", Math.Min(0.4, shadeAmt + 0.08));
+        SetOwned(package, "ClaySurfaceShadowTint", 0d);
+        SetOwned(package, "ClayShadeColor", (Color)ColorConverter.ConvertFromString(shadow));
+        SetOwned(package, "ClayEdge", Brush(mode == Appearance.Light ? "#5A5478" : "#C8B8A8"));
+        double opacity = mode == Appearance.Light ? 0.20 : 0.40;
+        if (reduced)
+        {
+            SetOwned(package, "ClayAmbientShadow", Shadow(shadow, 0, 0, 0, 0));
+            SetOwned(package, "ClayControlAmbientShadow", Shadow(shadow, 0, 0, 0, 0));
+            SetOwned(package, "ClayShadow", Shadow(shadow, 0, 0, 0, 0));
+            SetOwned(package, "ClayControlShadow", Shadow(shadow, 0, 0, 0, 0));
+            SetOwned(package, "ClayLiftShadow", Shadow(shadow, 0, 0, 0, 0));
+        }
+        else
+        {
+            SetOwned(package, "ClayAmbientShadow", Shadow(shadow, Math.Min(72, blur * 1.7), 0, opacity * 0.4, 0));
+            SetOwned(package, "ClayControlAmbientShadow", Shadow(shadow, Math.Min(20, blur * 1.3), 0, opacity * 0.32, 0));
+            SetOwned(package, "ClayShadow", Shadow(shadow, blur, distance, opacity, 315));
+            SetOwned(package, "ClayControlShadow", Shadow(shadow, Math.Min(blur, 10), Math.Min(distance, 2), opacity * 0.8, 315));
+            SetOwned(package, "ClayLiftShadow", Shadow(shadow, blur + 4, distance + 2, opacity + 0.04, 315));
+        }
+
+        if (mode == Appearance.Light && state.Recipe != ClayRecipe.Standard)
+            ApplyRecipe(package, state.Recipe);
+    }
+
+    private static void ApplyRecipe(ResourceDictionary package, ClayRecipe recipe)
+    {
+        switch (recipe)
+        {
+            case ClayRecipe.Coral:
+                Paint(package, "#F4D0CF", "#F0B5B4", "#F4D0CF", "#F7E8E6", "#291E2C", "#50353D", "#B52E3B", "#A81818", "#8E1414", "#FFE8E4", "#914651", "#0C4A30", 28, 10);
+                Material(package, 18, 6, 0.78, 0.58, 0.50, 24, 1.25, 40, 0.12, "#8E303D", 18, 4, 0.28);
+                break;
+            case ClayRecipe.Clayhub:
+                Colorful(package, "#DED1FA", "#C9EFDE", "#FBE1CD", "#BFE2F8", 24, 11, 0.30, 0.35, 1.1, 3);
+                break;
+            case ClayRecipe.PuffyStudio:
+                Colorful(package, "#D9BDF6", "#B8EFD9", "#FFD9C2", "#B8DDFB", 30, 18, 0.65, 0.44, 1.35, 5);
+                break;
+            case ClayRecipe.DailyProgress:
+                Colorful(package, "#D1B6F4", "#B4E8CE", "#FFD4B3", "#C7DBF4", 32, 17, 0.48, 0.40, 1.2, 5);
+                break;
+            case ClayRecipe.Clayboard:
+                Colorful(package, "#E7DDF7", "#D1F0E6", "#FCE5D0", "#B8DFFA", 18, 7, 0.12, 0.22, 1.0, 2);
+                break;
+            case ClayRecipe.Clayshop:
+                Colorful(package, "#CCAFF0", "#A8DCC7", "#F5CBAF", "#AED8E9", 24, 10, 0.20, 0.36, 1.15, 3);
+                break;
+            case ClayRecipe.Clayplay:
+                Colorful(package, "#C3AAF6", "#AEEDD7", "#FFD0B6", "#ACE0F4", 22, 12, 0.30, 0.37, 1.2, 3);
+                break;
+        }
+    }
+
+    private static void Colorful(ResourceDictionary package, string lavender, string mint, string peach, string blue,
+        double radius, double bevel, double gloss, double shade, double curvature, double depth)
+    {
+        Paint(package, "#F6F6FA", "#F9F7FD", "#F6F6FA", "#F9F7FD", "#171B37", "#41465E", "#B52E3B", "#A81818", "#8E1414", "#FFE8E4", "#817398", "#0C4A30", radius, 10);
+        package["SurfaceFeature"] = Brush(lavender);
+        package["SurfacePositive"] = Brush(mint);
+        package["SurfaceAttention"] = Brush(peach);
+        package["SurfaceInformation"] = Brush(blue);
+        package["HeroBackground"] = new LinearGradientBrush((Color)ColorConverter.ConvertFromString(lavender), (Color)ColorConverter.ConvertFromString("#F9F7FD"), new Point(0, 0), new Point(1, 1));
+        Material(package, bevel, bevel <= 7 ? 3d : 5d, Math.Min(0.78, 0.40 + gloss), shade, gloss, 30, curvature, 45, 0.14, "#675080", 16, depth, 0.25);
+    }
+
+    private static void Paint(ResourceDictionary package, string canvas, string surface, string secondary, string elevated,
+        string text, string muted, string accent, string hover, string pressed, string soft, string edge, string heroAccent,
+        double cardRadius, double controlRadius)
+    {
+        package["ApplicationBackground"] = Brush(canvas);
+        package["SurfacePrimary"] = Brush(surface);
+        package["SurfaceSecondary"] = Brush(secondary);
+        package["SurfaceElevated"] = Brush(elevated);
+        package["TextPrimary"] = Brush(text);
+        package["TextSecondary"] = Brush(muted);
+        package["TextMuted"] = Brush(muted);
+        package["AccentPrimary"] = Brush(accent);
+        package["AccentHover"] = Brush(hover);
+        package["AccentPressed"] = Brush(pressed);
+        package["AccentSoft"] = Brush(soft);
+        package["TextOnAccent"] = Brush("#FFFFFF");
+        package["FocusIndicator"] = package["AccentPrimary"];
+        package["StateSelected"] = package["AccentSoft"];
+        package["BorderSubtle"] = Brush(canvas);
+        package["BorderStrong"] = Brush(edge);
+        package["ChartAxis"] = Brush(muted);
+        package["ChartSeries1"] = package["AccentPrimary"];
+        package["HeroForeground"] = Brush(text);
+        package["HeroSecondaryText"] = Brush(muted);
+        package["HeroAccent"] = Brush(heroAccent);
+        package["HeroBackground"] = new LinearGradientBrush((Color)ColorConverter.ConvertFromString(canvas), (Color)ColorConverter.ConvertFromString(elevated), new Point(0, 0), new Point(1, 1));
+        package["CardCornerRadius"] = new CornerRadius(cardRadius);
+        package["ControlCornerRadius"] = new CornerRadius(controlRadius);
+        package["ChipCornerRadius"] = new CornerRadius(controlRadius);
+        package["ChoiceCornerRadius"] = new CornerRadius(Math.Max(11d, controlRadius));
+        SetOwned(package, "ClayEdge", Brush(edge));
+    }
+
+    private static void Material(ResourceDictionary package, double inset, double controlInset, double highlight, double shade,
+        double gloss, double glossFocus, double curvature, double elevation, double rim, string shadow, double blur, double depth, double opacity)
+    {
+        SetOwned(package, "ClayInset", inset);
+        SetOwned(package, "ClayControlInset", controlInset);
+        SetOwned(package, "ClaySmallInset", Math.Min(controlInset, 2d));
+        SetOwned(package, "ClayHighlight", highlight);
+        SetOwned(package, "ClayShade", shade);
+        SetOwned(package, "ClayGloss", gloss);
+        SetOwned(package, "ClayGlossFocus", glossFocus);
+        SetOwned(package, "ClayCurvature", curvature);
+        SetOwned(package, "ClayLightElevation", elevation);
+        SetOwned(package, "ClayRimOpacity", rim);
+        SetOwned(package, "ClayPressedShade", Math.Min(0.4, shade + 0.08));
+        SetOwned(package, "ClayShadeColor", (Color)ColorConverter.ConvertFromString(shadow));
+        SetOwned(package, "ClayShadowColor", (Color)ColorConverter.ConvertFromString(shadow));
+        SetOwned(package, "ClayAmbientShadow", Shadow(shadow, Math.Min(72, blur * 1.7), 0, opacity * 0.4, 0));
+        SetOwned(package, "ClayControlAmbientShadow", Shadow(shadow, Math.Min(20, blur * 1.3), 0, opacity * 0.32, 0));
+        SetOwned(package, "ClayShadow", Shadow(shadow, blur, depth, opacity, 315));
+        SetOwned(package, "ClayControlShadow", Shadow(shadow, Math.Min(blur, 10), Math.Min(depth, 2), opacity * 0.8, 315));
+        SetOwned(package, "ClayLiftShadow", Shadow(shadow, blur + 4, depth + 2, opacity + 0.04, 315));
+    }
+
+    private static DropShadowEffect Shadow(string color, double blur, double depth, double opacity, double direction)
+    {
+        var effect = new DropShadowEffect
+        {
+            Color = (Color)ColorConverter.ConvertFromString(color),
+            BlurRadius = blur,
+            ShadowDepth = depth,
+            Opacity = opacity,
+            Direction = direction,
+            RenderingBias = RenderingBias.Quality
+        };
+        effect.Freeze();
+        return effect;
     }
 
     private static SolidColorBrush Brush(string color) =>
