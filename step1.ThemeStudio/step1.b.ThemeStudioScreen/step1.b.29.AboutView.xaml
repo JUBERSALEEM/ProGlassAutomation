@@ -46,7 +46,7 @@
      <StackPanel>
       <TextBlock Text="Engineering notes" Style="{DynamicResource SectionHeading}"/>
       <TextBlock Text="Built on .NET 8 and native WPF. Charts are LiveCharts. There is no CSS, no web view, and no desktop capture. Theme 5 (Liquid Glass) visual acceptance remains open (D01). Theme 6 (Glassmorphism) Home Light and Dark are owner-accepted." TextWrapping="Wrap" Margin="{DynamicResource MarginItem}"/>
-      <TextBlock Text="Settings pages: Theme Studio, Texts Studio, Colors Studio, About. Home is the business reference. Card wash, typeface and accent plates overlay every theme; plumpness, frost and iridescence stay with their engines." TextWrapping="Wrap"/>
+      <TextBlock Text="Settings pages: Theme Studio, Texts Studio, Colors Studio, Icons Studio, About. Home is the business reference. Card wash, typeface, icon marks and accent plates overlay every theme; plumpness, frost and iridescence stay with their engines." TextWrapping="Wrap"/>
      </StackPanel>
     </ContentControl>
    </Grid>

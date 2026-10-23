@@ -30,6 +30,7 @@
      <WrapPanel Margin="{DynamicResource MarginItem}">
       <Button Content="Open Texts Studio" Command="{Binding ShowTexts}" Margin="{DynamicResource MarginInline}" AutomationProperties.Name="Open Texts Studio"/>
       <Button Content="Open Colors Studio" Command="{Binding ShowColors}" Margin="{DynamicResource MarginInline}" AutomationProperties.Name="Open Colors Studio"/>
+      <Button Content="Open Icons Studio" Command="{Binding ShowIcons}" Margin="{DynamicResource MarginInline}" AutomationProperties.Name="Open Icons Studio"/>
      </WrapPanel>
     </StackPanel>
    </ContentControl>

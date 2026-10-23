@@ -254,7 +254,10 @@
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
-                            <TextBlock Text="Home" />
+                            <StackPanel Orientation="Horizontal">
+                                <studio:ShellMark Kind="Home" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center" />
+                                <TextBlock Text="Home" VerticalAlignment="Center" />
+                            </StackPanel>
                         </Button>
                         <TextBlock Text="Settings" Style="{StaticResource ShellSectionLabel}" FontWeight="{DynamicResource FontWeightHeading}" />
                         <Button Command="{Binding ShowStudio}" AutomationProperties.Name="Theme Studio page">
@@ -293,7 +296,10 @@
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
-                            <TextBlock Text="Theme Studio" />
+                            <StackPanel Orientation="Horizontal">
+                                <studio:ShellMark Kind="Theme" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center" />
+                                <TextBlock Text="Theme Studio" VerticalAlignment="Center" />
+                            </StackPanel>
                         </Button>
                         <Button Command="{Binding ShowTexts}" AutomationProperties.Name="Texts Studio page">
                             <Button.Style>
@@ -331,7 +337,10 @@
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
-                            <TextBlock Text="Texts Studio" />
+                            <StackPanel Orientation="Horizontal">
+                                <studio:ShellMark Kind="Texts" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center" />
+                                <TextBlock Text="Texts Studio" VerticalAlignment="Center" />
+                            </StackPanel>
                         </Button>
                         <Button Command="{Binding ShowColors}" AutomationProperties.Name="Colors Studio page">
                             <Button.Style>
@@ -369,7 +378,51 @@
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
-                            <TextBlock Text="Colors Studio" />
+                            <StackPanel Orientation="Horizontal">
+                                <studio:ShellMark Kind="Colors" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center" />
+                                <TextBlock Text="Colors Studio" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                        <Button Command="{Binding ShowIcons}" AutomationProperties.Name="Icons Studio page">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource ShellNavButton}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsIcons}" Value="True">
+                                            <Setter Property="Background" Value="{DynamicResource AccentPrimary}" />
+                                            <Setter Property="Foreground" Value="{DynamicResource TextOnAccent}" />
+                                        </DataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsSwiss}" Value="True" />
+                                                <Condition Binding="{Binding IsIcons}" Value="True" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Background" Value="{DynamicResource AccentSoft}" />
+                                            <Setter Property="Foreground" Value="{DynamicResource AccentPrimary}" />
+                                        </MultiDataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsHolographic}" Value="True" />
+                                                <Condition Binding="{Binding IsIcons}" Value="True" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Background" Value="{DynamicResource AccentSoft}" />
+                                            <Setter Property="Foreground" Value="{DynamicResource HeroAccent}" />
+                                        </MultiDataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsGlass}" Value="True" />
+                                                <Condition Binding="{Binding IsIcons}" Value="True" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Background" Value="{DynamicResource GlassFrostElevated}" />
+                                            <Setter Property="BorderBrush" Value="{DynamicResource AccentPrimary}" />
+                                            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+                                        </MultiDataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            <StackPanel Orientation="Horizontal">
+                                <studio:ShellMark Kind="Marks" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center" />
+                                <TextBlock Text="Icons Studio" VerticalAlignment="Center" />
+                            </StackPanel>
                         </Button>
                         <Button Command="{Binding ShowAbout}" AutomationProperties.Name="About page">
                             <Button.Style>
@@ -407,7 +460,10 @@
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
-                            <TextBlock Text="About" />
+                            <StackPanel Orientation="Horizontal">
+                                <studio:ShellMark Kind="About" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center" />
+                                <TextBlock Text="About" VerticalAlignment="Center" />
+                            </StackPanel>
                         </Button>
                     </StackPanel>
                 </ScrollViewer>
@@ -450,6 +506,7 @@
                                 </Style>
                             </Border.Style>
                         </Border>
+                        <studio:ShellMark Kind="{Binding WorkspaceIcon}" Width="{DynamicResource ChoiceMarkSize}" Height="{DynamicResource ChoiceMarkSize}" Margin="{DynamicResource MarginInline}" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimary}" />
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock Text="{Binding WorkspaceTitle}" Foreground="{DynamicResource TextPrimary}" FontSize="{DynamicResource FontSizeTitle}" FontWeight="{DynamicResource FontWeightHeading}" />
                             <TextBlock Text="{Binding WorkspaceSubtitle}" Style="{DynamicResource Caption}" />
@@ -498,6 +555,7 @@
                 <TabItem Header="_Texts Studio"><studio:TextsStudioView /></TabItem>
                 <TabItem Header="_Colors Studio"><studio:ColorsStudioView /></TabItem>
                 <TabItem Header="_About"><studio:AboutView /></TabItem>
+                <TabItem Header="_Icons Studio"><studio:IconsStudioView /></TabItem>
             </TabControl>
         </Grid>
         <Button Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" Content="☰" Command="{Binding ToggleMenu}" ToolTip="Open menu" AutomationProperties.Name="Toggle menu" Panel.ZIndex="2" Margin="{DynamicResource PaddingPage}">

@@ -81,8 +81,11 @@ assert 'x:Name="FontPicker"' in texts and 'Binding SelectedFontFamily' in texts
 assert 'x:Name="ColorPlatePicker"' in colors and 'Binding SelectedColorPlate' in colors
 assert 'Binding ColorPlateCards' in colors
 shell_text = (ROOT/'MainWindow.xaml').read_text()
-assert 'Texts Studio' in shell_text and 'Colors Studio' in shell_text
-assert 'ShowTexts' in shell_text and 'ShowColors' in shell_text
+assert 'Texts Studio' in shell_text and 'Colors Studio' in shell_text and 'Icons Studio' in shell_text
+assert 'ShowTexts' in shell_text and 'ShowColors' in shell_text and 'ShowIcons' in shell_text
+assert '<studio:IconsStudioView />' in shell_text
+icons = (screen/'step1.b.30.IconsStudioView.xaml').read_text()
+assert 'x:Name=\"IconPicker\"' in icons and 'Binding SelectedIconStyle' in icons
 active = ROOT / '.github/workflows/windows-wpf.yml'
 parked = ROOT / 'cols/ci/windows-wpf.yml'
 workflow = active if active.is_file() else parked

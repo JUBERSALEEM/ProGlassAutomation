@@ -29,6 +29,7 @@ public partial class App : Application
                     saved.Neumorph ?? new NeumorphCustomizationState(),
                     saved.Font ?? new FontCustomizationState(),
                     saved.Colors ?? new ColorPlateState()));
+                IconService.Apply(saved.Icons ?? new IconCustomizationState());
             }
             catch { /* safe fallback already handled in store */ }
             MainWindow = new MainWindow(Themes);

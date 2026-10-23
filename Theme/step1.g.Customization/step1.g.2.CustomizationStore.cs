@@ -66,11 +66,13 @@ public static class CustomizationStore
             Neumorph = loaded.Neumorph ?? new NeumorphCustomizationState(),
             Font = loaded.Font ?? new FontCustomizationState(),
             Colors = loaded.Colors ?? new ColorPlateState(),
-            Liquid = loaded.Liquid ?? new LiquidCustomizationState()
+            Liquid = loaded.Liquid ?? new LiquidCustomizationState(),
+            Icons = loaded.Icons ?? new IconCustomizationState()
         };
         if (loaded.Geometry.Validate() is not null) throw new ArgumentException("Theme file contains invalid card rounding.");
         if (loaded.Font?.Validate() is not null) throw new ArgumentException("Theme file contains invalid font preferences.");
         if (loaded.Colors?.Validate() is not null) throw new ArgumentException("Theme file contains invalid color plate preferences.");
+        if (loaded.Icons?.Validate() is not null) throw new ArgumentException("Theme file contains invalid icon preferences.");
         foreach (var preset in loaded.CustomPresets ?? [])
             if (string.IsNullOrWhiteSpace(preset.Name) || preset.State.Validate() is not null)
                 throw new ArgumentException("Theme file contains an invalid Bento preset.");
@@ -98,6 +100,7 @@ public static class CustomizationStore
         if ((state.Geometry ?? new SharedGeometryState()).Validate() is not null) throw new ArgumentException("Cannot persist invalid card rounding.");
         if ((state.Font ?? new FontCustomizationState()).Validate() is not null) throw new ArgumentException("Cannot persist invalid font preferences.");
         if ((state.Colors ?? new ColorPlateState()).Validate() is not null) throw new ArgumentException("Cannot persist invalid color plate preferences.");
+        if ((state.Icons ?? new IconCustomizationState()).Validate() is not null) throw new ArgumentException("Cannot persist invalid icon preferences.");
         var dir = Path.GetDirectoryName(Path.GetFullPath(path))!;
         Directory.CreateDirectory(dir);
         var tmp = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
@@ -108,7 +111,8 @@ public static class CustomizationStore
                 Version = 2,
                 Geometry = state.Geometry ?? new SharedGeometryState(),
                 Font = state.Font ?? new FontCustomizationState(),
-                Colors = state.Colors ?? new ColorPlateState()
+                Colors = state.Colors ?? new ColorPlateState(),
+                Icons = state.Icons ?? new IconCustomizationState()
             }, Options));
             File.Move(tmp, path, overwrite: true);
         }

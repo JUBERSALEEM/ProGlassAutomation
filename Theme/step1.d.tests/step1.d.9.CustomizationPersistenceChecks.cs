@@ -29,7 +29,8 @@ internal static class CustomizationPersistenceChecks
         var liquidState = new LiquidCustomizationState(LiquidFrost.Clear, LiquidSpecular.Bright, LiquidTint.Warm);
         var fontState = new FontCustomizationState("Georgia", false, true, true);
         var colorState = new ColorPlateState("Forest", new Dictionary<string, string> { ["AccentPrimary"] = "#1F6B4A" });
-        var saved = new SavedCustomization(2, Appearance.Dark, state, null, null, [new NamedPreset("My Test", state, Appearance.Dark)], ThemeCatalog.FluentName, clayState, [new ClayNamedPreset("Berry Night", clayState, Appearance.Dark)], new SharedGeometryState(CardRounding.Pill), neuState, [new NeumorphNamedPreset("Deep Night", neuState, Appearance.Dark)], fontState, colorState, liquidState, [new LiquidNamedPreset("Clear Night", liquidState, Appearance.Dark)]);
+        var iconState = new IconCustomizationState(IconMarkStyle.Duotone);
+        var saved = new SavedCustomization(2, Appearance.Dark, state, null, null, [new NamedPreset("My Test", state, Appearance.Dark)], ThemeCatalog.FluentName, clayState, [new ClayNamedPreset("Berry Night", clayState, Appearance.Dark)], new SharedGeometryState(CardRounding.Pill), neuState, [new NeumorphNamedPreset("Deep Night", neuState, Appearance.Dark)], fontState, colorState, liquidState, [new LiquidNamedPreset("Clear Night", liquidState, Appearance.Dark)], iconState);
         var tmp = Path.Combine(Path.GetTempPath(), "proglass-test-" + Guid.NewGuid() + ".json");
         CustomizationStore.WriteFile(saved, tmp);
         var fromFile = CustomizationStore.ReadFile(tmp);
@@ -40,6 +41,7 @@ internal static class CustomizationPersistenceChecks
         if (fromFile.Liquid?.Frost != LiquidFrost.Clear) throw new Exception("Store liquid roundtrip");
         if (fromFile.Font?.Family != "Georgia" || fromFile.Font.BodyItalic != true || fromFile.Font.BodyUnderline != true) throw new Exception("Store font roundtrip");
         if (fromFile.Colors?.Plate != "Forest" || fromFile.Colors.RoleHex is null || fromFile.Colors.RoleHex["AccentPrimary"] != "#1F6B4A") throw new Exception("Store color plate roundtrip");
+        if (fromFile.Icons?.Style != IconMarkStyle.Duotone) throw new Exception("Store icon roundtrip");
         if (fromFile.Colors.CardSaturation != 0 || ColorPlateService.ParseHex(fromFile.Colors.CardTint) is null) throw new Exception("Store card tint defaults");
         File.WriteAllText(tmp, "{\"Version\":1}");
         try { CustomizationStore.ReadFile(tmp); throw new Exception("Version 1 import must fail"); }
